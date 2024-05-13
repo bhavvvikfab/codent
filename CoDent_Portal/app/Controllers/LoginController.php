@@ -96,12 +96,17 @@ class LoginController extends BaseController
         return redirect()->to('/');
     }
 
+    public function register()
+    {
+        return view('registerpage');
+       
+    }
 
 
 
 
 
-
+    
 
 
 

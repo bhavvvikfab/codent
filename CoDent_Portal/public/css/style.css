@@ -832,24 +832,19 @@ h6 {
   background: #e0f8e9;
 }
 
-.revenue-card .card-icon{
-    color: #4154f1;
-   
-    background: #f6f6fe;
-}
+/*.dashboard .revenue-card .card-icon {
+  color: #2eca6a;
+  background: #e0f8e9;
+}*/
 
-
-.enquiry-card .card-icon {
-    color: #6120b5;
+.dashboard .user-card .card-icon {
+  color: #6120b5;
   background: #6120b536;
 }
 
-.dashboard .user-card .card-icon {
-  
-  color: blue;
-    background: #adadff;
-}
-
+/*i.bi.bi-person {
+    color: purple;
+}*/
 .dashboard .customers-card .card-icon {
   color: #ff771d;
   background: #ffecdf;
@@ -1134,15 +1129,16 @@ h6 {
   background: #1f1f2ec2;
   color: white;
 }
-.viewsenq button, .editen button, .deleten button, .editpro button, .viewpro button,
- .deletpro button, .user-btn, .viewinc button, .deletinc button, .editscr button , .viewssubscr button, .deletsubscr button {
+.viewsenq button, .editen button, .deleten button,
+ .editpro button, .viewpro button, .deletpro button, .user-btn,
+ .viewpai button, .editpai button, .deletpai button {
     background: #1E1E2D;
     border: 1px solid #1E1E2D;
     color: white;
 }
-.viewsenq button:hover, .editen button:hover, .deleten button:hover, .editpro button:hover,
- .viewpro button:hover, .deletpro button:hover, .viewinc button:hover,.user-btn:hover, .deletinc button:hover,
- .editscr button:hover, .viewssubscr button:hover, .deletsubscr button:hover {
+.viewsenq button:hover, .editen button:hover, .deleten button:hover,
+.editpro button:hover, .viewpro button:hover, .deletpro button:hover,
+.user-btn:hover, .viewpai button:hover, .deletpai button:hover, .editpai button:hover {
     background: #1f1f2ec2;
     border: 1px solid #1f1f2ec2;
     color: white;
@@ -1254,12 +1250,12 @@ h6 {
 /*-----------  Chat pages  -------------*/
 
 .btn-chat {
-  background: #6936ab;
+  background: #1E1E2D;
   color: white;
 }
 
 .btn-chat:hover {
-  background: #643d97;
+  background: #1f1f2ec2;
   color: white;
 }
 
@@ -1289,10 +1285,38 @@ h6 {
   background: #4154f1;
 }
 
-#chat1 .card-body {
+#chat1 .card-body, #chat2 .card-body {
   position: relative;
-  height: 470px;
+  
   overflow: auto;
+}
+#chat1 .card-body{
+  height: 470px;
+
+  } #chat2 .card-body{
+    height: 551px;
+}
+.currentchat {
+  background-color: #eee;
+}
+.msgsideavt {
+    width: 45px;
+    height: 100%;
+}
+.msgavt {
+    width: 45px; 
+    height: 100%;
+}
+
+.chatcall {
+    color: white;
+    font-size: 20px;
+}
+.msgnot {
+    border-radius: 50%;
+}
+#chatpage421 .card-body{
+    padding-top: 40px;
 }
 
 /*........Order...........*/
@@ -1399,6 +1423,7 @@ h6 {
 .profile .profile-edit img {
   max-width: 120px;
 }
+
 
 /*--------------------------------------------------------------
 # F.A.Q Page

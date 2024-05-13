@@ -12,6 +12,9 @@ $authRedirectFilter = ['filter' => 'authRedirect'];
 $routes->get('/', 'LoginController::index',$authRedirectFilter);
 $routes->post('/login', 'LoginController::login');
 $routes->get('/logout', 'LoginController::logout');
+$routes->get('register', 'LoginController::register');
+
+$routes->get('/loginpage', 'LoginController::index',$authRedirectFilter);
 
 
 $routes->group('hospital', $authFilter, function ($routes) {
