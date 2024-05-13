@@ -24,19 +24,13 @@ class AuthFilter implements FilterInterface
      * @return RequestInterface|ResponseInterface|string|void
      */
     public function before(RequestInterface $request, $arguments = null)
-    {
-     
-        if (!session()->get('logged_in')) {
-            // User is logged in, redirect away from login page
-            return redirect()->to('/'); // Redirect to the dashboard route
-        }
-        
-       
-
-        // User is not logged in, allow access
-        return $request;
-        
+{
+    if (!session()->get('logged_in')) {
+        return redirect()->to('/');
     }
+    
+    return $request;
+}
 
     /**
      * Allows After filters to inspect and modify the response
