@@ -16,7 +16,7 @@ $routes->get('/logout', 'LoginController::logout');
 
 $routes->group('admin', $authFilter, function ($routes) {
     $routes->get('dashboard', function () {
-        echo 'This is the admin dashboard route  <a href="/logout">logout</a>';
+      return view('dashboard.php');
     });
 });
 
