@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\HospitalModel;
 use App\Models\UserModel;
 use CodeIgniter\Config\Services;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -98,11 +99,70 @@ class LoginController extends BaseController
 
     public function register()
     {
-        return view('registerpage');
-       
+        $model = new HospitalModel();
+        $data['hospitals'] = $model->findAll();
+
+
+        return view('registerpage', $data);
     }
 
+    function insert()
+    {
+        $model = new UserModel();
 
+        $fullname = $this->request->getPost('fullname');
+        $email = $this->request->getPost('email');
+        $password = $this->request->getVar('password');
+        $address = $this->request->getPost('address');
+        $dob = $this->request->getPost('dob');
+        $image = $this->request->getFile('image');
+        $phone = $this->request->getPost('phone');
+        $hospital = $this->request->getPost('hospital');
+
+        $emailExists = $model->where('email', $email)->countAllResults() > 0;
+
+        if ($emailExists) {
+            echo 2; 
+            exit;
+        } 
+
+        
+        $originalName = $image->getName();
+        $newName = $image->getRandomName();
+        $image->move(WRITEPATH . 'public/uploads', $newName);
+        
+        $hashpassword = password_hash($password, PASSWORD_DEFAULT);
+
+        $role = 6;
+        $data = [ 
+            'role'=>$role,
+            'fullname' => $fullname,
+            'email' => $email,
+            'password' => $hashpassword ,
+            'address' => $address ,
+            'date_of_birth' => $dob,
+            'phone' => $phone,
+            'profile' => $originalName,
+            'hospital_id' => $hospital,
+        ];
+       
+       
+       
+         $result = $model->insert($data);
+
+         if ($result) 
+         {
+            echo  1;
+        } else 
+        {
+           echo false;
+            
+        }
+
+        
+
+    }
+   
 
 
 
