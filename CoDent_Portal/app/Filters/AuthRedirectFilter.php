@@ -29,15 +29,15 @@ class AuthRedirectFilter implements FilterInterface
             $userRole = session()->get('user_role');
             switch ($userRole) {
                 case '2':
-                    return redirect()->to('/hospital/dashboard');
+                    return redirect()->to('hospital/dashboard');
                 case '3':
-                    return redirect()->to('/receptionist/dashboard');
+                    return redirect()->to('receptionist/dashboard');
                 case '4':
-                    return redirect()->to('/specialist/dashboard');
+                    return redirect()->to('specialist/dashboard');
                 case '5':
-                    return redirect()->to('/practices/dashboard');
+                    return redirect()->to('practices/dashboard');
                 case '6':
-                    return redirect()->to('/user/dashboard');
+                    return redirect()->to('patient/dashboard');
                 default:
                     return redirect()->to('/');
             }

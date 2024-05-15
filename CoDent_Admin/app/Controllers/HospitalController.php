@@ -103,7 +103,7 @@ class HospitalController extends BaseController
             if($image->isValid() && !$image->hasMoved()) {
                 $extension = $image->getClientExtension();
                 $newName = time() . '.' . $extension;
-                $image->move(FCPATH . 'images', $newName);
+                $image->move(FCPATH . 'public/images', $newName);
                 $user_arr['profile'] = $newName; 
             }
 

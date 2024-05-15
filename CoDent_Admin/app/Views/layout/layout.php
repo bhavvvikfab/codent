@@ -4,13 +4,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title> <?= $this->renderSection('title') ?></title>
+  <title> <?= $this->renderSection('title')?></title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
+ 
   <!-- Favicons -->
-  <link href="../../../img/favicon.png" rel="icon">
-  <link href="../../../img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="<?=base_url()?>public/img/favicon.png" rel="icon">
+  <link href="<?=base_url()?>public/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -19,17 +20,17 @@
     rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-  <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="../../../vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="../../../vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="../../../vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="../../../vendor/quill/quill.bubble.css" rel="stylesheet">
-  <link href="../../../vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="../../../vendor/simple-datatables/style.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="<?=base_url()?>public/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="<?=base_url()?>public/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="<?=base_url()?>public/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="<?=base_url()?>public/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="<?=base_url()?>public/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="<?=base_url()?>public/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="<?=base_url()?>public/vendor/simple-datatables/style.css" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="../../../css/main.css" rel="stylesheet">
+  <link href="<?=base_url()?>public/css/main.css" rel="stylesheet">
+
 </head>
 <style>
   .custom-toast {
@@ -58,7 +59,7 @@
      function showToast(message, position) {
         Toastify({
           text: message,
-          duration: 2500,
+          duration: 3000,
           gravity: 'top',
           position: 'center',
           className: 'custom-toast'
@@ -80,18 +81,18 @@
 
 
   <!-- Vendor JS Files -->
-  <script src="../../../vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="../../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="../../../vendor/chart.js/chart.umd.js"></script>
-  <script src="../../../vendor/echarts/echarts.min.js"></script>
-  <script src="../../../vendor/quill/quill.min.js"></script>
-  <script src="../../../vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="../../../vendor/tinymce/tinymce.min.js"></script>
-  <script src="../../../vendor/php-email-form/validate.js"></script>
+  <script src="<?=base_url()?>public/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="<?=base_url()?>public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="<?=base_url()?>public/vendor/chart.js/chart.umd.js"></script>
+  <script src="<?=base_url()?>public/vendor/echarts/echarts.min.js"></script>
+  <script src="<?=base_url()?>public/vendor/quill/quill.min.js"></script>
+  <script src="<?=base_url()?>public/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="<?=base_url()?>public/vendor/tinymce/tinymce.min.js"></script>
+  <script src="<?=base_url()?>public/vendor/php-email-form/validate.js"></script>
 
   <!-- Template Main JS File -->
-  <script src="../../../js/main.js"></script>
- 
+  <script src="<?=base_url()?>public/js/main.js"></script>
+  
 </body>
 
 </html>

@@ -16,12 +16,12 @@
       </a>
       <ul id="hospital-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
         <li>
-          <a href="<?= site_url('/hospitals') ?>" class="nav-link collapsed">
+          <a href="<?= base_url('/hospitals') ?>" class="nav-link collapsed">
             <i class="bi bi-circle"></i><span>All Hospitals</span>
           </a>
         </li>
         <li>
-          <a href="<?= site_url('/add_hospital') ?>" class="nav-link collapsed">
+          <a href="<?= base_url('/add_hospital') ?>" class="nav-link collapsed">
             <i class="bi bi-circle"></i><span>Add New Hospitals</span>
           </a>
         </li>
@@ -204,7 +204,7 @@
 
 
     <!-- <li class="nav-item">
-      <a class="nav-link collapsed" href="<?= site_url('/profile') ?>">
+      <a class="nav-link collapsed" href="<?= base_url('/profile') ?>">
         <i class="bi bi-person"></i>
         <span>Profile</span>
       </a>
@@ -221,7 +221,7 @@
       </li> --><!-- End Register Page Nav -->
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="<?= site_url('/logout') ?>">
+      <a class="nav-link collapsed" href="<?= base_url('/logout') ?>">
         <i class="bi bi-box-arrow-in-right"></i>
         <span>Logout</span>
       </a>

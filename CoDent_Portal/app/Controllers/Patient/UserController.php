@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\User_Controller;
+namespace App\Controllers\Patient;
 
 use App\Controllers\BaseController;
 
@@ -12,4 +12,9 @@ class UserController extends BaseController
     {
         return view('user_view\user_profile');
     }
+    public function dashboard(): string
+    {
+        return view('dashboard.php');
+    }
+    
 }

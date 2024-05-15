@@ -32,7 +32,7 @@ Hospitals
                             </div>
                             <div class="col-lg-4">
                                 <h5 class="card-title text-end addsup">
-                                    <a href="<?= site_url('/add_hospital') ?>"> Add New Hospitals</a>
+                                    <a href="<?= base_url('add_hospital') ?>"> Add New Hospitals</a>
                                 </h5>
                             </div>
                         </div>
@@ -65,8 +65,8 @@ Hospitals
                                         <tr>
                                             <td><?= $index; ?></td>
                                             <td>
-                                                <img src="<?= isset($hospital['profile']) && !empty($hospital['profile']) ? '../../../images/' . $hospital['profile'] : '../../../images/user-profile.jpg'; ?>"
-                                                    alt="Profile" class="rounded-circle" height="50" width="50">
+                                            <img src="<?= base_url()?>public/images/<?= isset($hospital['profile']) && !empty($hospital['profile']) ? $hospital['profile'] : 'user-profile.jpg' ?>" height="50" width="50">
+                                              
                                             </td>
 
                                             <td><?= $hospital['fullname']; ?></td>
@@ -127,7 +127,7 @@ Hospitals
                     $this.removeClass('btn-success').addClass('btn-danger');
                     $this.text('Inactive');
                     $.ajax({
-                        url:'<?= site_url('hospital_status')?>',
+                        url:'<?= base_url('hospital_status')?>',
                         method:'get',
                         data:{id:id},
                         sucess:(data)=>{console.log(data);},
@@ -138,7 +138,7 @@ Hospitals
                     $this.removeClass('btn-danger').addClass('btn-success');
                     $this.text('Active');
                     $.ajax({
-                        url:'<?= site_url('hospital_status')?>',
+                        url:'<?= base_url('hospital_status')?>',
                         method:'get',
                         data:{id:id},
                         sucess:(data)=>{console.log(data);},
