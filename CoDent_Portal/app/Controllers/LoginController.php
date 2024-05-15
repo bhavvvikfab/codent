@@ -40,14 +40,29 @@ class LoginController extends BaseController
                     ]);
                     switch ($user['role']) {
                         case '2':
+                            session()->set([
+                                'prefix' => 'hospital'
+                            ]);
                             return redirect()->to('/hospital/dashboard');
                         case '3':
+                            session()->set([
+                                'prefix' => 'receptionist'
+                            ]);
                             return redirect()->to('/receptionist/dashboard');
                         case '4':
+                            session()->set([
+                                'prefix' => 'specialist'
+                            ]);
                             return redirect()->to('/specialist/dashboard');
                         case '5':
+                            session()->set([
+                                'prefix' => 'practices'
+                            ]);
                             return redirect()->to('/practices/dashboard');
                         case '6':
+                            session()->set([
+                                'prefix' => 'patient'
+                            ]);
                             return redirect()->to('/patient/dashboard');
                         default:
                             return redirect()->to('/');

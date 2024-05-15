@@ -21,15 +21,32 @@ $routes->group('hospital', $authFilter, function ($routes) {
     $routes->get('dashboard', function () {
         return view('dashboard.php');
     });
+    $routes->get('users_profile', 'Patient\UserController::index');
+    $routes->post('profile_update', 'Patient\UserController::update_profile');
+    $routes->post('update_password', 'Patient\UserController::update_password');
 });
 
 
 $routes->group('patient', $authFilter, function ($routes) {
     
-    $routes->get('profile', 'UserController::index');
-    $routes->get('dashboard', 'UserController::dashboard');
-    
+    $routes->get('profile', 'Patient\UserController::index');
+    $routes->get('dashboard', function () {
+        return view('dashboard.php');
+    });
+    $routes->get('users_profile', 'Patient\UserController::index');
+    $routes->post('profile_update', 'Patient\UserController::update_profile');
+    $routes->post('update_password', 'Patient\UserController::update_password');
 });
+
+// Routes.php
+
+
+
+
+
+// $routes->group('user', $authFilter, function ($routes) {
+//     $routes->get('dashboard', 'user\DashboardController::index');
+// });
 
 // $routes->group('receptinist', $authFilter, function ($routes) {
 //     $routes->get('dashboard', 'receptinist\DashboardController::index');

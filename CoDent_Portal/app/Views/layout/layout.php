@@ -64,7 +64,7 @@
 
   <!-- Template Main JS File -->
   <script src="<?=base_url()?>public/js/main.js"></script>
-  
+  <script src="<?=base_url()?>public/js/profile/update.js"></script>
 
 </body>
 
