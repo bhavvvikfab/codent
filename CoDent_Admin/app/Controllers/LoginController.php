@@ -32,12 +32,15 @@ class LoginController extends BaseController
             if ($user['role'] == '1') {
                 // Set user details in session
                 session()->set([
-                    'user_id' => $user['id'],
+                    'id'=> $user['id'],
                     'user_role' => $user['role'],
+                    'email' => $user['email'],
+                    'fullname' => $user['fullname'],
+                    'profile' => $user['profile'],
                     'logged_in' => true,
                 ]);
                 // Redirect to admin dashboard
-                return redirect()->to('/admin/dashboard');
+                return redirect()->to('/dashboard');
             } else {
                 // User does not have admin role
                 return redirect()->to('/')->with('error', 'You do not have permission to log in.');
@@ -67,7 +70,7 @@ class LoginController extends BaseController
     }
 
 
-    private function getUserDetailsFromDatabase($email)
+    public function getUserDetailsFromDatabase($email)
     {
         $userModel = new UserModel();
         $user = $userModel->where('email', $email)->first();
@@ -76,6 +79,11 @@ class LoginController extends BaseController
             return [
                 'id' => $user['id'],
                 'role' => $user['role'],
+                'email' => $user['email'],
+                'profile' => $user['profile'],
+                'phone'=> $user['phone'],
+                'fullname'=> $user['fullname'],
+                'dob'=>$user['date_of_birth']
             ];
         } else {
             return null; // User not found

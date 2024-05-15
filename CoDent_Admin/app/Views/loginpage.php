@@ -73,7 +73,7 @@
                       <div class="input-group">
                         <span class="input-group-text" id="inputGroupPrepend">@</span>
                         <input type="email" name="email" class="form-control" id="email" required>
-                        <div class="invalid-feedback">Please enter valid email.</div>
+                        <div class="invalid-feedback">Please enter email.</div>
                       </div>
                     </div>
 
@@ -82,6 +82,7 @@
                       <div class="input-group">
                         <span class="input-group-text" id="inputGroupPrepend">#</span>
                         <input type="password" name="password" class="form-control" id="yourPassword" required>
+                        <div class="invalid-feedback">Please enter password.</div>
                       </div>
                       <!-- <div class="invalid-feedback">Please enter your password!</div> -->
                     </div>

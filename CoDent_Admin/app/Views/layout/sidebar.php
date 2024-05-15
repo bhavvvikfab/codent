@@ -3,12 +3,32 @@
 
   <ul class="sidebar-nav" id="sidebar-nav">
     <li class="nav-item">
-      <a class="nav-link collapsed" href="">
+      <a class="nav-link collapsed" href="<?= site_url('/dashboard') ?>">
         <i class="bi bi-grid"></i>
         <span>Dashboard</span>
       </a>
     </li>
-  <!-- End Dashboard Nav -->
+    <!-- End Dashboard Nav -->
+    <!--  hospitals Nav -->
+    <li class="nav-item">
+      <a class="nav-link collapsed"  data-bs-target="#hospital-nav" data-bs-toggle="collapse"  href="123">
+      <i class="bi bi-building-fill-add"></i><span>Hospitals</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="hospital-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="<?= site_url('/hospitals') ?>" class="nav-link collapsed">
+            <i class="bi bi-circle"></i><span>All Hospitals</span>
+          </a>
+        </li>
+        <li>
+          <a href="<?= site_url('/add_hospital') ?>" class="nav-link collapsed">
+            <i class="bi bi-circle"></i><span>Add New Hospitals</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <!--  hospitals Nav end -->
+
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#doc-nav" data-bs-toggle="collapse" href="123">
         <i class="bi bi-people"></i><span>Doctor</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -183,12 +203,13 @@
 
 
 
-    <li class="nav-item">
-      <a class="nav-link collapsed" href="users-profile.php">
+    <!-- <li class="nav-item">
+      <a class="nav-link collapsed" href="<?= site_url('/profile') ?>">
         <i class="bi bi-person"></i>
         <span>Profile</span>
       </a>
-    </li><!-- End Profile Page Nav -->
+    </li> -->
+    <!-- End Profile Page Nav -->
 
 
 
@@ -200,9 +221,9 @@
       </li> --><!-- End Register Page Nav -->
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="login.php">
+      <a class="nav-link collapsed" href="<?= site_url('/logout') ?>">
         <i class="bi bi-box-arrow-in-right"></i>
-        <span>Login</span>
+        <span>Logout</span>
       </a>
     </li><!-- End Login Page Nav -->
 
