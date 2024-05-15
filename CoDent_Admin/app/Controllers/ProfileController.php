@@ -30,7 +30,7 @@ class ProfileController extends BaseController
             'email' => "required|valid_email|is_unique[users.email,id,{$id}]",
             'dob' => 'required',
         ]);
-        
+
         // Check if the profile image is uploaded and add validation rules for it
         if ($this->request->getFile('profile')->isValid()) {
             $validation->setRules([
@@ -44,19 +44,19 @@ class ProfileController extends BaseController
                 ],
             ]);
         }
-    
+
         if (!$validation->withRequest($this->request)->run()) {
             // Validation failed, return validation errors
             return $this->response->setJSON(['status' => 'error', 'errors' => $validation->getErrors()]);
         }
-    
+
         // Validation passed, process the form data
         $profileImage = $this->request->getFile('profile');
         $fullName = $this->request->getPost('fullname');
         $phone = $this->request->getPost('phone');
         $email = $this->request->getPost('email');
         $dob = $this->request->getPost('dob');
-    
+
         // Data to update
         $data = [
             'fullname' => $fullName,
@@ -64,21 +64,24 @@ class ProfileController extends BaseController
             'email' => $email,
             'date_of_birth' => $dob,
         ];
-       
+
 
         // Check if the profile image is uploaded and valid
         if ($profileImage && $profileImage->isValid() && !$profileImage->hasMoved()) {
             $extension = $profileImage->getClientExtension();
             $newName = time() . '_' . $id . '.' . $extension;
-            $profileImage->move(FCPATH . 'images', $newName);
-            $data['profile_image'] = $newName; 
+            $profileImage->move(FCPATH . 'public/images', $newName);
+            $data['profile'] = $newName;
         }
-    
+
         // Update user's profile
         $user = new UserModel();
-        $user->editData($id, $data);
-    
-        return $this->response->setJSON(['status' => 'success', 'message' => 'Profile updated successfully!']);
+        $result = $user->editData($id, $data);
+        if ($result) {
+            return $this->response->setJSON(['status' => 'success', 'message' => 'Profile updated successfully!']);
+        }else{
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Profile updated failed!']); 
+        }
     }
 
     public function change_password()
@@ -88,22 +91,22 @@ class ProfileController extends BaseController
             'newpassword' => 'required|min_length[5]',
             'confirm_Password' => 'required|matches[newpassword]'
         ];
-    
+
         $validation = Services::validation();
         $validation->setRules($validationRules);
-    
+
         if (!$validation->withRequest($this->request)->run()) {
             return $this->response->setJSON(['status' => 'error', 'errors' => $validation->getErrors()]);
         }
-    
+
         $user = new UserModel();
         $id = session('id');
         $oldPassword = $this->request->getPost('currentPassword');
-    
+
         $newPassword = $this->request->getPost('newpassword');
-        
+
         $result = $user->updatePassword($id, $oldPassword, $newPassword);
-        
+
         if ($result === true) {
             return $this->response->setJSON(['status' => 'success']);
         } elseif ($result === 'error') {
@@ -112,6 +115,6 @@ class ProfileController extends BaseController
             return $this->response->setJSON(['status' => 'error', 'errors' => ['Failed to update password']]);
         }
     }
-    
-    
+
+
 }

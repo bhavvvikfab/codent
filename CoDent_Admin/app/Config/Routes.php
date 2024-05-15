@@ -9,9 +9,10 @@ use CodeIgniter\Router\RouteCollection;
 $authFilter = ['filter' => 'auth'];
 $authRedirectFilter = ['filter' => 'authRedirect'];
 
+
 $routes->get('/', 'LoginController::index',$authRedirectFilter);
-$routes->post('/login', 'LoginController::login');
-$routes->get('/logout', 'LoginController::logout');
+$routes->post('login', 'LoginController::login');
+$routes->get('logout', 'LoginController::logout');
 
 
 $routes->group('',$authFilter, function ($routes) {

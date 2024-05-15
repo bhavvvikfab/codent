@@ -28,7 +28,7 @@ Profile
           <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
             <img
-              src="<?= isset($user['profile']) && !empty($user['profile']) ? '../../../images/' . $user['profile'] : '../../../images/user-profile.jpg'; ?>"
+              src="<?= base_url() ?>public/images/<?= isset($user['profile']) && !empty($user['profile']) ? $user['profile'] : 'user-profile.jpg' ?>"
               alt="Profile" class="rounded-circle">
 
 
@@ -131,8 +131,7 @@ Profile
                   <div class="row mb-3">
                     <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
                     <div class="col-md-8 col-lg-9">
-                      <img
-                        src="<?= isset($user['profile']) && !empty($user['profile']) ? '../../../images/' . $user['profile'] : '../../../images/user-profile.jpg'; ?>"
+                      <img src="<?= base_url() ?>public/images/<?= isset($user['profile']) && !empty($user['profile']) ? $user['profile'] : 'user-profile.jpg' ?>"
                         alt="Profile" class="rounded-circle">
 
 
@@ -195,7 +194,6 @@ Profile
                         <input name="Qua" type="text" class="form-control" id="Qua" value="">
                       </div>
                     </div> -->
-
 
 
                   <div class="row mb-3">
@@ -325,21 +323,21 @@ Profile
   <script>
     $(document).ready(function () {
 
-     $('#showpass').on('click',function(){
+      $('#showpass').on('click', function () {
 
-       var passwordInput = $('#newPassword');
-       var toggleBtn = $('#showpass');
-       
-       if (passwordInput.attr('type') === 'password') {
-         passwordInput.attr('type', 'text');
-         toggleBtn.html('<i class="bi bi-eye"></i>');
+        var passwordInput = $('#newPassword');
+        var toggleBtn = $('#showpass');
+
+        if (passwordInput.attr('type') === 'password') {
+          passwordInput.attr('type', 'text');
+          toggleBtn.html('<i class="bi bi-eye"></i>');
         } else {
           passwordInput.attr('type', 'password');
           toggleBtn.html('<i class="bi bi-eye-slash"></i>');
         }
-      
-    })
-   
+
+      })
+
       // Event listener for the toggle button click
       $('#password-toggle').click(function () {
         togglePasswordVisibility();
@@ -350,7 +348,7 @@ Profile
         // Get form data
         var formData = new FormData($('#editprofile_form')[0]);
         $.ajax({
-          url: '<?= site_url('edit_profile') ?>',
+          url: '<?= base_url('edit_profile') ?>',
           method: 'post',
           data: formData,
           processData: false,
@@ -358,6 +356,7 @@ Profile
           success: function (data) {
 
             if (data.status == "success") {
+              window.location.href = '<?= base_url('profile') ?>';
               showToast('Profile updated successfully.');
               $('#alert').empty();
             } else {
@@ -384,7 +383,7 @@ Profile
         e.preventDefault();
         let formData = $(this).serialize();
         $.ajax({
-          url: '<?= site_url('change_password') ?>',
+          url: '<?= base_url('change_password') ?>',
           method: 'post',
           data: formData,
           success: function (data) {

@@ -31,7 +31,7 @@ Add_Hospitals
                             </div>
                             <div class="col-lg-4">
                                 <h5 class="card-title text-end addsup">
-                                    <a href="<?= site_url('/dashboard') ?>"> Back </a>
+                                    <a href="<?= base_url('dashboard') ?>"> Back </a>
                                 </h5>
                             </div>
                         </div>
@@ -39,8 +39,7 @@ Add_Hospitals
                     <div class="card-body">
 
                         <!-- hospital Form Elements -->
-                        <form method="post" action="<?= site_url('/add_hospital') ?>" enctype="multipart/form-data">
-
+                        <form method="post" action="<?= base_url('add_hospital') ?>" enctype="multipart/form-data">
 
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">

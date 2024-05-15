@@ -48,7 +48,7 @@ class LoginController extends BaseController
                         case '5':
                             return redirect()->to('/practices/dashboard');
                         case '6':
-                            return redirect()->to('/user/dashboard');
+                            return redirect()->to('/patient/dashboard');
                         default:
                             return redirect()->to('/');
                     }

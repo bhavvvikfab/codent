@@ -10,8 +10,8 @@
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="../../../img/favicon.png" rel="icon">
-  <link href="../../../img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="<?=base_url()?>public/img/favicon.png" rel="icon">
+  <link href="<?=base_url()?>public/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -20,16 +20,16 @@
     rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-  <link href="../../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="../../../vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="../../../vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="../../../vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="../../../vendor/quill/quill.bubble.css" rel="stylesheet">
-  <link href="../../../vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="../../../vendor/simple-datatables/style.css" rel="stylesheet">
+  <link href="<?=base_url()?>public/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="<?=base_url()?>public/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="<?=base_url()?>public/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="<?=base_url()?>public/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="<?=base_url()?>public/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="<?=base_url()?>public/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="<?=base_url()?>public/vendor/simple-datatables/style.css" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="../../../css/main.css" rel="stylesheet">
+  <link href="<?=base_url()?>public/css/main.css" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: Dry Clean
@@ -50,7 +50,7 @@
 
               <div class="d-flex justify-content-center py-4">
                 <a href="index.php" class="logo d-flex align-items-center w-auto">
-                  <img src="../../../img/logo.png" alt="">
+                  <img src="<?=base_url()?>public/img/logo.png" alt="">
                   <span class="d-none d-lg-block">CoDent</span>
                 </a>
               </div><!-- End Logo -->
@@ -64,7 +64,7 @@
                     <p class="text-center small">Enter your username & password to login</p>
                   </div>
 
-                  <form class="row g-3 needs-validation" action="<?= site_url('/login') ?>" method="post" novalidate>
+                  <form class="row g-3 needs-validation" action="<?= base_url('login') ?>" method="post" novalidate>
                   <?php if (session()->getFlashdata('error')): ?>
                           <small class="text-danger text-center"><?= session()->getFlashdata('error') ?></small>
                         <?php endif; ?>
@@ -121,17 +121,17 @@
 
 
   <!-- Vendor JS Files -->
-  <script src="../../../vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="../../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="../../../vendor/chart.js/chart.umd.js"></script>
-  <script src="../../../vendor/echarts/echarts.min.js"></script>
-  <script src="../../../vendor/quill/quill.min.js"></script>
-  <script src="../../../vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="../../../vendor/tinymce/tinymce.min.js"></script>
-  <script src="../../../vendor/php-email-form/validate.js"></script>
+  <script src="<?=base_url()?>public/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="<?=base_url()?>public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="<?=base_url()?>public/vendor/chart.js/chart.umd.js"></script>
+  <script src="<?=base_url()?>public/vendor/echarts/echarts.min.js"></script>
+  <script src="<?=base_url()?>public/vendor/quill/quill.min.js"></script>
+  <script src="<?=base_url()?>public/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="<?=base_url()?>public/vendor/tinymce/tinymce.min.js"></script>
+  <script src="<?=base_url()?>public/vendor/php-email-form/validate.js"></script>
 
   <!-- Template Main JS File -->
-  <script src="../../../js/main.js"></script>
+  <script src="<?=base_url()?>public/js/main.js"></script>
 
 </body>
 
