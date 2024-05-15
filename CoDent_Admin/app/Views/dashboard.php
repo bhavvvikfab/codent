@@ -1,6 +1,6 @@
 <?= $this->extend('layout/layout') ?>
 <?= $this->section('title') ?>
-Admin-Dashboard
+Dashboard
 <?= $this->endSection() ?>
 <?= $this->section('content') ?>
 <main id="main" class="main">
