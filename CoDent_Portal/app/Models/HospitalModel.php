@@ -4,18 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class UserModel extends Model
+class HospitalModel extends Model
 {
-
- 
-    protected $allowedFields = ['role','fullname', 'email', 'password','address','date_of_birth','phone','profile','hospital_id'];
-
-    protected $table            = 'users';
+    protected $table            = 'hospitals';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
+    protected $allowedFields    = ['id','name','city','address','created_at'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
