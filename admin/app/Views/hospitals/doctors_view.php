@@ -5,7 +5,6 @@ View_Hospitals
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
-
 <main id="main" class="main">
     <div class="pagetitle">
         <div class="row">
@@ -13,7 +12,7 @@ View_Hospitals
                 <h1>All Doctors</h1>
                 <nav>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="<?= base_url('index.php') ?>">Dashboard</a></li>
                         <li class="breadcrumb-item active">All Doctors</li>
                     </ol>
                 </nav>
@@ -40,56 +39,86 @@ View_Hospitals
 
                     <div class="card-body view-supplier-table table-responsive">
                         <!-- Table with stripped rows -->
-                        <table id="example" class="table table-borderless datatable supplier-table">
+                        <table class="table table-borderless supplier-table example">
                             <thead>
                                 <tr>
                                     <th>Sr. No.</th>
+                                    <th>Profile Imge</th>
+
                                     <th>Name</th>
                                     <th>Qualification</th>
-                                    <th>Specialist In</th>
-                                    <th>About</th>
+                                    <th>Specialist</th>
+                                    <th>Hospital</th>
                                     <th>Action</th>
-                                </tr>
+                                </tr>                               
                             </thead>
+                            <thead> <!-- Use tthead for the second row -->
+                              <tr class="bg-white"> <!-- Apply background color style here -->
+                              <th class="bg-white"></th>
+                               <th class="bg-white"></th>
+                            <th class="bg-white"></th>
+                           <th class="bg-white"></th>
+                           <th class="bg-white"></th>
+
+                          <th class="bg-white">
+                          <select id="hospital-filter" class="form-control custom-select">
+                         <option value="">Select Hospital</option>
+                </select>
+            </th>
+            <th class="bg-white"></th>
+        </tr>
+    </thead>
+
                             <tbody>
-                                <?php foreach ($doctors as $doctor): ?>
+                                <?php if (!empty($doctors) && is_array($doctors)): ?>
+                                    <?php foreach ($doctors as $doctor): ?>
+                                        <tr>
+                                            <td><?= esc($doctor['id']) ?></td>
+                                            <td>    
+                                            <?php if (!empty($doctor['image'])): ?>
+                                                <div style="display: flex; justify-content: center;">
+                                                    <img src="<?= base_url('public/uploads/' . $doctor['image']) ?>" alt="Doctor Image" style="width: 40%;">
+                                                </div>
+
+                                            <?php else: ?>
+                                            <span>No Image</span>
+                                            <?php endif; ?>
+                                            </td>
+                                            <td><?= esc($doctor['name']) ?></td>
+                                            <td><?= esc($doctor['qualification']) ?></td>
+                                            <td><?= esc($doctor['specialist_of']) ?></td>
+                                            <td><?= esc($doctor['hospital_name']) ?></td>
+                                            
+                                            <td>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <div class="editen p-1">
+                                                        <a href="<?= base_url('editDoctor?id=' . $doctor['id']) ?>">
+                                                            <button type="button" class="btn btn-secondary btn-sm">
+                                                                <i class='bx bx-edit'></i>
+                                                            </button>
+                                                        </a>    
+                                                    </div>
+                                                    <div class="viewsenq p-1">
+                                                        <a href="<?= base_url('viewDoctor?id=' . $doctor['id']) ?>">
+                                                            <button type="button" class="btn btn-secondary btn-sm">
+                                                                <i class="ri-eye-line"></i>
+                                                            </button>
+                                                        </a>
+                                                    </div>
+                                                    <div class="viewsenq p-1">
+                                                    <button type="button" class="btn btn-secondary btn-sm delete_btn" data-id="<?= $doctor['id'] ?>"><i class="ri-delete-bin-line"></i></button>
+
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
                                     <tr>
-                                        <td><?= $doctor['id'] ?></td>
-                                        <td><?= $doctor['name'] ?></td>
-                                        <td><?= $doctor['qualification'] ?></td>
-                                        <td><?= $doctor['specialist_of'] ?></td>
-                                        <td><?= $doctor['about'] ?></td>
-                                        <td>
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <div class="editen p-1">
-                                                    <a href="editdoc.php?id=<?= $doctor['id'] ?>">
-                                                        <button type="button" class="btn btn-secondary">
-                                                            <i class='bx bx-edit'></i>
-                                                        </button>
-                                                    </a>
-                                                </div>
-                                                <div class="viewsenq p-1">
-                                                    <a href="viewdoc.php?id=<?= $doctor['id'] ?>">
-                                                        <button type="button" class="btn">
-                                                            <i class="ri-eye-line"></i>
-                                                        </button>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </td>
+                                        <td colspan="6">No doctors found.</td>
                                     </tr>
-                                <?php endforeach; ?>
+                                <?php endif; ?>
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>Sr. No.</th>
-                                    <th>Name</th>
-                                    <th>Qualification</th>
-                                    <th>Specialist In</th>
-                                    <th>About</th>
-                                    <th>Action</th>
-                                </tr>
-                            </tfoot>
                         </table>
                         <!-- End Table with stripped rows -->
                     </div>
@@ -99,34 +128,112 @@ View_Hospitals
     </section>
 </main><!-- End #main -->
 
+<!-- Include necessary scripts -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+
+
 <script>
     $(document).ready(function() {
-        $('#example').DataTable({
-            initComplete: function() {
-                this.api().columns().every(function() {
-                    var column = this;
+   var table = $('.example').DataTable({
+    initComplete: function () {
+        var tableApi = this.api(); // Get the DataTable API for easier access
 
-                    // Create select element
-                    var select = $('<select><option value=""></option></select>')
-                        .appendTo($(column.footer()).empty())
-                        .on('change', function() {
-                            var val = $.fn.dataTable.util.escapeRegex(
-                                $(this).val()
-                            );
+        // Add custom search field HTML
+        var searchAndEntries = $('<div class="datatable-controls d-flex justify-content-between align-items-center"><div class="datatable-entries text-start"><label for="datatable-selector">Show entries:</label><select id="datatable-selector" class="datatable-selector"><option value="5">5</option><option value="10" selected>10</option><option value="15">15</option><option value="-1">All</option></select></div><div class="datatable-search text-end"><input class="datatable-input" placeholder="Search..." type="search" title="Search within table"></div></div>');
+        $('.dataTables_wrapper').prepend(searchAndEntries);
 
-                            column
-                                .search(val ? '^' + val + '$' : '', true, false)
-                                .draw();
-                        });
-
-                    // Add list of options
-                    column.data().unique().sort().each(function(d, j) {
-                        select.append('<option value="' + d + '">' + d + '</option>');
-                    });
-                });
-            }
+        // Ensure that the search field is functional
+        $('.datatable-input').on('input', function () {
+            table.search(this.value).draw();
         });
+
+        // Handle entries selector change
+        $('#datatable-selector').on('change', function () {
+            table.page.len($(this).val()).draw();
+        });
+
+        // Hospital filter functionality
+        var column = tableApi.column(5); // Target the 'Hospital' column (index 5)
+        var select = $('#hospital-filter').on('change', function () {
+            var val = $.fn.dataTable.util.escapeRegex($(this).val());
+            column.search(val ? '^' + val + '$' : '', true, false).draw();
+        });
+
+        // Populate hospital filter dropdown
+        column.data().unique().sort().each(function (d, j) {
+            select.append('<option value="' + d + '">' + d + '</option>');
+        });
+
+        // Add a custom message for showing entries
+        var entriesInfo = $('<div class="datatable-info d-inline mt-4"></div>');
+        $('.dataTables_wrapper').append(entriesInfo);
+
+        // Create the custom pagination navigation
+        var paginationNav = $('<nav class="datatable-pagination float-end mt-2"><ul class="datatable-pagination-list"><li class="datatable-pagination-list-item datatable-hidden datatable-disabled"><button data-page="1" class="datatable-pagination-list-item-link" aria-label="Page 1">‹</button></li><li class="datatable-pagination-list-item datatable-active"><button data-page="1" class="datatable-pagination-list-item-link" aria-label="Page 1">1</button></li><li class="datatable-pagination-list-item"><button data-page="2" class="datatable-pagination-list-item-link" aria-label="Page 2">2</button></li><li class="datatable-pagination-list-item"><button data-page="2" class="datatable-pagination-list-item-link" aria-label="Page 2">›</button></li></ul></nav>');
+        $('.dataTables_wrapper').append(paginationNav);
+
+        // Update the entries info initially and on pagination change
+        updateEntriesInfo();
+
+        tableApi.on('draw', function () {
+            updateEntriesInfo();
+        });
+
+        function updateEntriesInfo() {
+            var pageInfo = tableApi.page.info();
+            var entriesMessage = 'Showing ' + (pageInfo.start + 1) + ' to ' + pageInfo.end + ' of ' + pageInfo.recordsTotal + ' entries';
+            entriesInfo.html(entriesMessage);
+        }
+    },
+    "dom": '<"custom-datatable table-borderless"t>', // Use custom class and keep Bootstrap styling
+    "paging": true,
+    "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
+    "pageLength": 10,
+    "language": {
+        "paginate": {
+            "previous": "Previous",
+            "next": "Next"
+        }
+    }
+});
+
+
+
+        $('.delete_btn').click(function() 
+        { 
+    var doctorId = $(this).data('id');
+    var confirmDelete = confirm('Are you sure you want to delete this doctor?');
+    if (confirmDelete) {
+    $.ajax({
+        url: '<?= base_url('deleteDoctor') ?>',
+        type: 'POST',
+        data: { id: doctorId },
+        success: function(response) 
+        {
+            console.log(response);
+
+            showToast(response);
+                setTimeout(function() 
+                {
+                    $('#editSubscriptionModal').modal('hide');
+                        location.reload();
+                    }, 2000);
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+            // Handle the error if the AJAX request fails
+        }
+    });
+}
+});
+
     });
 </script>
+
+
+   
+
 
 <?= $this->endSection() ?>

@@ -63,8 +63,16 @@ $routes->group('',$authFilter, function ($routes) {
    $routes->get('doctors', 'DoctorController::index');
    $routes->get('add_doctor', 'DoctorController::add_doctor_fun');
    $routes->post('doctor_register', 'DoctorController::doctor_register_form');
+   $routes->get('editDoctor', 'DoctorController::editDoctor');
+   $routes->post('doctor/updateDoctor', 'DoctorController::updateDoctor');
+   $routes->get('viewDoctor', 'DoctorController::viewDoctor_fun');
+   $routes->post('deleteDoctor', 'DoctorController::deleteDoctor_fun');
+  
+
    
    
+
+
    // ==============Doctors routes end===========
 
 

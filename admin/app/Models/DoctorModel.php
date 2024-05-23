@@ -12,7 +12,11 @@ class DoctorModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id','user_id','hospital_id','qualification','specialist_of','schedule','about',];
+    protected $allowedFields    = ['id','user_id','hospital_id','email','phone','qualification','specialist_of','schedule','about','name','image'];
+
+
+    
+
 
     protected bool $allowEmptyInserts = true;
     protected bool $updateOnlyChanged = true;
@@ -44,3 +48,4 @@ class DoctorModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 }
+
