@@ -41,75 +41,75 @@ Edit_Hospitals
               <form id="updateForm" enctype="multipart/form-data">
               <?php if(isset($doctors)): ?>
                 <div class="row ">
-                    <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                    <div class="col-lg-6 mb-3">
                       <label for="name" class="form-label"><i class="bi bi-person-circle" style="font-size: 18px;"></i> Doctor Name</label>
-                      <input type="text" class="form-control" id="name" name="name" value="<?= esc($doctors['name']) ?>">
+                      
+                      <input type="text" class="form-control" id="name" name="name" value="<?= esc($doctors['full_name']) ?>">
                       <div id="nameError" class="text-danger"></div>
-                      <input type="hidden" class="form-control" id="id" name="id" value="<?= esc($doctors['id']) ?>">
+                      <input type="hidden" class="form-control" id="id" name="id" value="<?= esc($doctors['user_id']) ?>">
                     </div>
+                    <div class="col-lg-6 mb-3">
+                      <label for="email" class="form-label"><i class="bi bi-envelope-fill" style="font-size: 18px;"></i> Email</label>
+                      <input type="email" class="form-control" id="email" name="email"  value="<?= esc($doctors['email']) ?>" >
+                      <div id="emailError" class="text-danger"></div> 
+                    
+ 
+                </div>
+                <div class="row">
+                            
+                                <div class="col-lg-6 mb-3">
+                                    <label for="address" class="form-label"><i class="bi bi-geo-alt-fill" style="font-size: 18px;"></i> Address</label>
+                                    <textarea class="form-control" id="address" name="address" rows="1"><?= esc($doctors['address']) ?>" </textarea>
+                                    <div id="addressError" class="text-danger"></div>
+                                </div>
+                                <div class="col-lg-6 mb-3">
+                                   <label for="dob" class="form-label"><i class="bi bi-calendar-fill" style="font-size: 18px;"></i> Date of Birth</label>
+                                   <input type="date" class="form-control" id="dob" name="dob" value="<?= esc($doctors['date_of_birth']) ?>" >
+                                   <div id="dobError" class="text-danger"></div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                            
+                                
+                                <div class="col-lg-6 mb-3">
+                                    <label for="phone" class="form-label"><i class="bi bi-telephone-fill" style="font-size: 18px;"></i> Phone Number</label>
+                                    <input type="number" class="form-control" id="phone" name="phone" value="<?= esc($doctors['phone']) ?>" >
+                                    <div id="phoneError" class="text-danger"></div>
+                                </div>
+                                <div class="col-lg-6 mb-3">
+                                    <label for="schedule" class="form-label"><i class="bi bi-calendar-event-fill" style="font-size: 18px;"></i> Schedule</label>
+                                    <input type="date" class="form-control" id="schedule" name="schedule" placeholder="e.g., Mon-Fri, 9am-5pm" value="<?= esc($doctors['schedule']) ?>">
+                                    <div id="scheduleError" class="text-danger" ></div>
+                                </div>
+                                
+                            </div>
+
+                            <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                    <label for="specialist_of" class="form-label"> <i class="bi bi-file-medical-fill" style="font-size: 18px;"></i> Specialist Of</label>
+                    <input type="text" class="form-control" id="specialist" name="specialist"  value="<?= esc($doctors['specialist_of']) ?>">
+                    <div id="specialistError" class="text-danger"></div>
+                  
+                  </div>
                     <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                     <label for="qualification" class="form-label"> <i class="bi bi-award-fill" style="font-size: 18px;"></i> Qualification</label>
                     <input type="text" class="form-control" id="qualification" name="qualification"  value="<?= esc($doctors['qualification']) ?>">
                     <div id="qualificationError" class="text-danger"></div>
 
                   </div>
-                </div>
-                <div class="row">
-                  <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                    <label for="specialist_of" class="form-label"> <i class="bi bi-file-medical-fill" style="font-size: 18px;"></i> Specialist Of</label>
-                    <input type="text" class="form-control" id="specialist_of" name="specialist_of"  value="<?= esc($doctors['specialist_of']) ?>">
-                    <div id="specialistError" class="text-danger"></div>
                   
-                  </div>
-                  <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                      <label for="email" class="form-label"><i class="bi bi-envelope-fill" style="font-size: 18px;"></i> Email</label>
-                      <input type="email" class="form-control" id="email" name="email"  value="<?= esc($doctors['email']) ?>">
-                      <div id="emailError" class="text-danger"></div> 
-                    
-                    </div>
                   
                 </div>
+                            <div class="row">
+                            
 
-                <div class="row">
-                  
-                  <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                    <label for="phone" class="form-label"> <i class="bi bi-telephone-fill" style="font-size: 18px;"></i> Phone Number</label>
-                    <input type="number" class="form-control" id="phone" name="phone"  value="<?= esc($doctors['phone']) ?>">
-                    <div id="phoneError" class="text-danger"></div>
-
-                  </div>
-                  <div class="col-lg-3 col-md-3 col-sm-6 mb-3">
-    <label for="image" class="form-label">Doctor Image</label>
-    <div class="input-group">
-        <input class="form-control" type="file" id="image" name="image" accept="image/*">
-        <div class="input-group-append">
-            <?php if (!empty($doctors['image'])): ?>
-                <img id="imagePreview" src="<?= base_url('public/uploads/' . $doctors['image']) ?>" alt="Doctor Image" style="width: 50px; height: auto;">
-            <?php else: ?>
-                <span class="input-group-text">No Image</span>
-            <?php endif; ?>
-        </div>
-    </div>
-    <div id="imageError" class="text-danger"></div>
-</div>
-
-                </div>
-               
-               <div class="row">
-                  <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                      <label for="schedule" class="form-label"> <i class="bi bi-calendar-week-fill" style="font-size: 18px;"></i> Schedule</label>
-                      <textarea class="form-control" id="schedule" name="schedule"  value="<?= esc($doctors['schedule']) ?>"></textarea>
-                      <div id="nameError" class="text-danger"></div>
-
-                    </div>
-                  <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                      <label for="about" class="form-label"> <i class="bi bi-list-ul" style="font-size: 18px;"></i> About</label>
-                      <textarea class="form-control" id="about" name="about"  value="<?= esc($doctors['about']) ?>"></textarea>
-                      <div id="nameError" class="text-danger"></div>
-
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                                <div class="col-lg-6 mb-3">
+                                    <label for="about" class="form-label"><i class="bi bi-image-fill" style="font-size: 18px;"></i> About</label>
+                                    <input type="text" class="form-control" id="about" name="about" value="<?= esc($doctors['about']) ?>">
+                                    <div id="aboutError" class="text-danger" ></div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                     <label for="hospital_id" class="form-label"><i class="bi bi-hospital" style="font-size: 18px;"></i> Hospital</label>
                     <select class="form-control" id="hospital_id" name="hospital_id">
                         <option value="">Select Hospital</option>
@@ -119,7 +119,35 @@ Edit_Hospitals
                     </select>
                     <div id="hospital_idError" class="text-danger"></div>
 
+                            </div>
+                            <div class="row">
+
+                            
+
+
                 </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 mb-3">
+    <label for="image" class="form-label">Doctor Image</label>
+    <div class="input-group">
+        <input class="form-control" type="file" id="image" name="image" accept="image/*">
+        <div class="input-group-append">
+            <?php if (!empty($doctors['profile'])): ?>
+                <img id="imagePreview" src="<?= base_url('public/images/' . $doctors['profile']) ?>" alt="Doctor Image" style="width: 50px; height: auto;">
+            <?php else: ?>
+                <span class="input-group-text">No Image</span>
+            <?php endif; ?>
+        </div>
+    </div>
+    <div id="imageError" class="text-danger"></div>
+</div>
+</div>
+
+                
+
+               
+               
+               
+                
                
                 <div class="row mb-3">
                   <!-- <label class="col-sm-2 col-form-label">Submit Button</label> -->
@@ -175,51 +203,69 @@ Edit_Hospitals
 
 
         var isValid = true;
-
-var name = $("#name").val();
-var qualification = $("#qualification").val();
-var specialist = $("#specialist_of").val();
-var email = $("#email").val();
-var phone = $("#phone").val();
-var image = $("#image").val();
-var hospital_id = $("#hospital_id").val();
-console.log(image);
-console.log(name);
-
+            var id = $("#id").val();
+            var name = $("#name").val();
+            var email = $("#email").val();
+            // console.log(password,email);
+            var address = $("#address").val();
+            var dob = $("#dob").val();
+            var phone = $("#phone").val();
+            var specialist = $("#specialist").val();
+            var qualification = $("#qualification").val();
+            var schedule = $("#schedule").val();
+            var about = $("#about").val();
+            var hospital_id = $("#hospital_id").val();
+            var image = $("#image").val();
+            var specialistOrPractice = $("#specialistOrPractice").val();
+            // console.log(id);
 
 $('.text-danger').text('');
 
 if (name === '') {
-    $('#nameError').text('Please enter a Name.');
-    isValid = false;
-}
-
-if (qualification === '') {
-    $('#qualificationError').text('Please enter a Qualification.');
-    isValid = false;
-}
-
-if (specialist === '') {
-    $('#specialistError').text('Please enter a Specialist.');
-    isValid = false;
-}
-
-if (email === '') {
-    $('#emailError').text('Please enter an Email.');
-    isValid = false;
-}
-
-if (phone === '') {
-    $('#phoneError').text('Please enter a Phone Number.');
-    isValid = false;
-}
-
-
-
-if (hospital_id === '') {
-    $('#hospital_idError').text('Please select a Hospital.');
-    isValid = false;
-}
+                $('#nameError').text('Please enter a Name.');
+                isValid = false;
+            }
+            if (email === '') {
+                $('#emailError').text('Please enter an Email.');
+                isValid = false;
+            }
+            
+            if (address === '') {
+                $('#addressError').text('Please enter a Name.');
+                isValid = false;
+            }
+            if (dob === '') {
+                $('#dobError').text('Please enter a Name.');
+                isValid = false;
+            }
+            if (phone === '') {
+                $('#phoneError').text('Please enter a Phone Number.');
+                isValid = false;
+            }
+            if (specialist === '') {
+                $('#specialistError').text('Please enter a Specialist.');
+                isValid = false;
+            }
+            if (qualification === '') {
+                $('#qualificationError').text('Please enter a Qualification.');
+                isValid = false;
+            }
+            if (schedule === '') {
+                $('#scheduleError').text('Please enter a Qualification.');
+                isValid = false;
+            }
+            if (about === '') {
+                $('#aboutError').text('Please enter a Qualification.');
+                isValid = false;
+            }
+            if (hospital_id === '') {
+                $('#hospital_idError').text('Please select a Hospital.');
+                isValid = false;
+            }
+            if (image === '') {
+                $('#imageError').text('Please upload a valid Image.');
+                isValid = false;
+            }
 
 if (isValid)
 
@@ -237,7 +283,8 @@ if (isValid) {
             success: function(response)
             {
                   showToast(response.message);
-                  setTimeout(function() {
+                  setTimeout(function() 
+                  {
                     window.location.href = '<?= base_url("doctors")?>'; 
                   }, 2000);
                 

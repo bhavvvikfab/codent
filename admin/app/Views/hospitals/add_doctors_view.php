@@ -44,35 +44,64 @@ Add Hospitals
                                     <div id="nameError" class="text-danger"></div>
                                 </div>
                                 <div class="col-lg-6 mb-3">
-                                    <label for="qualification" class="form-label"><i class="bi bi-award-fill" style="font-size: 18px;"></i> Qualification</label>
-                                    <input type="text" class="form-control" id="qualification" name="qualification">
-                                    <div id="qualificationError" class="text-danger"></div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6 mb-3">
-                                    <label for="specialist" class="form-label"><i class="bi bi-file-medical-fill" style="font-size: 18px;"></i> Specialist Of</label>
-                                    <input type="text" class="form-control" id="specialist" name="specialist">
-                                    <div id="specialistError" class="text-danger"></div>
-                                </div>
-                                <div class="col-lg-6 mb-3">
                                     <label for="email" class="form-label"><i class="bi bi-envelope-fill" style="font-size: 18px;"></i> Email</label>
                                     <input type="email" class="form-control" id="email" name="email">
                                     <div id="emailError" class="text-danger"></div>
                                 </div>
+                                
                             </div>
                             <div class="row">
+                            <div class="col-lg-6 mb-3">
+                                   <label for="password" class="form-label"><i class="bi bi-lock-fill" style="font-size: 18px;"></i> Password</label>
+                                   <input type="password" class="form-control" id="password" name="password">
+                                   <div id="passwordError" class="text-danger"></div>
+                                </div>
+                                <div class="col-lg-6 mb-3">
+                                    <label for="address" class="form-label"><i class="bi bi-geo-alt-fill" style="font-size: 18px;"></i> Address</label>
+                                    <textarea class="form-control" id="address" name="address" rows="2"></textarea>
+                                    <div id="addressError" class="text-danger"></div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                            <div class="col-lg-6 mb-3">
+                                   <label for="dob" class="form-label"><i class="bi bi-calendar-fill" style="font-size: 18px;"></i> Date of Birth</label>
+                                   <input type="date" class="form-control" id="dob" name="dob">
+                                   <div id="dobError" class="text-danger"></div>
+                                </div>
+                                
                                 <div class="col-lg-6 mb-3">
                                     <label for="phone" class="form-label"><i class="bi bi-telephone-fill" style="font-size: 18px;"></i> Phone Number</label>
                                     <input type="number" class="form-control" id="phone" name="phone">
                                     <div id="phoneError" class="text-danger"></div>
                                 </div>
                                 <div class="col-lg-6 mb-3">
-                                    <label for="image" class="form-label"><i class="bi bi-image-fill" style="font-size: 18px;"></i> Doctor Image</label>
-                                    <input type="file" class="form-control" id="image" name="image">
-                                    <div id="imageError" class="text-danger"></div>
+                                    <label for="specialist" class="form-label"><i class="bi bi-file-medical-fill" style="font-size: 18px;"></i> Specialist Of</label>
+                                    <input type="text" class="form-control" id="specialist" name="specialist">
+                                    <div id="specialistError" class="text-danger"></div>
+                                </div>
+                                <div class="col-lg-6 mb-3">
+                                    <label for="qualification" class="form-label"><i class="bi bi-award-fill" style="font-size: 18px;"></i> Qualification</label>
+                                    <input type="text" class="form-control" id="qualification" name="qualification">
+                                    <div id="qualificationError" class="text-danger"></div>
+                                </div>
+                                
+                            </div>
+                            <div class="row">
+                            <div class="col-lg-6 mb-3">
+                                    <label for="schedule" class="form-label"><i class="bi bi-calendar-event-fill" style="font-size: 18px;"></i> Schedule</label>
+                                    <input type="date" class="form-control" id="schedule" name="schedule" placeholder="e.g., Mon-Fri, 9am-5pm">
+                                    <div id="scheduleError" class="text-danger"></div>
+                                </div>
+
+                                <div class="col-lg-6 mb-3">
+                                    <label for="about" class="form-label"><i class="bi bi-image-fill" style="font-size: 18px;"></i> About</label>
+                                    <input type="text" class="form-control" id="about" name="about">
+                                    <div id="aboutError" class="text-danger"></div>
                                 </div>
                             </div>
+                                
+                               
                             <div class="row mb-3">
                                 <div class="col-lg-6 mb-3">
                                     <label for="hospital_id" class="form-label"><i class="bi bi-person-fill" style="font-size: 18px;"></i> Select Hospital</label>
@@ -84,6 +113,21 @@ Add Hospitals
                                     </select>
                                     <div id="hospital_idError" class="text-danger"></div>
                                 </div>
+                                <div class="col-lg-6 mb-3">
+                                    <label for="image" class="form-label"><i class="bi bi-image-fill" style="font-size: 18px;"></i> Doctor Image</label>
+                                    <input type="file" class="form-control" id="image" name="image">
+                                    <div id="imageError" class="text-danger"></div>
+                                </div>
+                                <div class="col-lg-6 mb-3">
+                                    <label for="selectSpecialistOrPractice" class="form-label"><i class="bi bi-check-square-fill" style="font-size: 18px;"></i></i>Which is Your Preference?</label>
+                                    <select class="form-select" id="specialistOrPractice" name="specialistOrPractice">
+                                    <option >Select Preference</option>
+                                    <option value="3">Specialist</option>
+                                    <option value="4">Practice</option>
+                                    </select>
+                                    <div id="selectError" class="text-danger"></div>
+                                </div>
+
                             </div>
                             <div class="row mb-3">
                                 <div class="col-lg-12">
@@ -106,16 +150,22 @@ Add Hospitals
             e.preventDefault();
 
             var isValid = true;
-
+            
             var name = $("#name").val();
-            var qualification = $("#qualification").val();
-            var specialist = $("#specialist").val();
             var email = $("#email").val();
+            var password = $("#password").val();
+            // console.log(password,email);
+            var address = $("#address").val();
+            var dob = $("#dob").val();
             var phone = $("#phone").val();
-            var image = $("#image").val();
+            var specialist = $("#specialist").val();
+            var qualification = $("#qualification").val();
+            var schedule = $("#schedule").val();
+            var about = $("#about").val();
             var hospital_id = $("#hospital_id").val();
-            console.log(image);
-            console.log(name);
+            var image = $("#image").val();
+            var specialistOrPractice = $("#specialistOrPractice").val();
+            console.log(specialistOrPractice);
 
 
             $('.text-danger').text('');
@@ -124,34 +174,48 @@ Add Hospitals
                 $('#nameError').text('Please enter a Name.');
                 isValid = false;
             }
-
-            if (qualification === '') {
-                $('#qualificationError').text('Please enter a Qualification.');
-                isValid = false;
-            }
-
-            if (specialist === '') {
-                $('#specialistError').text('Please enter a Specialist.');
-                isValid = false;
-            }
-
             if (email === '') {
                 $('#emailError').text('Please enter an Email.');
                 isValid = false;
             }
-
+            if (password === '') {
+                $('#passwordError').text('Please enter a Name.');
+                isValid = false;
+            }
+            if (address === '') {
+                $('#addressError').text('Please enter a Name.');
+                isValid = false;
+            }
+            if (dob === '') {
+                $('#dobError').text('Please enter a Name.');
+                isValid = false;
+            }
             if (phone === '') {
                 $('#phoneError').text('Please enter a Phone Number.');
                 isValid = false;
             }
-
-            if (image === '') {
-                $('#imageError').text('Please upload a valid Image.');
+            if (specialist === '') {
+                $('#specialistError').text('Please enter a Specialist.');
                 isValid = false;
             }
-
+            if (qualification === '') {
+                $('#qualificationError').text('Please enter a Qualification.');
+                isValid = false;
+            }
+            if (schedule === '') {
+                $('#scheduleError').text('Please enter a Qualification.');
+                isValid = false;
+            }
+            if (about === '') {
+                $('#aboutError').text('Please enter a Qualification.');
+                isValid = false;
+            }
             if (hospital_id === '') {
                 $('#hospital_idError').text('Please select a Hospital.');
+                isValid = false;
+            }
+            if (image === '') {
+                $('#imageError').text('Please upload a valid Image.');
                 isValid = false;
             }
 
@@ -159,7 +223,6 @@ Add Hospitals
 
             if (isValid) {
                 var formData = new FormData(this);
-                console.log(formData);
                 $.ajax({
                     url: '<?=base_url("doctor_register")?>',
                     method: "post",
@@ -169,8 +232,10 @@ Add Hospitals
                     success: function(response) {
                    console.log(response);
                    showToast(response); // Assuming showToast is a function to display a toast notification
-                   setTimeout(function() {
-                    window.location.href = '<?= base_url("doctors")?>'; 
+                   setTimeout(function() 
+                   {
+                    $('#doctor_form')[0].reset();
+                    window.location.href = "<?= base_url('doctors') ?>";
                   }, 2000); // Specify the delay in milliseconds
                   },
 

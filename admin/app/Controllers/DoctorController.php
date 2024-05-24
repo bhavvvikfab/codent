@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+
+use App\Models\UserModel;
 use App\Models\HospitalsModel;
 use App\Models\DoctorModel;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -13,6 +15,8 @@ class DoctorController extends BaseController
     {
         $doctorModel = new DoctorModel();
         $hospitalModel = new HospitalsModel();
+        $userModel = new UserModel();
+
         
         $id = $this->request->getGet('id');
 
@@ -25,6 +29,7 @@ class DoctorController extends BaseController
 
         // Fetch all hospitals
         $hospitals = $hospitalModel->findAll();
+
         
         // Add the hospital name to the doctor if it exists
         if (isset($doctor['hospital_id'])) {
@@ -34,41 +39,79 @@ class DoctorController extends BaseController
             $doctor['hospital_name'] = 'Unknown Hospital';
         }
 
+        if (isset($doctor['user_id'])) {
+            $user = $userModel->where('id', $doctor['user_id'])->first();
+            $doctor['full_name'] = $user ? $user['fullname'] : 'Unknown user';
+            $doctor['email'] = $user ? $user['email'] : 'Unknown email';
+            $doctor['address'] = $user ? $user['address'] : 'Unknown address';
+            $doctor['date_of_birth'] = $user ? $user['date_of_birth'] : 'Unknown date_of_birth';
+            $doctor['phone'] = $user ? $user['phone'] : 'Unknown phone';
+            $doctor['profile'] = $user ? $user['profile'] : 'Unknown image';
+
+
+        } else {
+            $doctor['full_name'] = 'Unknown user';
+            $doctor['email'] = 'Unknown email';
+            $doctor['address'] = 'Unknown address';
+            $doctor['date_of_birth'] = 'Unknown date_of_birth';
+            $doctor['phone'] = 'Unknown phone';
+            $doctor['profile'] = 'Unknown image';
+
+        }
+        
         // Pass doctor and hospitals data to the view
         $data = [
             'doctors' => $doctor,
             'hospitals' => $hospitals,
+
         ];
         
         return view('hospitals/edit_doctors_view', $data);
     }
-    public function index()
-    {
-        $doctorModel = new DoctorModel();
-        $hospitalModel = new HospitalsModel();
+   public function index()
+{
+    $hospitalModel = new HospitalsModel();
+    $doctorModel = new DoctorModel();
+    $userModel = new UserModel();
 
-        // Fetch all doctors
-        $doctors = $doctorModel->findAll();
+    // Fetch all doctors
+    $doctors = $doctorModel->findAll();
 
-        // Log doctors
+    // Fetch all users
+    $users = $userModel->findAll();
 
-        // Append hospital names to the doctors array
-        foreach ($doctors as &$doctor) {
-            if (isset($doctor['hospital_id'])) {
-                $hospital = $hospitalModel->where('id', $doctor['hospital_id'])->first();
-                $doctor['hospital_name'] = $hospital ? $hospital['name'] : 'Unknown Hospital';
-            } else {
-                $doctor['hospital_name'] = 'Unknown Hospital';
-            }
+    // Append hospital names and user data to the doctors array
+    foreach ($doctors as &$doctor) {
+        // Append hospital name
+        if (isset($doctor['hospital_id'])) {
+            $hospital = $hospitalModel->where('id', $doctor['hospital_id'])->first();
+            $doctor['hospital_name'] = $hospital ? $hospital['name'] : 'Unknown Hospital';
+        } else {
+            $doctor['hospital_name'] = 'Unknown Hospital';
         }
 
-        // Prepare data for the view
-        $data = [
-            'doctors' => $doctors
-        ];
+        // Append user data
+        if (isset($doctor['user_id'])) {
+            $user = $userModel->where('id', $doctor['user_id'])->first();
+            $doctor['full_name'] = $user ? $user['fullname'] : 'Unknown user';
+            $doctor['image'] = $user ? $user['profile'] : 'Unknown image';
 
-        return view('hospitals/doctors_view', $data);
+        } else {
+            $doctor['full_name'] = null;
+            $doctor['image'] = null;
+
+        }
     }
+
+    // Prepare data for the view
+    $data = [
+        'doctors' => $doctors
+    ];
+
+    return view('hospitals/doctors_view', $data);
+}
+
+    
     public function add_doctor_fun()
     {
         $model = new HospitalsModel();
@@ -81,38 +124,58 @@ class DoctorController extends BaseController
     
      public function doctor_register_form()
 {
-    $model = new DoctorModel();
+    $doctorModel = new DoctorModel();
+    $userModel=new UserModel;
     
     $doctorName = $this->request->getPost("name");
-    $qualification = $this->request->getPost("qualification");
-    $specialist = $this->request->getPost("specialist");
     $email = $this->request->getPost("email");
+    $password = $this->request->getPost("password");
+    $address = $this->request->getPost("address");
+    $dob = $this->request->getPost("dob");
     $phone = $this->request->getPost("phone");
+    $specialist = $this->request->getPost("specialist");
+    $qualification = $this->request->getPost("qualification");
     $schedule = $this->request->getPost("schedule");
     $about = $this->request->getPost("about");
     $hospital_id = $this->request->getPost("hospital_id");
     $image = $this->request->getFile("image");
+    $specialistOrPractice = $this->request->getPost("specialistOrPractice");
 
 
-   
-        $imageName = $image->getRandomName();
-    
-        // Move the uploaded file to the writable/uploads directory
-        $image->move(ROOTPATH . 'public/uploads', $imageName);
+    if ($image->isValid() && !$image->hasMoved()) {
+        $imageName = time() . '.' . $image->getExtension();
+        $image->move(ROOTPATH . 'public/images', $imageName);
+    }
 
     
     $data = [
+        'role'=> $specialistOrPractice,
+        'hospital_id' => $hospital_id,
+        'fullname' => $doctorName,
+        'email' => $email,
+        'password' => $password,
+        'address' => $address,
+        'date_of_birth' => $dob,
+        'phone' =>  $phone,
+        'profile' =>  $imageName,
+    ];
+    
+
+      // print_r($data);die;
+       $user_id = $userModel->insertUser($data);
+
+
+       $doctorData = [
+        'user_id'=>$user_id,
         'hospital_id' => $hospital_id,
         'qualification' => $qualification,
         'specialist_of' => $specialist,
         'schedule' => $schedule,
-        'about' => $about,
-        'name' => $doctorName,
-        'image' =>  $imageName,
+        'about' => $about
     ];
-    
-    // print_r($data);die;
-    $result = $model->insert($data);
+ 
+    $result = $doctorModel->insertDoctor($doctorData);
+     
     
     if ($result) {
         return 'Data Inserted Successfully';
@@ -127,48 +190,63 @@ class DoctorController extends BaseController
     public function updateDoctor()
     {
         $doctorModel = new DoctorModel();
+       $userModel=new UserModel;
+
 
         // Get the data from the AJAX request
         $id = $this->request->getPost('id');
-        $name = $this->request->getPost('name');
-        $qualification = $this->request->getPost('qualification');
-        $specialist_of = $this->request->getPost('specialist_of');
-        $email = $this->request->getPost('email');
-        $phone = $this->request->getPost('phone');
-        $schedule = $this->request->getPost('schedule');
-        $about = $this->request->getPost('about');
-        $hospital_id = $this->request->getPost('hospital_id');
-        $Newimage = $this->request->getFile('image');
+        $doctorName = $this->request->getPost("name");
+        $email = $this->request->getPost("email");
+        $address = $this->request->getPost("address");
+        $dob = $this->request->getPost("dob");
+        $phone = $this->request->getPost("phone");
+        $specialist = $this->request->getPost("specialist");
+        $qualification = $this->request->getPost("qualification");
+        $schedule = $this->request->getPost("schedule");
+        $about = $this->request->getPost("about");
+        $hospital_id = $this->request->getPost("hospital_id");
+        $image = $this->request->getFile("image");
 
-        $imageName = $Newimage->getRandomName();
-    
-        // Move the uploaded file to the writable/uploads directory
-        $Newimage->move(ROOTPATH . 'public/uploads', $imageName);
-    
-            // Add the image name to the data array
-            $data['image'] = $imageName;
+        if ($image->isValid() && !$image->hasMoved()) {
+            $imageName = time() . '.' . $image->getExtension();
+            $image->move(ROOTPATH . 'public/images', $imageName);
+        }
         
 
 
         // Check if the ID is valid 
-        if (!empty($id)) {
+        if (!empty($id)) 
+        {
             // Update the doctor's information
-            $data = [
-                'name' => $name,
+            $user_arr = [
+                'hospital_id' => $hospital_id,
+                'fullname' => $doctorName,
+                'email' => $email,
+                'address' => $address,
+                'date_of_birth' => $dob,
+                'phone' =>  $phone,
+                'profile' =>  $imageName,
+            ];
+
+
+            $user_id = $userModel->editData($id, $user_arr);
+
+    
+
+            $doctorData = [
                 'hospital_id' => $hospital_id,
                 'qualification' => $qualification,
-                'specialist_of' => $specialist_of,
-                'email' => $email,
-                'phone' => $phone,
+                'specialist_of' => $specialist,
                 'schedule' => $schedule,
-                'about' => $about,
+                'about' => $about
             ];
-            if (isset($imageName)) {
-                $data['image'] = $imageName;
-            }
-            
-            // Add a WHERE clause to the update operation
-            $result = $doctorModel->update($id, $data);
+
+
+          $result = $doctorModel->editData($id,$doctorData);
+
+
+
+         
 
             if ($result) {
                 return $this->response->setJSON(['success' => true, 'message' => 'Doctor information updated successfully.']);
@@ -183,20 +261,26 @@ class DoctorController extends BaseController
     
     public function viewDoctor_fun()
     {
-        $model = new DoctorModel();
+        $doctorModel = new DoctorModel();
+        $userModel = new UserModel();
+    
         $id = $this->request->getGet('id'); // Get the 'id' from the query string
     
-        $data['doctor_data'] = null; // Initialize as null
+        // Fetch doctor data
+        $doctor = $doctorModel->where('user_id', $id)->first();
     
-        if ($id) {
-            $doctor = $model->find($id); // Fetch the doctor by ID
-            if ($doctor) {
-                $data['doctor_data'] = $doctor; // Pass the doctor data directly
-            }
-        }
+        // Fetch user data
+        $user = $userModel->find($id);
+    
+        $data = [
+            'doctor' => $doctor ? $doctor : null,
+            'user' => $user ? $user : null,
+        ];
     
         return view('hospitals/view_doctor_page', $data);
     }
+    
+
 
    
     public function deleteDoctor_fun()
