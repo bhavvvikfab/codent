@@ -39,7 +39,7 @@ View_Hospitals
 
                     <div class="card-body view-supplier-table table-responsive">
                         <!-- Table with stripped rows -->
-                        <table class="table table-borderless supplier-table example">
+                        <table id="myTable" class="table table-borderless supplier-table example">
                             <thead>
                                 <tr>
                                     <th>Sr. No.</th>
@@ -69,7 +69,7 @@ View_Hospitals
         </tr>
     </thead>
 
-                            <tbody>
+                            <tbody>                             
                                 <?php if (!empty($doctors) && is_array($doctors)): ?>
                                     <?php foreach ($doctors as $doctor): ?>
                                         <tr>
@@ -77,14 +77,15 @@ View_Hospitals
                                             <td>    
                                             <?php if (!empty($doctor['image'])): ?>
                                                 <div style="display: flex; justify-content: center;">
-                                                    <img src="<?= base_url('public/uploads/' . $doctor['image']) ?>" alt="Doctor Image" style="width: 40%;">
+                                                    <img src="<?= base_url('public/images/' . $doctor['image']) ?>" alt="Doctor Image" style="width: 40%;">
                                                 </div>
 
                                             <?php else: ?>
                                             <span>No Image</span>
                                             <?php endif; ?>
                                             </td>
-                                            <td><?= esc($doctor['name']) ?></td>
+                                          
+                                            <td><?= esc($doctor['full_name']) ?></td>
                                             <td><?= esc($doctor['qualification']) ?></td>
                                             <td><?= esc($doctor['specialist_of']) ?></td>
                                             <td><?= esc($doctor['hospital_name']) ?></td>
@@ -99,7 +100,7 @@ View_Hospitals
                                                         </a>    
                                                     </div>
                                                     <div class="viewsenq p-1">
-                                                        <a href="<?= base_url('viewDoctor?id=' . $doctor['id']) ?>">
+                                                        <a href="<?= base_url('viewDoctor?id=' . $doctor['user_id']) ?>">
                                                             <button type="button" class="btn btn-secondary btn-sm">
                                                                 <i class="ri-eye-line"></i>
                                                             </button>
@@ -136,7 +137,7 @@ View_Hospitals
 
 <script>
     $(document).ready(function() {
-   var table = $('.example').DataTable({
+        var table = $('.example').DataTable({
     initComplete: function () {
         var tableApi = this.api(); // Get the DataTable API for easier access
 
@@ -171,7 +172,7 @@ View_Hospitals
         $('.dataTables_wrapper').append(entriesInfo);
 
         // Create the custom pagination navigation
-        var paginationNav = $('<nav class="datatable-pagination float-end mt-2"><ul class="datatable-pagination-list"><li class="datatable-pagination-list-item datatable-hidden datatable-disabled"><button data-page="1" class="datatable-pagination-list-item-link" aria-label="Page 1">‹</button></li><li class="datatable-pagination-list-item datatable-active"><button data-page="1" class="datatable-pagination-list-item-link" aria-label="Page 1">1</button></li><li class="datatable-pagination-list-item"><button data-page="2" class="datatable-pagination-list-item-link" aria-label="Page 2">2</button></li><li class="datatable-pagination-list-item"><button data-page="2" class="datatable-pagination-list-item-link" aria-label="Page 2">›</button></li></ul></nav>');
+        var paginationNav = $('<nav class="datatable-pagination float-end mt-2"><ul class="datatable-pagination-list"></ul></nav>');
         $('.dataTables_wrapper').append(paginationNav);
 
         // Update the entries info initially and on pagination change
@@ -184,7 +185,38 @@ View_Hospitals
         function updateEntriesInfo() {
             var pageInfo = tableApi.page.info();
             var entriesMessage = 'Showing ' + (pageInfo.start + 1) + ' to ' + pageInfo.end + ' of ' + pageInfo.recordsTotal + ' entries';
-            entriesInfo.html(entriesMessage);
+            $('.datatable-info').html(entriesMessage);
+
+            // Update pagination buttons based on total pages and current page
+            var totalPages = Math.ceil(pageInfo.recordsTotal / pageInfo.length);
+            var currentPage = pageInfo.page + 1;
+
+            $('.datatable-pagination-list').empty(); // Clear existing buttons
+
+            if (totalPages > 1) {
+                // Add previous button
+                var prevButton = $('<li class="datatable-pagination-list-item"><button data-page="' + (currentPage - 1) + '" class="datatable-pagination-list-item-link" aria-label="Previous Page">‹</button></li>');
+                $('.datatable-pagination-list').append(prevButton);
+            }
+
+            // Add page buttons
+            for (var i = 1; i <= totalPages; i++) {
+                var activeClass = i === currentPage ? 'datatable-active' : '';
+                var pageButton = $('<li class="datatable-pagination-list-item ' + activeClass + '"><button data-page="' + i + '" class="datatable-pagination-list-item-link" aria-label="Page ' + i + '">' + i + '</button></li>');
+                $('.datatable-pagination-list').append(pageButton);
+            }
+
+            if (totalPages > 1) {
+                // Add next button
+                var nextButton = $('<li class="datatable-pagination-list-item"><button data-page="' + (currentPage + 1) + '" class="datatable-pagination-list-item-link" aria-label="Next Page">›</button></li>');
+                $('.datatable-pagination-list').append(nextButton);
+
+                // Bind click event to pagination buttons
+                $('.datatable-pagination-list-item-link').on('click', function () {
+                    var page = $(this).data('page') - 1; // DataTables uses 0-based indexing
+                    tableApi.page(page).draw(false);
+                });
+            }
         }
     },
     "dom": '<"custom-datatable table-borderless"t>', // Use custom class and keep Bootstrap styling
@@ -217,8 +249,8 @@ View_Hospitals
             showToast(response);
                 setTimeout(function() 
                 {
-                    $('#editSubscriptionModal').modal('hide');
-                        location.reload();
+                    // $('#myTable tbody')[0].reset();
+                    location.reload();                        
                     }, 2000);
         },
         error: function(xhr, status, error) {
