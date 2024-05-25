@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\hospital;
+namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\UserModel;
@@ -14,16 +14,12 @@ class UserController extends BaseController
     $userModel = new UserModel();
     $email = session()->get('email');
 
-    // Retrieve user data based on email
     $userData = $userModel->where('email', $email)->first();
 
     if (!$userData) {
-        // User not found, handle the error (e.g., redirect or return an error message)
         return 'User not found';
     }
-
-    // User data found, load the view with the user's data
-    return view('hospital/user_profile', ['user' => $userData]);
+    return view('user_profile.php', ['user' => $userData]);
 }
 
     
@@ -82,11 +78,11 @@ class UserController extends BaseController
         'email' => $email,
     ];
     if ($image && $image->isValid() && !$image->hasMoved()) {
-    $newImageName = $image->getRandomName();
-    $image->move(ROOTPATH . 'public/images', $newImageName);
+    $newName = time() . '.' . $image->getExtension();
+    $image->move(ROOTPATH . 'public/images', $newName);
 
     // Save the new image name to the user data
-    $userData['profile'] = $newImageName;
+     $userData['profile'] = $newName;
 }
 
     $updated = $usermodel->update($userId, $userData);

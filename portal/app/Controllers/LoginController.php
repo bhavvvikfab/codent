@@ -29,54 +29,60 @@ class LoginController extends BaseController
 
             $user = $this->getUserDetailsFromDatabase($email);
 
-            if (!empty($user['role'])) {
+            if ($user['status']  == 'active') {
 
-                if ($user['role'] == 1) {
-                    return redirect()->to('/')->with('error', 'Invalid username or password.');
-                }else{
-                    session()->set([
-                        'user_id' => $user['id'],
-                        'user_role' => $user['role'],
-                         'email' => $user['email'],
-                        'fullname' => $user['fullname'],
-                        'profile' => $user['profile'],
-                        'logged_in' => true,
-                    ]);
-                    switch ($user['role']) {
-                        case '2':
-                            session()->set([
-                                'prefix' => 'hospital'
-                            ]);
-                            return redirect()->to('/hospital/dashboard');
-                        case '3':
-                            session()->set([
-                                'prefix' => 'receptionist'
-                            ]);
-                            return redirect()->to('/receptionist/dashboard');
-                        case '4':
-                            session()->set([
-                                'prefix' => 'specialist'
-                            ]);
-                            return redirect()->to('/specialist/dashboard');
-                        case '5':
-                            session()->set([
-                                'prefix' => 'practices'
-                            ]);
-                            return redirect()->to('/practices/dashboard');
-                        case '6':
-                            session()->set([
-                                'prefix' => 'patient'
-                            ]);
-                            return redirect()->to('/patient/dashboard');
-                        default:
-                            return redirect()->to('/');
+                if (!empty($user['role'])) {
+
+                    if ($user['role'] == 1) {
+                        return redirect()->to('/')->with('error', 'Invalid username or password.');
+                    } else {
+                        session()->set([
+                            'user_id' => $user['id'],
+                            'user_role' => $user['role'],
+                            'email' => $user['email'],
+                            'fullname' => $user['fullname'],
+                            'profile' => $user['profile'],
+                            'logged_in' => true,
+                        ]);
+                        switch ($user['role']) {
+                            case '2':
+                                session()->set([
+                                    'prefix' => 'hospital'
+                                ]);
+                                return redirect()->to('/hospital/dashboard');
+                            case '3':
+                                session()->set([
+                                    'prefix' => 'receptionist'
+                                ]);
+                                return redirect()->to('/receptionist/dashboard');
+                            case '4':
+                                session()->set([
+                                    'prefix' => 'specialist'
+                                ]);
+                                return redirect()->to('/specialist/dashboard');
+                            case '5':
+                                session()->set([
+                                    'prefix' => 'practices'
+                                ]);
+                                return redirect()->to('/practices/dashboard');
+                            case '6':
+                                session()->set([
+                                    'prefix' => 'patient'
+                                ]);
+                                return redirect()->to('/patient/dashboard');
+                            default:
+                                return redirect()->to('/');
+                        }
                     }
+                } else {
+                    return redirect()->to('/')->with('error', 'User details not found.');
                 }
             } else {
-                return redirect()->to('/')->with('error', 'User details not found.');
+                return redirect()->to('/')->with('error', 'Your account is deactivated');
             }
         } else {
             return redirect()->to('/')->with('error', 'Invalid username or password.');
+
         }
     }
 
@@ -106,6 +112,7 @@ class LoginController extends BaseController
                 'email' => $user['email'],
                 'fullname' => $user['fullname'],
                 'profile' => $user['profile'],
+                'status' => $user['status'],
             ];
         } else {
             return null; // User not found
@@ -119,7 +126,7 @@ class LoginController extends BaseController
         return redirect()->to('/');
     }
 
-     public function register()
+    public function register()
     {
         $model = new UserModel;
         $data['hospitals'] = $model->getUsersByRole('2');
@@ -127,14 +134,14 @@ class LoginController extends BaseController
         $packagesModel = new PackagesModel();
         $data['packages'] = $packagesModel->getActivePackages();
 
-        return view('registerpage.php',['data'=> $data]);
+        return view('registerpage.php', ['data' => $data]);
     }
-    
-  function register_data()
+
+    function register_data()
     {
         $usermodel = new UserModel();
         $hospitalmodel = new HospitalModel();
-    
+
         $fullname = $this->request->getPost('fullname');
         $email = $this->request->getPost('email');
         $password = $this->request->getVar('password');
@@ -144,20 +151,20 @@ class LoginController extends BaseController
         $phone = $this->request->getPost('phone');
         $hospital = $this->request->getPost('hospital');
         $role = $this->request->getPost('role');
-    
+
         $emailExists = $usermodel->where('email', $email)->countAllResults() > 0;
-    
+
         if ($emailExists) {
             return $this->response->setJSON(['status' => 2]);
         } else {
             $originalName = $image->getName();
-            $newName = $image->getRandomName();
-            $image->move(WRITEPATH . 'public/uploads', $newName);
-    
+            $newName = time() . '.' . $image->getExtension();
+            $image->move(WRITEPATH . 'public/images', $newName);
+
             $hashpassword = password_hash($password, PASSWORD_DEFAULT);
-    
+
             if ($role == 'hospital' || $role == 'patient') {
-    
+
                 $data = [
                     'fullname' => $fullname,
                     'email' => $email,
@@ -166,31 +173,31 @@ class LoginController extends BaseController
                     'date_of_birth' => $dob,
                     'phone' => $phone,
                     'profile' => $originalName,
-                    
+
                 ];
-    
+
                 if ($role == 'hospital') {
                     $data['role'] = 2;
-                    $data['hospital_id']=0;
+                    $data['hospital_id'] = 0;
                     $user_id = $usermodel->insertUser($data);
-    
+
                     $hospital_data = [
                         'name' => $fullname,
                         'hospital_id' => $user_id
                     ];
-    
+
                     $hospital_in = $hospitalmodel->insertHospital($hospital_data);
-    
+
                     if ($hospital_in) {
-                        return $this->response->setJSON(['status' => 1,'hospital_id'=> $user_id]);
+                        return $this->response->setJSON(['status' => 1, 'hospital_id' => $user_id]);
                     } else {
                         return $this->response->setJSON(['status' => 3]);
                     }
                 } else {
                     $data['role'] = 6;
-                    $data['hospital_id']=$hospital;
+                    $data['hospital_id'] = $hospital;
                     $user_id = $usermodel->insertUser($data);
-    
+
                     return $this->response->setJSON(['status' => 1]);
                 }
             } else {
@@ -200,7 +207,7 @@ class LoginController extends BaseController
     }
 
 
-    
+
 
 
 

@@ -42,6 +42,20 @@
   <?= view('layout/sidebar.php') ?>
   <!-- ======= sdiebar end ======= -->
  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script> 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
+ <script>
+     function showToast(message, position) {
+        Toastify({
+          text: message,
+          duration: 2500,
+          gravity: 'top',
+          position: 'center',
+          className: 'custom-toast'
+        }).showToast();
+      }
+  </script>
 <!-- ======= content ======= -->
   <?= $this->renderSection('content') ?>
 <!-- ======= content end ======= -->

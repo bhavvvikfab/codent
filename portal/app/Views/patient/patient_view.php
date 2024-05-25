@@ -1,6 +1,6 @@
 <?= $this->extend('layout/layout') ?>
 <?= $this->section('title') ?>
-Hospital-Dashboard
+View-Patient
 <?= $this->endSection() ?>
 <?= $this->section('content') ?>
 

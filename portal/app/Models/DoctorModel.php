@@ -4,20 +4,18 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class UserModel extends Model
+class DoctorModel extends Model
 {
-
- 
-    protected $allowedFields = ['role','fullname', 'email', 'password','address','date_of_birth','phone','profile','hospital_id'];
-
-    protected $table            = 'users';
+    protected $table            = 'specialist/practices';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
+    protected $allowedFields    = ['id','user_id','hospital_id','qualification','specialist_of','schedule','about'];
 
-    protected bool $allowEmptyInserts = false;
+
+    protected bool $allowEmptyInserts = true;
     protected bool $updateOnlyChanged = true;
 
     protected array $casts = [];
@@ -46,39 +44,11 @@ class UserModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-    
-    
-     function updatePassword($id, $oldPassword, $newPassword)
-    {
-        if (empty($id) || empty($oldPassword) || empty($newPassword)) {
-            return false;
-        }
-        $user = $this->find($id);
-        if (password_verify($oldPassword, $user['password'])) {
-            $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-            $data = ['password' => $hashedPassword];
 
-            $result = $this->update($id, $data);
-            return true;
-        }
-        return false;
-    }
-    
-     public function insertUser($data)
-    {
-         $this->insert($data);
-         return $this->insertID();
-    }
-    
-   public function getUsersByRole($role)
-    {
-        return $this->where('role', $role)->findAll();
-    }
 
-    public function getUserById($id)
-    {
+
+    public function getDoctorById($id){
         return $this->where('id', $id)->first();
     }
-    
 }
-   
+

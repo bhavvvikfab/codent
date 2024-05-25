@@ -1,6 +1,6 @@
 <?= $this->extend('layout/layout') ?>
 <?= $this->section('title') ?>
-Doctor-Dashboard
+Add-Patient
 <?= $this->endSection() ?>
 <?= $this->section('content') ?>
 
@@ -8,12 +8,12 @@ Doctor-Dashboard
     <div class="pagetitle">
       <div class="row">
       <div class="col-xxl-12 col-lg-12 col-md-12 col-sm-12">
-        <h1>Add New Receptionist</h1>
+        <h1>Add New Patient</h1>
         <nav>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="<?= base_url().''.session('prefix').'/'.'reception'?>">All Receptionist</a></li>
+            <li class="breadcrumb-item"><a href="<?= base_url().''.session('prefix').'/'.'patient'?>">All Patient</a></li>
             <!-- <li class="breadcrumb-item"><a href="enquiry.php"> Enquiry </a></li> -->
-            <li class="breadcrumb-item active">Add New Receptionist</li>
+            <li class="breadcrumb-item active">Add New Patient</li>
           </ol>
         </nav>
       </div>
@@ -32,7 +32,7 @@ Doctor-Dashboard
                   </div>
                    <div class="col-lg-4">
                       <h5 class="card-title text-end addsup">
-                          <a href="<?= base_url().''.session('prefix').'/'.'reception'?>"> Back </a></h5>
+                          <a href="<?= base_url().''.session('prefix').'/'.'patient'?>"> Back </a></h5>
                   </div>
                 </div>
              </div>
