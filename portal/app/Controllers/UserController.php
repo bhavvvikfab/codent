@@ -75,13 +75,29 @@ class UserController extends BaseController
     {
 
 
+
+        $validationRules = [
+            'currentPassword' => 'required',
+            'newpassword' => 'required|min_length[5]',
+            // 'confirm_Password' => 'required|matches[newpassword]'
+        ];
+
+        $validation = Services::validation();
+        $validation->setRules($validationRules);
+
+        if (!$validation->withRequest($this->request)->run()) {
+            return $this->response->setJSON(['status' => 'error', 'errors' => $validation->getErrors()]);
+        }
+
         $user = new UserModel();
-        $id = session('id');
+        // $id = session('id');
+    $userId = $this->request->getPost('ids');
+
         $oldPassword = $this->request->getPost('currentPassword');
 
         $newPassword = $this->request->getPost('newpassword');
 
-        $result = $user->updatePassword($id, $oldPassword, $newPassword);
+        $result = $user->updatePassword($userId, $oldPassword, $newPassword);
 
         if ($result === true) {
             return $this->response->setJSON(['status' => 'success']);
@@ -91,6 +107,8 @@ class UserController extends BaseController
             return $this->response->setJSON(['status' => 'error', 'errors' => ['Failed to update password']]);
         }
     }
+
+
 
 
 
