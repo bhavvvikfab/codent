@@ -31,6 +31,8 @@ $routes->group('hospital', ['filter' => $authFilter], function ($routes) {
     $routes->post('doctor_register', 'doctor\DoctorController::doctor_register');
     $routes->get('doctor_edit/(:num)', 'doctor\DoctorController::doctor_edit_view/$1');
     $routes->post('doctor_edit', 'doctor\DoctorController::doctor_edit');
+    $routes->get('doctor_details/(:num)', 'doctor\DoctorController::doctor_details/$1');
+    $routes->get('doctor_delete/(:num)', 'doctor\DoctorController::doctor_delete/$1');
     
     
     $routes->get('reception', 'receptinist\ReceptionController::index');

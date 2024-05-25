@@ -142,18 +142,10 @@ class DoctorController extends BaseController
     $specialistOrPractice = $this->request->getPost("specialistOrPractice");
 
 
-<<<<<<< HEAD
     if ($image->isValid() && !$image->hasMoved()) {
         $imageName = time() . '.' . $image->getExtension();
         $image->move(ROOTPATH . 'public/images', $imageName);
     }
-=======
-   
-        $imageName = $image->getRandomName();
-    
-        // Move the uploaded file to the writable/uploads directory
-        $image->move(ROOTPATH . 'public/images', $imageName);
->>>>>>> 1f45dc4 (api and portal changes)
 
     
     $data = [

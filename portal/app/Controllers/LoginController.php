@@ -157,7 +157,7 @@ class LoginController extends BaseController
         if ($emailExists) {
             return $this->response->setJSON(['status' => 2]);
         } else {
-            $originalName = $image->getName();
+            
             $newName = time() . '.' . $image->getExtension();
             $image->move(WRITEPATH . 'public/images', $newName);
 
@@ -172,7 +172,7 @@ class LoginController extends BaseController
                     'address' => $address,
                     'date_of_birth' => $dob,
                     'phone' => $phone,
-                    'profile' => $originalName,
+                    'profile' =>  $newName ,
 
                 ];
 

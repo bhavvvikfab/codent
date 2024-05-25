@@ -26,18 +26,18 @@ $userRole = session()->get('user_role');
         <ul id="hospital-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a href="<?= base_url().''.session('prefix').'/'.'reception'?>" class="nav-link collapsed">
-              <i class="bi bi-circle"></i><span>Receptionist</span>
+              <i class="bi bi-circle"></i><span>Receptionists</span>
             </a>
           </li>
           <li>
             <a href="<?= base_url().''.session('prefix').'/'.'doctor'?>" class="nav-link collapsed">
-              <i class="bi bi-circle"></i><span>Doctor</span>
+              <i class="bi bi-circle"></i><span>Doctors</span>
             </a>
           </li>
           <li>
            <a href="<?= base_url().''.session('prefix').'/'.'patient'?>" class="nav-link collapsed">
 
-              <i class="bi bi-circle"></i><span>Patient</span>
+              <i class="bi bi-circle"></i><span>Patients</span>
             </a>
           </li>
         </ul>
@@ -81,7 +81,7 @@ $userRole = session()->get('user_role');
         </ul>
       </li><!-- End appointment Nav -->
 
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#doc-nav" data-bs-toggle="collapse" href="111">
           <i class="bi bi-people"></i><span>Doctor</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
@@ -97,10 +97,10 @@ $userRole = session()->get('user_role');
             </a>
           </li>
         </ul>
-      </li>
+      </li> -->
       <!-- Doctor -->
 
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#Subcri-nav" data-bs-toggle="collapse" href="111">
           <i class="bi bi-people"></i><span>Patient</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
@@ -116,7 +116,7 @@ $userRole = session()->get('user_role');
             </a>
           </li>
         </ul>
-      </li>
+      </li> -->
       <!-- Patient -->
 
        <li class="nav-item">

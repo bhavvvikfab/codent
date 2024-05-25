@@ -43,6 +43,9 @@ Edit-Doctor
                         <!-- General Form Elements -->
                         <form id="doctor_form" enctype="multipart/form-data"
                             action="<?= base_url() . '' . session('prefix') . '/' . 'doctor_edit' ?>" method="post">
+
+                            <input type="hidden" name="dr_id" value="<?= $doctor['doctor']['id'] ?>" >
+                            <input type="hidden" name="user_id" value="<?= $doctor['user']['id'] ?>" >
                             <div class="row">
                                 <div class="col-lg-6 mb-3">
                                     <label for="name" class="form-label"><i class="bi bi-person-circle"
@@ -71,10 +74,6 @@ Edit-Doctor
                                     <label for="image" class="form-label"><i class="bi bi-image-fill"
                                             style="font-size: 18px;"></i>Image</label>
                                     <input type="file" class="form-control" id="image" name="image">
-                                    <?php if (session('errors.image')): ?>
-                                        <small class="text-danger"><?= esc(session('errors.image')) ?><i
-                                                class="bi bi-exclamation-circle"></i></small>
-                                    <?php endif; ?>
                                 </div>
 
                                 <div class="col-lg-6 mb-3">
@@ -167,9 +166,9 @@ Edit-Doctor
                                         Your Preference?</label>
                                     <select class="form-select" id="specialistOrPractice" name="specialistOrPractice">
                                         <!-- <option>Select Preference</option> -->
-                                        <option value="3" <?php if ($doctor['doctor']['specialist_of'] == 3): ?> selected
+                                        <option value="3" <?php if ($doctor['user']['role'] == 3): ?> selected
                                             <?php endif; ?>>Specialist</option>
-                                        <option value="4" <?php if ($doctor['doctor']['specialist_of'] == 4): ?> selected
+                                        <option value="4" <?php if ($doctor['user']['role'] == 4): ?> selected
                                             <?php endif; ?>>Practice</option>
                                     </select>
                                     <?php if (session('errors.specialistOrPractice')): ?>
@@ -181,7 +180,7 @@ Edit-Doctor
                             </div>
                             <div class="row mb-3">
                                 <div class="col-lg-12">
-                                    <button class="btn addsup-btn" type="submit">Add Doctor</button>
+                                    <button class="btn addsup-btn" type="submit">Save Changes</button>
                                 </div>
                             </div>
                         </form>

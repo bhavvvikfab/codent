@@ -137,13 +137,15 @@ class DoctorController extends BaseController
 
     public function doctor_edit()
     {
-        $doctorModel = new DoctorModel();
-        $userModel = new UserModel();
-    
         $validationRules = [
             'name' => 'required|min_length[3]|max_length[255]',
-            'email' => 'required|valid_email|is_unique[users.email]',
-            'password' => 'required|min_length[5]|max_length[255]',
+            'email' => [
+                'label' => 'Email',
+                'rules' => 'required|valid_email|is_unique[users.email,id,{user_id}]',
+                'errors' => [
+                    'is_unique' => 'This email address is already in use.'
+                ]
+            ],
             'address' => 'required|min_length[4]|max_length[255]',
             'dob' => 'required|valid_date',
             'phone' => 'required|min_length[10]|max_length[15]',
@@ -152,6 +154,8 @@ class DoctorController extends BaseController
             'schedule' => 'required|min_length[3]|max_length[255]',
             'about' => 'required|min_length[3]|max_length[255]',
             'specialistOrPractice' => 'required|integer',
+            'user_id' => 'required|integer',
+            'dr_id' => 'required|integer',
         ];
     
         if (!$this->validate($validationRules)) {
@@ -159,9 +163,11 @@ class DoctorController extends BaseController
             return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
     
+        $dr_id = $this->request->getPost("dr_id");
+        $user_id = $this->request->getPost("user_id");
+    
         $doctorName = $this->request->getPost("name");
         $email = $this->request->getPost("email");
-        $password = $this->request->getPost("password");
         $address = $this->request->getPost("address");
         $dob = $this->request->getPost("dob");
         $phone = $this->request->getPost("phone");
@@ -169,47 +175,86 @@ class DoctorController extends BaseController
         $qualification = $this->request->getPost("qualification");
         $schedule = $this->request->getPost("schedule");
         $about = $this->request->getPost("about");
-        $hospital_id = session('user_id');
         $image = $this->request->getFile("image");
         $specialistOrPractice = $this->request->getPost("specialistOrPractice");
     
-        if ($image->isValid() && !$image->hasMoved()) {
-            $imageName = time() . '.' . $image->getExtension();
-            $image->move(ROOTPATH . 'public/images', $imageName);
-        }
+        // Image upload handling
+       
     
-        $data = [
-            'role' => $specialistOrPractice,
-            'hospital_id' => $hospital_id,
-            'fullname' => $doctorName,
-            'email' => $email,
-            'password' => password_hash($password, PASSWORD_DEFAULT),
-            'address' => $address,
-            'date_of_birth' => $dob,
-            'phone' => $phone,
-            'profile' => $imageName ?? null,
-        ];
+        $doctorModel = new DoctorModel();
+        $userModel = new UserModel();
     
-        $user_id = $userModel->insertUser($data);
-    
+        // Doctor data array
         $doctorData = [
-            'user_id' => $user_id,
-            'hospital_id' => $hospital_id,
             'qualification' => $qualification,
             'specialist_of' => $specialist,
             'schedule' => $schedule,
-            'about' => $about
+            'about' => $about,
         ];
     
-        $result = $doctorModel->insert($doctorData);
+        $doctorUpdateResult = $doctorModel->update($dr_id, $doctorData);
     
-        if ($result) {
-            return redirect()->to( base_url().''.session('prefix').'/'.'doctor')->with('added_dr', 'Doctor Register Successfully');
+        $userData = [
+            'role' => $specialistOrPractice,
+            'fullname' => $doctorName,
+            'email' => $email,
+            'address' => $address,
+            'date_of_birth' => $dob,
+            'phone' => $phone,
+            
+        ];
+       
+        if ($image && $image->isValid() && !$image->hasMoved()) {
+            $imageName = time() . '.' . $image->getExtension();
+            $image->move(ROOTPATH . 'public/images', $imageName);
+            $userData['profile'] = $imageName;
+        }
+        
+    
+        $userUpdateResult = $userModel->update($user_id, $userData);
+    
+        if ($doctorUpdateResult && $userUpdateResult) {
+            return redirect()->to(base_url() . session('prefix') . '/doctor')->with('edit_dr', 'Doctor Info Updated Successfully');
         } else {
-            return redirect()->back()->with('error', 'Something is wrong....Try again next time');
+            return redirect()->back()->with('error', 'Something went wrong. Please try again.');
         }
     }
 
+    public function doctor_details($id){
+
+        if(!$id==null){
+
+            $doc=new DoctorModel;
+            $doctorData=$doc->getDoctorById($id);
+            $user_id=$doctorData['user_id'];
+            $user=new UserModel;
+            $doctor=$user->getUserById($user_id);
+            $data = [
+                'doctor' => $doctorData,
+                'user' => $doctor
+            ];
+            return view('doctor/single_doctor_view.php',['doctor'=>$data]);
+        }else{
+            return view('doctor/single_doctor_view.php');
+        }
+
+    }
+
+    public function doctor_delete($id)
+    {
+        $userModel = new UserModel();
+        $doctorModel=new DoctorModel(); 
+        $user = $doctorModel->find($id);
+        $userfind= $user['user_id'];
+       
+        if ($doctorModel->delete($id) && $userModel->delete($userfind)) {
+            
+            return redirect()->to(base_url() . session('prefix') . '/doctor')->with('delete_dr', 'Doctor deleted successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Doctor not found.');
+        }
+    }
+    
 
 
 

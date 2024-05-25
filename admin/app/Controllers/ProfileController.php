@@ -69,9 +69,12 @@ class ProfileController extends BaseController
         // Check if the profile image is uploaded and valid
         if ($profileImage && $profileImage->isValid() && !$profileImage->hasMoved()) {
             $extension = $profileImage->getClientExtension();
-            $newName = time() . '_' . $id . '.' . $extension;
-            $profileImage->move(FCPATH . 'public/images', $newName);
+            $newName = time() . '.' .$extension;
+            $profileImage->move(ROOTPATH  . 'public/images', $newName);
             $data['profile'] = $newName;
+            session()->set([
+                'profile' => $newName,
+            ]);
         }
 
         // Update user's profile
@@ -81,7 +84,6 @@ class ProfileController extends BaseController
              session()->set([
                         'email' => $email,
                         'fullname' => $fullName,
-                        'profile' => $fullName,
                         'dob' => $dob,
                     ]);
             return $this->response->setJSON(['status' => 'success', 'message' => 'Profile updated successfully!']);
