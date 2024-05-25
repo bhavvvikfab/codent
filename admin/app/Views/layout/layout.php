@@ -19,14 +19,14 @@
     href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
     rel="stylesheet">
 
-  <!-- Vendor CSS Files -->
-  <link href="<?=base_url()?>public/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="<?=base_url()?>public/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="<?=base_url()?>public/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="<?=base_url()?>public/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="<?=base_url()?>public/vendor/quill/quill.bubble.css" rel="stylesheet">
-  <link href="<?=base_url()?>public/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="<?=base_url()?>public/vendor/simple-datatables/style.css" rel="stylesheet">
+  <!-- vendor1 CSS Files -->
+  <link href="<?=base_url()?>public/vendor1/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="<?=base_url()?>public/vendor1/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="<?=base_url()?>public/vendor1/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="<?=base_url()?>public/vendor1/quill/quill.snow.css" rel="stylesheet">
+  <link href="<?=base_url()?>public/vendor1/quill/quill.bubble.css" rel="stylesheet">
+  <link href="<?=base_url()?>public/vendor1/remixicon/remixicon.css" rel="stylesheet">
+  <link href="<?=base_url()?>public/vendor1/simple-datatables/style.css" rel="stylesheet">
 
   <!-- Template Main CSS File -->
   <link href="<?=base_url()?>public/css/main.css" rel="stylesheet">
@@ -80,15 +80,15 @@
   <!-- ======= footer end ======= -->
 
 
-  <!-- Vendor JS Files -->
-  <script src="<?=base_url()?>public/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="<?=base_url()?>public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="<?=base_url()?>public/vendor/chart.js/chart.umd.js"></script>
-  <script src="<?=base_url()?>public/vendor/echarts/echarts.min.js"></script>
-  <script src="<?=base_url()?>public/vendor/quill/quill.min.js"></script>
-  <script src="<?=base_url()?>public/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="<?=base_url()?>public/vendor/tinymce/tinymce.min.js"></script>
-  <script src="<?=base_url()?>public/vendor/php-email-form/validate.js"></script>
+  <!-- vendor1 JS Files -->
+  <script src="<?=base_url()?>public/vendor1/apexcharts/apexcharts.min.js"></script>
+  <script src="<?=base_url()?>public/vendor1/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="<?=base_url()?>public/vendor1/chart.js/chart.umd.js"></script>
+  <script src="<?=base_url()?>public/vendor1/echarts/echarts.min.js"></script>
+  <script src="<?=base_url()?>public/vendor1/quill/quill.min.js"></script>
+  <script src="<?=base_url()?>public/vendor1/simple-datatables/simple-datatables.js"></script>
+  <script src="<?=base_url()?>public/vendor1/tinymce/tinymce.min.js"></script>
+  <script src="<?=base_url()?>public/vendor1/php-email-form/validate.js"></script>
 
   <!-- Template Main JS File -->
   <script src="<?=base_url()?>public/js/main.js"></script>
