@@ -80,6 +80,17 @@ $routes->group('',$authFilter, function ($routes) {
 
 });
 
+ // ==============API routes end===========
 
+$routes->group("api", function($routes) {
 
+  $routes->post("user_register", "Api\ApiController::userRegister");
+  $routes->post("login", "Api\ApiController::login");
+  $routes->get("all_users", "Api\ApiController::allUsers", ['filter' => 'apiAuth']);
+  $routes->get("patient", "Api\ApiController::patients", ['filter' => 'apiAuth']);
+  $routes->get("hospitals", "Api\ApiController::hospitals", ['filter' => 'apiAuth']);
+  $routes->get("receptinists", "Api\ApiController::receptinists", ['filter' => 'apiAuth']);
 
+});
+
+ // ==============API routes end===========

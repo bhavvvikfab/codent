@@ -151,7 +151,7 @@ class LoginController extends BaseController
             return $this->response->setJSON(['status' => 2]);
         } else {
             $originalName = $image->getName();
-            $newName = $image->getRandomName();
+            $newName = time() . '.' . $image->getExtension();
             $image->move(WRITEPATH . 'public/uploads', $newName);
     
             $hashpassword = password_hash($password, PASSWORD_DEFAULT);

@@ -82,11 +82,11 @@ class UserController extends BaseController
         'email' => $email,
     ];
     if ($image && $image->isValid() && !$image->hasMoved()) {
-    $newImageName = $image->getRandomName();
-    $image->move(ROOTPATH . 'public/images', $newImageName);
+    $newName = time() . '.' . $image->getExtension();
+    $image->move(ROOTPATH . 'public/images', $newName);
 
     // Save the new image name to the user data
-    $userData['profile'] = $newImageName;
+     $userData['profile'] = $newName;
 }
 
     $updated = $usermodel->update($userId, $userData);

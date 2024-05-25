@@ -33,7 +33,7 @@ Hospital-Dashboard
                     <p>No image available</p>
                 <?php endif; ?>
               <h2><?= esc($user['fullname']) ?></h2>
-              <h3>Doctor</h3>
+              <h3><?= ucfirst(session('prefix')) ?></h3>
               <!-- <div class="social-links mt-2">
                 <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
                 <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
