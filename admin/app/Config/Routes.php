@@ -82,15 +82,18 @@ $routes->group('',$authFilter, function ($routes) {
 
  // ==============API routes end===========
 
-$routes->group("api", function($routes) {
+ $routes->group("api", ['namespace' => 'App\Controllers\Api'], function($routes) {
 
-  $routes->post("user_register", "Api\ApiController::userRegister");
-  $routes->post("login", "Api\ApiController::login");
-  $routes->get("all_users", "Api\ApiController::allUsers", ['filter' => 'apiAuth']);
-  $routes->get("patient", "Api\ApiController::patients", ['filter' => 'apiAuth']);
-  $routes->get("hospitals", "Api\ApiController::hospitals", ['filter' => 'apiAuth']);
-  $routes->get("receptinists", "Api\ApiController::receptinists", ['filter' => 'apiAuth']);
+  $routes->post("user_register", "ApiController::userRegister");
+  $routes->post("login", "ApiController::login");
+  $routes->get("all_users", "ApiController::allUsers", ['filter' => 'apiAuth']);
+  $routes->get("patient", "ApiController::patients", ['filter' => 'apiAuth']);
+  $routes->get("hospitals", "ApiController::hospitals", ['filter' => 'apiAuth']);
+  $routes->get("receptinists", "ApiController::receptinists", ['filter' => 'apiAuth']);
+  $routes->post("change_password", "ApiController::change_password", ['filter' => 'apiAuth']);
+  $routes->post("edit_profile", "ApiController::edit_profile", ['filter' => 'apiAuth']);
 
 });
+
 
  // ==============API routes end===========

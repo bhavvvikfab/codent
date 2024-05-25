@@ -2,6 +2,7 @@
  <header id="header" class="header fixed-top d-flex align-items-center">
     <div class="d-flex align-items-center justify-content-between">
       <a href="index.php" class="logo d-flex align-items-center">
+      <img src="<?= base_url()?>public/img/logo.png" height="30" width="30">
         <img src="assets/img/logo.png" alt="">
         <span class="d-none d-lg-block">CoDent</span>
       </a>
@@ -175,7 +176,7 @@
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
               <h6><?= session('fullname') ? session('fullname') : 'User Name' ?></h6>
-              <span>Admin</span>
+              <span><?= ucfirst(session('prefix'))?></span>
             </li>
             <li>
               <hr class="dropdown-divider">

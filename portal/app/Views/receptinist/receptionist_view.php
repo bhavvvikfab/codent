@@ -1,6 +1,6 @@
 <?= $this->extend('layout/layout') ?>
 <?= $this->section('title') ?>
-Doctor-Dashboard
+All-Receptionist
 <?= $this->endSection() ?>
 <?= $this->section('content') ?>
 

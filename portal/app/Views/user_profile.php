@@ -1,6 +1,6 @@
 <?= $this->extend('layout/layout') ?>
 <?= $this->section('title') ?>
-Hospital-Dashboard
+User-Profile
 <?= $this->endSection() ?>
 <?= $this->section('content') ?>
 
@@ -28,18 +28,12 @@ Hospital-Dashboard
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
                <?php if ($user['profile']): ?>
-                <img src="<?= base_url() ?>images/<?= isset($user['profile']) && !empty($user['profile']) ? $user['profile'] : 'user-profile.jpg' ?>"
+               <img src="<?= base_url()?>public/images/<?= isset($user['profile']) && !empty($user['profile']) ? $user['profile'] : 'user-profile.jpg' ?>" height="50" width="50">
                 <?php else: ?>
                     <p>No image available</p>
                 <?php endif; ?>
               <h2><?= esc($user['fullname']) ?></h2>
-               <?php  $userRole = session()->get('user_role'); ?>
-               <?php
-               if ($userRole == 2) 
-               {
-               ?>
-              <h3>Doctor</h3>
-              <?php } ?>
+              <h3><?= ucfirst(session('prefix')) ?></h3>
               <!-- <div class="social-links mt-2">
                 <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
                 <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
@@ -121,7 +115,7 @@ Hospital-Dashboard
                       <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
                       <div class="col-md-8 col-lg-9">
                       <?php if ($user['profile']): ?>
-                           <img src="<?= base_url() ?>public/images/<?= isset($user['profile']) && !empty($user['profile']) ? $user['profile'] : 'user-profile.jpg' ?>"
+                           <img src="<?= base_url()?>public/images/<?= isset($user['profile']) && !empty($user['profile']) ? $user['profile'] : 'user-profile.jpg' ?>" height="50" width="50">
                       <?php else: ?>
                             <p>No image available</p>
                       <?php endif; ?>
@@ -194,7 +188,9 @@ Hospital-Dashboard
                 
 
                 <div class="tab-pane fade pt-3" id="profile-change-password">
-                      <?php if(session()->getFlashdata('success')): ?>
+                  <!-- Change Password Form -->
+                  <form id="change_password_form" > 
+                  <?php if(session()->getFlashdata('success')): ?>
                   <p style="color: green;"><?= session()->getFlashdata('success') ?></p>
                   <?php endif; ?>
 
@@ -207,14 +203,11 @@ Hospital-Dashboard
                   <?= $validation->listErrors() ?>
                   </div>
                   <?php endif; ?>
-                  <!-- Change Password Form -->
-                  <form id="change_password_form" > 
-                
 
                     <div class="row mb-3">
                       <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
                       <div class="col-md-8 col-lg-9">
-                        <!--<input name="id" type="hidden" class="form-control" id="id" value="<?= esc($user['id']) ?>">-->
+                        <input name="id" type="hidden" class="form-control" id="id" value="<?= esc($user['id']) ?>">
                         <input name="currentPassword" type="password" class="form-control" id="currentPassword">
                       </div>
                     </div>
@@ -222,14 +215,14 @@ Hospital-Dashboard
                     <div class="row mb-3">
                       <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="newpassword" type="password" class="form-control" id="newpassword">
+                        <input name="newpassword" type="password" class="form-control" id="newPassword">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="confirm_Password" type="password" class="form-control" id="confirm_Password">
+                        <input name="renewpassword" type="password" class="form-control" id="renewPassword">
                       </div>
                     </div>
 
