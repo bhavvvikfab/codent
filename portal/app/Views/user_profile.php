@@ -181,54 +181,56 @@ User-Profile
                       <input name="date_of_birth" type="date" class="form-control" id="date_of_birth"
                         value="<?= esc($user['date_of_birth']) ?>">
                     </div>
-                  </div>
 
 
+                    <div class="row mb-3">
+                      <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Contact Number</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="phone" type="text" class="form-control" id="Phone" value="<?= esc($user['phone']) ?>">
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="email" type="email" class="form-control" id="Email" value="<?= esc($user['email']) ?>">
+                      </div>
+                    </div>
+
+                   
+
+                    <div class="text-center">
+                      <button type="submit" class="user-btn btn">Save Changes</button>
+                    </div>
+                  </form><!-- End Profile Edit Form -->
+
+                  <div id="profile_update_message"></div>
+
+                </div>
+
+              
+                <div class="tab-pane fade pt-3" id="profile-change-password">
+
+                  <!-- Change Password Form -->
+
+                  <form id="change_password_form" >  
+                    
                   <div class="row mb-3">
-                    <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Contact Number</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="phone" type="text" class="form-control" id="Phone"
-                        value="<?= esc($user['phone']) ?>">
+                      <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label"></label>
+                      <div class="col-md-8 col-lg-9">
+                        <!-- <input name="currentPassword" type="password" class="form-control" id="currentPassword"> -->
+                        <div id="password_alert"></div>
+                      </div>
                     </div>
-                  </div>
-
-                  <div class="row mb-3">
-                    <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="email" type="email" class="form-control" id="Email"
-                        value="<?= esc($user['email']) ?>">
+                
+                    <div class="row mb-3">
+                      <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
+                      <div class="col-md-8 col-lg-9">
+                      <input name="ids" type="hidden" class="form-control" id="ids" value="<?= esc($user['id']) ?>">
+                        <input name="currentPassword" type="password" class="form-control" id="currentPassword">
+                      </div>
                     </div>
-                  </div>
-
-
-
-                  <div class="text-center">
-                    <button type="submit" class="user-btn btn">Save Changes</button>
-                  </div>
-                </form><!-- End Profile Edit Form -->
-
-                <div id="profile_update_message"></div>
-
-              </div>
-
-
-
-              <div class="tab-pane fade pt-3" id="profile-change-password">
-                <!-- Change Password Form -->
-                <form id="change_password_form">
-                  <?php if (session()->getFlashdata('success')): ?>
-                    <p style="color: green;"><?= session()->getFlashdata('success') ?></p>
-                  <?php endif; ?>
-
-                  <?php if (session()->getFlashdata('error')): ?>
-                    <p style="color: red;"><?= session()->getFlashdata('error') ?></p>
-                  <?php endif; ?>
-
-                  <?php if (isset($validation)): ?>
-                    <div style="color: red;">
-                      <?= $validation->listErrors() ?>
-                    </div>
-                  <?php endif; ?>
+                 
 
                   <div class="row mb-3">
                     <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
@@ -265,11 +267,120 @@ User-Profile
         </div>
 
       </div>
-    </div>
-  </section>
+    </section>
+    
+    </main><!-- End #main -->
 
-</main><!-- End #main -->
-<?= $this->endSection() ?>
-<script>
+    <script>
+      $(document).ready(function() 
+{
+    $("#profile_upadate").submit(function(e) {
+        e.preventDefault(); 
+    console.log("hh");
+        
+        var formdata = new FormData(this); 
+        
+        $.ajax({
+            url: "<?= base_url() . '' . session('prefix') . '/' . 'profile_update' ?>",
+            method: 'POST',
+            data: formdata,
+            contentType: false,
+            processData: false,
+            success: function(response) 
+            {
+                console.log(response);
+                // var successAlert = '<div class="alert alert-success" role="alert">' + response.message + '</div>';
+                if (response.message) 
+                  {
+              showToast(response.message);
+
+                  
+                } else 
+                {
+                  
+                console.log(response);
+                  
+                }
+
+              //  $("#profile_update_message").html(successAlert);
+               setTimeout(function() {
+                location.reload(); 
+            }, 3000);
+            },
+            error: function(xhr, status, error) 
+            {
+                console.log(xhr.responseText);
+            }
+        });
+    });
+
+
+    $('#change_password_form').submit(function (e) {
+        e.preventDefault();
+        console.log("dddd");
+        let formData = $(this).serialize();
+        console.log(formData);
+
+        $.ajax({
+          url: "<?= base_url() . '' . session('prefix') . '/' . 'update_password' ?>",
+          method: 'post',
+          data: formData,
+          success: function (data) {
+            console.log(data);
+            if (data.status == "success") {
+              showToast('Password Chanaged successfully.');
+              $('#password_alert').empty();
+              $("#change_password_form")[0].reset();
+            } 
+            else 
+            {
+              // Display errors
+              $('#password_alert').empty();
+              let errors = data.errors;
+
+              $('#password_alert').empty();
+              Object.keys(errors).forEach(field => {
+                let errorMessage = errors[field];
+                $('#password_alert').append(`<li class="text-danger"><small>${errorMessage}</small></li>`);
+              $("#change_password_form")[0].reset();
+
+              });
+            }
+          }
+        });
+      });
+
   
-</script>
+// $('#change_password_form').submit(function(e) {
+//     e.preventDefault(); // Prevent default form submission
+
+//     console.log('gggg');
+
+//     var formdata = new FormData(this);
+
+    
+
+//     $.ajax({
+//         url: 'update_password',
+//         method: 'POST',
+//         data: formdata,
+//         processData: false, // Important for FormData
+//         contentType: false, // Important for FormData
+//         success: function(response) {
+//             console.log(response);
+//             // Handle success response here
+//         },
+//         error: function(xhr, status, error) {
+//             console.error(xhr.responseText);
+//             $('#change_password_message').html('<p style="color: red;">Failed to update password.</p>');
+//         }
+//     });
+// });
+
+
+
+});
+    </script>
+
+    
+    <?= $this->endSection() ?>

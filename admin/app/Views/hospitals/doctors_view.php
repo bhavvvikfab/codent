@@ -43,38 +43,38 @@ View_Hospitals
                             <thead>
                                 <tr>
                                     <th>Sr. No.</th>
-                                    <th>Profile Imge</th>
+                                    <!-- <th>Profile Imge</th> -->
 
                                     <th>Name</th>
                                     <th>Qualification</th>
                                     <th>Specialist</th>
                                     <th>Hospital</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>                               
-                            </thead>
-                            <thead> <!-- Use tthead for the second row -->
-                              <tr class="bg-white"> <!-- Apply background color style here -->
-                              <th class="bg-white"></th>
-                               <th class="bg-white"></th>
+                        </thead>
+                        <thead> <!-- Use tthead for the second row -->
+                        <tr class="bg-white"> <!-- Apply background color style here -->
                             <th class="bg-white"></th>
-                           <th class="bg-white"></th>
-                           <th class="bg-white"></th>
+                            <th class="bg-white"></th>
+                            <th class="bg-white"></th>
+                            <th class="bg-white"></th>
 
                           <th class="bg-white">
                           <select id="hospital-filter" class="form-control custom-select">
-                         <option value="">Select Hospital</option>
-                </select>
-            </th>
-            <th class="bg-white"></th>
-        </tr>
-    </thead>
+                          <option value="">Select Hospital</option>
+                          </select>
+                          </th>
+                          <th class="bg-white"></th>
+                        </tr>
+                    </thead>
 
                             <tbody>                             
                                 <?php if (!empty($doctors) && is_array($doctors)): ?>
                                     <?php foreach ($doctors as $doctor): ?>
                                         <tr>
                                             <td><?= esc($doctor['id']) ?></td>
-                                            <td>    
+                                            <!-- <td>    
                                             <?php if (!empty($doctor['image'])): ?>
                                                 <div style="display: flex; justify-content: center;">
                                                     <img src="<?= base_url('public/images/' . $doctor['image']) ?>" alt="Doctor Image" style="width: 40%;">
@@ -83,12 +83,19 @@ View_Hospitals
                                             <?php else: ?>
                                             <span>No Image</span>
                                             <?php endif; ?>
-                                            </td>
+                                            </td> -->
                                           
                                             <td><?= esc($doctor['full_name']) ?></td>
                                             <td><?= esc($doctor['qualification']) ?></td>
                                             <td><?= esc($doctor['specialist_of']) ?></td>
                                             <td><?= esc($doctor['hospital_name']) ?></td>
+                                            <td>
+                                                <button
+                                                    class="statusToggleBtn btn btn-sm <?php echo ($doctor['status'] == 'active') ? 'btn-success' : 'btn-danger'; ?>" data-id="<?=$doctor['user_id']?>" >
+                                                    <?php echo ($doctor['status'] == 'active') ? 'Active' : 'Inactive'; ?>
+                                                </button>
+                                            </td>
+
                                             
                                             <td>
                                                 <div class="d-flex justify-content-between align-items-center">
@@ -156,7 +163,7 @@ View_Hospitals
         });
 
         // Hospital filter functionality
-        var column = tableApi.column(5); // Target the 'Hospital' column (index 5)
+        var column = tableApi.column(4); // Target the 'Hospital' column (index 5)
         var select = $('#hospital-filter').on('change', function () {
             var val = $.fn.dataTable.util.escapeRegex($(this).val());
             column.search(val ? '^' + val + '$' : '', true, false).draw();
@@ -260,6 +267,67 @@ View_Hospitals
     });
 }
 });
+
+$('.statusToggleBtn').on('click', function () {
+            var $this = $(this);
+            var id = $this.data('id');
+            console.log(id);
+            
+            if ($this.hasClass('btn-success')) {
+                $this.removeClass('btn-success').addClass('btn-danger');
+                $this.text('Inactive');
+                $.ajax({
+                    url: '<?= base_url('hospital_status')?>',
+                    method: 'get',
+                    data: {id: id},
+                    success: function (data) {
+                        showToast('Hospital Status Changed.');
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            } else {
+                $this.removeClass('btn-danger').addClass('btn-success');
+                $this.text('Active');
+                $.ajax({
+                    url: '<?= base_url('hospital_status')?>',
+                    method: 'get',
+                    data: {id: id},
+                    success: function (data) {
+                        showToast('Hospital Status Changed.');
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            }
+        });
+
+        $('.btn_delete_hospital').on('click', function (e) {
+            e.preventDefault();
+            let id = $(this).data('id');
+            // console.log(id);
+            $.ajax({
+                url: '<?= base_url('hospital_delete')?>',
+                method: 'get',
+                data: {id: id},
+                success: function (data) {
+                    // console.log(data);
+                    if(data.success==1){
+                    $('.hospital_table_body').load('<?= base_url('hospitals')?> .hospital_table_body')
+                    showToast('Hospital Deleted.');
+                    }else if(data.success==2){
+                       showToast('Hospital not delete..!!.');  
+                    }else{
+                        showToast('Hospital not found..!!.');  
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        });
 
     });
 </script>

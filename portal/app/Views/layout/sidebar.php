@@ -1,6 +1,8 @@
  <?php 
 $userId = session()->get('user_id');
 $userRole = session()->get('user_role');
+$image = session()->get('profile');
+
 ?>
 
   

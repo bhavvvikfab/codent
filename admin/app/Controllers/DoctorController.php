@@ -47,6 +47,8 @@ class DoctorController extends BaseController
             $doctor['date_of_birth'] = $user ? $user['date_of_birth'] : 'Unknown date_of_birth';
             $doctor['phone'] = $user ? $user['phone'] : 'Unknown phone';
             $doctor['profile'] = $user ? $user['profile'] : 'Unknown image';
+            $doctor['status'] = $user ? $user['status'] : 'Unknown status';
+
 
 
         } else {
@@ -56,6 +58,8 @@ class DoctorController extends BaseController
             $doctor['date_of_birth'] = 'Unknown date_of_birth';
             $doctor['phone'] = 'Unknown phone';
             $doctor['profile'] = 'Unknown image';
+            $doctor['status'] = 'Unknown image';
+
 
         }
         
