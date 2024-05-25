@@ -169,7 +169,7 @@
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="<?= base_url()?>public/images/<?= isset($user['profile']) && !empty($user['profile']) ? $user['profile'] : 'user-profile.jpg' ?>" height="30" width="30">
+          <img src="<?= base_url() ?>public/images/<?= session('profile') && !empty(session('profile')) ? session('profile') : 'user-profile.jpg' ?>" alt="Profile" class="rounded-circle" width="50" height="50">
             <span class="d-none d-md-block dropdown-toggle ps-2"><?= session('fullname') ? session('fullname') : 'User Name' ?></span>
 
           </a><!-- End Profile Iamge Icon -->

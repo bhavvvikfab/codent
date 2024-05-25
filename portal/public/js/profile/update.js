@@ -17,11 +17,14 @@ $(document).ready(function()
             success: function(response) 
             {
                 console.log(response);
-                var successAlert = '<div class="alert alert-success" role="alert">' + response.message + '</div>';
-               $("#profile_update_message").html(successAlert);
-               setTimeout(function() {
-                location.reload(); 
-            }, 3000);
+                if (data.status == "success") {
+                
+                    $('#profile_section').load('<?= base_url(session("prefix") . "/profile") ?> #profile_section');
+
+               //   window.location.href = '';
+                 showToast('Profile updated successfully.');
+                }
+            
             },
             error: function(xhr, status, error) 
             {

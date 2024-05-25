@@ -77,7 +77,7 @@ All-Doctors
                       <td>
                         <div class="d-flex justify-content-between align-items-center">
                           <div class="editen p-1">
-                            <a href="editdoc.php?id=<?= esc($doctor['user']['id']) ?>">
+                            <a href="<?= base_url() . session('prefix') . '/doctor_details/' . esc($doctor['doctor']['id']) ?>">
                               <button type="button" class="btn btn-secondary  btn-sm"><i class="bi bi-eye"></i></button>
                             </a>
                           </div>
@@ -88,8 +88,9 @@ All-Doctors
                           </div>
 
                           <div class="deleten p-1">
-                            <button type="button" class="btn  btn-sm"
-                              onclick="deleteDoctor(<?= esc($doctor['user']['id']) ?>)"><i class="bi bi-trash"></i></button>
+                          <a href="<?= base_url() . session('prefix') . '/doctor_delete/' . esc($doctor['doctor']['id']) ?>">
+                              <button type="button" class="btn btn-sm"><i class="bi bi-trash"></i></button>
+                            </a>
                           </div>
                         </div>
                       </td>
@@ -112,6 +113,16 @@ All-Doctors
   <?php if (session()->has('added_dr')): ?>
     <script>
       showToast('Doctor Registered successfully.');  
+    </script>
+  <?php endif; ?>
+  <?php if (session()->has('edit_dr')): ?>
+    <script>
+      showToast('Doctor Info Updated successfully.');  
+    </script>
+  <?php endif; ?>
+  <?php if (session()->has('delete_dr')): ?>
+    <script>
+      showToast('Doctor Delete successfully.');  
     </script>
   <?php endif; ?>
 

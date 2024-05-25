@@ -12,7 +12,7 @@ class DoctorModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id','user_id','hospital_id','qualification','specialist_of','schedule','about'];
+    protected $allowedFields    = ['user_id','hospital_id','qualification','specialist_of','schedule','about'];
 
 
     protected bool $allowEmptyInserts = true;
@@ -50,5 +50,10 @@ class DoctorModel extends Model
     public function getDoctorById($id){
         return $this->where('id', $id)->first();
     }
+
+    // public function updateDoctor($id, $data)
+    // {
+    //     return $this->where('id', $id)->update($data);
+    // }
 }
 
