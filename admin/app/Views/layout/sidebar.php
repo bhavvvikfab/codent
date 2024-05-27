@@ -31,7 +31,7 @@
 
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#doc-nav" data-bs-toggle="collapse" href="123">
-        <i class="bi bi-people"></i><span>Doctor</span><i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-people"></i><span>Doctors</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="doc-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
         <li>
@@ -53,12 +53,12 @@
       </a>
       <ul id="Pai-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
-          <a href="Allpatient.php">
+          <a href="<?= base_url('patient') ?>">
             <i class="bi bi-circle"></i><span>All Patient</span>
           </a>
         </li>
         <li>
-          <a href="addpatient.php">
+          <a href="<?= base_url('add_patient') ?>">
             <i class="bi bi-circle"></i><span>Add New Patient</span>
           </a>
         </li>
@@ -142,7 +142,7 @@
       </li>
  -->
 
-    <li class="nav-item">
+    <!-- <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#Subcri-nav" data-bs-toggle="collapse" href="123">
         <i class="bi bi-person"></i><span>User</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
@@ -158,7 +158,7 @@
           </a>
         </li>
       </ul>
-    </li>
+    </li> -->
 
     <!-- user  -->
 

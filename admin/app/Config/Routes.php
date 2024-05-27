@@ -98,3 +98,21 @@ $routes->group('',$authFilter, function ($routes) {
 
 
  // ==============API routes end===========
+
+
+ // ==============Patients routes  start===========
+
+ $routes->get('patient', 'PatientController::index');
+ $routes->get('add_patient', 'PatientController::add_patient_view');
+ $routes->get('patient_status', 'PatientController::patient_status_fun');
+ $routes->post('register_patient_form', 'PatientController::register_form_fun');
+ $routes->get('editpait', 'PatientController::editpait_fun');
+ $routes->get('viewpait', 'PatientController::viewpait_fun');
+
+
+//  $routes->get('editpait(:num)', 'PatientController::editpait_fun/$1');
+
+
+
+
+ 
