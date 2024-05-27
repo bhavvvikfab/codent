@@ -97,4 +97,6 @@ class UserModel extends Model
         return $this->find($id);
     }
 
+   
+
 }
