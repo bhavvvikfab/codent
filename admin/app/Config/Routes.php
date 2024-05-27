@@ -67,11 +67,12 @@ $routes->group('',$authFilter, function ($routes) {
    $routes->post('doctor/updateDoctor', 'DoctorController::updateDoctor');
    $routes->get('viewDoctor', 'DoctorController::viewDoctor_fun');
    $routes->post('deleteDoctor', 'DoctorController::deleteDoctor_fun');
+   $routes->get('doctor_status', 'DoctorController::doctor_status_fun');
   
 
    
    
-
+   
 
    // ==============Doctors routes end===========
 

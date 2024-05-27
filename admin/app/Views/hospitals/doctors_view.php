@@ -90,13 +90,10 @@ View_Hospitals
                                             <td><?= esc($doctor['specialist_of']) ?></td>
                                             <td><?= esc($doctor['hospital_name']) ?></td>
                                             <td>
-                                                <button
-                                                    class="statusToggleBtn btn btn-sm <?php echo ($doctor['status'] == 'active') ? 'btn-success' : 'btn-danger'; ?>" data-id="<?=$doctor['user_id']?>" >
-                                                    <?php echo ($doctor['status'] == 'active') ? 'Active' : 'Inactive'; ?>
+                                                <button class="statusToggleBtn btn btn-sm <?= ($doctor['status'] == 'active') ? 'btn-success' : 'btn-danger'; ?>" data-id="<?=$doctor['user_id']?>" >
+                                                <?php echo ($doctor['status'] == 'active') ? 'Active' : 'Inactive'; ?>
                                                 </button>
                                             </td>
-
-                                            
                                             <td>
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <div class="editen p-1">
@@ -143,193 +140,160 @@ View_Hospitals
 
 
 <script>
-    $(document).ready(function() {
-        var table = $('.example').DataTable({
-    initComplete: function () {
-        var tableApi = this.api(); // Get the DataTable API for easier access
+   $(document).ready(function () {
+    var table = $('.example').DataTable({
+        initComplete: function () {
+            var tableApi = this.api(); // Get the DataTable API for easier access
 
-        // Add custom search field HTML
-        var searchAndEntries = $('<div class="datatable-controls d-flex justify-content-between align-items-center"><div class="datatable-entries text-start"><label for="datatable-selector">Show entries:</label><select id="datatable-selector" class="datatable-selector"><option value="5">5</option><option value="10" selected>10</option><option value="15">15</option><option value="-1">All</option></select></div><div class="datatable-search text-end"><input class="datatable-input" placeholder="Search..." type="search" title="Search within table"></div></div>');
-        $('.dataTables_wrapper').prepend(searchAndEntries);
+            // Add custom search field HTML
+            var searchAndEntries = $('<div class="datatable-controls d-flex justify-content-between align-items-center"><div class="datatable-entries text-start"><label for="datatable-selector">Show entries:</label><select id="datatable-selector" class="datatable-selector"><option value="5">5</option><option value="10" selected>10</option><option value="15">15</option><option value="-1">All</option></select></div><div class="datatable-search text-end"><input class="datatable-input" placeholder="Search..." type="search" title="Search within table"></div></div>');
+            $('.dataTables_wrapper').prepend(searchAndEntries);
 
-        // Ensure that the search field is functional
-        $('.datatable-input').on('input', function () {
-            table.search(this.value).draw();
-        });
+            // Ensure that the search field is functional
+            $('.datatable-input').on('input', function () {
+                table.search(this.value).draw();
+            });
 
-        // Handle entries selector change
-        $('#datatable-selector').on('change', function () {
-            table.page.len($(this).val()).draw();
-        });
+            // Handle entries selector change
+            $('#datatable-selector').on('change', function () {
+                table.page.len($(this).val()).draw();
+            });
 
-        // Hospital filter functionality
-        var column = tableApi.column(4); // Target the 'Hospital' column (index 5)
-        var select = $('#hospital-filter').on('change', function () {
-            var val = $.fn.dataTable.util.escapeRegex($(this).val());
-            column.search(val ? '^' + val + '$' : '', true, false).draw();
-        });
+            // Hospital filter functionality
+            var column = tableApi.column(4); // Target the 'Hospital' column (index 5)
+            var select = $('#hospital-filter').on('change', function () {
+                var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                column.search(val ? '^' + val + '$' : '', true, false).draw();
+            });
 
-        // Populate hospital filter dropdown
-        column.data().unique().sort().each(function (d, j) {
-            select.append('<option value="' + d + '">' + d + '</option>');
-        });
+            // Populate hospital filter dropdown
+            column.data().unique().sort().each(function (d, j) {
+                select.append('<option value="' + d + '">' + d + '</option>');
+            });
 
-        // Add a custom message for showing entries
-        var entriesInfo = $('<div class="datatable-info d-inline mt-4"></div>');
-        $('.dataTables_wrapper').append(entriesInfo);
+            // Add a custom message for showing entries
+            var entriesInfo = $('<div class="datatable-info d-inline mt-4"></div>');
+            $('.dataTables_wrapper').append(entriesInfo);
 
-        // Create the custom pagination navigation
-        var paginationNav = $('<nav class="datatable-pagination float-end mt-2"><ul class="datatable-pagination-list"></ul></nav>');
-        $('.dataTables_wrapper').append(paginationNav);
+            // Create the custom pagination navigation
+            var paginationNav = $('<nav class="datatable-pagination float-end mt-2"><ul class="datatable-pagination-list"></ul></nav>');
+            $('.dataTables_wrapper').append(paginationNav);
 
-        // Update the entries info initially and on pagination change
-        updateEntriesInfo();
-
-        tableApi.on('draw', function () {
+            // Update the entries info initially and on pagination change
             updateEntriesInfo();
-        });
 
-        function updateEntriesInfo() {
-            var pageInfo = tableApi.page.info();
-            var entriesMessage = 'Showing ' + (pageInfo.start + 1) + ' to ' + pageInfo.end + ' of ' + pageInfo.recordsTotal + ' entries';
-            $('.datatable-info').html(entriesMessage);
+            tableApi.on('draw', function () {
+                updateEntriesInfo();
+                reattachEventHandlers();
+            });
 
-            // Update pagination buttons based on total pages and current page
-            var totalPages = Math.ceil(pageInfo.recordsTotal / pageInfo.length);
-            var currentPage = pageInfo.page + 1;
+            function updateEntriesInfo() {
+                var pageInfo = tableApi.page.info();
+                var entriesMessage = 'Showing ' + (pageInfo.start + 1) + ' to ' + pageInfo.end + ' of ' + pageInfo.recordsTotal + ' entries';
+                $('.datatable-info').html(entriesMessage);
 
-            $('.datatable-pagination-list').empty(); // Clear existing buttons
+                // Update pagination buttons based on total pages and current page
+                var totalPages = Math.ceil(pageInfo.recordsTotal / pageInfo.length);
+                var currentPage = pageInfo.page + 1;
 
-            if (totalPages > 1) {
-                // Add previous button
-                var prevButton = $('<li class="datatable-pagination-list-item"><button data-page="' + (currentPage - 1) + '" class="datatable-pagination-list-item-link" aria-label="Previous Page">‹</button></li>');
-                $('.datatable-pagination-list').append(prevButton);
+                $('.datatable-pagination-list').empty(); // Clear existing buttons
+
+                if (totalPages > 1) {
+                    // Add previous button
+                    var prevButton = $('<li class="datatable-pagination-list-item"><button data-page="' + (currentPage - 1) + '" class="datatable-pagination-list-item-link" aria-label="Previous Page">‹</button></li>');
+                    $('.datatable-pagination-list').append(prevButton);
+                }
+
+                // Add page buttons
+                for (var i = 1; i <= totalPages; i++) {
+                    var activeClass = i === currentPage ? 'datatable-active' : '';
+                    var pageButton = $('<li class="datatable-pagination-list-item ' + activeClass + '"><button data-page="' + i + '" class="datatable-pagination-list-item-link" aria-label="Page ' + i + '">' + i + '</button></li>');
+                    $('.datatable-pagination-list').append(pageButton);
+                }
+
+                if (totalPages > 1) {
+                    // Add next button
+                    var nextButton = $('<li class="datatable-pagination-list-item"><button data-page="' + (currentPage + 1) + '" class="datatable-pagination-list-item-link" aria-label="Next Page">›</button></li>');
+                    $('.datatable-pagination-list').append(nextButton);
+
+                    // Bind click event to pagination buttons
+                    $('.datatable-pagination-list-item-link').on('click', function () {
+                        var page = $(this).data('page') - 1; // DataTables uses 0-based indexing
+                        tableApi.page(page).draw(false);
+                    });
+                }
             }
 
-            // Add page buttons
-            for (var i = 1; i <= totalPages; i++) {
-                var activeClass = i === currentPage ? 'datatable-active' : '';
-                var pageButton = $('<li class="datatable-pagination-list-item ' + activeClass + '"><button data-page="' + i + '" class="datatable-pagination-list-item-link" aria-label="Page ' + i + '">' + i + '</button></li>');
-                $('.datatable-pagination-list').append(pageButton);
-            }
-
-            if (totalPages > 1) {
-                // Add next button
-                var nextButton = $('<li class="datatable-pagination-list-item"><button data-page="' + (currentPage + 1) + '" class="datatable-pagination-list-item-link" aria-label="Next Page">›</button></li>');
-                $('.datatable-pagination-list').append(nextButton);
-
-                // Bind click event to pagination buttons
-                $('.datatable-pagination-list-item-link').on('click', function () {
-                    var page = $(this).data('page') - 1; // DataTables uses 0-based indexing
-                    tableApi.page(page).draw(false);
-                });
-            }
-        }
-    },
-    "dom": '<"custom-datatable table-borderless"t>', // Use custom class and keep Bootstrap styling
-    "paging": true,
-    "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
-    "pageLength": 10,
-    "language": {
-        "paginate": {
-            "previous": "Previous",
-            "next": "Next"
-        }
-    }
-});
-
-
-
-        $('.delete_btn').click(function() 
-        { 
-    var doctorId = $(this).data('id');
-    var confirmDelete = confirm('Are you sure you want to delete this doctor?');
-    if (confirmDelete) {
-    $.ajax({
-        url: '<?= base_url('deleteDoctor') ?>',
-        type: 'POST',
-        data: { id: doctorId },
-        success: function(response) 
-        {
-            console.log(response);
-
-            showToast(response);
-                setTimeout(function() 
-                {
-                    // $('#myTable tbody')[0].reset();
-                    location.reload();                        
-                    }, 2000);
         },
-        error: function(xhr, status, error) {
-            console.error(xhr.responseText);
-            // Handle the error if the AJAX request fails
+        "dom": '<"custom-datatable table-borderless"t>', // Use custom class and keep Bootstrap styling
+        "paging": true,
+        "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
+        "pageLength": 10,
+        "language": {
+            "paginate": {
+                "previous": "Previous",
+                "next": "Next"
+            }
         }
     });
-}
-});
 
-$('.statusToggleBtn').on('click', function () {
+    // Initial event handlers
+    reattachEventHandlers();
+
+    function reattachEventHandlers() {
+        // Delete button click event
+        $('.delete_btn').off('click').on('click', function () {
+            var doctorId = $(this).data('id');
+            var confirmDelete = confirm('Are you sure you want to delete this doctor?');
+            if (confirmDelete) {
+                $.ajax({
+                    url: '<?= base_url('deleteDoctor') ?>',
+                    type: 'POST',
+                    data: { id: doctorId },
+                    success: function (response) {
+                        console.log(response);
+                        showToast(response);
+                        setTimeout(function () {
+                            location.reload();
+                        }, 2000);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                        // Handle the error if the AJAX request fails
+                    }
+                });
+            }
+        });
+
+        // Status toggle button click event
+        $('.statusToggleBtn').off('click').on('click', function () {
             var $this = $(this);
             var id = $this.data('id');
-            console.log(id);
-            
+
             if ($this.hasClass('btn-success')) {
                 $this.removeClass('btn-success').addClass('btn-danger');
                 $this.text('Inactive');
-                $.ajax({
-                    url: '<?= base_url('hospital_status')?>',
-                    method: 'get',
-                    data: {id: id},
-                    success: function (data) {
-                        showToast('Hospital Status Changed.');
-                    },
-                    error: function (err) {
-                        console.log(err);
-                    }
-                });
             } else {
                 $this.removeClass('btn-danger').addClass('btn-success');
                 $this.text('Active');
-                $.ajax({
-                    url: '<?= base_url('hospital_status')?>',
-                    method: 'get',
-                    data: {id: id},
-                    success: function (data) {
-                        showToast('Hospital Status Changed.');
-                    },
-                    error: function (err) {
-                        console.log(err);
-                    }
-                });
             }
-        });
 
-        $('.btn_delete_hospital').on('click', function (e) {
-            e.preventDefault();
-            let id = $(this).data('id');
-            // console.log(id);
+            // Perform AJAX request to update status
             $.ajax({
-                url: '<?= base_url('hospital_delete')?>',
+                url: '<?= base_url('doctor_status')?>',
                 method: 'get',
-                data: {id: id},
+                data: { id: id },
                 success: function (data) {
-                    // console.log(data);
-                    if(data.success==1){
-                    $('.hospital_table_body').load('<?= base_url('hospitals')?> .hospital_table_body')
-                    showToast('Hospital Deleted.');
-                    }else if(data.success==2){
-                       showToast('Hospital not delete..!!.');  
-                    }else{
-                        showToast('Hospital not found..!!.');  
-                    }
+                    showToast('Doctor Status Changed.');
                 },
                 error: function (err) {
                     console.log(err);
                 }
             });
         });
+    }
+});
 
-    });
 </script>
 
 

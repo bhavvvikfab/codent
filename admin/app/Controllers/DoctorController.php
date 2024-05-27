@@ -99,10 +99,14 @@ class DoctorController extends BaseController
             $user = $userModel->where('id', $doctor['user_id'])->first();
             $doctor['full_name'] = $user ? $user['fullname'] : 'Unknown user';
             $doctor['image'] = $user ? $user['profile'] : 'Unknown image';
+            $doctor['status'] = $user ? $user['status'] : 'Unknown id';
+
 
         } else {
             $doctor['full_name'] = null;
             $doctor['image'] = null;
+            $doctor['status'] = null;
+
 
         }
     }
@@ -309,7 +313,36 @@ class DoctorController extends BaseController
     }
 }
 
+public  function doctor_status_fun(){
 
+    $id = $this->request->getGet('id'); 
+    $model = new UserModel();
+
+    // Check if the ID is valid
+    if (!empty($id)) {
+        // Fetch the hospital data by ID
+        $user = $model->find($id);
+    
+        // Check if the hospital exists
+        if ($user) {
+            // Toggle the status
+            $newStatus = ($user['status'] == 'active') ? 'inactive' : 'active';
+    
+            // Update the status
+            $model->update($id, ['status' => $newStatus]);
+            return response()->setJSON(['status'=>'success','msg'=>'status changed']);
+        } else {
+            return response()->setJSON(['status'=>'error','msg'=>'User not found']);
+            // Hospital with the provided ID not found, handle error
+        }
+        
+    } 
+    else 
+    {
+        return response()->setJSON(['status'=>'error','msg'=>'User not found']);
+        // Invalid or missing ID, handle error
+    }
+}
 
 
     
