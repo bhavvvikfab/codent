@@ -25,61 +25,85 @@ class UserController extends BaseController
 
     public function update_profile()
     {
-        $usermodel = new UserModel;
+        // Load form validation library
+        $validation = Services::validation();
+        $id = session('user_id');
+        // Set form validation rules with custom error messages
+        $validation->setRules([
+            'fullname' => 'required',
+            'phone' => 'required|numeric|min_length[10]|max_length[15]',
+            'email' => "required|valid_email",
+            'dob' => 'required',
+        ]);
 
-        $userId = $this->request->getPost('id');
-        $fullname = $this->request->getPost('fullname');
-        $address = $this->request->getPost('address');
-        $date_of_birth = $this->request->getPost('date_of_birth');
+        // Check if the profile image is uploaded and add validation rules for it
+        if ($this->request->getFile('profile')->isValid()) {
+            $validation->setRules([
+                'profile' => [
+                    'rules' => 'uploaded[profile]|max_size[profile,1024]|is_image[profile]',
+                    'errors' => [
+                        'uploaded' => 'Please upload a valid profile image.',
+                        'max_size' => 'The profile image file size should not exceed 1MB.',
+                        'is_image' => 'The profile image must be in PNG, JPG, or JPEG format.',
+                    ],
+                ],
+            ]);
+        }
+
+        if (!$validation->withRequest($this->request)->run()) {
+            // Validation failed, return validation errors
+            return $this->response->setJSON(['status' => 'error', 'errors' => $validation->getErrors()]);
+        }
+
+        // Validation passed, process the form data
+        $profileImage = $this->request->getFile('profile');
+        $fullName = $this->request->getPost('fullname');
         $phone = $this->request->getPost('phone');
         $email = $this->request->getPost('email');
-        $image = $this->request->getFile('new_image');
+        $dob = $this->request->getPost('dob');
 
-        $userData = [
-            'fullname' => $fullname,
-            'address' => $address,
-            'date_of_birth' => $date_of_birth,
+        // Data to update
+        $data = [
+            'fullname' => $fullName,
             'phone' => $phone,
             'email' => $email,
+            'date_of_birth' => $dob,
         ];
 
 
-        if ($image && $image->isValid() && !$image->hasMoved()) {
-            $newName = time() . '.' . $image->getExtension();
-            $image->move(ROOTPATH . 'public/images', $newName);
-
-            $userData['profile'] = $newName;
+        // Check if the profile image is uploaded and valid
+        if ($profileImage && $profileImage->isValid() && !$profileImage->hasMoved()) {
+            $extension = $profileImage->getClientExtension();
+            $newName = time() . '.' . $extension;
+            $profileImage->move(ROOTPATH . 'public/images', $newName);
+            $data['profile'] = $newName;
             session()->set([
                 'profile' => $newName,
             ]);
         }
-        $updated = $usermodel->update($userId, $userData);
 
-        if ($updated) {
-
+        // Update user's profile
+        $user = new UserModel();
+        $result = $user->editData($id, $data);
+        if ($result) {
             session()->set([
                 'email' => $email,
-                'fullname' => $fullname,
-                'dob' => $date_of_birth,
+                'fullname' => $fullName,
+                'dob' => $dob,
             ]);
-            // Return success message
-            return $this->response->setJSON(['message' => 'User profile updated successfully']);
+            return $this->response->setJSON(['status' => 'success', 'message' => 'Profile updated successfully!']);
         } else {
-            // Return error message
-            return $this->response->setJSON(['error' => 'Failed to update user profile']);
+            log_message('error', 'Failed to update profile for user ID: ' . $id);
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Profile updated failed!']);
         }
-
     }
 
     public function change_password()
     {
-
-
-
         $validationRules = [
             'currentPassword' => 'required',
             'newpassword' => 'required|min_length[5]',
-            // 'confirm_Password' => 'required|matches[newpassword]'
+            'confirm_Password' => 'required|matches[newpassword]'
         ];
 
         $validation = Services::validation();
@@ -90,14 +114,12 @@ class UserController extends BaseController
         }
 
         $user = new UserModel();
-        // $id = session('id');
-    $userId = $this->request->getPost('ids');
-
+        $id = session('user_id');
         $oldPassword = $this->request->getPost('currentPassword');
 
         $newPassword = $this->request->getPost('newpassword');
 
-        $result = $user->updatePassword($userId, $oldPassword, $newPassword);
+        $result = $user->updatePassword($id, $oldPassword, $newPassword);
 
         if ($result === true) {
             return $this->response->setJSON(['status' => 'success']);

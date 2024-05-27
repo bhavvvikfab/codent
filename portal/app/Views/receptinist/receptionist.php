@@ -1,6 +1,6 @@
 <?= $this->extend('layout/layout') ?>
 <?= $this->section('title') ?>
-All-Doctors
+All-Receptionist
 <?= $this->endSection() ?>
 <?= $this->section('content') ?>
 
@@ -8,11 +8,11 @@ All-Doctors
   <div class="pagetitle">
     <div class="row">
       <div class="col-xxl-12 col-lg-12 col-md-12 col-sm-12">
-        <h1>All Doctor</h1>
+        <h1>All Receptionist</h1>
         <nav>
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="index.php">Users</a></li>
-            <li class="breadcrumb-item active">All Doctor</li>
+            <li class="breadcrumb-item active">All Receptionist</li>
           </ol>
         </nav>
       </div>
@@ -28,11 +28,12 @@ All-Doctors
           <div class="card-header">
             <div class="row">
               <div class="col-lg-8">
-                <h5 class="card-title text-start">Doctor</h5>
+                <h5 class="card-title text-start">Reception</h5>
               </div>
               <div class="col-lg-4">
                 <h5 class="card-title text-end addsup">
-                  <a href="<?= base_url() . '' . session('prefix') . '/' . 'add_doctor' ?>"> Add New Doctor</a>
+                  <a href="<?= base_url() . '' . session('prefix') . '/' . 'add_receptionist' ?>"> Add New
+                    Receptionist</a>
                 </h5>
               </div>
             </div>
@@ -44,12 +45,10 @@ All-Doctors
 
               <thead>
                 <tr>
-                  <th>Sr. No.</th>
-                  <th>Image</th>
+                  <th> Sr. No. </th>
+                  <th>Profile</th>
                   <th>Name</th>
                   <th>Phone</th>
-                  <th>Qualification</th>
-                  <th>Specialist In</th>
                   <th>Status</th>
                   <th>Action</th>
                   <!-- <th>Status</th> -->
@@ -57,54 +56,59 @@ All-Doctors
               </thead>
 
               <tbody>
-                <?php
-                $index = 1;
-                foreach ($doctors as $doctor):
-                  if ($doctor !== null): // Check if $doctor is not null
-                    ?>
+                <?php if (!empty($data)): ?>
+                  <?php foreach ($data as $key => $rep): ?>
                     <tr>
-                      <td><?= $index ?></td>
+                      <td><?php echo $key + 1; ?></td>
                       <td>
                         <img
-                          src="<?= base_url() ?>public/images/<?= isset($doctor['user']['profile']) && !empty($doctor['user']['profile']) ? $doctor['user']['profile'] : 'user-profile.jpg' ?>"
+                          src="<?= base_url() ?>public/images/<?= isset($rep['profile']) && !empty($rep['profile']) ? $rep['profile'] : 'user-profile.jpg' ?>"
                           height="50" width="50">
+
                       </td>
-                      <td>Dr. <?= esc($doctor['user']['fullname']) ?></td>
-                      <td><?= esc($doctor['user']['phone']) ?></td>
-                      <td><?= esc($doctor['doctor']['qualification']) ?></td>
-                      <td><?= esc($doctor['doctor']['specialist_of']) ?></td>
+
+                      <td><?php echo isset($rep['fullname']) ? $rep['fullname'] : 'N/A'; ?></td>
+                      <td><?php echo isset($rep['phone']) ? $rep['phone'] : 'N/A'; ?></td>
+
                       <td>
-                      <button
-                          class="statusToggleBtn btn btn-sm <?php echo ($doctor['user']['status'] == 'active') ? 'btn-success' : 'btn-danger'; ?>"
-                          data-id="<?= $doctor['user']['id'] ?>">
-                          <?php echo ($doctor['user']['status'] == 'active') ? 'Active' : 'Inactive'; ?>
+
+                        <button
+                          class="statusToggleBtn btn btn-sm <?php echo ($rep['status'] == 'active') ? 'btn-success' : 'btn-danger'; ?>"
+                          data-id="<?= $rep['id'] ?>">
+                          <?php echo ($rep['status'] == 'active') ? 'Active' : 'Inactive'; ?>
                         </button>
+
                       </td>
+
                       <td>
-                        <div class="d-flex justify-content-between align-items-center">
-                          <div class="editen p-1">
-                            <a href="<?= base_url() . session('prefix') . '/doctor_details/' . esc($doctor['doctor']['id']) ?>">
+                        <div class="d-flex ">
+                          <div class="editen m-1">
+                            <a href="<?= base_url() . session('prefix') . '/reception_details/' . esc($rep['id']) ?>">
                               <button type="button" class="btn btn-secondary  btn-sm"><i class="bi bi-eye"></i></button>
                             </a>
                           </div>
-                          <div class="viewsenq p-1">
-                            <a href="<?= base_url() . session('prefix') . '/doctor_edit/' . esc($doctor['doctor']['id']) ?>">
-                              <button type="button" class="btn btn-sm"><i class="bi bi-pencil-square"></i></button>
+                          <div class="viewsenq m-1">
+                            <a href="<?= base_url() . session('prefix') . '/reception_edit_view/' . esc($rep['id']) ?>">
+                              <button type="button" class="btn btn-sm"><i class="bi bi-pencil-square"></i><i
+                                  class="ri-pen-line"></i></button>
                             </a>
                           </div>
-
-                          <div class="deleten p-1">
-                          <a href="<?= base_url() . session('prefix') . '/doctor_delete/' . esc($doctor['doctor']['id']) ?>">
+                          <div class="deleten m-1">
+                            <a href="<?= base_url() . session('prefix') . '/reception_delete/' . esc($rep['id']) ?>">
                               <button type="button" class="btn btn-sm"><i class="bi bi-trash"></i></button>
                             </a>
                           </div>
                         </div>
                       </td>
                     </tr>
-                    <?php
-                    $index++;
-                  endif;
-                endforeach; ?>
+                  <?php endforeach; ?>
+                <?php else: ?>
+                  <tr>
+                    <td colspan="4">No Receptionist found.</td>
+                  </tr>
+                <?php endif; ?>
+
+              </tbody>
 
               </tbody>
             </table>
@@ -116,21 +120,23 @@ All-Doctors
       </div>
     </div>
   </section>
-  <?php if (session()->has('added_dr')): ?>
+
+  <?php if (session('added_reception')): ?>
     <script>
-      showToast('Doctor Registered successfully.');  
+      showToast('Reception Registered successfully.');  
     </script>
   <?php endif; ?>
-  <?php if (session()->has('edit_dr')): ?>
+  <?php if (session('edit_receptioninst')): ?>
     <script>
-      showToast('Doctor Info Updated successfully.');  
+      showToast('Reception Updated successfully.');  
     </script>
   <?php endif; ?>
-  <?php if (session()->has('delete_dr')): ?>
+  <?php if (session('delete_receptionist')): ?>
     <script>
-      showToast('Doctor Delete successfully.');  
+      showToast('Reception Delete successfully.');  
     </script>
   <?php endif; ?>
+
   <script>
     $(document).ready(function () {
       $('.statusToggleBtn').on('click', function () {
@@ -141,7 +147,7 @@ All-Doctors
                 $this.removeClass('btn-success').addClass('btn-danger');
                 $this.text('Inactive');
                 $.ajax({
-                    url: "<?= base_url() . '' . session('prefix') . '/' . 'doctor_status' ?>",
+                    url: "<?= base_url() . '' . session('prefix') . '/' . 'receptionist_status' ?>",
                     method: 'get',
                     data: {id: id},
                     success: function (data) {
@@ -161,11 +167,10 @@ All-Doctors
                 $this.removeClass('btn-danger').addClass('btn-success');
                 $this.text('Active');
                 $.ajax({
-                    url: "<?= base_url() . '' . session('prefix') . '/' . 'doctor_status' ?>",
+                    url: "<?= base_url() . '' . session('prefix') . '/' . 'receptionist_status' ?>",
                     method: 'get',
                     data: {id: id},
                     success: function (data) {
-                      
                       if(data.status=='success'){
                         showToast(data.msg);
                       }else{
