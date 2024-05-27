@@ -8,7 +8,7 @@ class UserModel extends Model
 {
 
  
-    protected $allowedFields = ['role','fullname', 'email', 'password','address','date_of_birth','phone','profile','hospital_id'];
+    protected $allowedFields = ['role','fullname', 'email', 'password','address','date_of_birth','phone','profile','hospital_id','status'];
 
     protected $table            = 'users';
     protected $primaryKey       = 'id';
@@ -48,7 +48,7 @@ class UserModel extends Model
     protected $afterDelete    = [];
     
     
-     function updatePassword($id, $oldPassword, $newPassword)
+    public function updatePassword($id, $oldPassword, $newPassword)
     {
         if (empty($id) || empty($oldPassword) || empty($newPassword)) {
             return false;
@@ -61,7 +61,7 @@ class UserModel extends Model
             $result = $this->update($id, $data);
             return true;
         }
-        return false;
+        return 'error';
     }
     
      public function insertUser($data)
@@ -79,6 +79,35 @@ class UserModel extends Model
     {
         return $this->where('id', $id)->first();
     }
+
+    protected function filterUpdateData($data)
+    {
+        return array_intersect_key($data, array_flip($this->allowedFields));
+    }
+
+    public function editData($id, $data)
+    {
+        if (empty($id) || empty($data)) {
+            return false;
+        }
+        $filteredData = $this->filterUpdateData($data);
+        $result = $this->update($id, $filteredData);
+
+        return $result;
+    }
+
+    public function getUsersByRoleAndHospital($role, $hospitalId)
+    {
+        return $this->where('role', $role)
+                    ->where('hospital_id', $hospitalId)
+                    ->findAll();
+    }
+
+
+
+
+
+
     
 }
    

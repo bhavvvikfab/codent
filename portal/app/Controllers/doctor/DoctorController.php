@@ -14,9 +14,9 @@ class DoctorController extends BaseController
     {
         $doctorModel = new DoctorModel();
         $userModel = new UserModel();
-    
-        $doctors = $doctorModel->findAll();
-    
+        $hospitalId=session('user_id');
+        $doctors = $doctorModel->where('hospital_id', $hospitalId)->findAll();
+       
         $combinedData = [];
     
         foreach ($doctors as $doctor) {
@@ -252,6 +252,28 @@ class DoctorController extends BaseController
             return redirect()->to(base_url() . session('prefix') . '/doctor')->with('delete_dr', 'Doctor deleted successfully.');
         } else {
             return redirect()->back()->with('error', 'Doctor not found.');
+        }
+    }
+
+    public function doctor_status(){
+
+        $id = $this->request->getGet('id'); 
+        $usermodel = new UserModel();
+    
+        if (!empty($id)) {
+
+            $user = $usermodel->find($id);
+        
+            if ($user) {
+                $newStatus = ($user['status'] == 'active') ? 'inactive' : 'active';
+        
+                $usermodel->update($id, ['status' => $newStatus]);
+                return response()->setJSON(['status'=>'success','msg'=>'Doctor status changed.']);
+            } else {
+                return response()->setJSON(['status'=>'error','msg'=>'User not found...!']);
+            }
+        } else {
+            return response()->setJSON(['status'=>'error','msg'=>'User not found...!']);
         }
     }
     

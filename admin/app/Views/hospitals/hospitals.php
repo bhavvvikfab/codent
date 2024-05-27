@@ -120,7 +120,7 @@ Hospitals
     <?php endif; ?>
     <?php if (session()->has('view_error') && session('view_error') == 'error'): ?>
         <script>
-            showToast('Hospital updated successfully.');  
+            showToast('Something went wrong...!');  
         </script>
     <?php endif; ?>
    <script>

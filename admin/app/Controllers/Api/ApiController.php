@@ -25,7 +25,6 @@ class ApiController extends BaseController
             $dob = $this->request->getPost('dob');
             $image = $this->request->getFile('image');
             $phone = $this->request->getPost('phone');
-            $hospital = $this->request->getPost('hospital');
 
             // Validation rules
             $rules = [
@@ -35,7 +34,6 @@ class ApiController extends BaseController
                 'address' => ['rules' => 'required|min_length[4]|max_length[255]'],
                 'dob' => ['rules' => 'required|valid_date'],
                 'phone' => ['rules' => 'required|min_length[10]|max_length[15]'],
-                'hospital' => ['rules' => 'required|max_length[3]'],
                 'image' => ['rules' => 'uploaded[image]|max_size[image,2048]|is_image[image]|mime_in[image,image/jpg,image/jpeg,image/png]']
             ];
 
@@ -57,7 +55,6 @@ class ApiController extends BaseController
                     'address' => $address,
                     'date_of_birth' => $dob,
                     'phone' => $phone,
-                    'hospital_id' => $hospital,
                     'role' => 6,
                     'profile' => $newName
                 ];

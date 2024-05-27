@@ -28,7 +28,7 @@ Add-Patient
           	<div class="card-header">
                <div class="row">
                   <div class="col-lg-8">
-                      <h5 class="card-title text-start">Add New Doctor</h5>
+                      <h5 class="card-title text-start">Add New Patient</h5>
                   </div>
                    <div class="col-lg-4">
                       <h5 class="card-title text-end addsup">

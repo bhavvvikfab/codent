@@ -25,7 +25,6 @@ $routes->group('hospital', ['filter' => $authFilter], function ($routes) {
     $routes->post('profile_update', 'UserController::update_profile');
     $routes->post('update_password', 'UserController::change_password');
     
-   
     $routes->get('doctor', 'doctor\DoctorController::index');
     $routes->get('add_doctor', 'doctor\DoctorController::addDoctor');
     $routes->post('doctor_register', 'doctor\DoctorController::doctor_register');
@@ -33,17 +32,32 @@ $routes->group('hospital', ['filter' => $authFilter], function ($routes) {
     $routes->post('doctor_edit', 'doctor\DoctorController::doctor_edit');
     $routes->get('doctor_details/(:num)', 'doctor\DoctorController::doctor_details/$1');
     $routes->get('doctor_delete/(:num)', 'doctor\DoctorController::doctor_delete/$1');
-    
+    $routes->get('doctor_status', 'doctor\DoctorController::doctor_status');
     
     $routes->get('reception', 'receptinist\ReceptionController::index');
     $routes->get('add_receptionist', 'receptinist\ReceptionController::addReceptionist');
+    $routes->post('reception_register', 'receptinist\ReceptionController::reception_register');
+    $routes->get('reception_details/(:num)', 'receptinist\ReceptionController::reception_details/$1');
+    $routes->get('reception_edit_view/(:num)', 'receptinist\ReceptionController::reception_edit_view/$1');
+    $routes->post('receptionist_edit', 'receptinist\ReceptionController::receptionist_edit');
+    $routes->get('reception_delete/(:num)', 'receptinist\ReceptionController::receptionist_delete/$1');
+    $routes->get('receptionist_status', 'receptinist\ReceptionController::receptionist_status');
       
     $routes->get('patient', 'patient\PatientController::index');
-    $routes->get('add_patient', 'patient\PatientController::addPatient');
+    $routes->get('add_patient_form', 'patient\PatientController::add_patient_form');
     
-       
+    $routes->get('enquiry', 'enquiry\EnquiryController::all_enquiry');    
+    $routes->get('add_enquiry', 'enquiry\EnquiryController::add_enquiry');    
+    $routes->post('store_enquiry', 'enquiry\EnquiryController::store_enquiry');    
+
+    
+
+    $routes->get('get_hospital_dropdown','patient\PatientController::get_hospital_dropdown');
     
 });
+
+
+
 
 
 
@@ -56,6 +70,13 @@ $routes->group('patient',['filter' => $authFilter], function ($routes) {
     $routes->get('users_profile', 'UserController::index');
     $routes->post('profile_update', 'UserController::update_profile');
     $routes->post('update_password', 'UserController::update_password');
+
+
+    $routes->get('enquiry', 'enquiry\EnquiryController::all_enquiry');    
+    $routes->get('add_enquiry', 'enquiry\EnquiryController::add_enquiry');  
+    $routes->post('store_enquiry', 'enquiry\EnquiryController::store_enquiry'); 
+
+    $routes->get('get_doctor_dropdown','patient\PatientController::get_doctor_dropdown');
 });
 
 // Routes.php

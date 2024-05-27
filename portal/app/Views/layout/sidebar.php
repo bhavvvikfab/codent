@@ -46,14 +46,17 @@ $image = session()->get('profile');
       </li><!-- End Enquiry Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#user-nav" data-bs-toggle="collapse" href="111">
+        <!-- <a class="nav-link collapsed" data-bs-target="#user-nav" data-bs-toggle="collapse" href="111">
           <i class="bi bi-question-circle"></i><span>Enquiry</span>
 
           <i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="user-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        </a> -->
+        <a href="<?= base_url().''.session('prefix').'/'.'enquiry'?>" class="nav-link collapsed">
+        <i class="bi bi-question-circle"></i><span>Enquiries</span>
+            </a>
+        <!-- <ul id="user-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="enquiry.php" class="nav-link collapsed">
+            <a href="<?= base_url().''.session('prefix').'/'.'enquiry'?>" class="nav-link collapsed">
               <i class="bi bi-circle"></i><span>All Enquiries</span>
             </a>
           </li>
@@ -62,7 +65,7 @@ $image = session()->get('profile');
               <i class="bi bi-circle"></i><span>Add New Enquiry</span>
             </a>
           </li>
-        </ul>
+        </ul> -->
       </li><!-- End Enquiry Nav -->
 
       <li class="nav-item">
