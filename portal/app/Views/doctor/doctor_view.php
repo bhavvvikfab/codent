@@ -58,6 +58,7 @@ All-Doctors
 
               <tbody>
                 <?php
+                $adminurl = config('App')->baseURL2;
                 $index = 1;
                 foreach ($doctors as $doctor):
                   if ($doctor !== null): // Check if $doctor is not null
@@ -66,7 +67,7 @@ All-Doctors
                       <td><?= $index ?></td>
                       <td>
                         <img
-                          src="<?= base_url() ?>public/images/<?= isset($doctor['user']['profile']) && !empty($doctor['user']['profile']) ? $doctor['user']['profile'] : 'user-profile.jpg' ?>"
+                          src="<?= $adminurl ?>/public/images/<?= isset($doctor['user']['profile']) && !empty($doctor['user']['profile']) ? $doctor['user']['profile'] : 'user-profile.jpg' ?>"
                           height="50" width="50">
                       </td>
                       <td>Dr. <?= esc($doctor['user']['fullname']) ?></td>

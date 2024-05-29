@@ -36,12 +36,12 @@ $image = session()->get('profile');
               <i class="bi bi-circle"></i><span>Doctors</span>
             </a>
           </li>
-          <li>
+          <!-- <li>
            <a href="<?= base_url().''.session('prefix').'/'.'patient'?>" class="nav-link collapsed">
 
               <i class="bi bi-circle"></i><span>Patients</span>
             </a>
-          </li>
+          </li> -->
         </ul>
       </li><!-- End Enquiry Nav -->
 
@@ -64,27 +64,33 @@ $image = session()->get('profile');
             <a href="addenquiry.php" class="nav-link collapsed">
               <i class="bi bi-circle"></i><span>Add New Enquiry</span>
             </a>
-          </li>
+          </li> appointment
         </ul> -->
       </li><!-- End Enquiry Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#Supl-nav" data-bs-toggle="collapse" href="111">
-          <i class="bi bi-calendar-week"></i><span>Appointment</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="Supl-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <!-- <a class="nav-link collapsed" data-bs-target="#user-nav" data-bs-toggle="collapse" href="111">
+          <i class="bi bi-question-circle"></i><span>Enquiry</span>
+
+          <i class="bi bi-chevron-down ms-auto"></i>
+        </a> -->
+        <a href="<?= base_url().''.session('prefix').'/'.'appointment'?>" class="nav-link collapsed">
+        <i class="bi bi-calendar-week"></i><span>Appointment</span>
+            </a>
+        <!-- <ul id="user-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="allappoint.php" class="nav-link collapsed">
-              <i class="bi bi-circle"></i><span>All Appointments</span>
+            <a href="<?= base_url().''.session('prefix').'/'.'appointment'?>" class="nav-link collapsed">
+              <i class="bi bi-circle"></i><span>All Enquiries</span>
             </a>
           </li>
           <li>
-            <a href="addappoint.php" class="nav-link collapsed">
-              <i class="bi bi-circle"></i><span>Add New Appointment</span>
+            <a href="addenquiry.php" class="nav-link collapsed">
+              <i class="bi bi-circle"></i><span>Add New Enquiry</span>
             </a>
-          </li>
-        </ul>
-      </li><!-- End appointment Nav -->
+          </li> appointment
+        </ul> -->
+      </li>
+      <!-- End appointment Nav -->
 
       <!-- <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#doc-nav" data-bs-toggle="collapse" href="111">

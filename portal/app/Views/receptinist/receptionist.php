@@ -62,7 +62,7 @@ All-Receptionist
                       <td><?php echo $key + 1; ?></td>
                       <td>
                         <img
-                          src="<?= base_url() ?>public/images/<?= isset($rep['profile']) && !empty($rep['profile']) ? $rep['profile'] : 'user-profile.jpg' ?>"
+                          src="<?= config('App')->baseURL2 ?>/public/images/<?= isset($rep['profile']) && !empty($rep['profile']) ? $rep['profile'] : 'user-profile.jpg' ?>"
                           height="50" width="50">
 
                       </td>
@@ -93,8 +93,10 @@ All-Receptionist
                                   class="ri-pen-line"></i></button>
                             </a>
                           </div>
+
                           <div class="deleten m-1">
-                            <a href="<?= base_url() . session('prefix') . '/reception_delete/' . esc($rep['id']) ?>">
+                            <a href="<?= base_url() . session('prefix') . '/reception_delete/' . esc($rep['id']) ?>"
+                              class="delete_btn">
                               <button type="button" class="btn btn-sm"><i class="bi bi-trash"></i></button>
                             </a>
                           </div>
@@ -139,50 +141,67 @@ All-Receptionist
 
   <script>
     $(document).ready(function () {
-      $('.statusToggleBtn').on('click', function () {
-            var $this = $(this);
-            var id = $this.data('id');
-            
-            if ($this.hasClass('btn-success')) {
-                $this.removeClass('btn-success').addClass('btn-danger');
-                $this.text('Inactive');
-                $.ajax({
-                    url: "<?= base_url() . '' . session('prefix') . '/' . 'receptionist_status' ?>",
-                    method: 'get',
-                    data: {id: id},
-                    success: function (data) {
-                      
-                      if(data.status=='success'){
-                        showToast(data.msg);
-                      }else{
-                        console.log(data.msg);
-                      }
-                       
-                    },
-                    error: function (err) {
-                        console.log(err);
-                    }
-                });
-            } else {
-                $this.removeClass('btn-danger').addClass('btn-success');
-                $this.text('Active');
-                $.ajax({
-                    url: "<?= base_url() . '' . session('prefix') . '/' . 'receptionist_status' ?>",
-                    method: 'get',
-                    data: {id: id},
-                    success: function (data) {
-                      if(data.status=='success'){
-                        showToast(data.msg);
-                      }else{
-                        console.log(data.msg);
-                      }
-                    },
-                    error: function (err) {
-                        console.log(err);
-                    }
-                });
-            }
+      $('.delete_btn').on('click', function (e) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        Swal.fire({
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = url;
+          }
         });
+      });
+      $('.statusToggleBtn').on('click', function () {
+        var $this = $(this);
+        var id = $this.data('id');
+
+        if ($this.hasClass('btn-success')) {
+          $this.removeClass('btn-success').addClass('btn-danger');
+          $this.text('Inactive');
+          $.ajax({
+            url: "<?= base_url() . '' . session('prefix') . '/' . 'receptionist_status' ?>",
+            method: 'get',
+            data: { id: id },
+            success: function (data) {
+
+              if (data.status == 'success') {
+                showToast(data.msg);
+              } else {
+                console.log(data.msg);
+              }
+
+            },
+            error: function (err) {
+              console.log(err);
+            }
+          });
+        } else {
+          $this.removeClass('btn-danger').addClass('btn-success');
+          $this.text('Active');
+          $.ajax({
+            url: "<?= base_url() . '' . session('prefix') . '/' . 'receptionist_status' ?>",
+            method: 'get',
+            data: { id: id },
+            success: function (data) {
+              if (data.status == 'success') {
+                showToast(data.msg);
+              } else {
+                console.log(data.msg);
+              }
+            },
+            error: function (err) {
+              console.log(err);
+            }
+          });
+        }
+      });
 
     });
   </script>

@@ -73,12 +73,13 @@ class UserController extends BaseController
 
         // Check if the profile image is uploaded and valid
         if ($profileImage && $profileImage->isValid() && !$profileImage->hasMoved()) {
-            $extension = $profileImage->getClientExtension();
-            $newName = time() . '.' . $extension;
-            $profileImage->move(ROOTPATH . 'public/images', $newName);
-            $data['profile'] = $newName;
+            
+            $imageName = time() . '.' . $profileImage->getExtension();
+            $destinationPath = ROOTPATH . '../admin/public/images';
+            $profileImage->move($destinationPath, $imageName);
+            $data['profile'] = $imageName;
             session()->set([
-                'profile' => $newName,
+                'profile' => $imageName,
             ]);
         }
 

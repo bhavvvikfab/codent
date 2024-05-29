@@ -86,7 +86,8 @@ class ReceptionController extends BaseController
     
         if ($image->isValid() && !$image->hasMoved()) {
             $imageName = time() . '.' . $image->getExtension();
-            $image->move(ROOTPATH . 'public/images', $imageName);
+            $destinationPath = ROOTPATH . '../admin/public/images';
+            $image->move($destinationPath, $imageName);
             $data['profile'] = $imageName;
         }
     
@@ -152,7 +153,8 @@ class ReceptionController extends BaseController
 
         if ($image && $image->isValid() && !$image->hasMoved()) {
             $imageName = time() . '.' . $image->getExtension();
-            $image->move(ROOTPATH . 'public/images', $imageName);
+            $destinationPath = ROOTPATH . '../admin/public/images';
+            $image->move($destinationPath, $imageName);
             $userData['profile'] = $imageName;
         }
 

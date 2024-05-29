@@ -27,6 +27,8 @@ class Database extends Config
     public array $default = [
         'DSN'          => '',
         'hostname'     => 'localhost',
+        // 'username'     => 'dummyin2_codentu',
+        // 'password'     => '4TLx+8}Co8bf',
         'username'     => 'root',
         'password'     => '',
         'database'     => 'dummyin2_codent',

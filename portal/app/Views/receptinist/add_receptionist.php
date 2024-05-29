@@ -121,7 +121,7 @@ Add-Receptionist
                       <textarea class="form-control"></textarea>
                     </div> -->
                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                  <label for="address" class="form-label"><i class="bi bi-envelope-fill" style="font-size: 18px;"></i>
+                  <label for="address" class="form-label"><i class="bi bi-geo-alt-fill" style="font-size: 18px;"></i>
                     Address</label>
                   <textarea name="address" placeholder="Address..." class="form-control" rows="1"></textarea>
                   <?php if (session('errors.address')): ?>
