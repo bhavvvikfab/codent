@@ -11,7 +11,8 @@ Edit-Enquiry
         <h1>Edit Enquiry</h1>
         <nav>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="<?= base_url() . '' . session('prefix') . '/' . 'dashboard' ?>">Dashboard</a></li>
+            <li class="breadcrumb-item"><a
+                href="<?= base_url() . '' . session('prefix') . '/' . 'dashboard' ?>">Dashboard</a></li>
             <!-- <li class="breadcrumb-item"><a href="enquiry.php"> Enquiry </a></li> -->
             <li class="breadcrumb-item active">Edit Enquiry</li>
           </ol>
@@ -28,54 +29,56 @@ Edit-Enquiry
     <div class="row">
       <div class="col-lg-12">
         <div class="card">
-            
-            <div class="card-header">
-               <div class="row">
-                  <div class="col-lg-8">
-                      <h5 class="card-title text-start">Edit Enquiry</h5>
-                  </div>
-                  <div class="col-lg-4">
-                      <h5 class="card-title text-end">
-                          <a href="<?= base_url() . '' . session('prefix') . '/' . 'enquiry' ?>"> Back </a></h5>
-                  </div>
-                </div>
-             </div>
-            
+          <?php //print_r($enquiry) ?>
+          <div class="card-header">
+            <div class="row">
+              <div class="col-lg-8">
+                <h5 class="card-title text-start">Edit Enquiry</h5>
+              </div>
+              <div class="col-lg-4">
+                <h5 class="card-title text-end">
+                  <a href="<?= base_url() . '' . session('prefix') . '/' . 'enquiry' ?>"> Back </a>
+                </h5>
+              </div>
+            </div>
+          </div>
+
           <div class="card-body">
-       
+
             <!-- No Labels Form -->
             <form class="row g-3">
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                <label class="col-form-label"><i class="bi bi-person-circle" style="font-size: 18px;"></i> Patient Name</label>
+                <label class="col-form-label"><i class="bi bi-person-circle" style="font-size: 18px;"></i> Patient
+                  Name</label>
                 <input type="text" class="form-control" value="John Doe" placeholder="Patient Name">
               </div>
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                <label class="col-form-label"><i class="bi bi-calendar-week-fill" style="font-size: 18px;"></i> Birth Date</label>
+                <label class="col-form-label"><i class="bi bi-calendar-week-fill" style="font-size: 18px;"></i> Birth
+                  Date</label>
                 <div class="input-group">
-                        <span class="input-group-text rounded-2 btn-cal" id="bdate34"><i class="bi bi-calendar3"></i></span>                        
-                       <input type="text" class="form-control rounded-2" id="bdate" placeholder="" aria-describedby="bdate34">
-                       <div class="input-group-prepend">
-                          
-                             </div>
-                     </div>
-                <!-- <label class="col-form-label">Email Address</label> -->
-               <!--  <div class="input-group mb-3">
-  <span class="input-group-text" id="basic-addon1"><i class="bi bi-calendar3"></i></span>
-                             </div></span>
-  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-</div> -->
+                  <span class="input-group-text rounded-2 btn-cal" id="bdate34"><i class="bi bi-calendar3"></i></span>
+                  <input type="text" class="form-control rounded-2" id="bdate" placeholder=""
+                    aria-describedby="bdate34">
+                  <div class="input-group-prepend">
+
+                  </div>
+                </div>
+
               </div>
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                <label class="col-form-label"><i class="bi bi-envelope-fill" style="font-size: 18px;"></i> Email Address</label>
+                <label class="col-form-label"><i class="bi bi-envelope-fill" style="font-size: 18px;"></i> Email
+                  Address</label>
                 <input type="text" class="form-control" value="john45@gmail.com" placeholder="Email address">
               </div>
 
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                <label class="col-form-label"><i class="bi bi-telephone-fill" style="font-size: 18px;"></i> Phone Number</label>
+                <label class="col-form-label"><i class="bi bi-telephone-fill" style="font-size: 18px;"></i> Phone
+                  Number</label>
                 <input type="text" class="form-control" min="1" max="10" value="1593602464" placeholder="Phone Number">
               </div>
               <div class="col-md-6">
-                <label class="col-form-label"><i class="bi bi-file-medical-fill" style="font-size: 18px;"></i> Specialty required </label>
+                <label class="col-form-label"><i class="bi bi-file-medical-fill" style="font-size: 18px;"></i> Specialty
+                  required </label>
                 <select class="form-select" aria-label="Default select example">
                   <!-- <option value="dry-cleaning" selected>Specialty required </option> -->
                   <option value="dry-cleaning" selected>Orthodontics</option>
@@ -89,7 +92,8 @@ Edit-Enquiry
               </div>
 
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                <label class="col-form-label"><i class="bi bi-file-earmark-medical-fill" style="font-size: 18px;"></i> Referral</label>
+                <label class="col-form-label"><i class="bi bi-file-earmark-medical-fill" style="font-size: 18px;"></i>
+                  Referral</label>
                 <input type="text" class="form-control" value="Dr. XYZ" placeholder="referal">
               </div>
               <!-- <div class="col-md-12">
@@ -101,17 +105,20 @@ Edit-Enquiry
                 </div>
               </div> -->
               <div class="col-md-12 col-12">
-                  <label class="col-form-label"><i class="bi bi-image-fill" style="font-size: 18px;"></i> Patient Image Upload</label>
-                  <div class="order-images">
-                    <img src="assets/img/profile-img.jpg" alt="product-img">
-                      <div class="d-flex editimages-button align-items-center pt-2">
-                          <input type="file" class="custom-file-input image-gallery" id="image-gallery" accept="image/png, image/jpeg" name="image-gallery[]" multiple accept="image/*" style="display: none;">
-                          <label class="custom-file-label btn btn-success m-1" for="image-gallery">
-                            <i class="bi bi-file-earmark-arrow-up"></i>
-                          </label>
-                          <button type="button" class="btn btn-primary m-1"><i class="ri-delete-bin-line"></i></button>
-                      </div>
+                <label class="col-form-label"><i class="bi bi-image-fill" style="font-size: 18px;"></i> Patient Image
+                  Upload</label>
+                <div class="order-images">
+                  <img src="assets/img/profile-img.jpg" alt="product-img">
+                  <div class="d-flex editimages-button align-items-center pt-2">
+                    <input type="file" class="custom-file-input image-gallery" id="image-gallery"
+                      accept="image/png, image/jpeg" name="image-gallery[]" multiple accept="image/*"
+                      style="display: none;">
+                    <label class="custom-file-label btn btn-success m-1" for="image-gallery">
+                      <i class="bi bi-file-earmark-arrow-up"></i>
+                    </label>
+                    <button type="button" class="btn btn-primary m-1"><i class="ri-delete-bin-line"></i></button>
                   </div>
+                </div>
               </div>
               <div class="d-flex justify-content-end align-items-center">
                 <button type="button" class="btn btn-dark"> Save Changes </button>

@@ -4,101 +4,124 @@ All-Enquiries
 <?= $this->endSection() ?>
 <?= $this->section('content') ?>
 
-  <main id="main" class="main">
-    <div class="pagetitle">
-      <div class="row">
+<main id="main" class="main">
+  <div class="pagetitle">
+    <div class="row">
       <div class="col-xxl-12 col-lg-12 col-md-12 col-sm-12">
-        <h1>All Enquiries</h1>
+        <h1>Enquiries</h1>
         <nav>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="<?= base_url() . '' . session('prefix') . '/' . 'dashboard' ?>">Dashboard</a></li>
+            <li class="breadcrumb-item"><a
+                href="<?= base_url() . '' . session('prefix') . '/' . 'dashboard' ?>">Dashboard</a></li>
             <li class="breadcrumb-item active">All Enquiries</li>
           </ol>
         </nav>
       </div>
     </div>
-    </div><!-- End Page Title -->
-  
-   <section class="section" id="userapp01">
-      <div class="row ">
-        <div class="col-lg-12">
+  </div><!-- End Page Title -->
 
-          <div class="card">
-            
-             <div class="card-header">
-               <div class="row">
-                  <div class="col-lg-8">
-                      <h5 class="card-title text-start">Enquiry</h5>
-                  </div>
-                  <div class="col-lg-4">
-                      <h5 class="card-title text-end addsup">
-                          <a href="<?= base_url() . '' . session('prefix') . '/' . 'add_enquiry' ?>"> Add New Enquiry </a></h5>
-                  </div>
-                </div>
-             </div>
+  <section class="section" id="userapp01">
+    <div class="row ">
+      <div class="col-lg-12">
 
-            <div class="card-body allappuser-table table-responsive">
-                          <!-- Table with stripped rows -->
-              <table class="table table-borderless datatable appuser-table">
-              <!-- <table class="table datatable table-bordered supplier-table"> -->
-                <thead>
-                  <tr>
-                    <th> Sr. No. </th>
-                    <th>Patient Name</th>
-                    <!-- <th>Birth Date</th>
-                    <th>Email Address</th> -->
-                    <th>Phone No.</th>
-                    <th>Specialist</th>
-                    
-                    <th>Action</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
+        <div class="card">
 
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Krishna</td>
-                    <td>9876541230</td>
-                    <td>Orthodontics</td>
-                    <td>
-                      <div class="d-flex justify-content-around align-items-center">
-                        <div class="editen p-1">
-                          <a href="editenquiry.php">
-                            <button type="button" class="btn btn-secondary"><i class='bx bx-edit'></i></button>
-                          </a>
-                        </div>
-                        <div class="viewsenq p-1">
-                          <a href="viewenquiry.php">
-                            <button type="button" class="btn"><i class="ri-eye-line"></i></button>
-                          </a>
-                        </div>
-                        <div class="deleten p-1">
-                          <button type="button" class="btn btn-danger"><i class="ri-delete-bin-line"></i></button>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                        <div class="d-flex justify-content-around align-items-center">
-                        <button type="button" class="btn btn-success">Approve</button>
-                      </div>
-                    </td>
-                  </tr>
-
-                
-                  
-                </tbody>
-              </table>
-              <!-- End Table with stripped rows -->
-
+          <div class="card-header">
+            <div class="row">
+              <div class="col-lg-8">
+                <h5 class="card-title text-start">All Enquiries</h5>
+              </div>
+              <div class="col-lg-4">
+                <h5 class="card-title text-end addsup">
+                  <a href="<?= base_url() . '' . session('prefix') . '/' . 'add_enquiry' ?>"> Add New Enquiry </a>
+                </h5>
+              </div>
             </div>
           </div>
 
+          <div class="card-body allappuser-table table-responsive">
+            <!-- Table with stripped rows -->
+            <table class="table table-borderless datatable appuser-table">
+              <!-- <table class="table datatable table-bordered supplier-table"> -->
+              <thead>
+                <tr>
+                  <th> Sr. No. </th>
+                  <th>Patient Name</th>
+                  <th>Phone No.</th>
+                  <th>Required Specialist</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <?php if (!empty($enquiries)): ?>
+                  <?php foreach ($enquiries as $index => $enquiry): ?>
+                    <tr>
+                      <td><?= $index + 1 ?></td>
+                      <td><?= esc($enquiry['patient_name']) ?></td>
+                      <td><?= esc($enquiry['phone']) ?></td>
+                      <td><?= esc($enquiry['required_specialist']) ?></td>
+                      <td>
+                        <div class="d-flex justify-content-around align-items-center">
+                          <button type="button" class="btn btn-success btn-sm">Approve</button>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex justify-content-around align-items-center">
+                          <!-- <div class="editen m-1">
+
+                            <a type="button"
+                              href="<?= base_url() . session('prefix') . '/edit_enquiry/' . esc($enquiry['enquiry_id']) ?>"
+                              class="btn btn-dark btn-sm"><i class='bx bx-edit'></i></a>
+                          </div> -->
+                          <div class="viewsenq m-1">
+                            <a type="button"
+                              href="<?= base_url() . session('prefix') . '/view_enquiry/' . esc($enquiry['enquiry_id']) ?>"
+                              class="btn btn-dark btn-sm"><i class="bi bi-eye"></i></a>
+                          </div>
+                          <div class="deleten m-1">
+                            <a type="button"
+                              href="<?= base_url() . session('prefix') . '/delete_enquiry/' . esc($enquiry['enquiry_id']) ?>"
+                              class="btn btn-dark btn-sm"><i class="ri-delete-bin-line"></i></a>
+                          </div>
+                        </div>
+                      </td>
+
+                    </tr>
+                  <?php endforeach; ?>
+                <?php else: ?>
+                  <tr>
+                    <td>No Enquiries.</td>
+                  </tr>
+                <?php endif; ?>
+              </tbody>
+            </table>
+            <!-- End Table with stripped rows -->
+
+          </div>
         </div>
+
       </div>
-    </section>
+    </div>
+  </section>
 
 
-  </main><!-- End #main -->
+  <?php if (session()->has('enquiry_add')): ?>
+    <script>
+      showToast('Enquiry Registered successfully.');  
+    </script>
+  <?php endif; ?>
+  <?php if (session()->has('delete_error')): ?>
+    <script>
+      showToast('<?= session('delete_error') ?>');  
+    </script>
+  <?php endif; ?>
+  <?php if (session()->has('delete_success')): ?>
+    <script>
+      showToast('<?= session('delete_success') ?>');  
+    </script>
+  <?php endif; ?>
+</main><!-- End #main -->
 
-  <?= $this->endSection() ?>
+<?= $this->endSection() ?>

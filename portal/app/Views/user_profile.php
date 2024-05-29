@@ -28,7 +28,7 @@ Profile
           <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
             <img
-              src="<?= base_url() ?>public/images/<?= isset($user['profile']) && !empty($user['profile']) ? $user['profile'] : 'user-profile.jpg' ?>"
+              src="<?= config('App')->baseURL2  ?>/public/images/<?= isset($user['profile']) && !empty($user['profile']) ? $user['profile'] : 'user-profile.jpg' ?>"
               alt="Profile" class="rounded-circle">
 
 
@@ -132,8 +132,8 @@ Profile
                     <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
                     <div class="col-md-8 col-lg-9">
                       <img
-                        src="<?= base_url() ?>public/images/<?= isset($user['profile']) && !empty($user['profile']) ? $user['profile'] : 'user-profile.jpg' ?>"
-                        alt="Profile" class="rounded-circle" height="150" width="150">
+                        src="<?= config('App')->baseURL2 ?>/public/images/<?= isset($user['profile']) && !empty($user['profile']) ? $user['profile'] : 'user-profile.jpg' ?>"
+                        alt="Profile" class="rounded-circle" height="auto" width="auto">
 
 
                       <!-- <div class="pt-2">

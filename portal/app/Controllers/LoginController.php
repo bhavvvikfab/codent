@@ -159,8 +159,9 @@ class LoginController extends BaseController
         } else {
             
             $newName = time() . '.' . $image->getExtension();
-            $image->move(WRITEPATH . 'public/images', $newName);
-
+            $destinationPath = ROOTPATH . '../admin/public/images';
+            $image->move($destinationPath, $newName);
+            
             $hashpassword = password_hash($password, PASSWORD_DEFAULT);
 
             if ($role == 'hospital' || $role == 'patient') {

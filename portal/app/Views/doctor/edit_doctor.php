@@ -113,8 +113,20 @@ Edit-Doctor
                                 <div class="col-lg-6 mb-3">
                                     <label for="specialist" class="form-label"><i class="bi bi-file-medical-fill"
                                             style="font-size: 18px;"></i> Specialist Of</label>
-                                    <input type="text" class="form-control" id="specialist" name="specialist"
-                                        value="<?= $doctor['doctor']['specialist_of'] ?>">
+                                    <!-- <input type="text" class="form-control" id="specialist" name="specialist"
+                                        value=""> -->
+                                        <select class="form-select" name="specialist">
+                                            <option value="n/a">--Select Specialty--</option>
+                                            <option value="orthodontics" <?= ($doctor['doctor']['specialist_of'] == 'orthodontics') ? 'selected' : '' ?>>Orthodontics</option>
+                                            <option value="endodontics" <?= ($doctor['doctor']['specialist_of'] == 'endodontics') ? 'selected' : '' ?>>Endodontics</option>
+                                            <option value="periodontics" <?= ($doctor['doctor']['specialist_of'] == 'periodontics') ? 'selected' : '' ?>>Periodontics</option>
+                                            <option value="prosthodontics" <?= ($doctor['doctor']['specialist_of'] == 'prosthodontics') ? 'selected' : '' ?>>Prosthodontics</option>
+                                            <option value="implantology" <?= ($doctor['doctor']['specialist_of'] == 'implantology') ? 'selected' : '' ?>>Implantology</option>
+                                            <option value="radiology" <?= ($doctor['doctor']['specialist_of'] == 'radiology') ? 'selected' : '' ?>>Radiology</option>
+                                            <option value="sedation" <?= ($doctor['doctor']['specialist_of'] == 'sedation') ? 'selected' : '' ?>>Sedation</option>
+                                        </select>
+
+                                        
                                     <?php if (session('errors.specialist')): ?>
                                         <small class="text-danger"><?= esc(session('errors.specialist')) ?><i
                                                 class="bi bi-exclamation-circle"></i></small>

@@ -49,10 +49,15 @@ $routes->group('hospital', ['filter' => $authFilter], function ($routes) {
     $routes->get('enquiry', 'enquiry\EnquiryController::all_enquiry');    
     $routes->get('add_enquiry', 'enquiry\EnquiryController::add_enquiry');    
     $routes->post('store_enquiry', 'enquiry\EnquiryController::store_enquiry');    
+    $routes->get('delete_enquiry/(:num)', 'enquiry\EnquiryController::delete_enquiry/$1');    
+    $routes->get('view_enquiry/(:num)', 'enquiry\EnquiryController::view_enquiry/$1');    
 
-    
+    $routes->get('appointment', 'appointment\AppointmentController::all_appointment');
+    $routes->get('add_appointment', 'appointment\AppointmentController::add_appointment');
+    $routes->get('view_appointment', 'appointment\AppointmentController::view_appointment');
+    $routes->get('edit_appointment', 'appointment\AppointmentController::edit_appointment');
 
-    $routes->get('get_hospital_dropdown','patient\PatientController::get_hospital_dropdown');
+    $routes->get('get_doctor_dropdown','patient\PatientController::get_doctor_dropdown');
     
 });
 
@@ -74,7 +79,11 @@ $routes->group('patient',['filter' => $authFilter], function ($routes) {
 
     $routes->get('enquiry', 'enquiry\EnquiryController::all_enquiry');    
     $routes->get('add_enquiry', 'enquiry\EnquiryController::add_enquiry');  
-    $routes->post('store_enquiry', 'enquiry\EnquiryController::store_enquiry'); 
+    $routes->post('store_enquiry', 'enquiry\EnquiryController::store_enquiry');
+    $routes->get('delete_enquiry/(:num)', 'enquiry\EnquiryController::delete_enquiry/$1');     
+    $routes->get('view_enquiry/(:num)', 'enquiry\EnquiryController::view_enquiry/$1');    
+    // $routes->get('edit_enquiry/(:num)', 'enquiry\EnquiryController::edit_enquiry/$1');   
+
 
     $routes->get('get_doctor_dropdown','patient\PatientController::get_doctor_dropdown');
 });

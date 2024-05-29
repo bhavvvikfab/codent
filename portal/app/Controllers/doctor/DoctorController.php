@@ -77,8 +77,9 @@ class DoctorController extends BaseController
         $specialistOrPractice = $this->request->getPost("specialistOrPractice");
     
         if ($image->isValid() && !$image->hasMoved()) {
-            $imageName = time() . '.' . $image->getExtension();
-            $image->move(ROOTPATH . 'public/images', $imageName);
+            $imageName = time() . '_' . uniqid() . '.' . $image->getExtension();
+            $destinationPath = ROOTPATH . '../admin/public/images';
+            $image->move($destinationPath, $imageName);
         }
     
         $data = [
@@ -205,8 +206,9 @@ class DoctorController extends BaseController
         ];
        
         if ($image && $image->isValid() && !$image->hasMoved()) {
-            $imageName = time() . '.' . $image->getExtension();
-            $image->move(ROOTPATH . 'public/images', $imageName);
+            $imageName = time() . '_' . uniqid() . '.' . $image->getExtension();
+            $destinationPath = ROOTPATH . '../admin/public/images';
+            $image->move($destinationPath, $imageName);
             $userData['profile'] = $imageName;
         }
         

@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class DoctorModel extends Model
 {
-    protected $table            = 'specialist/practices';
+    protected $table            = 'doctors';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';

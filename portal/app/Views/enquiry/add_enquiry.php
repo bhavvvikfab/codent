@@ -77,9 +77,9 @@ Add-Enquiry
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                 <label class="col-form-label"><i class="bi bi-person-circle" style="font-size: 18px;"></i> Patient
                   Name</label>
-                <input type="text" class="form-control" name="name">
-                <?php if (session('errors.name')): ?>
-                  <small class="text-danger"><?= esc(session('errors.name')) ?><i
+                <input type="text" class="form-control" name="patient_name">
+                <?php if (session('errors.patient_name')): ?>
+                  <small class="text-danger"><?= esc(session('errors.patient_name')) ?><i
                       class="bi bi-exclamation-circle"></i></small>
                 <?php endif; ?>
               </div>
@@ -158,6 +158,9 @@ Add-Enquiry
                   <?php endif; ?>
                 </select>
               </div>
+              <?php if (Session('user_role') == 6): ?>
+                <input type="hidden" name="user_id" value="<?= session('user_id') ?>">
+              <?php endif; ?>
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                 <label class="col-form-label"><i class="bi bi-file-earmark-medical-fill" style="font-size: 18px;"></i>
                   Note</label>

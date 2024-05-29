@@ -88,11 +88,12 @@ $routes->group('',$authFilter, function ($routes) {
   $routes->post("user_register", "ApiController::userRegister");
   $routes->post("login", "ApiController::login");
   $routes->get("all_users", "ApiController::allUsers", ['filter' => 'apiAuth']);
-  $routes->get("patient", "ApiController::patients", ['filter' => 'apiAuth']);
+  $routes->get("patients", "ApiController::patients", ['filter' => 'apiAuth']);
   $routes->get("hospitals", "ApiController::hospitals", ['filter' => 'apiAuth']);
   $routes->get("receptinists", "ApiController::receptinists", ['filter' => 'apiAuth']);
   $routes->post("change_password", "ApiController::change_password", ['filter' => 'apiAuth']);
   $routes->post("edit_profile", "ApiController::edit_profile", ['filter' => 'apiAuth']);
+  $routes->post("doctor_search", "ApiController::doctor_search", ['filter' => 'apiAuth']);
 
 });
 
