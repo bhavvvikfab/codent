@@ -79,7 +79,58 @@ $routes->group('',$authFilter, function ($routes) {
 
 
 
+   
+ // ==============Patients routes  start===========
+
+ $routes->get('patient', 'PatientController::index');
+ $routes->get('add_patient', 'PatientController::add_patient_view');
+ $routes->get('patient_status', 'PatientController::patient_status_fun');
+ $routes->post('register_patient_data', 'PatientController::register_form_fun');
+ $routes->get('editpait', 'PatientController::editpait_fun');
+ $routes->get('viewpait', 'PatientController::viewpait_fun');
+ $routes->post('update_patient_form', 'PatientController::update_patient_fun');
+ $routes->get('deletepait', 'PatientController::delete_fun');
+
+
+ // ==============Patients routes  end===========
+
+
+
+ // ==============Enquiry routes  start===========
+
+
+ $routes->get('enquiries', 'EnquiryController::index');
+ $routes->get('add_enquiries', 'EnquiryController::add_enquiries_view');
+//  $routes->get('get_doctors', 'EnquiryController::get_doctors_fun');
+ $routes->get('get_doctors/(:num)', 'EnquiryController::get_doctors/$1');
+ $routes->post('add_Enquery', 'EnquiryController::add_Enquery_fun');
+ $routes->get('editEnquiry', 'EnquiryController::editEnquiry_fun');
+ $routes->post('update_enquiry', 'EnquiryController::update_enquiry_fun');
+
+ $routes->get('viewEnquiry', 'EnquiryController::viewEnquiry_fun');
+
+//  $routes->get('get-doctors/(:num)', 'YourController::getDoctorsByHospital/$1');
+ $routes->get('deleteEnquiry', 'EnquiryController::deleteEnquiry_fun');
+ 
+
+ 
+ 
+ 
+ 
+
+ // ==============Enquiry routes  end===========
+
+
+
+
+
+
+
+
+
 });
+
+
 
  // ==============API routes end===========
 
@@ -101,19 +152,15 @@ $routes->group('',$authFilter, function ($routes) {
  // ==============API routes end===========
 
 
- // ==============Patients routes  start===========
-
- $routes->get('patient', 'PatientController::index');
- $routes->get('add_patient', 'PatientController::add_patient_view');
- $routes->get('patient_status', 'PatientController::patient_status_fun');
- $routes->post('register_patient_form', 'PatientController::register_form_fun');
- $routes->get('editpait', 'PatientController::editpait_fun');
- $routes->get('viewpait', 'PatientController::viewpait_fun');
 
 
-//  $routes->get('editpait(:num)', 'PatientController::editpait_fun/$1');
+ 
 
 
+ 
+
+ 
+ 
 
 
  

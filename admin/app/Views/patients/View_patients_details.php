@@ -44,15 +44,20 @@ Patients
 
               <div class="table-responsive">
             <form class="m-3">
+            <?php if (!empty($patients) && is_array($patients)) : ?>
+                  <?php foreach ($patients as $patient) : ?>
               <div class="row">
+
 
                 <div class="col-lg-4 pb-2 pb-lg-0">
                   
-                  <i class="bi bi-image-fill" aria-hidden="true"></i>
+                <div class="text-center mb-3">
+                  <i class="bi bi-person-circle" aria-hidden="true"></i>
                   <label class="form-label" for="inputNanme4"> <h5><b> Patient Image: </b></h5>
-                  </label><br> <img src="assets/img/profile-img.jpg" style="max-width: 100%;">
+                  </label><br> 
+                  <img src="<?= base_url('public/images/' . $patient['profile']) ?>" alt="Profile Image" class="rounded-circle img-thumbnail" style="max-width: 100px;">
                   
-
+                  </div>
                 </div>
 
                 <div class="col-lg-8 d-lg-flex flex-lg-column justify-content-lg-center">
@@ -61,57 +66,53 @@ Patients
 
                     <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
                       <i class="bi bi-person-circle" aria-hidden="true"></i>
-                      <label class="form-label" for="inputNanme05"> <b> Patient Name:</b> </label> Unity Pugh    
+                      <label class="form-label" for="inputNanme05"> <b> Patient Name :</b> <?= $patient['fullname'] ?> </label>  
                      </div>
                        
-                    <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0"><i class="bi bi-virus" aria-hidden="true"></i>
-                      <label class="form-label" for="inputdate"> <b> Diseases:</b> Tooth pain
+                    <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0"><i class="bi bi-envelope-fill" aria-hidden="true"></i>
+                      <label class="form-label" for="inputdate"> <b> Email :</b>  <?= $patient['email'] ?>
                     </label> 
                      </div>
                   </div>
               <hr>
               <div class="row">
                   
-                  <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
-                    <i class="bi bi-envelope-fill" aria-hidden="true"></i> <label class="form-label" for=""> <b>  Email:</b></label> mail123@gmail.com    
-                   </div>
-
-
+    
                  <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0"><i class="bi bi-telephone-fill" aria-hidden="true"></i>
-                        <label class="form-label" for=""> <b> Phone Number: </b> 1596324870
+                        <label class="form-label" for=""> <b> Phone Number : </b> <?= $patient['phone'] ?>
                         </label>
                      </div>
+
+                     <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                    <i class="bi bi-calendar-week-fill" aria-hidden="true"></i> <label class="form-label" for=""> <b>Date of Birth : </b><?= $patient['date_of_birth'] ?></label>  
+                   </div>   
+
+                      
                  
               </div>
               <hr>
               <div class="row">
 
 
-                  <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
-                    <i class="bi bi-person-circle" aria-hidden="true"></i> <label class="form-label" for=""> <b>Dr. Name: </b></label> Endodontics  
-                   </div>                          
+              <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                    <i class="bi bi-house-door-fill" aria-hidden="true"></i> <label class="form-label" for=""> <b>Address : </b><?= $patient['address'] ?></label>  
+                   </div>             
                 
 
-                  <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0"><i class="bi bi-calendar-week-fill" aria-hidden="true"></i>
-                  <label class="form-label" for="inputNanme4"> <b> Schedule: </b> 
-                  </label> Lorem Ipsum
-                </div>
+                 
                                                     
                    
 
               </div>
-              <hr>
 
-              <div class="row">
-                                                    
-                   <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
-                    <i class="bi bi-list-ul" aria-hidden="true"></i> <label class="form-label" for=""> <b>About: </b></label> Lorem Ipsum  
-                   </div>
-
-              </div>
+              
              
               
               </div>
+              <?php endforeach; ?>
+                  <?php else : ?>
+                  <p>No patients found.</p>
+                  <?php endif; ?>
              
              
             </form>            
