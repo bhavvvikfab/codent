@@ -59,8 +59,8 @@ Patients
                   <?php foreach ($patients as $patient) : ?>
                   <tr>
 
-                   <!-- <td class="text-center"><?= $serial++ ?></td> -->
-                   <td class="text-center"><?= $patient['id']  ?></td>
+                   <td class="text-center"><?= $serial++ ?></td>
+                   <!-- <td class="text-center"><?= $patient['id']  ?></td> -->
 
                     <td><?= $patient['fullname'] ?></td>
                     <td><?= $patient['email'] ?></td>
@@ -85,7 +85,9 @@ Patients
                           </a>
                         </div>
                         <div class="deletpai">
-                          <button type="button" class="btn btn-danger btn-sm"><i class="ri-delete-bin-line"></i></button>
+                          <a href="<?= base_url('deletepait?id=' . $patient['id']) ?>">
+                            <button type="button" class="btn btn-danger btn-sm"><i class="ri-delete-bin-line"></i></button>
+                          </a>
                         </div>
                       </div>
                     </td>
@@ -105,6 +107,32 @@ Patients
         </div>
       </div>
     </section>
+
+
+    <?php if (session()->has('status') && session('status') == 'success'): ?>
+      <script>
+             showToast('Patinet added successfully.'); 
+      </script>
+<?php endif; ?>
+<?php if (session()->has('update_status') && session('update_status') == 'success'): ?>
+      <script>
+             showToast('Patient data successfully updated.'); 
+      </script>
+<?php endif; ?>
+<?php if (session()->has('delete_status')): ?>
+    <?php if (session('delete_status') == 'success'): ?>
+        <script>
+            showToast('Patient data successfully deleted.');
+        </script>
+    <?php elseif (session('delete_status') == 'error'): ?>
+        <script>
+            showToast('Error deleting patient data. Please try again.');
+        </script>
+    <?php endif; ?>
+<?php endif; ?>
+
+
+
   </main><!-- End #main -->
 
   <script>

@@ -74,12 +74,12 @@
       </a>
       <ul id="user-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
-          <a href="enquiry.php" class="nav-link collapsed">
+          <a href="<?= base_url('enquiries') ?>" class="nav-link collapsed">
             <i class="bi bi-circle"></i><span>All Enquiries</span>
           </a>
         </li>
         <li>
-          <a href="addenquiry.php" class="nav-link collapsed">
+          <a href="<?= base_url('add_enquiries') ?>" class="nav-link collapsed">
             <i class="bi bi-circle"></i><span>Add New Enquiry</span>
           </a>
         </li>

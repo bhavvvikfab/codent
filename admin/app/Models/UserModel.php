@@ -97,6 +97,15 @@ class UserModel extends Model
         return $this->find($id);
     }
 
+    public function findDoctorsByHospitalAndRoles($hospitalId)
+    {
+        return $this->select('id, fullname')
+                    ->where('hospital_id', $hospitalId)
+                    ->whereIn('role', [3, 4])
+                    ->findAll();
+    }
+    
+
    
 
 }

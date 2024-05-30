@@ -69,5 +69,11 @@ class HospitalsModel extends Model
         return $result;
     }
 
+    public function findAllHospitals()
+    {
+        // Fetch all hospitals from the hospitals table
+        return $this->findAll();
+    }
+
    
 }
