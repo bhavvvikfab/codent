@@ -15,6 +15,7 @@ $routes->post('login', 'LoginController::login');
 $routes->get('logout', 'LoginController::logout');
 $routes->get('register', 'LoginController::register',$authRedirectFilter);
 $routes->post('registerdata', 'LoginController::register_data');
+$routes->post('subscription_payment', 'LoginController::subscription_payment');
 
 $routes->group('hospital', ['filter' => $authFilter], function ($routes) {
     $routes->get('dashboard', function () {
