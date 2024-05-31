@@ -21,6 +21,10 @@ class App extends BaseConfig
     public $baseURL2 = 'http://localhost/codent/admin';
     // public $baseURL2 = 'http://codent.fableadtechnolabs.com/admin';
 
+
+  public   $stripe_public = 'pk_test_51OySjsSEY69OOmNI2UVr1GSzW9bGaNbfZ7zDuUdQwdIihbV8e8BggPpsxKMc1hLK8HNdJ8qQMlrgzSc6X48MSBR00025yAZ0zE';
+  public   $stripe_secret= 'sk_test_51OySjsSEY69OOmNIPT6rklQqms63ZIUoTB3VY2qOz4F5hPCFRtKbn0mZrNA0Qu0wev7tzPrsCFM3L0jwKORWjCm000bbQzIqBN';
+
     /**
      * Allowed Hostnames in the Site URL other than the hostname in the baseURL.
      * If you want to accept multiple Hostnames, set this.
