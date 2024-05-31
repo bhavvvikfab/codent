@@ -29,7 +29,7 @@ $routes->group('',$authFilter, function ($routes) {
   $routes->get('add_hospital', 'HospitalController::add_hospital_view');
   $routes->post('add_hospital', 'HospitalController::add_hospital');
   $routes->get('hospital_status', 'HospitalController::hospital_status');
-  $routes->get('hospital_delete', 'HospitalController::hospital_delete');
+  $routes->get('delete_hospital/(:num)', 'HospitalController::hospital_delete/$1');
   $routes->get('edit_hospital(:num)', 'HospitalController::edit_hospital/$1');
   $routes->post('edit_hospital', 'HospitalController::edit_hospital_data');
   $routes->get('view_hospital(:num)', 'HospitalController::view_hospital/$1');
@@ -113,16 +113,35 @@ $routes->group('',$authFilter, function ($routes) {
  $routes->get('deleteEnquiry', 'EnquiryController::deleteEnquiry_fun');
  
 
- 
- 
- 
- 
+ // ==============Enquiry routes  end===========
 
+
+
+ // ==============Appointment routes  start===========
+
+
+
+ $routes->get('appointment', 'AppointmentController::index');
+ $routes->get('add_appointment', 'AppointmentController::add_appointment_view');
+ $routes->post('register_form', 'AppointmentController::register_fun');
+ $routes->get('editappoint', 'AppointmentController::editappoint_fun');
+ $routes->get('viewappoint/(:num)', 'AppointmentController::viewappoint_fun/$1');
+ $routes->get('editappoint/(:num)', 'AppointmentController::editappoint/$1');
+ $routes->post('update_appointment', 'AppointmentController::update_appointment_fun');
+ $routes->get('deleteappoint/(:num)', 'AppointmentController::deleteappoint_fun/$1');
+
+
+
+
+
+ 
+ 
  // ==============Enquiry routes  end===========
 
 
 
 
+ 
 
 
 

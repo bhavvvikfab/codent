@@ -390,7 +390,9 @@ Profile
           data: formData,
           success: function (data) {
             console.log(data);
-            if (data.status == "success") {
+            if (data.status == "success") 
+            {
+              $('#changePasswordForm')[0].reset();
               showToast('Password Chanaged successfully.');
               $('#password_alert').empty();
             } else {

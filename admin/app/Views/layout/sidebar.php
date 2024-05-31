@@ -92,12 +92,12 @@
       </a>
       <ul id="Supl-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
-          <a href="allappoint.php" class="nav-link collapsed">
+          <a href="<?= base_url('appointment') ?>" class="nav-link collapsed">
             <i class="bi bi-circle"></i><span>All Appointments</span>
           </a>
         </li>
         <li>
-          <a href="addappoint.php" class="nav-link collapsed">
+          <a href="<?= base_url('add_appointment') ?>" class="nav-link collapsed">
             <i class="bi bi-circle"></i><span>Add New Appointment</span>
           </a>
         </li>
