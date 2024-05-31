@@ -88,9 +88,10 @@ Hospitals
                                                   </a>
 
                                     
-                                                 <button data-id="<?= $hospital['id'] ?>" type="button" class="btn btn_delete_hospital btn-danger btn-sm">
-                                                    <i class="ri-delete-bin-line"></i>
-                                                </button>
+                                                  <a href="<?= base_url('delete_hospital/' . $hospital['id']) ?>" class="btn btn_delete_hospital btn-danger btn-sm">
+                                                    <i class='ri-delete-bin-line'></i>
+                                                  </a>
+                                                 
                                               
                                             </td>
                                         </tr>
@@ -123,6 +124,18 @@ Hospitals
             showToast('Something went wrong...!');  
         </script>
     <?php endif; ?>
+
+    <?php if (session()->has('hospital_delete') && session('hospital_delete') == 'success'): ?>
+      <script>
+            showToast('Hospital Delete Successfully');  
+        </script>
+<?php endif; ?>
+
+<?php if (session()->has('hospital_delete') && session('hospital_delete') == 'error'): ?>
+      <script>
+            showToast('Something Is Wrong ..... Please Try Again Later');  
+        </script>
+<?php endif; ?>
    <script>
     $(document).ready(function () {
         $('.statusToggleBtn').on('click', function () {
@@ -160,30 +173,30 @@ Hospitals
             }
         });
 
-        $('.btn_delete_hospital').on('click', function (e) {
-            e.preventDefault();
-            let id = $(this).data('id');
-            // console.log(id);
-            $.ajax({
-                url: '<?= base_url('hospital_delete')?>',
-                method: 'get',
-                data: {id: id},
-                success: function (data) {
-                    // console.log(data);
-                    if(data.success==1){
-                    $('.hospital_table_body').load('<?= base_url('hospitals')?> .hospital_table_body')
-                    showToast('Hospital Deleted.');
-                    }else if(data.success==2){
-                       showToast('Hospital not delete..!!.');  
-                    }else{
-                        showToast('Hospital not found..!!.');  
-                    }
-                },
-                error: function (err) {
-                    console.log(err);
-                }
-            });
-        });
+        // $('.btn_delete_hospital').on('click', function (e) {
+        //     e.preventDefault();
+        //     let id = $(this).data('id');
+        //     // console.log(id);
+        //     $.ajax({
+        //         url: '<?= base_url('hospital_delete')?>',
+        //         method: 'get',
+        //         data: {id: id},
+        //         success: function (data) {
+        //             // console.log(data);
+        //             if(data.success==1){
+        //             $('.hospital_table_body').load('<?= base_url('hospitals')?> .hospital_table_body')
+        //             showToast('Hospital Deleted.');
+        //             }else if(data.success==2){
+        //                showToast('Hospital not delete..!!.');  
+        //             }else{
+        //                 showToast('Hospital not found..!!.');  
+        //             }
+        //         },
+        //         error: function (err) {
+        //             console.log(err);
+        //         }
+        //     });
+        // });
         
         
         

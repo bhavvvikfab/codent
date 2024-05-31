@@ -155,24 +155,29 @@ class HospitalController extends BaseController
         }
     }
     
-    public function hospital_delete(){
+    public function hospital_delete($id)
+    {
         
-         $id = $this->request->getGet('id'); 
          
          if(!empty($id)){
-             
-             $hospital=new UserModel;
+
+             $hospital = new UserModel;
              
              $delete=$hospital->deleteUser($id);
              
-             if($delete){
-                   return response()->setJSON(['success' => 1, 'message' => 'Hospital deleted successfully.']);
+             if($delete)
+             {
+                
+            return redirect()->to('/hospitals')->with('hospital_delete', 'success');
+
              }else{
-                   return response()->setJSON(['success' => 2, 'message' => 'Hospital not deleted.']);
+            return redirect()->to('/hospitals')->with('hospital_delete', 'error');
+
              }
              
          }else{
-               return response()->setJSON(['success' => 3, 'message' => 'Hospital not found.']);
+            return redirect()->to('/hospitals')->with('hospital_delete', 'error');
+
          }
         
     }
