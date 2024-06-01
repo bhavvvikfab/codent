@@ -4,6 +4,8 @@ Appointments
 <?= $this->endSection() ?>
 <?= $this->section('content') ?>
 
+
+
 <main id="main" class="main">
   <div class="pagetitle">
     <div class="row">
@@ -46,35 +48,24 @@ Appointments
             <!-- No Labels Form -->
             <form class="row g-3" action="<?=base_url('register_form')?>" method="post" enctype="multipart/form-data">
             <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-    <label class="col-form-label">
-        <i class="bi bi-question-circle-fill" style="font-size: 18px;"></i> Enquiry 
-    </label>
-    <select class="form-select two" aria-label="Default select example" name="patient_name" id="patient_name">
-    <option value="">Select Referral Enquery</option>
-
+    <label for="patient_name"><i class="bi bi-question-circle-fill" style="font-size: 18px;"></i> Enquiry </label>
+    <select name="patient_name" id="patient_name" class="form-control two select2">
+        <option value="">Select a patient</option>
         <?php foreach ($enquiries as $enquiry): ?>
-
-            <option value="<?= $enquiry['id'] ?>"><?= $enquiry['patient_name'] ?></option>
+            <option value="<?= $enquiry['id'] ?>" data-hospital-id="<?= $enquiry['hospital_id'] ?>">
+                <?= esc($enquiry['patient_name']) ?>
+            </option>
         <?php endforeach; ?>
     </select>
     <?php if (session('errors.patient_name')): ?>
                                         <small class="text-danger"><?= esc(session('errors.patient_name')) ?><i class="bi bi-exclamation-circle"></i></small>
                       <?php endif; ?>
 </div>
-
 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-    <label class="col-form-label">
-        <i class="bi bi-person-circle" style="font-size: 18px;"></i> Doctor Name
-    </label>
-    <select class="form-select two" aria-label="Select Referral Doctor" name="doctor_name" id="doctor_name">
-        <option value="">Select Referral Doctor</option>
-        <?php foreach($enquiries as $enquiry): ?>
-            <?php if(isset($enquiry['referral_doctor_id']) && isset($enquiry['referral_doctor_name'])): ?>
-                <option value="<?= $enquiry['referral_doctor_id']; ?>">
-                    <?= $enquiry['referral_doctor_name']; ?>
-                </option>
-            <?php endif; ?>
-        <?php endforeach; ?>
+    <label for="doctor_name"><i class="bi bi-person-circle" style="font-size: 18px;"></i> Doctor Name</label>
+    <select name="doctor_name" id="doctor_name" class="form-control two">
+        <option value="">Select a doctor</option>
+        <!-- Doctor options will be populated by jQuery -->
     </select>
     <?php if (session('errors.doctor_name')): ?>
                                         <small class="text-danger"><?= esc(session('errors.doctor_name')) ?><i class="bi bi-exclamation-circle"></i></small>
@@ -86,8 +77,7 @@ Appointments
                 <div class="input-group">
                         <span class="input-group-text rounded-2 btn-cal" id="bdate34"><i class="bi bi-calendar3"></i></span>                        
                        <input type="date" class="form-control rounded-2" id="appointment_slot" name="appointment_slot" >
-                       
-                      
+                                            
                      </div>
                      <?php if (session('errors.appointment_slot')): ?>
                                         <small class="text-danger"><?= esc(session('errors.appointment_slot')) ?><i class="bi bi-exclamation-circle"></i></small>
@@ -188,12 +178,43 @@ Appointments
 <?php endif; ?>
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function() 
+    {
   $('.two').select2({
     // theme: 'bootstrap5', // Apply Bootstrap 4 theme
     // dropdownCssClass: 'bordered' // Add form-control class to the dropdown
   });
+
+
+$('#patient_name').change(function () {
+        const selectedOption = $(this).find('option:selected');
+        const hospitalId = selectedOption.data('hospital-id');
+
+        if (hospitalId) {
+            fetchDoctors(hospitalId);
+        } else {
+            $('#doctor_name').html('<option value="">Select a doctor</option>');
+        }
+    });
+
+    function fetchDoctors(hospitalId) {
+        $.ajax({
+            url: `<?= base_url('get_doctors_by_hospital/') ?>${hospitalId}`,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $('#doctor_name').html('<option value="">Select a doctor</option>'); // Reset doctor options
+                $.each(data, function (index, doctor) {
+                    $('#doctor_name').append(`<option value="${doctor.id}">${doctor.fullname}</option>`);
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching doctors:', error);
+            }
+        });
+    }
 });
+
   </script>
 
 <?= $this->endSection() ?>

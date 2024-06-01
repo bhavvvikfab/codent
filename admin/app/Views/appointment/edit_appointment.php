@@ -50,23 +50,31 @@ Appointments
             <form class="row g-3" action="<?=base_url('update_appointment')?>" method="post" enctype="multipart/form-data">
             <input type="hidden" class="form-control rounded-2" id="id" name="id" value="<?= esc($appointment['id']) ?>">
             
-             <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-            <label for="patient_name"><i class="bi bi-question-circle-fill" style="font-size: 18px;"></i> Enquiry</label>
-            <select name="patient_name" id="patient_name" class="form-control two">
-                <?php foreach ($patients as $patient): ?>
-                    <option value="<?= $patient['id'] ?>" <?= $appointment['inquiry_id'] == $patient['id'] ? 'selected' : '' ?>><?= esc($patient['patient_name']) ?></option>
-                <?php endforeach; ?>
-            </select>
-        </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+    <label for="patient_name"><i class="bi bi-question-circle-fill" style="font-size: 18px;"></i> Enquiry </label>
+    <select name="patient_name" id="patient_name" class="form-control two">
+        <option value="">Select a patient</option>
+        <?php foreach ($patients as $patient): ?>
+            <option value="<?= $patient['id'] ?>" data-hospital-id="<?= $patient['hospital_id'] ?>"
+                <?= $appointment['inquiry_id'] == $patient['id'] ? 'selected' : '' ?>>
+                <?= esc($patient['patient_name']) ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
+</div>
 
-        <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-            <label for="doctor_name"><i class="bi bi-person-circle" style="font-size: 18px;"></i> Doctor Name</label>
-            <select name="doctor_name" id="doctor_name" class="form-control two">
-                <?php foreach ($doctors as $doctor): ?>
-                    <option value="<?= $doctor['id'] ?>" <?= $appointment['assigne_to'] == $doctor['id'] ? 'selected' : '' ?>><?= esc($doctor['fullname']) ?></option>
-                <?php endforeach; ?>
-            </select>
-        </div>
+<div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+    <label for="doctor_name"><i class="bi bi-person-circle" style="font-size: 18px;"></i>Doctor Name</label>
+    <select name="doctor_name" id="doctor_name" class="form-control two">
+        <option value="">Select a doctor</option>
+        <?php foreach ($doctors as $doctor): ?>
+            <option value="<?= $doctor['id'] ?>" <?= $appointment['assigne_to'] == $doctor['id'] ? 'selected' : '' ?>>
+                <?= esc($doctor['fullname']) ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
+</div>
+
 
 
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
@@ -156,6 +164,37 @@ Appointments
     // theme: 'bootstrap5', // Apply Bootstrap 4 theme
     // dropdownCssClass: 'bordered' // Add form-control class to the dropdown
   });
+
+
+  $('#patient_name').change(function () {
+        const selectedOption = $(this).find('option:selected');
+        const hospitalId = selectedOption.data('hospital-id');
+
+        if (hospitalId) {
+            fetchDoctors(hospitalId);
+        } else {
+            $('#doctor_name').html('<option value="">Select a doctor</option>');
+        }
+    });
+
+    function fetchDoctors(hospitalId) 
+    {
+        $.ajax({
+            url: `<?= base_url('get_doctors_by_hospital/') ?>${hospitalId}`,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $('#doctor_name').html('<option value="">Select a doctor</option>'); // Reset doctor options
+                $.each(data, function (index, doctor) {
+                    $('#doctor_name').append(`<option value="${doctor.id}">${doctor.fullname}</option>`);
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching doctors:', error);
+            }
+        });
+    }
+
 });
   </script>
 

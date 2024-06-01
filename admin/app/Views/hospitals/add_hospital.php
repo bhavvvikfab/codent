@@ -31,7 +31,7 @@ Add_Hospitals
                             </div>
                             <div class="col-lg-4">
                                 <h5 class="card-title text-end addsup">
-                                    <a href="<?= base_url('dashboard') ?>"> Back </a>
+                                <a href="<?= site_url('/hospitals') ?>"> Back </a>
                                 </h5>
                             </div>
                         </div>

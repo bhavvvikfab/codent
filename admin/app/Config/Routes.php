@@ -133,6 +133,7 @@ $routes->group('',$authFilter, function ($routes) {
 
 
 
+ $routes->get('/get_doctors_by_hospital/(:num)', 'AppointmentController::get_doctors_by_hospital/$1');
 
  
  

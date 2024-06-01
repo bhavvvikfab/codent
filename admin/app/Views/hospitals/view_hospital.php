@@ -45,12 +45,13 @@ View_Hospitals
               <div class="row">
 
                 <div class="col-lg-4 pb-2 pb-lg-0">
+                <div class="text-center mb-3">
                   
                   <i class="bi bi-image-fill" aria-hidden="true"></i>
                   <label class="form-label" for="inputNanme4"> <h5><b>Hospital Image: </b></h5>
                   </label><br> 
                   
-                   <img style="max-width: 100%;" height='auto' src="<?= base_url()?>public/images/<?= isset($hospital['profile']) && !empty($hospital['profile']) ? $hospital['profile'] : 'user-profile.jpg' ?>" >
+                   <img class="rounded-circle img-thumbnail" style="max-width: 100%;"  src="<?= base_url()?>public/images/<?= isset($hospital['profile']) && !empty($hospital['profile']) ? $hospital['profile'] : 'user-profile.jpg' ?>" >
                                              
                   <!--<img src="assets/img/profile-img.jpg" style="max-width: 100%;">-->
                   <pre>
@@ -59,6 +60,8 @@ View_Hospitals
                   <!--<? print_r($package)?>-->
                 </pre>
                 </div>
+                </div>
+
 
                 <div class="col-lg-8 d-lg-flex flex-lg-column justify-content-lg-center">
 

@@ -119,7 +119,7 @@ Add Hospitals
                                     <div id="imageError" class="text-danger"></div>
                                 </div>
                                 <div class="col-lg-6 mb-3">
-                                    <label for="selectSpecialistOrPractice" class="form-label"><i class="bi bi-check-square-fill" style="font-size: 18px;"></i></i>Which is Your Preference?</label>
+                                    <label for="selectSpecialistOrPractice" class="form-label"><i class="bi bi-check-square-fill" style="font-size: 18px;"></i> Which is Your Preference?</label>
                                     <select class="form-select" id="specialistOrPractice" name="specialistOrPractice">
                                     <option >Select Preference</option>
                                     <option value="3">Specialist</option>
