@@ -57,11 +57,13 @@ Appointments
 
                 <tbody>
             
-
-                  
+                <?php if (!empty($appointments) && is_array($appointments)) : ?>
+                  <?php $serial = 1;?>                  
                 <?php foreach ($appointments as $appointment): ?>
                     <tr>
-                        <td><?= esc($appointment['id']); ?></td>
+                   <td class="text-center"><?= $serial++ ?></td>
+
+                        <!-- <td><?= esc($appointment['id']); ?></td> -->
                         <td><?= esc($appointment['patient_name']); ?></td>
                         <td><?= esc($appointment['fullname']); ?></td>
                         <td><?= esc($appointment['schedule']); ?></td>
@@ -96,6 +98,9 @@ Appointments
                   </tr>
 
                   <?php endforeach; ?>
+                  <?php else : ?>
+                  <p>No patients found.</p>
+                  <?php endif; ?>
             
                   
                 </tbody>

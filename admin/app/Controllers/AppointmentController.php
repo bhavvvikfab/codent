@@ -31,42 +31,50 @@ class AppointmentController extends BaseController
         
     }
 
-
-    
-    public function add_appointment_view()
+    public function get_doctors_by_hospital($hospital_id)
 {
-    $enquiryModel = new EnquiryModel();
     $userModel = new UserModel();
-
-    // Fetch all enquiries with patient_name and referral_doctor
-    $enquiries = $enquiryModel->findAll();
-
-    // Fetch referral doctor names and IDs and add them to the enquiries array
-    foreach ($enquiries as &$enquiry) {
-        $referralDoctorId = $enquiry['referral_doctor'];
-        if ($referralDoctorId) 
-        {
-            $referralDoctor = $userModel->find($referralDoctorId);
-
-            if ($referralDoctor && isset($referralDoctor['id'], $referralDoctor['fullname'])) {
-                $enquiry['referral_doctor_id'] = $referralDoctor['id']; // Add ID to array
-                $enquiry['referral_doctor_name'] = $referralDoctor['fullname']; // Add name to array
-            } else {
-                // Handle case where referral doctor is not found or structure is unexpected
-                $enquiry['referral_doctor_id'] = null;
-                $enquiry['referral_doctor_name'] = 'Unknown Doctor';
-            }
-        } 
-        else 
-        {
-            // Handle case where referral_doctor is not set in enquiry
-            $enquiry['referral_doctor_id'] = null;
-            $enquiry['referral_doctor_name'] = 'No Referral Doctor';
-        }
-    }
-
-    return view('appointment/add_appointment', ['enquiries' => $enquiries]);
+    $doctors = $userModel->where('hospital_id', $hospital_id)->findAll();
+    return $this->response->setJSON($doctors);
 }
+
+
+
+    public function add_appointment_view()
+    {
+        $enquiryModel = new EnquiryModel();
+        $userModel = new UserModel();
+    
+        // Fetch all enquiries with patient_name and referral_doctor
+        $enquiries = $enquiryModel->findAll();
+    
+        // Fetch referral doctor names and IDs and add them to the enquiries array
+        foreach ($enquiries as &$enquiry) {
+            $referralDoctorId = $enquiry['referral_doctor'];
+            if ($referralDoctorId) 
+            {
+                $referralDoctor = $userModel->find($referralDoctorId);
+    
+                if ($referralDoctor && isset($referralDoctor['id'], $referralDoctor['fullname'])) {
+                    $enquiry['referral_doctor_id'] = $referralDoctor['id']; // Add ID to array
+                    $enquiry['referral_doctor_name'] = $referralDoctor['fullname']; // Add name to array
+                } else {
+                    // Handle case where referral doctor is not found or structure is unexpected
+                    $enquiry['referral_doctor_id'] = null;
+                    $enquiry['referral_doctor_name'] = 'Unknown Doctor';
+                }
+            } 
+            else 
+            {
+                // Handle case where referral_doctor is not set in enquiry
+                $enquiry['referral_doctor_id'] = null;
+                $enquiry['referral_doctor_name'] = 'No Referral Doctor';
+            }
+        }
+    
+        return view('appointment/add_appointment', ['enquiries' => $enquiries]);
+    }
+    
 
 public function register_fun()
 {
@@ -140,20 +148,18 @@ public function editappoint($id)
 
     // Fetch the specific appointment by ID with joined data
     $appointment = $appointmentModel
-        ->select('appointments.*, users.fullname, enquiries.patient_name')
-        ->join('users', 'users.id = appointments.assigne_to')
-        ->join('enquiries', 'enquiries.id = appointments.inquiry_id')
+        ->select('appointments.*, users.fullname as doctor_name, enquiries.patient_name, enquiries.hospital_id')
+        ->join('users', 'users.id = appointments.assigne_to', 'left')
+        ->join('enquiries', 'enquiries.id = appointments.inquiry_id', 'left')
         ->where('appointments.id', $id)
         ->first();
 
     if ($appointment) {
-        // Fetch all patients and doctors for the dropdowns
+        // Fetch all patients for the dropdown
         $patients = $enquiryModel->findAll();
-        $doctors = $userModel->findAll();
 
-        // print_r($doctors);die;
-
-        // print_r($doctors);die;
+        // Fetch doctors based on the hospital ID of the selected patient
+        $doctors = $userModel->where('hospital_id', $appointment['hospital_id'])->findAll();
 
         // Pass the appointment, patients, and doctors data to the edit view
         return view('appointment/edit_appointment', [
@@ -166,7 +172,6 @@ public function editappoint($id)
         return redirect()->to('/appointments')->with('error', 'Appointment not found');
     }
 }
-
 
     
 

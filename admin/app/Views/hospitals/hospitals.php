@@ -49,7 +49,7 @@ Hospitals
                                     <th>Hospital Name</th>
                                     <th>Email</th>
                                     <th>Status</th>
-                                    <th>Action</th>
+                                    <th class="text-center">Action</th>
                                 </tr>
                             </thead>
 
@@ -63,21 +63,21 @@ Hospitals
                                     <?php $index = 1; ?>
                                     <?php foreach ($hospitals as $hospital): ?>
                                         <tr>
-                                            <td><?= $index; ?></td>
-                                            <td>
+                                            <td class="text-center"><?= $index; ?></td>
+                                            <td class="text-center">
                                             <img src="<?= base_url()?>public/images/<?= isset($hospital['profile']) && !empty($hospital['profile']) ? $hospital['profile'] : 'user-profile.jpg' ?>" height="50" width="50">
                                               
                                             </td>
 
-                                            <td><?= $hospital['fullname']; ?></td>
+                                            <td ><?= $hospital['fullname']; ?></td>
                                             <td><?= $hospital['email']; ?></td>
-                                            <td>
+                                            <td class="text-center">
                                                 <button
                                                     class="statusToggleBtn btn btn-sm <?php echo ($hospital['status'] == 'active') ? 'btn-success' : 'btn-danger'; ?>" data-id="<?=$hospital['id']?>" >
                                                     <?php echo ($hospital['status'] == 'active') ? 'Active' : 'Inactive'; ?>
                                                 </button>
                                             </td>
-                                            <td>
+                                            <td class="text-center">
                                                 
                                                  <a href="<?= base_url('view_hospital' . $hospital['id']) ?>" class="btn btn-secondary btn-sm" >
                                                     <i class="ri-eye-line"></i>

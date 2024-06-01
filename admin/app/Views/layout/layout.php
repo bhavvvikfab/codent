@@ -30,6 +30,8 @@
 
   <!-- Template Main CSS File -->
   <link href="<?=base_url()?>public/css/main.css" rel="stylesheet">
+  <link href="<?=base_url()?>public/css/my_admin.css" rel="stylesheet">
+
 
 </head>
 <style>
