@@ -12,7 +12,7 @@ class UserModel extends Model
     protected $returnType = 'array';
     protected $useSoftDeletes = false;
     protected $protectFields = true;
-    protected $allowedFields = ['id','role','hospital_id','fullname','email', 'password','address','date_of_birth','phone','profile', 'status',];
+    protected $allowedFields = ['id','role','hospital_id','fullname','email', 'password','address','date_of_birth','phone','profile', 'status','forgot_password_key'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -60,7 +60,7 @@ class UserModel extends Model
         return array_intersect_key($data, array_flip($this->allowedFields));
     }
 
-    public function updatePassword($id, $oldPassword, $newPassword)
+    public function UpdatePasswordUsingId($id, $oldPassword, $newPassword)
     {
         if (empty($id) || empty($oldPassword) || empty($newPassword)) {
             return false;
@@ -105,7 +105,24 @@ class UserModel extends Model
                     ->findAll();
     }
     
+    public function updatePasswordByEmail($email, $oldPassword, $newPassword)
+{
+    if (empty($email) || empty($oldPassword) || empty($newPassword)) {
+        return false;
+    }
 
-   
+    $user = $this->where('email', $email)->first();
+
+    if ($user && password_verify($oldPassword, $user['password'])) {
+        $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+        $data = ['password' => $hashedPassword];
+
+        $result = $this->update($user['id'], $data);
+        return true;
+    }
+
+    return 'error';
+    }
+
 
 }

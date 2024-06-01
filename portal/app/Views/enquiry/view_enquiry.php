@@ -142,6 +142,8 @@ All-Enquiries
                       <label class="form-label" for="images"><b><i class="bi bi-images"></i> Images : </b></label>
                       <div class="col-12">
                         <div class="row">
+                          <?php if( isset($enquiry['images']) && !empty($enquiry['images']) ) : ?>
+
                           <?php foreach ($enquiry['image'] as $index => $image): ?>
                             <div class="col-1 col-lg-1 col-sm-3">
                               <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal"
@@ -151,6 +153,11 @@ All-Enquiries
                               </a>
                             </div>
                           <?php endforeach; ?>
+                          <?php else :?>
+                            <div class="col-12 col-lg-12 col-sm-12">
+                              No Image Uploaded.
+                            </div>
+                          <?php endif; ?>
                         </div>
                       </div>
                     </div>

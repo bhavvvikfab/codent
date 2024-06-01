@@ -4,15 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class HospitalModel extends Model
+class AppointmentModel extends Model
 {
-    protected $table            = 'hospitals';
+    protected $table            = 'appointments';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id','name','current_plan','note','hospital_id'];
+    protected $allowedFields    = ['id','hospital_id','inquiry_id','status','schedule','note','contacted_via','assigne_to','lead_instruction'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -43,12 +43,4 @@ class HospitalModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-    
-     public function insertHospital($data)
-     {
-          $this->insert($data);
-          return $this->insertID();
-     }
-
-
 }

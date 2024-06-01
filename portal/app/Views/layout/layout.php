@@ -32,6 +32,36 @@
 
 </head>
 
+<style>
+ 
+  .select2-container--default .select2-selection--single {
+    height: 38px !important;
+    width: 100% !important;
+  }
+  
+  .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 38px !important;
+  }
+  
+  .select2-container--default .select2-selection--single {
+    border: 1px solid #d2d6da !important;
+    border-radius: 0.5rem !important;
+  }
+  
+  .select2-container--default .select2-search--dropdown .select2-search__field {
+    border: 1px solid #ccc !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  
+  .select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #444 !important;
+    line-height: 38px !important;
+    padding-left: 15px !important;
+  }
+</style>
+
+
 <body>
 
   <!-- ======= Header ======= -->
@@ -56,6 +86,8 @@
         }).showToast();
       }
   </script>
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <!-- ======= content ======= -->
   <?= $this->renderSection('content') ?>
 <!-- ======= content end ======= -->

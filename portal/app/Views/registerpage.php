@@ -11,8 +11,8 @@
 
 
     <!-- Favicons -->
-    <link href="<?=base_url()?>public/img/favicon.png" rel="icon">
-    <link href="<?=base_url()?>public/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="<?= base_url() ?>public/img/favicon.png" rel="icon">
+    <link href="<?= base_url() ?>public/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -20,17 +20,17 @@
         href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
         rel="stylesheet">
 
-    <!-- Vendor CSS Files -->
-    <link href="<?=base_url()?>public/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="<?=base_url()?>public/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="<?=base_url()?>public/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-    <link href="<?=base_url()?>public/vendor/quill/quill.snow.css" rel="stylesheet">
-    <link href="<?=base_url()?>public/vendor/quill/quill.bubble.css" rel="stylesheet">
-    <link href="<?=base_url()?>public/vendor/remixicon/remixicon.css" rel="stylesheet">
-    <link href="<?=base_url()?>public/vendor/simple-datatables/style.css" rel="stylesheet">
+    <!-- vendor1 CSS Files -->
+    <link href="<?= base_url() ?>public/vendor1/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?= base_url() ?>public/vendor1/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="<?= base_url() ?>public/vendor1/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="<?= base_url() ?>public/vendor1/quill/quill.snow.css" rel="stylesheet">
+    <link href="<?= base_url() ?>public/vendor1/quill/quill.bubble.css" rel="stylesheet">
+    <link href="<?= base_url() ?>public/vendor1/remixicon/remixicon.css" rel="stylesheet">
+    <link href="<?= base_url() ?>public/vendor1/simple-datatables/style.css" rel="stylesheet">
 
     <!-- Template Main CSS File -->
-    <link href="<?=base_url()?>public/css/main.css" rel="stylesheet">
+    <link href="<?= base_url() ?>public/css/main.css" rel="stylesheet">
 
 
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
@@ -162,7 +162,7 @@
         .progress-bar .step .bullet {
             height: 35px;
             width: 35px;
-            z-index:10;
+            z-index: 10;
             border: 2px solid #000;
             display: inline-block;
             border-radius: 50%;
@@ -258,8 +258,8 @@
                 margin-bottom: 8px;
             }
         }
-        
-         @media (max-width: 1400px) {
+
+        @media (max-width: 1400px) {
 
             .progress-bar .step .bullet:before,
             .progress-bar .step .bullet:after {
@@ -280,17 +280,15 @@
                 margin-bottom: 8px;
             }
         }
-        
-        
     </style>
 
 </head>
 
 <body>
-                                               
-   
+
+
     <pre>
-    <!--<?php print_r($data)?>-->
+    <!--<?php print_r($data) ?>-->
     </pre>
 
     <main>
@@ -302,7 +300,7 @@
                         <div class="col-lg-6 col-md-6 d-flex flex-column align-items-center justify-content-center">
                             <div class="d-flex justify-content-center py-4">
                                 <a href="index.php" class="logo d-flex align-items-center w-auto">
-                                    <img src="<?= base_url()?>public/img/logo.png" alt="">
+                                    <img src="<?= base_url() ?>public/img/logo.png" alt="">
                                     <span class="d-lg-block">CoDent</span>
                                 </a>
                             </div><!-- End Logo -->
@@ -338,26 +336,27 @@
                                             </div>
 
                                         </div>
-                                        
-                                        
-                                        <div id="message"  class="pb-3" style="display: none;"></div>
-                                        
-                                
+
+
+                                        <div id="message" class="pb-3" style="display: none;"></div>
+
+
                                         <div class="form-outer">
                                             <form id="register" action="<?= base_url('/registerdata') ?>" method="post"
                                                 enctype="multipart/form-data">
                                                 <div class="page slide-page">
-                                                    <div class="title"><i class="bi bi-caret-right-fill"></i> Personal Deatils</div>
-                                                    <div class="field mb-0">
-                                                        <div class="label">Are you...?</div>
-                                                        <select name="role" id="role" class="form-select">Select Role
+                                                    <div class="title"><i class="bi bi-caret-right-fill"></i> Personal
+                                                        Deatils</div>
+                                                    <!-- <div class="field mb-0"> -->
+                                                    <!-- <div class="label">Are you...?</div>
+                                                        <select name="role" id="role" class="form-select " hidden>Select Role
                                                             <option >--Select--Role--</option>
                                                             <option value="patient">Patient</option>
-                                                            <option value="hospital">Hospital</option>
-                                                        </select>
-                                                    </div>
+                                                            <option value="hospital" selected >Hospital</option>
+                                                        </select> -->
+                                                    <!-- </div> -->
                                                     <div id="roleError" class="text-danger text-start"></div>
-                                                    
+
                                                     <div class="field mb-0 mb-0">
                                                         <div class="label">Full Name :</div>
                                                         <input type="text" name="fullname" id="fullname"><br>
@@ -383,25 +382,25 @@
                                                 </div>
 
                                                 <div class="page">
-                                                    <div class="title "><i class="bi bi-caret-right-fill"></i> Contact Info</div>
+                                                    <div class="title "><i class="bi bi-caret-right-fill"></i> Contact
+                                                        Info</div>
                                                     <div class="field mb-0">
                                                         <div class="label ">Date Of Birth :</div>
-                                                        <input type="date" name="dob" id="dob" class="form-control" >
+                                                        <input type="date" name="dob" id="dob" class="form-control">
                                                     </div>
                                                     <div id="dobError" class="text-danger text-start"></div>
 
                                                     <div class="field mb-0">
                                                         <div class="label">Address :</div>
-                                                           <textarea id="address" name="address" rows="4" class="form-control" 
-                                                          ></textarea><br>
+                                                        <textarea id="address" name="address" rows="4"
+                                                            class="form-control"></textarea><br>
                                                     </div>
                                                     <div id="addressError" class="text-danger text-start"></div>
 
 
                                                     <div class="field mb-0">
                                                         <div class="label">Image :</div>
-                                                        <input type="file" class="form-control" name="image"
-                                                            id="image">
+                                                        <input type="file" class="form-control" name="image" id="image">
                                                     </div>
                                                     <div id="imageError" class="text-danger text-start"></div>
 
@@ -419,9 +418,9 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="page" id="hospital_extra_page">
-                                                    
-                                                    <div class="title "><i class="bi bi-caret-right-fill"></i> Submit Here</div>
+                                                <!-- <div class="page" id="hospital_extra_page"> -->
+
+                                                <!-- <div class="title "><i class="bi bi-caret-right-fill"></i> Submit Here</div>
                                                     <div class="field mb-0">
                                                         <div class="label">Select Hospital</div>
                                                      <?php if (!empty($data['hospitals'])): ?>
@@ -446,117 +445,143 @@
                                                     <div class="field btns">
                                                         <button class="prev-2 prev">Previous</button>
                                                         <button class="submit">Create Account</button>
-                                                    </div>
-                                                </div>
-                                                
-                                          <div class="page" id="hospital_packages">
-                                                    <div class="title"><i class="bi bi-caret-right-fill"></i> Select Subscription</div>
+                                                    </div> -->
+                                                <!-- </div> -->
+
+                                                <div class="page" id="hospital_packages">
+                                                    <div class="title"><i class="bi bi-caret-right-fill"></i> Select
+                                                        Subscription</div>
                                                     <div class="row mt-3">
                                                         <?php if (!empty($data['packages'])): ?>
                                                             <?php foreach ($data['packages'] as $package): ?>
+
                                                                 <div class="col-md-12 col-lg-6 col-sm-12">
-                                                                    <div class="card" style="width: 15rem; border:1px solid rgb(2, 48, 80);">
-                                                                        <div class="card-header" style="background-color: rgb(2, 48, 80); color: rgb(255, 255, 255);">
+                                                                    <div class="card"
+                                                                        style="width: 15rem; border:1px solid rgb(2, 48, 80);">
+                                                                        <input type="hidden" name="package_id"
+                                                                            value=" <?= !empty($package['id']) ? $package['id'] : 'N/A' ?>"
+                                                                            class="package_id">
+                                                                        <div class="card-header"
+                                                                            style="background-color: rgb(2, 48, 80); color: rgb(255, 255, 255);">
                                                                             <h4 class="mt-3 fw-bold text-light">
                                                                                 <?= !empty($package['plan_name']) ? $package['plan_name'] : 'N/A' ?>
                                                                             </h4>
                                                                         </div>
                                                                         <ul class="list-group list-group-flush">
                                                                             <li class="list-group-item">
-                                                                                <label class="fw-bold" style="color: rgb(2, 48, 80);">Description :</label> <br>
+                                                                                <label class="fw-bold"
+                                                                                    style="color: rgb(2, 48, 80);">Description
+                                                                                    :</label> <br>
                                                                                 <?= !empty($package['details']) ? $package['details'] : 'N/A' ?>
                                                                             </li>
                                                                             <li class="list-group-item">
                                                                                 <h6 class="card-text"><span>Validity : </span>
-                                                                                    <?= !empty($package['duration']) ? $package['duration'] : 'N/A' ?> Days
+                                                                                    <?= !empty($package['duration']) ? $package['duration'] : 'N/A' ?>
+                                                                                    Days
                                                                                 </h6>
-                                                                                <h5 class="card-text fw-bold" style="color: rgb(2, 48, 80);"><span>Price : </span>
+                                                                                <h5 class="card-text fw-bold"
+                                                                                    style="color: rgb(2, 48, 80);"><span>Price :
+                                                                                    </span>
                                                                                     <?= !empty($package['price']) ? $package['price'] : 'N/A' ?>
                                                                                 </h5>
                                                                             </li>
                                                                             <li class="list-group-item">
-                                                                                <a href="" class="btn btn_subscribe" style="background-color: rgb(2, 48, 80); color: rgb(255, 255, 255);">Subscribe</a>
+                                                                                <a href="" class="btn btn_subscribe"
+                                                                                    style="background-color: rgb(2, 48, 80); color: rgb(255, 255, 255);"
+                                                                                    data-bs-toggle="modal"
+                                                                                    data-bs-target="#exampleModal">Subscribe</a>
                                                                             </li>
                                                                         </ul>
                                                                     </div>
                                                                 </div>
                                                             <?php endforeach; ?>
-                                                 <?php else: ?>
-                                                    <p>No packages available.</p>
-                                                <?php endif; ?>
-                                            </div>
+                                                        <?php else: ?>
+                                                            <p>No packages available.</p>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                </div>
+                                            </form> <!-- //form -->
                                         </div>
-
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-12 text-center">
-                                            <p class="mb-0">Already have an account? <a href="<?= base_url("/") ?>">Log
-                                                    in</a></p>
+                                        <div class="row">
+                                            <div class="col-12 text-center">
+                                                <p class="mb-0">Already have an account? <a
+                                                        href="<?= base_url("/") ?>">Log
+                                                        in</a></p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="credits text-center">
-                                Designed by <a href="https://fableadtechnolabs.com/">Fablead Developers Technolab</a>
+                                <div class="credits text-center">
+                                    Designed by <a href="https://fableadtechnolabs.com/">Fablead Developers
+                                        Technolab</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
             </section>
         </div>
-    </main><!-- End #main -->
+
+        <!-- card modal=================== -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Payment your subscription</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="payment-form" method="POST" action="<?= base_url("subscription_payment") ?>">
+                        <input type="hidden" name="package_id" id="package_id">
+                        <input type="hidden" name="hospital_id" id="hospital_id">
+                        <div class="modal-body">
+                            <div id="card-element">
+                                <!-- A Stripe Element will be inserted here. -->
+                            </div>
+                            <div id="card-errors" role="alert"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary paynow" id="pay-btn">Pay
+                                Now</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- card modal end=================== -->
+
+    </main>
+    <!-- End #main -->
+
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>
 
 
-    <!-- Vendor JS Files -->
-    <script src="<?=base_url()?>public/vendor/apexcharts/apexcharts.min.js"></script>
-    <script src="<?=base_url()?>public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="<?=base_url()?>public/vendor/chart.js/chart.umd.js"></script>
-    <script src="<?=base_url()?>public/vendor/echarts/echarts.min.js"></script>
-    <script src="<?=base_url()?>public/vendor/quill/quill.min.js"></script>
-    <script src="<?=base_url()?>public/vendor/simple-datatables/simple-datatables.js"></script>
-    <script src="<?=base_url()?>public/vendor/tinymce/tinymce.min.js"></script>
-    <script src="<?=base_url()?>public/vendor/php-email-form/validate.js"></script>
+    <!-- vendor1 JS Files -->
+    <script src="<?= base_url() ?>public/vendor1/apexcharts/apexcharts.min.js"></script>
+    <script src="<?= base_url() ?>public/vendor1/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="<?= base_url() ?>public/vendor1/chart.js/chart.umd.js"></script>
+    <script src="<?= base_url() ?>public/vendor1/echarts/echarts.min.js"></script>
+    <script src="<?= base_url() ?>public/vendor1/quill/quill.min.js"></script>
+    <script src="<?= base_url() ?>public/vendor1/simple-datatables/simple-datatables.js"></script>
+    <script src="<?= base_url() ?>public/vendor1/tinymce/tinymce.min.js"></script>
+    <script src="<?= base_url() ?>public/vendor1/php-email-form/validate.js"></script>
 
     <!-- Template Main JS File -->
-    <script src="<?=base_url()?>public/js/main.js"></script>
+    <script src="<?= base_url() ?>public/js/main.js"></script>
 
-
-
-    <script src="<?=base_url()?>public/js/script.js"></script>
-
+    <script src="<?= base_url() ?>public/js/script.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <script>
-        $(document).ready(function() {
-            
-        $("#register").submit(function (e) {
-            e.preventDefault();
-            registerData();
-            
-            registerData().then(function(success) {
-                if (success) {
-                       setTimeout(function () {
-                            window.location.href = "<?= base_url('/'); ?>";
-                        }, 2000);
-                }
-                }).catch(function(error) {
-                    console.log("Error occurred:", error);
-                });
-            
-            });
-          
- 
-         function registerData() {
-            var formData = new FormData($("#register")[0]);
-            
-            // Return a promise
-            return new Promise(function(resolve, reject) {
+        $(document).ready(function () {
+
+            function registerData() {
+                var formData = new FormData($("#register")[0]);
                 $.ajax({
                     url: $("#register").attr("action"),
                     method: 'POST',
@@ -564,54 +589,109 @@
                     processData: false,
                     contentType: false,
                     success: function (data) {
-                        console.log(data);
+
                         if (data.status == 1) {
                             $("#message").html('<h4 class="text-success ">Registration Successful. <i class="bi bi-check-circle"></i></h4>');
                             $("#message").show();
-                            resolve(true); 
-                        } else if(data.status == 2) {
+                            $('#hospital_id').val(data.hospital_id);
+
+                        } else if (data.status == 2) {
                             $("#message").html('<div class="text-danger">Email already registered.</div>');
                             $("#message").show();
-                            resolve(false); 
+
                         } else {
                             console.log(response);
                             console.log('Registration failed.');
-                            resolve(false);
                         }
                     },
                     error: function (error) {
                         console.log(error);
-                        reject(false);
+
                     }
                 });
+
+            }
+
+            $('#register_hospital').on('click', function (e) {
+                e.preventDefault();
+                registerData();
+            })
+
+            // $("#role").on('change', function () {
+
+            // // let selectedRole = $("#role").val();
+            // // if (selectedRole == "hospital") {
+
+            // //     $('#hospital_extra_page').hide();
+            // //     $('#hospital_packages').show();
+
+
+            // // }else if(selectedRole == "patient") {
+            // //     $('#hospital_extra_page').show();
+            // //     $('#hospital_packages').hide();
+            // // }
+
+            // // });
+
+            //stripe code start
+
+            $('.btn_subscribe').on('click', function (e) {
+                e.preventDefault();
+                let package_id = $('.package_id').val();
+                $('#package_id').val(package_id);
             });
-        }
-      
-        
-        $("#role").on('change', function () {
-            
-        let selectedRole = $("#role").val();
-        if (selectedRole == "hospital") {
-            
-            $('#hospital_extra_page').hide();
-            $('#hospital_packages').show();
-             
-        $('#register_hospital').on('click',function (){
-           registerData();
-        })
-        }else if(selectedRole == "patient") {
-            $('#hospital_extra_page').show();
-            $('#hospital_packages').hide();
-        }
-        
+
+
         });
-        
-      $('.btn_subscribe').on('click', function(e) {
-          e.preventDefault();
-      });
- 
-        
-    });
+
+        var stripe = Stripe('<?= config('App')->stripe_public ?>');
+
+        var elements = stripe.elements();
+
+        var card = elements.create('card');
+
+        card.mount('#card-element');
+
+        card.on('change', function (event) {
+            var displayError = document.getElementById('card-errors');
+            if (event.error) {
+                displayError.textContent = event.error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+
+        var form = document.getElementById('payment-form');
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            stripe.createToken(card).then(function (result) {
+                if (result.error) {
+                    
+                    var errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = result.error.message;
+                } else {
+                
+                    stripeTokenHandler(result.token);
+                }
+            });
+        });
+
+        // Submit the token to your server
+        function stripeTokenHandler(token) {
+          
+            var form = document.getElementById('payment-form');
+            var hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'stripeToken');
+            hiddenInput.setAttribute('value', token.id);
+            form.appendChild(hiddenInput);
+
+            // Submit the form
+            form.submit();
+        }
+
+
     </script>
 
 

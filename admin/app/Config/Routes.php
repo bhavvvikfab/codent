@@ -165,6 +165,14 @@ $routes->group('',$authFilter, function ($routes) {
   $routes->post("change_password", "ApiController::change_password", ['filter' => 'apiAuth']);
   $routes->post("edit_profile", "ApiController::edit_profile", ['filter' => 'apiAuth']);
   $routes->post("doctor_search", "ApiController::doctor_search", ['filter' => 'apiAuth']);
+  $routes->post("patient_details", "ApiController::patient_details", ['filter' => 'apiAuth']);
+  $routes->get("user_details", "ApiController::user_details", ['filter' => 'apiAuth']);
+  
+  //forgot password end
+  $routes->post('forgotPassword', 'ApiController::forgotPassword');
+  $routes->get('confirmforgotPassword/(:num)/(:any)', 'ApiController::confirmforgotPassword/$1/$2');
+  $routes->post('resetPassword', 'ApiController::resetPassword');
+  //forgot password end
 
 });
 
