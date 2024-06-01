@@ -3,6 +3,7 @@
 namespace App\Controllers\Enquiry;
 
 use App\Controllers\BaseController;
+use App\Models\AppointmentModel;
 use App\Models\DoctorModel;
 use App\Models\EnquiryModel;
 use App\Models\UserModel;
@@ -37,10 +38,15 @@ class EnquiryController extends BaseController
     public function delete_enquiry($id)
     {
         $enquiryModel = new EnquiryModel();
+        $appointmentModel= new AppointmentModel();
 
+        $appointment=
         $enquiry = $enquiryModel->find($id);
-
         if ($enquiry) {
+            $appointment = $appointmentModel->where('inquiry_id', $enquiry['id'])->first();
+            if ($appointment) {
+                $appointmentModel->delete($appointment['id']);
+            }
             if ($enquiryModel->delete($id)) {
                 return redirect()->to(base_url() . '' . session('prefix') . '/' . 'enquiry')->with('delete_success', 'Enquiry deleted successfully.');
             } else {

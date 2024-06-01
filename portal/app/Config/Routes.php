@@ -53,10 +53,18 @@ $routes->group('hospital', ['filter' => $authFilter], function ($routes) {
     $routes->get('delete_enquiry/(:num)', 'enquiry\EnquiryController::delete_enquiry/$1');    
     $routes->get('view_enquiry/(:num)', 'enquiry\EnquiryController::view_enquiry/$1');    
 
+
+
     $routes->get('appointment', 'appointment\AppointmentController::all_appointment');
     $routes->get('add_appointment', 'appointment\AppointmentController::add_appointment');
-    $routes->get('view_appointment', 'appointment\AppointmentController::view_appointment');
-    $routes->get('edit_appointment', 'appointment\AppointmentController::edit_appointment');
+    $routes->post('store_appointment', 'appointment\AppointmentController::store_appointment');
+    $routes->get('get_dr_from_enquiry', 'appointment\AppointmentController::get_dr_from_enquiry');
+    $routes->get('delete_appointment/(:num)', 'appointment\AppointmentController::deleteAppointment/$1');
+    $routes->get('view_appointment/(:num)', 'appointment\AppointmentController::view_Appointment/$1');
+    $routes->get('edit_appointment/(:num)', 'appointment\AppointmentController::edit_appointment/$1');
+    $routes->post('update_appointment', 'appointment\AppointmentController::update_appointment');
+
+   
 
     $routes->get('get_doctor_dropdown','patient\PatientController::get_doctor_dropdown');
     

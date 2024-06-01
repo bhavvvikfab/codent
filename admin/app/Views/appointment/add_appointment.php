@@ -30,21 +30,22 @@ Appointments
     <div class="row">
       <div class="col-lg-12">
         <div class="card">
-            
-            <div class="card-header">
-               <div class="row">
-                  <div class="col-lg-8">
-                      <h5 class="card-title text-start">Add Appointment</h5>
-                  </div>
-                  <div class="col-lg-4">
-                      <h5 class="card-title text-end">
-                          <a href="<?= base_url('appointment') ?>"> Back </a></h5>
-                  </div>
-                </div>
-             </div>
-            
+
+          <div class="card-header">
+            <div class="row">
+              <div class="col-lg-8">
+                <h5 class="card-title text-start">Add Appointment</h5>
+              </div>
+              <div class="col-lg-4">
+                <h5 class="card-title text-end">
+                  <a href="<?= base_url('appointment') ?>"> Back </a>
+                </h5>
+              </div>
+            </div>
+          </div>
+
           <div class="card-body">
-       
+
             <!-- No Labels Form -->
             <form class="row g-3" action="<?=base_url('register_form')?>" method="post" enctype="multipart/form-data">
             <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
@@ -73,8 +74,30 @@ Appointments
 </div>
 
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                <label class="col-form-label"><i class="bi bi-calendar-week-fill" style="font-size: 18px;"></i> Appointment Slot</label>
+                <label class="col-form-label">
+                  <i class="bi bi-person-circle" style="font-size: 18px;"></i> Doctor Name
+                </label>
+                <select class="form-select two" aria-label="Select Referral Doctor" name="doctor_name" id="doctor_name">
+                  <option value="">Select Referral Doctor</option>
+                  <?php foreach ($enquiries as $enquiry): ?>
+                    <?php if (isset($enquiry['referral_doctor_id']) && isset($enquiry['referral_doctor_name'])): ?>
+                      <option value="<?= $enquiry['referral_doctor_id']; ?>">
+                        <?= $enquiry['referral_doctor_name']; ?>
+                      </option>
+                    <?php endif; ?>
+                  <?php endforeach; ?>
+                </select>
+                <?php if (session('errors.doctor_name')): ?>
+                  <small class="text-danger"><?= esc(session('errors.doctor_name')) ?><i
+                      class="bi bi-exclamation-circle"></i></small>
+                <?php endif; ?>
+              </div>
+
+              <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                <label class="col-form-label"><i class="bi bi-calendar-week-fill" style="font-size: 18px;"></i>
+                  Appointment Slot</label>
                 <div class="input-group">
+<<<<<<< HEAD
                         <span class="input-group-text rounded-2 btn-cal" id="bdate34"><i class="bi bi-calendar3"></i></span>                        
                        <input type="date" class="form-control rounded-2" id="appointment_slot" name="appointment_slot" >
                                             
@@ -82,8 +105,19 @@ Appointments
                      <?php if (session('errors.appointment_slot')): ?>
                                         <small class="text-danger"><?= esc(session('errors.appointment_slot')) ?><i class="bi bi-exclamation-circle"></i></small>
                       <?php endif; ?>
+=======
+                  <span class="input-group-text rounded-2 btn-cal" id="bdate34"><i class="bi bi-calendar3"></i></span>
+                  <input type="date" class="form-control rounded-2" id="appointment_slot" name="appointment_slot">
+
+
+                </div>
+                <?php if (session('errors.appointment_slot')): ?>
+                  <small class="text-danger"><?= esc(session('errors.appointment_slot')) ?><i
+                      class="bi bi-exclamation-circle"></i></small>
+                <?php endif; ?>
+>>>>>>> f65e386 (appointment module)
                 <!-- <label class="col-form-label">Email Address</label> -->
-               <!--  <div class="input-group mb-3">
+                <!--  <div class="input-group mb-3">
   <span class="input-group-text" id="basic-addon1"><i class="bi bi-calendar3"></i></span>
                              </div></span>
   <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
@@ -91,25 +125,29 @@ Appointments
               </div>
 
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                <label class="col-form-label"><i class="bi bi-file-earmark-medical-fill" style="font-size: 18px;"></i> Referral</label>
-                <input type="text" class="form-control" name="referral" id="referral" >
+                <label class="col-form-label"><i class="bi bi-file-earmark-medical-fill" style="font-size: 18px;"></i>
+                  Referral</label>
+                <input type="text" class="form-control" name="referral" id="referral">
                 <?php if (session('errors.referral')): ?>
-                                        <small class="text-danger"><?= esc(session('errors.referral')) ?><i class="bi bi-exclamation-circle"></i></small>
-                      <?php endif; ?>
+                  <small class="text-danger"><?= esc(session('errors.referral')) ?><i
+                      class="bi bi-exclamation-circle"></i></small>
+                <?php endif; ?>
               </div>
 
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                <label class="col-form-label"><i class="bi bi-file-earmark-text-fill" style="font-size: 18px;"></i> Appointment About</label>
+                <label class="col-form-label"><i class="bi bi-file-earmark-text-fill" style="font-size: 18px;"></i>
+                  Appointment About</label>
                 <input type="text" class="form-control" id="note" name="note">
                 <?php if (session('errors.note')): ?>
-                                        <small class="text-danger"><?= esc(session('errors.note')) ?><i class="bi bi-exclamation-circle"></i></small>
-                      <?php endif; ?>
+                  <small class="text-danger"><?= esc(session('errors.note')) ?><i
+                      class="bi bi-exclamation-circle"></i></small>
+                <?php endif; ?>
               </div>
 
-              
-              
 
-              
+
+
+
 
               <!-- <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                 <label class="col-form-label"><i class="bi bi-person-circle" style="font-size: 18px;"></i> Doctor Name</label>
@@ -120,8 +158,8 @@ Appointments
                 <label class="col-form-label"><i class="bi bi-file-medical-fill" style="font-size: 18px;"></i> Specialty Of </label>
                 <select class="form-select" aria-label="Default select example" id="appointment_slot" name="appointment_slot">
                  <option value="dry-cleaning" selected>Specialty required </option> -->
-                  <!-- <option value="dry-cleaning" selected>Orthodontics</option> -->
-                  <!-- <option value="dry-cleaning">Endodontics</option>
+              <!-- <option value="dry-cleaning" selected>Orthodontics</option> -->
+              <!-- <option value="dry-cleaning">Endodontics</option>
                   <option value="dry-cleaning">Periodontics</option>
                   <option value="dry-cleaning">Prosthodontics</option>
                   <option value="dry-cleaning">Implantology</option>
@@ -135,8 +173,8 @@ Appointments
                 <input type="text" class="form-control" id="appointment_slot" name="appointment_slot">
               </div> -->
 
-             
-              
+
+
 
               <!-- <div class="col-md-12">
                 <div class="product-description-card-body">
@@ -168,16 +206,17 @@ Appointments
       </div>
     </div>
   </section>
-  
+
 </main><!-- End #main -->
 <?php if (session()->has('status') && session('status') == 'error'): ?>
-      <script>
-            showToast('Somethisn Is Wrong....Please Try Agian Later');  
-        </script>
-    <div class="alert alert-danger"></div>
+  <script>
+    showToast('Somethisn Is Wrong....Please Try Agian Later');  
+  </script>
+  <div class="alert alert-danger"></div>
 <?php endif; ?>
 
 <script>
+<<<<<<< HEAD
     $(document).ready(function() 
     {
   $('.two').select2({
@@ -216,5 +255,14 @@ $('#patient_name').change(function () {
 });
 
   </script>
+=======
+  $(document).ready(function () {
+    $('.two').select2({
+      // theme: 'bootstrap5', // Apply Bootstrap 4 theme
+      // dropdownCssClass: 'bordered' // Add form-control class to the dropdown
+    });
+  });
+</script>
+>>>>>>> f65e386 (appointment module)
 
 <?= $this->endSection() ?>
