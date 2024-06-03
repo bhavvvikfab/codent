@@ -78,7 +78,7 @@ public function get_doctors($hospitalId)
         'name' => 'required',
         'dob' => 'required',
         'appointment_date' => 'required',
-        'phone' => 'required',
+        'phone' =>['label' => 'Phone Number', 'rules' => 'required|numeric|min_length[10]|max_length[15]'],
         'note' => 'required',
         'specialty' => 'required',
         // 'doctor' => 'required',

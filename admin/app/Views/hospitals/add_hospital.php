@@ -100,7 +100,7 @@ Add_Hospitals
                                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                                     <label for="profile" class="form-label"><i class="bi bi-image-fill"
                                             style="font-size: 18px;"></i> User Image</label>
-                                    <input class="form-control" type="file" name="profile">
+                                    <input class="form-control" type="file" name="profile" onerror="this.onerror=null; this.src='<?= base_url()?>';">
                                 </div>
                             </div>
 

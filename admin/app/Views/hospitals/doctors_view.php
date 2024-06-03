@@ -48,9 +48,9 @@ View_Hospitals
                                     <th>Name</th>
                                     <th>Qualification</th>
                                     <th>Specialist</th>
-                                    <th>Hospital</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
+                                    <th class="text-center">Hospital</th>
+                                    <th class="text-center">Status</th>
+                                    <th class="text-center">Action</th>
                                 </tr>                               
                         </thead>
                         <thead> <!-- Use tthead for the second row -->
@@ -62,7 +62,7 @@ View_Hospitals
 
                           <th class="bg-white">
                           <select id="hospital-filter" class="form-control custom-select">
-                          <option value="">Select Hospital</option>
+                          <option value="" class="text-center">Select Hospital</option>
                           </select>
                           </th>
                           <th class="bg-white"></th>
@@ -71,9 +71,11 @@ View_Hospitals
 
                             <tbody>                             
                                 <?php if (!empty($doctors) && is_array($doctors)): ?>
+                                   <?php $serial = 1;?> 
                                     <?php foreach ($doctors as $doctor): ?>
                                         <tr>
-                                            <td><?= esc($doctor['id']) ?></td>
+                                           <td class="text-center"><?= $serial++ ?></td>
+                                            <!-- <td><?= esc($doctor['id']) ?></td> -->
                                             <!-- <td>    
                                             <?php if (!empty($doctor['image'])): ?>
                                                 <div style="display: flex; justify-content: center;">
@@ -88,13 +90,13 @@ View_Hospitals
                                             <td><?= esc($doctor['full_name']) ?></td>
                                             <td><?= esc($doctor['qualification']) ?></td>
                                             <td><?= esc($doctor['specialist_of']) ?></td>
-                                            <td><?= esc($doctor['hospital_name']) ?></td>
-                                            <td>
+                                            <td class="text-center"><?= esc($doctor['hospital_name']) ?></td>
+                                            <td class="text-center">
                                                 <button class="statusToggleBtn btn btn-sm <?= ($doctor['status'] == 'active') ? 'btn-success' : 'btn-danger'; ?>" data-id="<?=$doctor['user_id']?>" >
                                                 <?php echo ($doctor['status'] == 'active') ? 'Active' : 'Inactive'; ?>
                                                 </button>
                                             </td>
-                                            <td>
+                                            <td class="text-center">
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <div class="editen p-1">
                                                         <a href="<?= base_url('editDoctor?id=' . $doctor['id']) ?>">

@@ -65,7 +65,8 @@ Hospitals
                                         <tr>
                                             <td class="text-center"><?= $index; ?></td>
                                             <td class="text-center">
-                                            <img src="<?= base_url()?>public/images/<?= isset($hospital['profile']) && !empty($hospital['profile']) ? $hospital['profile'] : 'user-profile.jpg' ?>" height="50" width="50">
+                                            <img style="width: 40%;" src="<?= base_url() ?>public/images/<?= isset($hospital['profile']) && !empty($hospital['profile']) ? $hospital['profile'] : '1717391425.jpeg' ?>" onerror="this.onerror=null; this.src='<?= base_url() ?>public/images/1717391425.jpeg';" alt="Profile Image">
+                                           
                                               
                                             </td>
 

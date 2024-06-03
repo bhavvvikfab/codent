@@ -50,8 +50,9 @@ View_Hospitals
                   <i class="bi bi-image-fill" aria-hidden="true"></i>
                   <label class="form-label" for="inputNanme4"> <h5><b>Hospital Image: </b></h5>
                   </label><br> 
-                  
-                   <img class="rounded-circle img-thumbnail" style="max-width: 100%;"  src="<?= base_url()?>public/images/<?= isset($hospital['profile']) && !empty($hospital['profile']) ? $hospital['profile'] : 'user-profile.jpg' ?>" >
+                  <img class="rounded-circle img-thumbnail" style="max-width: 100%;" src="<?= base_url() ?>public/images/<?= isset($hospital['profile']) && !empty($hospital['profile']) ? $hospital['profile'] : '1717391425.jpeg' ?>" onerror="this.onerror=null; this.src='<?= base_url() ?>public/images/1717391425.jpeg';" alt="Profile Image">
+
+                   <!-- <img class="rounded-circle img-thumbnail" style="max-width: 100%;"  src="<?= base_url()?>public/images/<?= isset($hospital['profile']) && !empty($hospital['profile']) ? $hospital['profile'] : 'user-profile.jpg' ?>" > -->
                                              
                   <!--<img src="assets/img/profile-img.jpg" style="max-width: 100%;">-->
                   <pre>

@@ -132,7 +132,8 @@ Edit_Hospitals
         <input class="form-control" type="file" id="image" name="image" accept="image/*">
         <div class="input-group-append">
             <?php if (!empty($doctors['profile'])): ?>
-                <img id="imagePreview" src="<?= base_url('public/images/' . $doctors['profile']) ?>" alt="Doctor Image" style="width: 50px; height: auto;">
+              <img style="width: 50px; height: auto;" src="<?= base_url() ?>public/images/<?= isset($doctors['profile']) && !empty($doctors['profile']) ? $doctors['profile'] : '1717391425.jpeg' ?>" onerror="this.onerror=null; this.src='<?= base_url() ?>public/images/1717391425.jpeg';" alt="Profile Image">
+                
             <?php else: ?>
                 <span class="input-group-text">No Image</span>
             <?php endif; ?>
@@ -186,7 +187,8 @@ Edit_Hospitals
             var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
 
             // Validate file extension
-            if (!allowedExtensions.exec(filePath)) {
+            if (!allowedExtensions.exec(filePath)) 
+            {
                 alert('Please upload files with extensions .jpeg/.jpg/.png/.gif only.');
                 fileInput.val('');
                 return false; // Abort form submission if invalid file type
