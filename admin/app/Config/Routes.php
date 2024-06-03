@@ -152,6 +152,29 @@ $routes->group('',$authFilter, function ($routes) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  // ==============API routes end===========
 
  $routes->group("api", ['namespace' => 'App\Controllers\Api'], function($routes) {

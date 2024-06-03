@@ -199,7 +199,9 @@ class AppointmentController extends BaseController
         if ($appointment) {
             
             $enquiry = $enquiryModel->find($appointment['inquiry_id']);
-            $enquirys = $enquiryModel->findAll();
+            $hospitalId = session('user_id');
+            $enquirys = $enquiryModel->where('hospital_id', $hospitalId)->findAll(); 
+            // $enquirys = $enquiryModel->findAll();
             $user=$appointment['assigne_to'];
             $doc = $userModel->find($user);
             return view('appointment/edit_appointment.php', [

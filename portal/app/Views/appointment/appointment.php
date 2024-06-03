@@ -66,8 +66,8 @@ All-Appointment
                   <?php foreach ($data as $index => $item): ?>
                     <tr>
                       <td><?= esc($index + 1); ?></td>
-                      <td><?= esc($item['inquiry']['patient_name']); ?></td>
-                      <td><?= esc($item['inquiry']['required_specialist']); ?></td>
+                      <td><?= esc($item['inquiry']['patient_name']?? 'N/A'); ?></td>
+                      <td><?= esc($item['inquiry']['required_specialist']?? 'N/A'); ?></td>
                       <td><?= esc($item['appointment']['schedule']); ?></td>
                       <td>
                         <div class="d-flex justify-content-around align-items-center">
@@ -97,7 +97,7 @@ All-Appointment
                   <?php endforeach; ?>
                 <?php else: ?>
                   <tr>
-                    <td colspan="5">No appointments available.</td>
+                    <td colspan="5" class='text-center'>No appointments available.</td>
                   </tr>
                 <?php endif; ?>
               </tbody>

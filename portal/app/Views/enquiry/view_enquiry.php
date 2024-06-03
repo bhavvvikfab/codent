@@ -142,7 +142,7 @@ All-Enquiries
                       <label class="form-label" for="images"><b><i class="bi bi-images"></i> Images : </b></label>
                       <div class="col-12">
                         <div class="row">
-                          <?php if( isset($enquiry['images']) && !empty($enquiry['images']) ) : ?>
+                          <?php if( isset($enquiry['image']) && !empty($enquiry['image']) ) : ?>
 
                           <?php foreach ($enquiry['image'] as $index => $image): ?>
                             <div class="col-1 col-lg-1 col-sm-3">

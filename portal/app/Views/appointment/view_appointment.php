@@ -156,9 +156,9 @@ Appointment-Details
                       <label class="form-label" for="images"><b><i class="bi bi-images"></i> Images : </b></label>
                       <div class="col-12">
                         <div class="row">
-                          <?php if (isset($enquiry['images']) && !empty($enquiry['images'])): ?>
+                          <?php if (isset($data['enquiry']['image']) && !empty($data['enquiry']['image'])): ?>
 
-                            <?php foreach ($enquiry['image'] as $index => $image): ?>
+                            <?php foreach ($data['enquiry']['image'] as $index => $image): ?>
                               <div class="col-1 col-lg-1 col-sm-3">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal"
                                   data-image="<?= $adminurl ?>/public/images/<?= $image ?>">
@@ -175,7 +175,6 @@ Appointment-Details
                         </div>
                       </div>
                     </div>
-
 
                   </div>
 
