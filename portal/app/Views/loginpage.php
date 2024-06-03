@@ -98,7 +98,7 @@
                       <button class="btn w-100 btn-login" type="submit">Login</button>
                     </div>
                     <div class="col-12">
-                      <p class="small mb-0 text-center"><a href="passwordrecovery.php">Forgot Password?</a></p>
+                      <p class="small mb-0 text-center"><a href="<?= base_url('forgot_password') ?>">Forgot Password?</a></p>
                     </div>
                     <div class="col-12">
                       <p class="small mb-0 text-center">Don't have account? <a href="<?= base_url('register') ?>">Create
@@ -133,6 +133,12 @@
       <?php if (session('have_package')): ?>
         <script>
           showToast("<?= session('have_package') ?> ");  
+        </script>
+      <?php endif; ?>password_changed
+
+      <?php if (session('password_changed')): ?>
+        <script>
+          showToast("<?= session('password_changed') ?> ");  
         </script>
       <?php endif; ?>
     </div>

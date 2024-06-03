@@ -149,7 +149,7 @@ class LoginController extends BaseController
     {
         $usermodel = new UserModel();
         $hospitalmodel = new HospitalModel();
-    
+
         // Retrieve POST data
         $fullname = $this->request->getPost('fullname');
         $email = $this->request->getPost('email');
@@ -158,14 +158,14 @@ class LoginController extends BaseController
         $dob = $this->request->getPost('dob');
         $image = $this->request->getFile('image');
         $phone = $this->request->getPost('phone');
-    
+
         $emailExists = $usermodel->where('email', $email)->countAllResults() > 0;
-    
+
         if ($emailExists) {
             return $this->response->setJSON(['status' => 2]);
-        } else {   
+        } else {
             $hashpassword = password_hash($password, PASSWORD_DEFAULT);
-    
+
             $userdata = [
                 'fullname' => $fullname,
                 'email' => $email,
@@ -173,8 +173,8 @@ class LoginController extends BaseController
                 'address' => $address,
                 'date_of_birth' => $dob,
                 'phone' => $phone,
-                'role'=>2
-                
+                'role' => 2
+
             ];
             if ($image && $image->isValid()) {
                 $newName = time() . '.' . $image->getExtension();
@@ -182,19 +182,19 @@ class LoginController extends BaseController
                 $image->move($destinationPath, $newName);
                 $userdata['profile'] = $newName;
             }
-    
+
             $userid = $usermodel->insertUser($userdata);
-    
+
             if ($userid) {
                 $hospitaldata = [
                     'hospital_id' => $userid,
                     'name' => $fullname
                 ];
-    
+
                 $result = $hospitalmodel->insertHospital($hospitaldata); //this function return insert id
-    
+
                 if ($result) {
-                    return $this->response->setJSON(['status' => 1,'hospital_id'=>$result]);
+                    return $this->response->setJSON(['status' => 1, 'hospital_id' => $result]);
                 } else {
                     return $this->response->setJSON(['status' => 3]);
                 }
@@ -203,7 +203,7 @@ class LoginController extends BaseController
             }
         }
     }
-    
+
     public function subscription_payment()
     {
         $stripeSecretKey = config('App')->stripe_secret;
@@ -212,25 +212,25 @@ class LoginController extends BaseController
         $package_id = $this->request->getPost('package_id');
         $hospital_id = $this->request->getPost('hospital_id');
 
-        
+
         if ($package_id && $hospital_id) {
             $package_model = new PackagesModel();
             $package = $package_model->where('id', $package_id)->first();
 
 
-            $hospitalModel=new HospitalModel();
-            $hospital=$hospitalModel->where('id',$hospital_id)->first();
+            $hospitalModel = new HospitalModel();
+            $hospital = $hospitalModel->where('id', $hospital_id)->first();
             $userid = $hospital['hospital_id'];
 
-            $userModel= new UserModel();
-            $user=$userModel->where('id',$userid)->first();
+            $userModel = new UserModel();
+            $user = $userModel->where('id', $userid)->first();
 
             if (!$package) {
                 return $this->response->setJSON(['status' => 'error', 'message' => 'Package not found']);
             }
 
             $plan_id = $package['package_id'];
-            $amount = $package['price']; 
+            $amount = $package['price'];
 
             // Initialize Stripe
             Stripe::setApiKey($stripeSecretKey);
@@ -238,14 +238,14 @@ class LoginController extends BaseController
             try {
                 $customer = Customer::create([
                     'email' => $user['email'],
-                    'phone'=>$user['phone'],
+                    'phone' => $user['phone'],
                     'description' => 'Customer address : ' . $user['address']
 
                 ]);
                 $paymentMethod = PaymentMethod::create([
                     'type' => 'card',
                     'card' => [
-                        'token' => $token, 
+                        'token' => $token,
                     ],
                 ]);
 
@@ -263,7 +263,7 @@ class LoginController extends BaseController
                 ]);
 
                 // $paymentIntent = SetupIntent::create([
-                       
+
                 //         'payment_method_types'=>['card'],
                 //         'payment_method' => $paymentMethod->id,
                 //         'customer' => $customer->id,
@@ -271,30 +271,30 @@ class LoginController extends BaseController
                 //         'usage' => "off_session"
                 //     ]);
 
-            //  $subscription = Subscription::create([
-            //             'customer' =>  $customer->id,
-            //             'default_payment_method' => $paymentMethod->id,
-            //             'items' => ['price' => $amount ],
-            //  ]);
-                
-              $status='failed';
-              if($paymentIntent->status== 'succeed'){
-                $status='success';
-              }
-               $transactionModel=new TransactionModel;
-               $data=[
-                'hospital_id'=>$hospital_id,
-                'amount'=> $amount,
-                'status'=>$status,
-                'transaction_id'=>$paymentIntent->id
-               ];
+                //  $subscription = Subscription::create([
+                //             'customer' =>  $customer->id,
+                //             'default_payment_method' => $paymentMethod->id,
+                //             'items' => ['price' => $amount ],
+                //  ]);
+
+                $status = 'failed';
+                if ($paymentIntent->status == 'succeed') {
+                    $status = 'success';
+                }
+                $transactionModel = new TransactionModel;
+                $data = [
+                    'hospital_id' => $hospital_id,
+                    'amount' => $amount,
+                    'status' => $status,
+                    'transaction_id' => $paymentIntent->id
+                ];
                 $result = $transactionModel->insert($data);
 
-               if($result){
-                   return redirect('/')->with('have_package','Your Package is activated. Now you can login...Thank You! ');
-               }
+                if ($result) {
+                    return redirect('/')->with('have_package', 'Your Package is activated. Now you can login...Thank You! ');
+                }
 
-            // return $this->response->setJSON(['status' => 'error', 'message' => 'Invalid package or hospital ID']);
+                // return $this->response->setJSON(['status' => 'error', 'message' => 'Invalid package or hospital ID']);
 
             } catch (\Stripe\Exception\ApiErrorException $e) {
                 return $this->response->setJSON([
@@ -306,6 +306,142 @@ class LoginController extends BaseController
             return $this->response->setJSON(['status' => 'error', 'message' => 'Invalid package or hospital ID']);
         }
     }
+
+    public function forgot_password(){
+        return view('password_recovery.php');
+    }
+
+    // Forgot Password - Send Email
+    public function forgotPassword()
+    {
+        $userEmail = $this->request->getPost('email');
+
+        $str_result = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+        $userModel = new UserModel();
+        $checkUser = $userModel->where('email', $userEmail)->first();
+
+        if ($checkUser) {
+            $key = substr(str_shuffle($str_result), 0, 56);
+            $setKey = $userModel->where('email', $userEmail)->set('forgot_password_key', $key)->update();
+
+            $subject = 'Forgot Password';
+            $message = '<!doctype html>
+                     <html lang="en-US">
+                     <head>
+                         <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+                         <meta name="description" content="Reset Password Email Template.">
+                         <style type="text/css">
+                             a:hover {text-decoration: underline !important;}
+                         </style>
+                     </head>
+                     <body marginheight="0" topmargin="0" marginwidth="0" style="margin: 0px; background-color: #f2f3f8;" leftmargin="0">
+                         <table cellspacing="0" border="0" cellpadding="0" width="100%" bgcolor="#f2f3f8"
+                             style="font-family: \'Open Sans\', sans-serif;">
+                             <tr>
+                                 <td>
+                                     <table style="background-color: #f2f3f8; max-width:670px; margin:0 auto;" width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                         <tr>
+                                             <td style="height:80px;">&nbsp;</td>
+                                         </tr>
+                                         <tr>
+                                             <td style="text-align:center;"></td>
+                                         </tr>
+                                         <tr>
+                                             <td style="height:20px;">&nbsp;</td>
+                                         </tr>
+                                         <tr>
+                                             <td>
+                                                 <table width="95%" border="0" align="center" cellpadding="0" cellspacing="0"
+                                                     style="max-width:670px;background:#fff; border-radius:3px; text-align:center;box-shadow:0 6px 18px 0 rgba(0,0,0,.06);">
+                                                     <tr>
+                                                         <td style="height:40px;">&nbsp;</td>
+                                                     </tr>
+                                                     <tr>
+                                                         <td style="padding:0 35px">
+                                                             <h1>Forgot Password</h1>
+                                                             <span style="display:inline-block;vertical-align:middle;margin:29px 0 26px;border-bottom:1px solid #cecece;width: 260px;"></span>
+                                                             <br>
+                                                             <i>Follow the below link to reset password:</i>
+                                                             <br>
+                                                             <a href="' . base_url() . '/confirmforgotPassword/' . $checkUser['id'] . '/' . $key . '" style="background: #357f8347;text-decoration:none!important;font-weight:500;margin-top: 18px;color: #2a2727;text-transform:uppercase;font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px" target="_blank">Confirm Reset</a>
+                                                         </td>
+                                                     </tr>
+                                                     <tr>
+                                                         <td style="height:40px;">&nbsp;</td>
+                                                     </tr>
+                                                 </table>
+                                             </td>
+                                         </tr>
+                                         <tr>
+                                             <td style="height:20px;">&nbsp;</td>
+                                         </tr>
+                                         <tr>
+                                             <td style="height:80px;">&nbsp;</td>
+                                         </tr>
+                                     </table>
+                                 </td>
+                             </tr>
+                         </table>
+                     </body>
+                     </html>';
+
+            $email_dt = Services::email();
+
+            $email_dt->setTo($userEmail);
+            $email_dt->setfrom('smtp@fableadtechnolabs.com', 'fableadtechnolabs-com');
+
+
+
+            $email_dt->setSubject($subject);
+            $email_dt->setMessage($message);
+
+            if ($email_dt->send()) {
+                return redirect('forgot_password')->with('email','We have sent link for password recovery.');
+            } else {
+
+                  return redirect('forgot_password')->with('email','Something went wrong..!!');
+            }
+
+
+        } else {
+            return redirect('forgot_password')->with('email','User not found..!!');
+        }
+
+         return redirect('forgot_password')->with('email','Something went wrong..!!');
+    }
+
+    public function confirmforgotPassword($userID, $key)
+    {
+        $baseUrl = base_url();
+        $url = 'http://' . $_SERVER['HTTP_HOST'];
+        $redirectUrl = base_url() . 'forgot_pass.php?url=' . $baseUrl . '&userID=' . $userID . '&key=' . $key;
+        return redirect()->to($redirectUrl);
+
+    }
+
+
+    public function resetPassword()
+    {
+        $userId = $this->request->getPost('user_id');
+        $key = $this->request->getPost('key');
+        $password = $this->request->getPost('new_password');
+        $confirm_password = $this->request->getPost('confirm_password');
+
+        $updatedeData = [
+            'password' => password_hash($password, PASSWORD_DEFAULT)
+        ];
+        $usermodel = new UserModel();
+        $updatePassword = $usermodel->update($userId, $updatedeData);
+        if ($updatePassword) {
+            echo 1;
+            // return redirect('/')->with('password_changed','Your password updated successfully.');
+        } else {
+            echo 2;
+        }
+
+    }
+    // END Forgot Password - 
+ 
 
 
 

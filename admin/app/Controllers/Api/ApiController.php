@@ -665,7 +665,7 @@ class ApiController extends BaseController
     public function confirmforgotPassword($userID, $key)
     {
         $baseUrl = base_url();
-        $url = 'https://' . $_SERVER['HTTP_HOST'];
+        $url = 'http://' . $_SERVER['HTTP_HOST'];
         $redirectUrl = $url . '/codent/admin/forget_pass.php?url=' . $baseUrl . '&userID=' . $userID . '&key=' . $key;
         return redirect()->to($redirectUrl);
 

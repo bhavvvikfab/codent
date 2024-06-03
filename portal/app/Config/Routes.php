@@ -17,6 +17,14 @@ $routes->get('register', 'LoginController::register',$authRedirectFilter);
 $routes->post('registerdata', 'LoginController::register_data');
 $routes->post('subscription_payment', 'LoginController::subscription_payment');
 
+
+//forgot password end
+$routes->get('forgot_password', 'LoginController::forgot_password');
+ $routes->post('forgotPassword', 'LoginController::forgotPassword');
+ $routes->get('confirmforgotPassword/(:num)/(:any)', 'LoginController::confirmforgotPassword/$1/$2');
+ $routes->post('resetPassword', 'LoginController::resetPassword');
+ //forgot password end
+
 $routes->group('hospital', ['filter' => $authFilter], function ($routes) {
     $routes->get('dashboard', function () {
         return view('dashboard');
