@@ -53,7 +53,9 @@ View_Hospitals
                 <?php if (!empty($user['profile'])): ?>
                     <div style="display: flex; justify-content: center;">
                         <div style="width: 150px; height: 150px; border-radius: 50%; overflow: hidden;">
-                            <img src="<?= base_url('public/images/' . $user['profile']) ?>" alt="Doctor Image" style="width: 100%; height: 100%; object-fit: cover;">
+
+                        <img style="width: 100%; height: 100%; object-fit: cover;" src="<?= base_url() ?>public/images/<?= isset($doctors['profile']) && !empty($doctors['profile']) ? $doctors['profile'] : '1717391425.jpeg' ?>" onerror="this.onerror=null; this.src='<?= base_url() ?>public/images/1717391425.jpeg';" alt="Profile Image">
+                            <!-- <img src="<?= base_url('public/images/' . $user['profile']) ?>" alt="Doctor Image" style="width: 100%; height: 100%; object-fit: cover;"> -->
                         </div>
                     </div>
                 <?php else: ?>
@@ -73,6 +75,7 @@ View_Hospitals
                         <label class="form-label" for=""><b>Email:</b> <?php echo $user['email']; ?></label>
                     </div>                  
                 </div>
+
                 <hr>
 
                 <div class="row">

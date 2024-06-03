@@ -55,7 +55,8 @@ Patients
                   <i class="bi bi-person-circle" aria-hidden="true"></i>
                   <label class="form-label" for="inputNanme4"> <h5><b> Patient Image: </b></h5>
                   </label><br> 
-                  <img src="<?= base_url('public/images/' . $patient['profile']) ?>" alt="Profile Image" class="rounded-circle img-thumbnail" style="max-width: 100px;">
+                  <img class="rounded-circle img-thumbnail" style="max-width: 100px;" src="<?= base_url() ?>public/images/<?= isset($patient['profile']) && !empty($patient['profile']) ? $patient['profile'] : '1717391425.jpeg' ?>" onerror="this.onerror=null; this.src='<?= base_url() ?>public/images/1717391425.jpeg';" alt="Profile Image">
+                  <!-- <img src="<?= base_url('public/images/' . $patient['profile']) ?>" alt="Profile Image" class="rounded-circle img-thumbnail" style="max-width: 100px;"> -->
                   
                   </div>
                 </div>

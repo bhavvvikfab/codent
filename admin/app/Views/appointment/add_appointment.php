@@ -73,31 +73,12 @@ Appointments
                       <?php endif; ?>
 </div>
 
-              <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                <label class="col-form-label">
-                  <i class="bi bi-person-circle" style="font-size: 18px;"></i> Doctor Name
-                </label>
-                <select class="form-select two" aria-label="Select Referral Doctor" name="doctor_name" id="doctor_name">
-                  <option value="">Select Referral Doctor</option>
-                  <?php foreach ($enquiries as $enquiry): ?>
-                    <?php if (isset($enquiry['referral_doctor_id']) && isset($enquiry['referral_doctor_name'])): ?>
-                      <option value="<?= $enquiry['referral_doctor_id']; ?>">
-                        <?= $enquiry['referral_doctor_name']; ?>
-                      </option>
-                    <?php endif; ?>
-                  <?php endforeach; ?>
-                </select>
-                <?php if (session('errors.doctor_name')): ?>
-                  <small class="text-danger"><?= esc(session('errors.doctor_name')) ?><i
-                      class="bi bi-exclamation-circle"></i></small>
-                <?php endif; ?>
-              </div>
+             
 
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                 <label class="col-form-label"><i class="bi bi-calendar-week-fill" style="font-size: 18px;"></i>
                   Appointment Slot</label>
                 <div class="input-group">
-<<<<<<< HEAD
                         <span class="input-group-text rounded-2 btn-cal" id="bdate34"><i class="bi bi-calendar3"></i></span>                        
                        <input type="date" class="form-control rounded-2" id="appointment_slot" name="appointment_slot" >
                                             
@@ -105,17 +86,6 @@ Appointments
                      <?php if (session('errors.appointment_slot')): ?>
                                         <small class="text-danger"><?= esc(session('errors.appointment_slot')) ?><i class="bi bi-exclamation-circle"></i></small>
                       <?php endif; ?>
-=======
-                  <span class="input-group-text rounded-2 btn-cal" id="bdate34"><i class="bi bi-calendar3"></i></span>
-                  <input type="date" class="form-control rounded-2" id="appointment_slot" name="appointment_slot">
-
-
-                </div>
-                <?php if (session('errors.appointment_slot')): ?>
-                  <small class="text-danger"><?= esc(session('errors.appointment_slot')) ?><i
-                      class="bi bi-exclamation-circle"></i></small>
-                <?php endif; ?>
->>>>>>> f65e386 (appointment module)
                 <!-- <label class="col-form-label">Email Address</label> -->
                 <!--  <div class="input-group mb-3">
   <span class="input-group-text" id="basic-addon1"><i class="bi bi-calendar3"></i></span>
@@ -216,7 +186,6 @@ Appointments
 <?php endif; ?>
 
 <script>
-<<<<<<< HEAD
     $(document).ready(function() 
     {
   $('.two').select2({
@@ -255,14 +224,5 @@ $('#patient_name').change(function () {
 });
 
   </script>
-=======
-  $(document).ready(function () {
-    $('.two').select2({
-      // theme: 'bootstrap5', // Apply Bootstrap 4 theme
-      // dropdownCssClass: 'bordered' // Add form-control class to the dropdown
-    });
-  });
-</script>
->>>>>>> f65e386 (appointment module)
 
 <?= $this->endSection() ?>

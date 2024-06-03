@@ -58,7 +58,6 @@ Patients
                   <?php $serial = 1;?> 
                   <?php foreach ($patients as $patient) : ?>
                   <tr>
-
                    <td class="text-center"><?= $serial++ ?></td>
                    <!-- <td class="text-center"><?= $patient['id']  ?></td> -->
 

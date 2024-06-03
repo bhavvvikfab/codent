@@ -92,7 +92,8 @@ Patients
                      <label for="file" class="form-label"><i class="bi  bi-image-fill" style="font-size: 18px;"></i> Patient Image</label>
                      <?php if (!empty($patient['profile'])): ?>
                      <div class="mb-3">
-                      <img src="<?= base_url('public/images/' . $patient['profile']) ?>" alt="Profile Image" class="img-thumbnail" style="max-width: 70px;">
+                     <img class="img-thumbnail" style="max-width: 70px;" src="<?= base_url() ?>public/images/<?= isset($patient['profile']) && !empty($patient['profile']) ? $patient['profile'] : '1717391425.jpeg' ?>" onerror="this.onerror=null; this.src='<?= base_url() ?>public/images/1717391425.jpeg';" alt="Profile Image">
+                      <!-- <img src="<?= base_url('public/images/' . $patient['profile']) ?>" alt="Profile Image" class="img-thumbnail" style="max-width: 70px;"> -->
                      </div>
                     <?php endif; ?>
                      <input class="form-control" type="file" id="image" name="image"  value="<?= $patient['profile'] ?>">
