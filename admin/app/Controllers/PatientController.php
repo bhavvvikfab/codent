@@ -77,27 +77,27 @@ class PatientController extends BaseController
         ];
       
         // Set custom error messages
-        $validation->setRules([
-            'name' => ['label' => 'Patient Name', 'rules' => 'required'],
-            'phone' => ['label' => 'Phone Number', 'rules' => 'required|numeric|min_length[10]|max_length[15]'],
-            'email' => [
-                'label' => 'Email',
-                'rules' => 'required|valid_email|is_unique[users.email]',
-                'errors' => [
-                    'is_unique' => 'This email is already registered.'
-                ]
-            ],
-            'password' => [
-                'label' => 'Password',
-                'rules' => 'required|min_length[5]',
-                'errors' => [
-                    'min_length' => 'The password must be at least 5 characters long.'
-                ]
-            ],
-            'address' => ['label' => 'Address', 'rules' => 'required'],
-            'date_of_birth' => ['label' => 'Date of Birth', 'rules' => 'required']
+        // $validation->setRules([
+        //     'name' => ['label' => 'Patient Name', 'rules' => 'required'],
+        //     'phone' => ['label' => 'Phone Number', 'rules' => 'required|numeric|min_length[10]|max_length[15]'],
+        //     'email' => [
+        //         'label' => 'Email',
+        //         'rules' => 'required|valid_email|is_unique[users.email]',
+        //         'errors' => [
+        //             'is_unique' => 'This email is already registered.'
+        //         ]
+        //     ],
+        //     'password' => [
+        //         'label' => 'Password',
+        //         'rules' => 'required|min_length[5]',
+        //         'errors' => [
+        //             'min_length' => 'The password must be at least 5 characters long.'
+        //         ]
+        //     ],
+        //     'address' => ['label' => 'Address', 'rules' => 'required'],
+        //     'date_of_birth' => ['label' => 'Date of Birth', 'rules' => 'required']
 
-        ]);
+        // ]);
 
         // if ($image->isValid()) {
         //     $validation->setRules([
@@ -112,9 +112,9 @@ class PatientController extends BaseController
         //     ]);
         // }
     
-        if (!$validation->run($field)) {
-            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
-        } else {
+        // if (!$validation->run($field)) {
+        //     return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+        // } else {
            
            
            
@@ -150,7 +150,7 @@ class PatientController extends BaseController
                 // Error while inserting data
                 return redirect()->to('/add_patient')->with('status', 'error');
             }
-        }
+        // }
     }
 
     

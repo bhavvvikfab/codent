@@ -59,13 +59,21 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
      function showToast(message, position) {
-        Toastify({
-          text: message,
-          duration: 3000,
-          gravity: 'top',
-          position: 'center',
-          className: 'custom-toast'
-        }).showToast();
+      Swal.fire({
+        text: message,
+        icon: 'success', // Set the icon to 'success'
+        toast: true,
+        position: position || 'center',
+        showConfirmButton: false,
+        timer: 1500,
+        customClass: {
+          container: 'custom-swal-container', // Add a custom class for styling
+        },
+        customContainerClass: 'custom-swal-toast', // Add a custom class for the toast
+        background: 'rgba(0, 0, 0, 0.9)', // Set the background color to black
+        padding: '3rem', // Add padding for a larger size
+        grow: 'row' // Grow horizontally for a square design
+      });
       }
   </script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 

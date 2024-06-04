@@ -113,7 +113,7 @@ View_Hospitals
                                                         </a>
                                                     </div>
                                                     <div class="viewsenq p-1">
-                                                    <button type="button" class="btn btn-secondary btn-sm delete_btn" data-id="<?= $doctor['id'] ?>"><i class="ri-delete-bin-line"></i></button>
+                                                    <button type="button" class="btn btn-secondary btn-sm  delete_btn" data-id="<?= $doctor['id'] ?>"><i class="ri-delete-bin-line"></i></button>
 
                                                     </div>
                                                 </div>
@@ -143,6 +143,9 @@ View_Hospitals
 
 <script>
    $(document).ready(function () {
+
+
+   
     var table = $('.example').DataTable({
         initComplete: function () {
             var tableApi = this.api(); // Get the DataTable API for easier access
@@ -294,6 +297,9 @@ View_Hospitals
             });
         });
     }
+
+
+   
 });
 
 </script>

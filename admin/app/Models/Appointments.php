@@ -12,7 +12,7 @@ class Appointments extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id','hospital_id','inquiry_id','status','schedule','note','contacted_via','assigne_to','lead_instruction'];
+    protected $allowedFields    = ['id','hospital_id','inquiry_id','status','schedule','note','contacted_via','assigne_to','lead_instruction','created_at'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -43,4 +43,16 @@ class Appointments extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function getMonthlyCounts()
+    {
+        return $this->select("DATE_FORMAT(created_at, '%Y-%m') as month, COUNT(*) as count")
+                    ->groupBy('month')
+                    ->orderBy('month')
+                    ->findAll();
+    }
+
+
+   
 }
+

@@ -65,7 +65,7 @@ Hospitals
                                         <tr>
                                             <td class="text-center"><?= $index; ?></td>
                                             <td class="text-center">
-                                            <img style="width: 40%;" src="<?= base_url() ?>public/images/<?= isset($hospital['profile']) && !empty($hospital['profile']) ? $hospital['profile'] : '1717391425.jpeg' ?>" onerror="this.onerror=null; this.src='<?= base_url() ?>public/images/1717391425.jpeg';" alt="Profile Image">
+                                            <img width='50px'  src="<?= base_url() ?>public/images/<?= isset($hospital['profile']) && !empty($hospital['profile']) ? $hospital['profile'] : '1717391425.jpeg' ?>" onerror="this.onerror=null; this.src='<?= base_url() ?>public/images/1717391425.jpeg';" alt="Profile Image">
                                            
                                               
                                             </td>
@@ -89,7 +89,7 @@ Hospitals
                                                   </a>
 
                                     
-                                                  <a href="<?= base_url('delete_hospital/' . $hospital['id']) ?>" class="btn btn_delete_hospital btn-danger btn-sm">
+                                                  <a href="<?= base_url('delete_hospital/' . $hospital['id']) ?>" class="btn btn_delete_hospital btn-danger btn-sm delete_btn">
                                                     <i class='ri-delete-bin-line'></i>
                                                   </a>
                                                  
@@ -216,6 +216,26 @@ Hospitals
         //         }
         //     });
         // });
+
+        $('.delete_btn').on('click', function (e) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        Swal.fire({
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = url;
+          }
+        });
+      });
+
+        
         
         
         

@@ -29,7 +29,7 @@ Profile
 
             <img
               src="<?= base_url() ?>public/images/<?= isset($user['profile']) && !empty($user['profile']) ? $user['profile'] : 'user-profile.jpg' ?>"
-              alt="Profile" class="rounded-circle">
+              alt="Profile" class="rounded-circle img-thumbnail" style="max-width: 100px;">
 
 
             <h2><?= isset($user['fullname']) ? $user['fullname'] : 'User Name'; ?></h2>
@@ -132,7 +132,7 @@ Profile
                     <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
                     <div class="col-md-8 col-lg-9">
                       <img src="<?= base_url() ?>public/images/<?= isset($user['profile']) && !empty($user['profile']) ? $user['profile'] : 'user-profile.jpg' ?>"
-                        alt="Profile" class="rounded-circle" height="150" width="150">
+                        alt="Profile" class="rounded-circle img-thumbnail" style="max-width: 100px;">
 
 
                       <!-- <div class="pt-2">
@@ -321,7 +321,9 @@ Profile
     </div>
   </section>
   <script>
-    $(document).ready(function () {
+    $(document).ready(function () 
+    {
+      
 
       $('#showpass').on('click', function () {
 
@@ -357,9 +359,9 @@ Profile
 
             if (data.status == "success") {
                 
-                 $('#profile_section').load('<?= base_url('profile')?>  #profile_section');
             //   window.location.href = '';
               showToast('Profile updated successfully.');
+              location.reload();
               $('#alert').empty();
             } else {
               $('#alert').empty();

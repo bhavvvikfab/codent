@@ -146,7 +146,8 @@ Add Hospitals
 
 <script>
     $(document).ready(function() {
-        $("#doctor_form").submit(function(e) {
+        $("#doctor_form").submit(function(e) 
+        {
             e.preventDefault();
 
             var isValid = true;

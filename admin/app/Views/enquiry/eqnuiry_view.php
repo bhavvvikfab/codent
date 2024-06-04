@@ -85,9 +85,9 @@ Enquiries
                           </a>
                         </div>
                         <div class="deleten p-1">
-                        <a href="<?=base_url('deleteEnquiry?id='. $enquiry['id'])?>">
+                        <a class="delete_btn" href="<?=base_url('deleteEnquiry?id='. $enquiry['id'])?>">
                           
-                          <button type="button" class="btn btn-danger btn-sm"><i class="ri-delete-bin-line"></i></button>
+                          <button type="button" class="btn btn-danger btn-sm "><i class="ri-delete-bin-line"></i></button>
                          </a>
 
                         </div>
@@ -141,6 +141,31 @@ Enquiries
 
 
   </main><!-- End #main -->
+
+  <script>
+    
+    $(document).ready(function() {
+      $('.delete_btn').on('click', function (e) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        Swal.fire({
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = url;
+          }
+        });
+      });
+    });
+
+      
+  </script>
 
   
 <?= $this->endSection() ?>

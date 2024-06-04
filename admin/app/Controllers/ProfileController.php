@@ -95,9 +95,29 @@ class ProfileController extends BaseController
     public function change_password()
     {
         $validationRules = [
-            'currentPassword' => 'required',
-            'newpassword' => 'required|min_length[5]',
-            'confirm_Password' => 'required|matches[newpassword]'
+            'currentPassword' => [
+                'label' => 'Current Password',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'The Current Password is required.'
+                ]
+            ],
+            'newPassword' => [
+                'label' => 'New Password',
+                'rules' => 'required|min_length[5]',
+                'errors' => [
+                    'required' => 'The New Password is required.',
+                    'min_length' => 'The New Password must be at least 5 characters long.'
+                ]
+            ],
+            'confirmPassword' => [
+                'label' => 'Confirm Password',
+                'rules' => 'required|matches[newPassword]',
+                'errors' => [
+                    'required' => 'The Confirm Password is required.',
+                    'matches' => 'The Confirm Password does not match the New Password field.'
+                ]
+            ]
         ];
 
         $validation = Services::validation();
