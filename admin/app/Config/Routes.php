@@ -41,6 +41,24 @@ $routes->group('',$authFilter, function ($routes) {
   // ==============hospitals routes end===========
 
 
+  // ==============DashBoard routes Start===========
+
+
+  $routes->get('appointment/fetchAppointmentCount/(:segment)', 'DashboardController::fetchAppointmentCount/$1');
+  // $routes->get('fetchChartData', 'DashboardController::fetchChartData');
+  $routes->get('fetch-data', 'ReportsController::fetchData');
+
+
+
+
+
+
+  // ==============DashBoard routes end===========
+
+
+  
+
+
 
    // ==============packages routes==============
    
@@ -140,12 +158,20 @@ $routes->group('',$authFilter, function ($routes) {
  // ==============Enquiry routes  end===========
 
 
+ // ==============contactUs routes  start===========
 
 
+
+
+ $routes->get('contactUs', 'ContactController::index');
+ $routes->get('viewContactus', 'ContactController::viewContactus');
+
+ 
+ 
  
 
 
-
+ // ==============contactUs routes  end===========
 
 
 });

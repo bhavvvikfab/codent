@@ -70,27 +70,27 @@ public function get_doctors($hospitalId)
     public function add_Enquery_fun()
 {
 
-    $validation = Services::validation(); // Load validation service
+    // $validation = Services::validation(); // Load validation service
 
-    // Define validation rules
-    $validation->setRules([
-        // 'hospital' => 'required',
-        'name' => 'required',
-        'dob' => 'required',
-        'appointment_date' => 'required',
-        'phone' =>['label' => 'Phone Number', 'rules' => 'required|numeric|min_length[10]|max_length[15]'],
-        'note' => 'required',
-        'specialty' => 'required',
-        // 'doctor' => 'required',
-        // 'image' => 'uploaded[image]|max_size[image,1024]|is_image[image]',
-    ]);
+    // // Define validation rules
+    // $validation->setRules([
+    //     // 'hospital' => 'required',
+    //     'name' => 'required',
+    //     'dob' => 'required',
+    //     'appointment_date' => 'required',
+    //     'phone' =>['label' => 'Phone Number', 'rules' => 'required|numeric|min_length[10]|max_length[15]'],
+    //     'note' => 'required',
+    //     'specialty' => 'required',
+    //     // 'doctor' => 'required',
+    //     // 'image' => 'uploaded[image]|max_size[image,1024]|is_image[image]',
+    // ]);
 
 
     // Check if the form data passes the validation rules
-    if (!$validation->withRequest($this->request)->run()) {
-        // Validation failed, return back with errors
-        return redirect()->back()->withInput()->with('errors', $validation->getErrors());
-    }
+    // if (!$validation->withRequest($this->request)->run()) {
+    //     // Validation failed, return back with errors
+    //     return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+    // }
 
     // Validation passed, proceed with inserting data
     $enquiryModel = new EnquiryModel();

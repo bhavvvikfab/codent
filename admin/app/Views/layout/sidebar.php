@@ -208,6 +208,20 @@
         </a>
       </li> --><!-- End Register Page Nav -->
 
+
+
+      <li class="nav-item">
+  <a class="nav-link collapsed" href="<?= base_url('contactUs') ?>">
+    <i class="bi bi-envelope"></i><span>Contact Us</span>
+  </a>
+</li>
+
+
+
+
+  
+
+
     <li class="nav-item">
       <a class="nav-link collapsed" href="<?= base_url('/logout') ?>">
         <i class="bi bi-box-arrow-in-right"></i>

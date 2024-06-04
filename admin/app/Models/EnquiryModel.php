@@ -43,4 +43,12 @@ class EnquiryModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function getMonthlyCounts()
+    {
+        return $this->select("DATE_FORMAT(created_at, '%Y-%m') as month, COUNT(*) as count")
+                    ->groupBy('month')
+                    ->orderBy('month')
+                    ->findAll();
+    }
 }

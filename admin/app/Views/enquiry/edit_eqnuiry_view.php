@@ -52,7 +52,7 @@ Enquiries
 
 
             <!-- No Labels Form -->
-            <form class="row g-3" action="<?=base_url('update_enquiry')?>" method="post" enctype="multipart/form-data"> 
+            <form id="update_enquiry" class="row g-3" action="<?=base_url('update_enquiry')?>" method="post" enctype="multipart/form-data"> 
 
 
 
@@ -67,6 +67,8 @@ Enquiries
             </option>
         <?php endforeach; ?>
     </select>
+    <div id="error_hopi"></div>
+
 </div>
 
 
@@ -89,6 +91,8 @@ Enquiries
                        <?php if (session('errors.dob')): ?>
                                         <small class="text-danger"><?= esc(session('errors.dob')) ?><i class="bi bi-exclamation-circle"></i></small>
                       <?php endif; ?>
+        <div id="doberror"></div>
+
                        <div class="input-group-prepend">
                           
                             </div>
@@ -106,6 +110,8 @@ Enquiries
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                 <label class="col-form-label"><i class="bi bi-file-earmark-medical-fill" style="font-size: 18px;"></i>  Appointmen Date</label>
                 <input type="date" class="form-control" id="appointment_date" name="appointment_date" value="<?= $enquiry['appointment_date'] ?>" >
+<div id="apperror"></div>
+                
                 <?php if (session('errors.appointment_date')): ?>
                                         <small class="text-danger"><?= esc(session('errors.appointment_date')) ?><i class="bi bi-exclamation-circle"></i></small>
                       <?php endif; ?>
@@ -145,7 +151,7 @@ Enquiries
 <div class="col-md-6">
     <label class="col-form-label"><i class="bi bi-file-earmark-medical-fill" style="font-size: 18px;"></i> Referral</label>
     <select class="form-select single" aria-label="Default select example" name="doctor_id" id="doctor_id">
-        <option value="">Select Doctor</option>
+        <option value="">--Select--Doctor--</option>
         <?php if (isset($doctors)): ?>
             <?php foreach ($doctors as $doctor): ?>
                 <option value="<?= esc($doctor['id']) ?>" <?= isset($enquiries[0]['referral_doctor']) && $enquiries[0]['referral_doctor'] == $doctor['id'] ? 'selected' : '' ?>>
@@ -154,6 +160,8 @@ Enquiries
             <?php endforeach; ?>
         <?php endif; ?>
     </select>
+    <div id="doctorerror"></div>
+
 </div>
 
 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
@@ -253,6 +261,69 @@ Enquiries
     // theme: 'bootstrap5', // Apply Bootstrap 4 theme
     // dropdownCssClass: 'bordered' // Add form-control class to the dropdown
   });
+
+  $('#update_enquiry').submit(function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Clear previous error messages
+            $('.error-msg').remove();
+
+            // Perform validation
+            var hospital = $('#hospital').val();
+            var name = $('#name').val();
+            var dob = $('#dob').val();
+            var appointment_date = $('#appointment_date').val();
+            var phone = $('#phone').val();
+            var specialty = $('#specialty').val();
+            var doctor = $('#doctor').val();
+
+            // var email = $('#email').val();
+            // var password = $('#password').val();
+            // var address = $('#address').val();
+            // var qualification = $('#qualification').val();
+            // var schedule = $('#schedule').val();
+            // var about = $('#about').val();
+            // var image = $('#image').val();
+            // var specialistOrPractice = $('#specialistOrPractice').val();
+
+            if (hospital === '') {
+                $('#error_hopi').after('<small class="error-msg text-danger">Please select hospital.</small>');
+                return false;
+            }
+            
+            if (name === '') {
+                $('#name').after('<small class="error-msg text-danger">Please enter a name.</small>');
+                return false;
+            }
+
+            if (dob === '') {
+                $('#doberror').html('<small class="error-msg text-danger">Please enter a date of birth.</small>');
+                return false; 
+            }
+
+            if (appointment_date == '') {
+                $('#apperror').html('<small class="error-msg text-danger">Please enter a appointment date.</small>');
+                return false;
+            }
+            if (phone === '') {
+    $('#phone').after('<small class="error-msg text-danger">Please enter a phone number.</small>');
+    return false; 
+} else if (!(/^\d{10}$/.test(phone))) {
+    $('#phone').after('<small class="error-msg text-danger">Please enter a 10-digit phone number.</small>');
+    return false;
+}
+            if (specialty === 'n/a') {
+                $('#specialtyerror').html('<small class="error-msg text-danger">Please select a specialist.</small>');
+                return false; 
+            
+              }
+              if (doctor === '') {
+                $('#doctorerror').after('<small class="error-msg text-danger">Please select doctor.</small>');
+                return false;
+            }
+            this.submit();
+        });
+
 });
 
 </script>

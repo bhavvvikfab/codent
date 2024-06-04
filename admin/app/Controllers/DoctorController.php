@@ -6,7 +6,7 @@ use App\Controllers\BaseController;
 
 use App\Models\UserModel;
 use App\Models\HospitalsModel;
-use App\Models\DoctorModel;
+use App\Models\DoctorModel; 
 use CodeIgniter\HTTP\ResponseInterface;
 
 class DoctorController extends BaseController

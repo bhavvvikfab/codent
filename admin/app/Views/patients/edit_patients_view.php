@@ -39,7 +39,7 @@ Patients
          
 
               <!-- General Form Elements -->
-              <form action="<?=base_url('update_patient_form')?>" method="post" enctype="multipart/form-data">
+              <form  class ="update_patient" action="<?=base_url('update_patient_form')?>" method="post" enctype="multipart/form-data">
               <?php if (!empty($patients) && is_array($patients)) : ?>
                   <?php $serial = 1;?> 
                   <?php foreach ($patients as $patient) : ?>
@@ -130,6 +130,95 @@ Patients
       </div>
     </section>
 </main>
+
+<script>
+  $('.update_patient').submit(function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Clear previous error messages
+            $('.error-msg').remove();
+
+            // Perform validation
+            var name = $('#name').val();
+            var email = $('#email').val();
+            var password = $('#password').val();
+            var address = $('#address').val();
+            var dob = $('#dob').val();
+            var phone = $('#phone').val();
+            var specialist = $('#specialist').val();
+            var qualification = $('#qualification').val();
+            var schedule = $('#schedule').val();
+            var about = $('#about').val();
+            var image = $('#image').val();
+            var specialistOrPractice = $('#specialistOrPractice').val();
+
+            if (name === '') {
+                $('#name').after('<small class="error-msg text-danger">Please enter a name.</small>');
+                return false;
+            }
+
+            if (email == '') {
+                $('#emailError').html('<small class="error-msg text-danger">Please enter an email.</small>');
+                return false; 
+            }
+
+            if (password === '') {
+                $('#password').after('<small class="error-msg text-danger">Please enter a password.</small>');
+                return false; 
+            }
+            if (phone === '') {
+    $('#phone').after('<small class="error-msg text-danger">Please enter a phone number.</small>');
+    return false; 
+} else if (!(/^\d{10}$/.test(phone))) {
+    $('#phone').after('<small class="error-msg text-danger">Please enter a 10-digit phone number.</small>');
+    return false;
+}
+
+
+            if (address === '') {
+                $('#address').after('<small class="error-msg text-danger">Please enter an address.</small>');
+                return false; 
+            }
+
+            if (dob === '') {
+                $('#dob').after('<small class="error-msg text-danger">Please enter a date of birth.</small>');
+                return false; 
+            }
+
+           
+            // if (specialist === 'n/a') {
+            //     $('#specialist').after('<small class="error-msg text-danger">Please select a specialist.</small>');
+            //     return false; 
+            // }
+
+            // if (qualification === '') {
+            //     $('#qualification').after('<small class="error-msg text-danger">Please enter a qualification.</small>');
+            //     return false; 
+            // }
+            // if (schedule === '') {
+            //     $('#schedule').after('<small class="error-msg text-danger">Please enter a schedule.</small>');
+            //     return false; 
+            // }
+
+            // if (about === '') {
+            //     $('#about').after('<small class="error-msg text-danger">Please enter about information.</small>');
+            //     return false;
+            // }
+
+            // if (image === '') {
+            //     $('#image').after('<small class="error-msg text-danger">Please select an image.</small>');
+            //     return false; 
+            // }
+
+            // if (specialistOrPractice === '') {
+            //     $('#specialistOrPractice').after('<small class="error-msg text-danger">Please select a preference.</small>');
+            //     return false; 
+            // }
+
+            // If all validations pass, submit the form
+            this.submit();
+        });
+</script>
 
 <?= $this->endSection() ?>
 

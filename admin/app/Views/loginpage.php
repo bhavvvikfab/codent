@@ -107,9 +107,7 @@
                 </div>
               </div>
 
-              <div class="credits">
-                Designed by <a href="https://fableadtechnolabs.com/">Fablead Developers Technolab</a>
-              </div>
+              
             </div>
           </div>
         </div>

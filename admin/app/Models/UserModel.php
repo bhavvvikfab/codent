@@ -12,7 +12,7 @@ class UserModel extends Model
     protected $returnType = 'array';
     protected $useSoftDeletes = false;
     protected $protectFields = true;
-    protected $allowedFields = ['id','role','hospital_id','fullname','email', 'password','address','date_of_birth','phone','profile', 'status','forgot_password_key'];
+    protected $allowedFields = ['id','role','hospital_id','fullname','email', 'password','address','date_of_birth','phone','profile', 'status','forgot_password_key','created_at'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -125,4 +125,11 @@ class UserModel extends Model
     }
 
 
+    public function getMonthlyCounts()
+    {
+        return $this->select("DATE_FORMAT(created_at, '%Y-%m') as month, COUNT(*) as count")
+                    ->groupBy('month')
+                    ->orderBy('month')
+                    ->findAll();
+    }
 }

@@ -30,8 +30,8 @@ class HospitalController extends BaseController
 
        $image= $this->request->getFile('profile');
         // Load validation service
-        $validation = Services::validation();
-        // Get the request data
+        // $validation = Services::validation();
+        // // Get the request data
         $field = [
             'hospital_name' => $this->request->getPost('hospital_name'),
             'phone' => $this->request->getPost('phone'),
@@ -45,27 +45,27 @@ class HospitalController extends BaseController
         ];
       
         // Set custom error messages
-        $validation->setRules([
-            'hospital_name' => ['label' => 'Hospital Name', 'rules' => 'required'],
-            'phone' => ['label' => 'Phone Number', 'rules' => 'required|numeric|min_length[10]|max_length[15]'],
-            'email' => [
-                'label' => 'Email',
-                'rules' => 'required|valid_email|is_unique[users.email]',
-                'errors' => [
-                    'is_unique' => 'This email is already registered.'
-                ]
-            ],
-            'password' => [
-                'label' => 'Password',
-                'rules' => 'required|min_length[5]',
-                'errors' => [
-                    'min_length' => 'The password must be at least 5 characters long.'
-                ]
-            ],
-            'plan_name' => ['label' => 'Select Plan', 'rules' => 'required'],
-            'address' => ['label' => 'Address', 'rules' => 'required'],
-            'about' => ['label' => 'About', 'rules' => 'required'],
-        ]);
+        // $validation->setRules([
+        //     'hospital_name' => ['label' => 'Hospital Name', 'rules' => 'required'],
+        //     'phone' => ['label' => 'Phone Number', 'rules' => 'required|numeric|min_length[10]|max_length[15]'],
+        //     'email' => [
+        //         'label' => 'Email',
+        //         'rules' => 'required|valid_email|is_unique[users.email]',
+        //         'errors' => [
+        //             'is_unique' => 'This email is already registered.'
+        //         ]
+        //     ],
+        //     'password' => [
+        //         'label' => 'Password',
+        //         'rules' => 'required|min_length[5]',
+        //         'errors' => [
+        //             'min_length' => 'The password must be at least 5 characters long.'
+        //         ]
+        //     ],
+        //     'plan_name' => ['label' => 'Select Plan', 'rules' => 'required'],
+        //     'address' => ['label' => 'Address', 'rules' => 'required'],
+        //     'about' => ['label' => 'About', 'rules' => 'required'],
+        // ]);
 
         // if ($image->isValid()) {
         //     $validation->setRules([
@@ -80,9 +80,9 @@ class HospitalController extends BaseController
         //     ]);
         // }
     
-        if (!$validation->run($field)) {
-            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
-        } else {
+        // if (!$validation->run($field)) {
+        //     return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+        // } else {
            
            
            
@@ -124,7 +124,7 @@ class HospitalController extends BaseController
                 // Error while inserting data
                 return redirect()->to('add_hospital')->with('hospital_status', 'error');
             }
-        }
+        // }
     }
     
     public function hospital_status(){
@@ -204,7 +204,7 @@ class HospitalController extends BaseController
        $id= $this->request->getPost('id');
        
         // Load validation service
-        $validation = Services::validation();
+        // $validation = Services::validation();
         // Get the request data
         $field = [
             'hospital_name' => $this->request->getPost('hospital_name'),
@@ -219,26 +219,26 @@ class HospitalController extends BaseController
         ];
       
         // Set custom error messages
-        $validation->setRules([
-            'hospital_name' => ['label' => 'Hospital Name', 'rules' => 'required'],
-            'phone' => ['label' => 'Phone Number', 'rules' => 'required|numeric|min_length[10]|max_length[15]'],
-            'email' => [
-                'label' => 'Email',
-                'rules' => "required|valid_email|is_unique[users.email,id,{$id}]",
-                'errors' => [
-                    'is_unique' => 'This email is already registered.'
-                ]
-            ],
-            'plan_name' => ['label' => 'Select Plan', 'rules' => 'required'],
-            'address' => ['label' => 'Address', 'rules' => 'required'],
-            'about' => ['label' => 'About', 'rules' => 'required'],
-        ]);
+        // $validation->setRules([
+        //     'hospital_name' => ['label' => 'Hospital Name', 'rules' => 'required'],
+        //     'phone' => ['label' => 'Phone Number', 'rules' => 'required|numeric|min_length[10]|max_length[15]'],
+        //     'email' => [
+        //         'label' => 'Email',
+        //         'rules' => "required|valid_email|is_unique[users.email,id,{$id}]",
+        //         'errors' => [
+        //             'is_unique' => 'This email is already registered.'
+        //         ]
+        //     ],
+        //     'plan_name' => ['label' => 'Select Plan', 'rules' => 'required'],
+        //     'address' => ['label' => 'Address', 'rules' => 'required'],
+        //     'about' => ['label' => 'About', 'rules' => 'required'],
+        // ]);
 
        
     
-        if (!$validation->run($field)) {
-            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
-        } else {
+        // if (!$validation->run($field)) {
+        //     return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+        // } else {
            
          
             $user=new UserModel;
@@ -284,7 +284,7 @@ class HospitalController extends BaseController
                 // Error while inserting data//
                 return redirect()->to('edit_hospital')->with('hospital_edit_status', 'error');
             }
-        }
+        // }
         
     }
     

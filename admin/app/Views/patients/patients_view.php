@@ -58,6 +58,7 @@ Patients
                   <?php $serial = 1;?> 
                   <?php foreach ($patients as $patient) : ?>
                   <tr>
+
                    <td class="text-center"><?= $serial++ ?></td>
                    <!-- <td class="text-center"><?= $patient['id']  ?></td> -->
 
@@ -83,8 +84,8 @@ Patients
                             <button type="button" class="btn btn-success btn-sm"><i class="ri-eye-line"></i></button>
                           </a>
                         </div>
-                        <div class="deletpai">
-                          <a href="<?= base_url('deletepait?id=' . $patient['id']) ?>">
+                        <div  class="deletpai">
+                          <a class="delete_btn" href="<?= base_url('deletepait?id=' . $patient['id']) ?>">
                             <button type="button" class="btn btn-danger btn-sm"><i class="ri-delete-bin-line"></i></button>
                           </a>
                         </div>
@@ -170,6 +171,29 @@ Patients
                 });
             }
         });
+
+
+      $('.delete_btn').on('click', function (e) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        Swal.fire({
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = url;
+          }
+        });
+      });
+
+
+
+        
       });
 
 
