@@ -8,9 +8,9 @@
   <meta content="" name="description">
   <meta content="" name="keywords">
 
-   <!-- Favicons -->
-   <link href="<?=base_url()?>public/img/favicon.png" rel="icon">
-  <link href="<?=base_url()?>public/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <!-- Favicons -->
+  <link href="<?= base_url() ?>public/img/favicon.png" rel="icon">
+  <link href="<?= base_url() ?>public/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -19,41 +19,40 @@
     rel="stylesheet">
 
   <!-- vendor1 CSS Files -->
-  <link href="<?=base_url()?>public/vendor1/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="<?=base_url()?>public/vendor1/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="<?=base_url()?>public/vendor1/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="<?=base_url()?>public/vendor1/quill/quill.snow.css" rel="stylesheet">
-  <link href="<?=base_url()?>public/vendor1/quill/quill.bubble.css" rel="stylesheet">
-  <link href="<?=base_url()?>public/vendor1/remixicon/remixicon.css" rel="stylesheet">
-  <link href="<?=base_url()?>public/vendor1/simple-datatables/style.css" rel="stylesheet">
+  <link href="<?= base_url() ?>public/vendor1/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="<?= base_url() ?>public/vendor1/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="<?= base_url() ?>public/vendor1/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="<?= base_url() ?>public/vendor1/quill/quill.snow.css" rel="stylesheet">
+  <link href="<?= base_url() ?>public/vendor1/quill/quill.bubble.css" rel="stylesheet">
+  <link href="<?= base_url() ?>public/vendor1/remixicon/remixicon.css" rel="stylesheet">
+  <link href="<?= base_url() ?>public/vendor1/simple-datatables/style.css" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="<?=base_url()?>public/css/main.css" rel="stylesheet">
+  <link href="<?= base_url() ?>public/css/main.css" rel="stylesheet">
 
 </head>
 
 <style>
- 
   .select2-container--default .select2-selection--single {
     height: 38px !important;
     width: 100% !important;
   }
-  
+
   .select2-container--default .select2-selection--single .select2-selection__arrow {
     height: 38px !important;
   }
-  
+
   .select2-container--default .select2-selection--single {
     border: 1px solid #d2d6da !important;
     border-radius: 0.5rem !important;
   }
-  
+
   .select2-container--default .select2-search--dropdown .select2-search__field {
     border: 1px solid #ccc !important;
     outline: none !important;
     box-shadow: none !important;
   }
-  
+
   .select2-container--default .select2-selection--single .select2-selection__rendered {
     color: #444 !important;
     line-height: 38px !important;
@@ -71,47 +70,59 @@
   <!-- ======= sidebar ======= -->
   <?= view('layout/sidebar.php') ?>
   <!-- ======= sdiebar end ======= -->
- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script> 
- <script>
-     function showToast(message, position) {
-        Toastify({
-          text: message,
-          duration: 2500,
-          gravity: 'top',
-          position: 'center',
-          className: 'custom-toast'
-        }).showToast();
-      }
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script>
+
+    function showToast(message, position) {
+      Swal.fire({
+        text: message,
+        icon: 'success', // Set the icon to 'success'
+        toast: true,
+        position: position || 'center',
+        showConfirmButton: false,
+        timer: 1500,
+        customClass: {
+          container: 'custom-swal-container', // Add a custom class for styling
+        },
+        customContainerClass: 'custom-swal-toast', // Add a custom class for the toast
+        background: 'rgba(0, 0, 0, 0.9)', // Set the background color to black
+        padding: '3rem', // Add padding for a larger size
+        grow: 'row' // Grow horizontally for a square design
+      });
+
+    }
+
+
   </script>
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<!-- ======= content ======= -->
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <!-- ======= content ======= -->
   <?= $this->renderSection('content') ?>
-<!-- ======= content end ======= -->
+  <!-- ======= content end ======= -->
 
   <!-- ======= footer ======= -->
   <?= view('layout/footer.php') ?>
   <!-- ======= footer end ======= -->
 
- 
-  
+
+
   <!-- vendor1 JS Files -->
-  <script src="<?=base_url()?>public/vendor1/apexcharts/apexcharts.min.js"></script>
-  <script src="<?=base_url()?>public/vendor1/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="<?=base_url()?>public/vendor1/chart.js/chart.umd.js"></script>
-  <script src="<?=base_url()?>public/vendor1/echarts/echarts.min.js"></script>
-  <script src="<?=base_url()?>public/vendor1/quill/quill.min.js"></script>
-  <script src="<?=base_url()?>public/vendor1/simple-datatables/simple-datatables.js"></script>
-  <script src="<?=base_url()?>public/vendor1/tinymce/tinymce.min.js"></script>
-  <script src="<?=base_url()?>public/vendor1/php-email-form/validate.js"></script>
+  <script src="<?= base_url() ?>public/vendor1/apexcharts/apexcharts.min.js"></script>
+  <script src="<?= base_url() ?>public/vendor1/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="<?= base_url() ?>public/vendor1/chart.js/chart.umd.js"></script>
+  <script src="<?= base_url() ?>public/vendor1/echarts/echarts.min.js"></script>
+  <script src="<?= base_url() ?>public/vendor1/quill/quill.min.js"></script>
+  <script src="<?= base_url() ?>public/vendor1/simple-datatables/simple-datatables.js"></script>
+  <script src="<?= base_url() ?>public/vendor1/tinymce/tinymce.min.js"></script>
+  <script src="<?= base_url() ?>public/vendor1/php-email-form/validate.js"></script>
 
   <!-- Template Main JS File -->
-  <script src="<?=base_url()?>public/js/main.js"></script>
- 
-  
+  <script src="<?= base_url() ?>public/js/main.js"></script>
+
+
 
 </body>
 

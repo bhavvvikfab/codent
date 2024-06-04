@@ -26,9 +26,9 @@ $routes->get('forgot_password', 'LoginController::forgot_password');
  //forgot password end
 
 $routes->group('hospital', ['filter' => $authFilter], function ($routes) {
-    $routes->get('dashboard', function () {
-        return view('dashboard');
-    });
+    $routes->get('dashboard', 'UserController::dashboard');
+
+    
     $routes->get('users_profile', 'UserController::index');
     $routes->get('profile', 'UserController::showProfile');
     $routes->post('profile_update', 'UserController::update_profile');

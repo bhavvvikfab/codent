@@ -43,20 +43,20 @@ class ReceptionController extends BaseController
         $userModel = new UserModel();
     
         $validationRules = [
-            'name' => 'required|min_length[3]|max_length[255]',
+            // 'name' => 'required|min_length[3]|max_length[255]',
             'email' => 'required|valid_email|is_unique[users.email]',
-            'password' => 'required|min_length[5]|max_length[255]',
-            'address' => 'required|min_length[4]|max_length[255]',
-            'dob' => 'required|valid_date',
-            'phone' => 'required|min_length[10]|max_length[15]',
-            'image' => [
-                'rules' => 'uploaded[image]|max_size[image,1024]|is_image[image]',
-                'errors' => [
-                    'uploaded' => 'Please upload a valid profile image.',
-                    'max_size' => 'The profile image file size should not exceed 1MB.',
-                    'is_image' => 'The profile image must be in PNG, JPG, or JPEG format.',
-                ],
-            ],
+            // 'password' => 'required|min_length[5]|max_length[255]',
+            // 'address' => 'required|min_length[4]|max_length[255]',
+            // 'dob' => 'required|valid_date',
+            // 'phone' => 'required|min_length[10]|max_length[15]',
+            // 'image' => [
+            //     'rules' => 'uploaded[image]|max_size[image,1024]|is_image[image]',
+            //     'errors' => [
+            //         'uploaded' => 'Please upload a valid profile image.',
+            //         'max_size' => 'The profile image file size should not exceed 1MB.',
+            //         'is_image' => 'The profile image must be in PNG, JPG, or JPEG format.',
+            //     ],
+            // ],
         ];
     
         if (!$this->validate($validationRules)) {
@@ -102,7 +102,7 @@ class ReceptionController extends BaseController
 
     public function receptionist_edit(){
         $validationRules = [
-            'name' => 'required|min_length[3]|max_length[255]',
+            // 'name' => 'required|min_length[3]|max_length[255]',
             'email' => [
                 'label' => 'Email',
                 'rules' => 'required|valid_email|is_unique[users.email,id,{user_id}]',
@@ -110,9 +110,9 @@ class ReceptionController extends BaseController
                     'is_unique' => 'This email address is already in use.'
                 ]
             ],
-            'address' => 'required|min_length[4]|max_length[255]',
-            'dob' => 'required|valid_date',
-            'phone' => 'required|min_length[10]|max_length[15]',
+            // 'address' => 'required|min_length[4]|max_length[255]',
+            // 'dob' => 'required|valid_date',
+            // 'phone' => 'required|min_length[10]|max_length[15]',
             'user_id' => 'required|integer',
             // 'image' => [
             //     'rules' => 'uploaded[image]|max_size[image,1024]|is_image[image]',

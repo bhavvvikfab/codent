@@ -59,6 +59,7 @@ Add-Appointment
                     <option value="<?= $enquiry['id'] ?>"><?= $enquiry['patient_name'] ?></option>
                   <?php endforeach; ?>
                 </select>
+                <small class="name_error text-danger"></small>
 
                 <?php if (session('errors.patient_name')): ?>
                   <small class="text-danger"><?= esc(session('errors.patient_name')) ?><i
@@ -71,8 +72,9 @@ Add-Appointment
                   <i class="bi bi-person-circle" style="font-size: 18px;"></i> Doctor Name
                 </label>
                 <select class="form-select two" aria-label="Select Referral Doctor" name="doctor_name" id="doctor_name">
-                <option value="">--Select--Doctor--</option>
+                  <option value="">--Select--Doctor--</option>
                 </select>
+                <small class="dr_name_error text-danger"></small>
                 <?php if (session('errors.doctor_name')): ?>
                   <small class="text-danger"><?= esc(session('errors.doctor_name')) ?><i
                       class="bi bi-exclamation-circle"></i></small>
@@ -85,9 +87,8 @@ Add-Appointment
                 <div class="input-group">
                   <span class="input-group-text rounded-2 btn-cal" id="bdate34"><i class="bi bi-calendar3"></i></span>
                   <input type="date" class="form-control rounded-2" id="appointment_slot" name="appointment_slot">
-
-
                 </div>
+                <small class="app_slot text-danger"></small>
                 <?php if (session('errors.appointment_slot')): ?>
                   <small class="text-danger"><?= esc(session('errors.appointment_slot')) ?><i
                       class="bi bi-exclamation-circle"></i></small>
@@ -125,7 +126,7 @@ Add-Appointment
 
 
 
-             
+
               <div class="d-flex justify-content-end align-items-center">
                 <button type="submit" class="btn btn-dark"> Add Appointment </button>
               </div>
@@ -175,6 +176,56 @@ Add-Appointment
           console.log(error);
         }
       });
+    });
+
+
+    $('form').submit(function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        // Clear previous error messages
+
+        $('.name_error').text('');
+        $('.dr_name_error').text('');
+        $('.app_slot').text('');
+        // Perform validation
+        var patientName = $('#patient_name').val();
+        var doctorName = $('#doctor_name').val();
+        var appointmentSlot = $('#appointment_slot').val();
+        // var referral = $('#referral').val();
+        // var note = $('#note').val();
+
+        // Validation for Patient Name
+        if (patientName === '') {
+            $('.name_error').text('Please select an enquiry.');
+            return false;
+        }
+
+        // Validation for Doctor Name
+        if (doctorName === '') {
+          $('.dr_name_error').text('Please select an Doctor Name.');
+            return false;
+        }
+
+        // Validation for Appointment Slot
+        if (appointmentSlot === '') {
+          $('.app_slot').text('Please select an Appointment Slot.');
+            return false;
+        }
+
+        // Validation for Referral
+        // if (referral === '') {
+        //     $('[name="referral"]').after('<small class="error-msg text-danger">Please enter a referral.</small>');
+        //     return false;
+        // }
+
+        // // Validation for Appointment About
+        // if (note === '') {
+        //     $('[name="note"]').after('<small class="error-msg text-danger">Please enter appointment details.</small>');
+        //     return false;
+        // }
+
+        // If all fields are valid, you can proceed with form submission
+        this.submit(); // Submit the form
     });
 
   });

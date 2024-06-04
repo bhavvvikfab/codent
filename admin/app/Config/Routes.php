@@ -216,6 +216,8 @@ $routes->group('',$authFilter, function ($routes) {
   $routes->post("doctor_search", "ApiController::doctor_search", ['filter' => 'apiAuth']);
   $routes->post("patient_details", "ApiController::patient_details", ['filter' => 'apiAuth']);
   $routes->get("user_details", "ApiController::user_details", ['filter' => 'apiAuth']);
+  $routes->post("dr_wise_appointment", "ApiController::dr_wise_appointment");
+  $routes->post("get_enquiryById", "ApiController::get_enquiryById");
   
   //forgot password end
   $routes->post('forgotPassword', 'ApiController::forgotPassword');

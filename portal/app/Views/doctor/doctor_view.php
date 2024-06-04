@@ -67,8 +67,9 @@ All-Doctors
                       <td><?= $index ?></td>
                       <td>
                         <img
-                          src="<?= $adminurl ?>/public/images/<?= isset($doctor['user']['profile']) && !empty($doctor['user']['profile']) ? $doctor['user']['profile'] : 'user-profile.jpg' ?>"
-                          height="50" width="50">
+                          src="<?= $adminurl ?>/public/images/<?= !empty($doctor['user']['profile']) ? $doctor['user']['profile'] : 'user-profile.jpg' ?>"
+                          height="50" width="50"
+                          onerror="this.onerror=null; this.src='<?= config('App')->baseURL2 ?>/public/images/default.jpg';"> 
                       </td>
                       <td>Dr. <?= esc($doctor['user']['fullname']) ?></td>
                       <td><?= esc($doctor['user']['phone']) ?></td>
@@ -95,8 +96,8 @@ All-Doctors
                           </div>
 
                           <div class="deleten p-1">
-                          <a href="<?= base_url() . session('prefix') . '/doctor_delete/' . esc($doctor['doctor']['id']) ?>">
-                              <button type="button" class="btn btn-sm"><i class="bi bi-trash"></i></button>
+                          <a href="<?= base_url() . session('prefix') . '/doctor_delete/' . esc($doctor['doctor']['id']) ?>" class="delete_btn" >
+                              <button type="button" class="btn btn-sm "><i class="bi bi-trash"></i></button>
                             </a>
                           </div>
                         </div>
@@ -134,6 +135,26 @@ All-Doctors
   <?php endif; ?>
   <script>
     $(document).ready(function () {
+      
+      $('.delete_btn').on('click', function (e) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        Swal.fire({
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = url;
+          }
+        });
+      });
+
+
       $('.statusToggleBtn').on('click', function () {
             var $this = $(this);
             var id = $this.data('id');

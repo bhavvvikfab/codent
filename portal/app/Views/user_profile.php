@@ -28,8 +28,9 @@ Profile
           <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
             <img
-              src="<?= config('App')->baseURL2  ?>/public/images/<?= isset($user['profile']) && !empty($user['profile']) ? $user['profile'] : 'user-profile.jpg' ?>"
-              alt="Profile" class="rounded-circle">
+              src="<?= config('App')->baseURL2 ?>/public/images/<?= !empty($user['profile']) ? $user['profile'] : 'default.jpg' ?>"
+              alt="Profile" class="rounded-circle" height="100" width="100"
+              onerror="this.onerror=null; this.src='<?= config('App')->baseURL2 ?>/public/images/default.jpg';">
 
 
             <h2><?= isset($user['fullname']) ? $user['fullname'] : 'User Name'; ?></h2>
@@ -89,7 +90,9 @@ Profile
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label ">Date of Birth</div>
-                  <div class="col-lg-9 col-md-8"><?= isset($user['date_of_birth']) ? $user['date_of_birth'] : 'User dob'; ?></div>
+                  <div class="col-lg-9 col-md-8">
+                    <?= isset($user['date_of_birth']) ? $user['date_of_birth'] : 'User dob'; ?>
+                  </div>
                 </div>
 
                 <div class="row">
@@ -127,13 +130,15 @@ Profile
               <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                 <!-- Profile Edit Form -->
-                <form id="editprofile_form" method="post" enctype="multipart/form-data">
+                <form id="editprofile_form" class="editprofile_form" method="post" enctype="multipart/form-data">
                   <div class="row mb-3">
                     <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
                     <div class="col-md-8 col-lg-9">
                       <img
-                        src="<?= config('App')->baseURL2 ?>/public/images/<?= isset($user['profile']) && !empty($user['profile']) ? $user['profile'] : 'user-profile.jpg' ?>"
-                        alt="Profile" class="rounded-circle" height="auto" width="auto">
+                        src="<?= config('App')->baseURL2 ?>/public/images/<?= !empty($user['profile']) ? $user['profile'] : 'default.jpg' ?>"
+                        alt="Profile" class="rounded-circle" height="100" width="100"
+                        onerror="this.onerror=null; this.src='<?= config('App')->baseURL2 ?>/public/images/default.jpg';">
+
 
 
                       <!-- <div class="pt-2">
@@ -163,7 +168,7 @@ Profile
                   <div class="row mb-3">
                     <label for="dob" class="col-md-4 col-lg-3 col-form-label">Date of Birth</label>
                     <div class="col-md-8 col-lg-9">
-                     
+
 
                       <input name="dob" type="date" class="form-control" id="dob"
                         value="<?= isset($user['date_of_birth']) ? $user['date_of_birth'] : 'User DOB'; ?>">
@@ -217,7 +222,8 @@ Profile
 
 
                   <div class="text-center">
-                    <button type="submit" class="user-btn btn" id="edit_profile">Save Changes</button>
+                    <button type="submit" class="user-btn btn" id="edit_profile" class="edit_profile">Save
+                      Changes</button>
                   </div>
                 </form>
 
@@ -345,7 +351,7 @@ Profile
         togglePasswordVisibility();
       });
 
-      $('#edit_profile').on('click', function (e) {
+      $(document).on('click', '#edit_profile', function (e) {
         e.preventDefault();
         // Get form data
         var formData = new FormData($('#editprofile_form')[0]);
@@ -356,11 +362,16 @@ Profile
           processData: false,
           contentType: false,
           success: function (data) {
-            // console.log(data);
             if (data.status === "success") {
-              $('#profile_section').load('<?= base_url(session('prefix') . '/users_profile') ?> #profile_section');
-              showToast('Profile updated successfully.');
-              $('#alert').empty();
+              $('#profile_section').load('<?= base_url(session('prefix') . '/users_profile') ?> #profile_section', function() {
+                // Reattach event handler after the section is reloaded
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Success',
+                  text: 'Profile updated successfully.'
+                });
+                $('#alert').empty();
+              });
             } else {
               $('#alert').empty();
               let errors = data.errors;
@@ -379,7 +390,6 @@ Profile
           }
         });
       });
-
       $('#changePasswordForm').submit(function (e) {
         e.preventDefault();
         let formData = $(this).serialize();
@@ -390,7 +400,11 @@ Profile
           success: function (data) {
             console.log(data);
             if (data.status == "success") {
-              showToast('Password Chanaged successfully.');
+              Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Password Chanaged successfully.'
+              });
               $('#password_alert').empty();
             } else {
               // Display errors

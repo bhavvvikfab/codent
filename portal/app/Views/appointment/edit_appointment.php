@@ -45,8 +45,8 @@ Edit-Appointment
           <div class="card-body">
 
             <!-- No Labels Form -->
-            <form class="row g-3" action="<?= base_url() . '' . session('prefix') . '/' . 'update_appointment' ?>" method="post"
-              enctype="multipart/form-data">
+            <form class="row g-3 edit_form" action="<?= base_url() . '' . session('prefix') . '/' . 'update_appointment' ?>" method="post"
+              enctype="multipart/form-data" >
               <input type="hidden" class="form-control rounded-2" id="id" name="id"
                 value="<?= esc($appointment['id']) ?>">
 
@@ -54,12 +54,13 @@ Edit-Appointment
                 <label for="patient_name"><i class="bi bi-question-circle-fill" style="font-size: 18px;"></i>
                   Enquiry</label>
                 <select name="patient_name" id="patient_name" class="form-control two">
-                <?php if (isset($enquirys) && !empty($enquirys)) : ?>
+                  <?php if (isset($enquirys) && !empty($enquirys)) : ?>
                   <?php foreach ($enquirys as $enquiry): ?>
                     <option value="<?= $enquiry['id'] ?>" <?= $appointment['inquiry_id'] == $enquiry['id'] ? 'selected' : '' ?>><?= esc($enquiry['patient_name']) ?></option>
                   <?php endforeach; ?>
                   <?php endif; ?>
                 </select>
+                <small class="name_error text-danger"></small>
               </div>
 
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
@@ -71,6 +72,7 @@ Edit-Appointment
                 <option value="<?= esc($doctor['id'])?>" selected ><?= esc($doctor['fullname'])?></option>
                 <?php endif; ?>
                 </select>
+                <small class="dr_name_error text-danger"></small>
               </div>
 
 
@@ -81,6 +83,7 @@ Edit-Appointment
                   <span class="input-group-text rounded-2 btn-cal" id="bdate34"><i class="bi bi-calendar3"></i></span>
                   <input type="date" class="form-control rounded-2" id="schedule" name="schedule"
                     value="<?= esc($appointment['schedule']) ?>">
+                  <small class="app_slot text-danger"></small>
                   <div class="input-group-prepend">
 
                   </div>
@@ -197,8 +200,46 @@ Edit-Appointment
       });
     });
 
+  
+    $('.edit_form').submit(function(event) {
+        event.preventDefault(); // Prevent the default form submission
 
+        // Clear previous error messages
+
+        $('.name_error').text('');
+        $('.dr_name_error').text('');
+        $('.app_slot').text('');
+
+        
+        var patientName = $('#patient_name').val();
+        var doctorName = $('#doctor_name').val();
+        var appointmentSlot = $('#appointment_slot').val();
+      
+
+        if (patientName === '') {
+            $('.name_error').text('Please select an enquiry.');
+            return false;
+        }
+
+        if (doctorName === '') {
+          $('.dr_name_error').text('Please select an Doctor Name.');
+            return false;
+        }
+
+        if (appointmentSlot === '') {
+          $('.app_slot').text('Please select an Appointment Slot.');
+            return false;
+        }
+
+     
+
+        this.submit();
+    })
+
+
+    
   });
+
 </script>
 
 <?= $this->endSection() ?>

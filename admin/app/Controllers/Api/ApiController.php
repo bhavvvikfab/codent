@@ -3,6 +3,9 @@
 namespace App\Controllers\Api;
 
 use App\Controllers\BaseController;
+use App\Models\AppointmentModel;
+use App\Models\Appointments;
+use App\Models\EnquiryModel;
 use App\Models\HospitalsModel;
 use App\Models\UserModel;
 use App\Models\DoctorModel;
@@ -63,18 +66,18 @@ class ApiController extends BaseController
 
                 $model->save($data);
 
-                return $this->respond(['status' => 200, 'message' => 'Registered Successfully'],200);
+                return $this->respond(['status' => 200, 'message' => 'Registered Successfully'], 200);
             } else {
                 $messageErr = '';
-                foreach($this->validator->getErrors() as $key=>$messages){
+                foreach ($this->validator->getErrors() as $key => $messages) {
                     $messageErr .= $messages;
                 }
                 $response = [
                     'status' => 409,
-                    'message'=> $messageErr,
+                    'message' => $messageErr,
                 ];
-               
-                return $this->respond($response,409);
+
+                return $this->respond($response, 409);
             }
         } catch (\Exception $e) {
             $error = array($e->getmessage());
@@ -96,24 +99,24 @@ class ApiController extends BaseController
 
             if (is_null($user)) {
                 return $this->respond([
-                     'status' => 409,
-                     'message' => 'User not found',
-                     'token'=> null,
-                     'role'=>null,
-                      'id'=>null
-                     ],409);
-                   
+                    'status' => 409,
+                    'message' => 'User not found',
+                    'token' => null,
+                    'role' => null,
+                    'id' => null
+                ], 409);
+
             }
 
             $pwd_verify = password_verify($password, $user['password']);
 
             if (!$pwd_verify) {
                 return $this->respond([
-                'status' => 409,
-                'message' => 'Invalid email or password',
-                'token'=> null,
-                'role'=>null
-                ],409);
+                    'status' => 409,
+                    'message' => 'Invalid email or password',
+                    'token' => null,
+                    'role' => null
+                ], 409);
             }
 
             $key = getenv('JWT_SECRET');
@@ -135,8 +138,8 @@ class ApiController extends BaseController
                 'status' => 200,
                 'message' => 'Login Succesful',
                 'token' => $token,
-                'role'=>$user['role'],
-                'id'=>$user['id']
+                'role' => $user['role'],
+                'id' => $user['id']
             ];
 
             return $this->respond($response, 200);
@@ -157,18 +160,18 @@ class ApiController extends BaseController
             $result = $users->where('role', 6)->findAll();
 
             if (empty($result)) {
-                return $this->respond(['status' => 404,'message' => 'No patient found','patients'=> [] ], 404);
+                return $this->respond(['status' => 404, 'message' => 'No patient found', 'patients' => []], 404);
             }
-            
-             
-                // Append the base path to the profile name
-                foreach ($result as &$user) {
-                    if (!empty($user['profile'])) {
-                        $user['profile'] = $this->imagePath . $user['profile'];
-                    }
+
+
+            // Append the base path to the profile name
+            foreach ($result as &$user) {
+                if (!empty($user['profile'])) {
+                    $user['profile'] = $this->imagePath . $user['profile'];
                 }
-            
-            return $this->respond(['status'=>200 ,'message' => 'patients','patients' => $result], 200);
+            }
+
+            return $this->respond(['status' => 200, 'message' => 'patients', 'patients' => $result], 200);
         } catch (\Exception $e) {
             $error = array($e->getmessage());
             $errormsg = json_encode($error);
@@ -186,15 +189,15 @@ class ApiController extends BaseController
             $result = $users->findAll();
 
             if (empty($result)) {
-                return $this->respond(['message' => 'No user found','users'=> []], 404);
+                return $this->respond(['message' => 'No user found', 'users' => []], 404);
             }
-            
-           foreach ($result as &$user) {
+
+            foreach ($result as &$user) {
                 if (!empty($user['profile'])) {
                     $user['profile'] = $this->imagePath . $user['profile'];
                 }
             }
-            
+
             return $this->respond(['users' => $result], 200);
 
         } catch (\Exception $e) {
@@ -204,77 +207,77 @@ class ApiController extends BaseController
         }
 
     }
-    
+
     //searching doctors//
-     public function doctor_search()
+    public function doctor_search()
     {
-            try {
-                $keyword = $this->request->getPost('keyword');
-                
-                $users = new UserModel();
-                $doctors = new DoctorModel();
-                
-                // Base query with role and status conditions
-                $users->select('users.*, doctors.*')
-                      ->join('doctors', 'doctors.user_id = users.id')
-                      ->where('users.status', 'active')
-                      ->groupStart()
-                      ->where('users.role', 3)
-                      ->orWhere('users.role', 4)
-                      ->groupEnd();
-        
-                // If keyword is provided, add search conditions
-                if ($keyword) {
-                    $drs = $users->groupStart()
-                          ->like('users.fullname', $keyword)
-                          ->orLike('doctors.specialist_of', $keyword)
-                          ->groupEnd()
-                          ->findAll();
-                     if ($drs) {
-                          foreach ($drs as  &$drss) {
-                                if (!empty($drss['profile'])) {
-                                    $drss['profile'] = $this->imagePath . $drss['profile'];
-                                }
-                            }
-                        return $this->respond(['status' => 200, 'message' => 'doctor details', 'doctor' => $drs], 200);
-                    } else {
-                        return $this->respond(['status' => 404, 'message' => 'Doctor not found', 'doctor' => []], 404);
-                    }    
-                          
-                }
-                
-                $id = $this->request->getPost('id');
-                if ($id) {
-                    $dr = $users->where('doctors.id', $id)->first();
-                    if ($dr) {
-                         if (!empty($dr['profile'])) {
-                         $dr['profile'] = $this->imagePath . $dr['profile'];
-                          }
-                        return $this->respond(['status' => 200, 'message' => 'doctor details', 'doctor' => $dr], 200);
-                    } else {
-                        return $this->respond(['status' => 404, 'message' => 'Doctor not found', 'doctor' => null], 404);
+        try {
+            $keyword = $this->request->getPost('keyword');
+
+            $users = new UserModel();
+            $doctors = new DoctorModel();
+
+            // Base query with role and status conditions
+            $users->select('users.*, doctors.*')
+                ->join('doctors', 'doctors.user_id = users.id')
+                ->where('users.status', 'active')
+                ->groupStart()
+                ->where('users.role', 3)
+                ->orWhere('users.role', 4)
+                ->groupEnd();
+
+            // If keyword is provided, add search conditions
+            if ($keyword) {
+                $drs = $users->groupStart()
+                    ->like('users.fullname', $keyword)
+                    ->orLike('doctors.specialist_of', $keyword)
+                    ->groupEnd()
+                    ->findAll();
+                if ($drs) {
+                    foreach ($drs as &$drss) {
+                        if (!empty($drss['profile'])) {
+                            $drss['profile'] = $this->imagePath . $drss['profile'];
+                        }
                     }
+                    return $this->respond(['status' => 200, 'message' => 'doctor details', 'doctor' => $drs], 200);
+                } else {
+                    return $this->respond(['status' => 404, 'message' => 'Doctor not found', 'doctor' => []], 404);
                 }
-                $result = $users->findAll();
-        
-                
-                // Append the base path to the profile name
-                foreach ($result as  &$user) {
-                    if (!empty($user['profile'])) {
-                        $user['profile'] = $this->imagePath . $user['profile'];
-                    }
-                }
-        
-                if (empty($result)) {
-                    return $this->respond(['status'=>404,'message' => 'No doctors found', 'doctor' => null], 404);
-                }
-                return $this->respond(['status'=>200,'message' => 'doctors','doctor' => $result], 200);
-            } catch (\Exception $e) {
-                $error = [$e->getMessage()];
-                $errormsg = json_encode($error);
-                return $this->respond(['status'=>500,'message' => $errormsg], 500);
+
             }
+
+            $id = $this->request->getPost('id');
+            if ($id) {
+                $dr = $users->where('doctors.id', $id)->first();
+                if ($dr) {
+                    if (!empty($dr['profile'])) {
+                        $dr['profile'] = $this->imagePath . $dr['profile'];
+                    }
+                    return $this->respond(['status' => 200, 'message' => 'doctor details', 'doctor' => $dr], 200);
+                } else {
+                    return $this->respond(['status' => 404, 'message' => 'Doctor not found', 'doctor' => null], 404);
+                }
+            }
+            $result = $users->findAll();
+
+
+            // Append the base path to the profile name
+            foreach ($result as &$user) {
+                if (!empty($user['profile'])) {
+                    $user['profile'] = $this->imagePath . $user['profile'];
+                }
+            }
+
+            if (empty($result)) {
+                return $this->respond(['status' => 404, 'message' => 'No doctors found', 'doctor' => null], 404);
+            }
+            return $this->respond(['status' => 200, 'message' => 'doctors', 'doctor' => $result], 200);
+        } catch (\Exception $e) {
+            $error = [$e->getMessage()];
+            $errormsg = json_encode($error);
+            return $this->respond(['status' => 500, 'message' => $errormsg], 500);
         }
+    }
 
     //get all hospital function
     public function hospitals()
@@ -285,15 +288,15 @@ class ApiController extends BaseController
             $result = $users->where('role', 2)->findAll();
 
             if (empty($result)) {
-                return $this->respond(['message' => 'No hospital found','hospitals' => []], 404);
+                return $this->respond(['message' => 'No hospital found', 'hospitals' => []], 404);
             }
-            
+
             foreach ($result as &$user) {
                 if (!empty($user['profile'])) {
                     $user['profile'] = $this->imagePath . $user['profile'];
                 }
             }
-            
+
             return $this->respond(['hospitals' => $result], 200);
         } catch (\Exception $e) {
             $error = array($e->getmessage());
@@ -314,16 +317,16 @@ class ApiController extends BaseController
             $result = $users->where('role', 5)->findAll();
 
             if (empty($result)) {
-                return $this->respond(['message' => 'No receptinist found','receptinists' =>[]], 404);
+                return $this->respond(['message' => 'No receptinist found', 'receptinists' => []], 404);
             }
-            
+
             foreach ($result as &$user) {
                 if (!empty($user['profile'])) {
                     $user['profile'] = $this->imagePath . $user['profile'];
                 }
             }
             return $this->respond(['receptinists' => $result], 200);
-            
+
         } catch (\Exception $e) {
             $error = array($e->getmessage());
             $errormsg = json_encode($error);
@@ -331,85 +334,86 @@ class ApiController extends BaseController
         }
 
     }
-    
+
     //change password//
-   public function change_password()
-   {
-                $key = 'JWT_SECRET_KEY_SAMPLE_HERE';
-                $authHeader = $this->request->getHeader("Authorization");
-            
-                if ($authHeader) {
-                    $authHeader = $authHeader->getValue();
-                    $token = str_replace('Bearer ', '', $authHeader);
-                    $token = trim($token);
-                    try {
-                        $decoded = JWT::decode($token, new Key($key, "HS256"));
-                        $userModel = new UserModel();
-                        $userId = $decoded->id; // Adjust this based on your token's payload structure
-            
-                        $validationRules = [
-                            'currentPassword' => 'required',
-                            'newPassword' => 'required|min_length[5]',
-                        ];
-            
-                        $validation = Services::validation();
-                        $validation->setRules($validationRules);
-            
-                        if (!$validation->withRequest($this->request)->run()) {
-                            $messageErr = '';
-                            foreach ($validation->getErrors() as $key => $messages) {
-                                $messageErr .= $messages . ' ';
-                            }
-                            return $this->response->setJSON([
-                                'status' => 409,
-                                'message' => $messageErr,
-                            ])->setStatusCode(409);
-                        }
-            
-                        $userModel = new UserModel();
-            
-                        $oldPassword = $this->request->getPost('currentPassword');
-                        $newPassword = $this->request->getPost('newPassword');
-            
-                        $result = $userModel->updatePasswordUsingId($userId, $oldPassword, $newPassword);
-            
-                        if ($result === true) {
-                            return $this->response->setJSON([
-                                'status' => 200,
-                                'message' => 'Password updated successfully'
-                            ])->setStatusCode(200);
-                        } elseif ($result === 'error') {
-                            return $this->response->setJSON([
-                                'status' => 404,
-                                'message' => 'Incorrect old password'
-                            ])->setStatusCode(404);
-                        } else {
-                            return $this->response->setJSON([
-                                'status' => 404,
-                                'message' => 'Failed to update password'
-                            ])->setStatusCode(404);
-                        }
-                    } catch (\Exception $e) {
-                        $error = [$e->getMessage()];
-                        $errormsg = json_encode($error);
-                        return $this->response->setJSON([
-                            'status' => 500,
-                            'message' => $errormsg
-                        ])->setStatusCode(500);
+    public function change_password()
+    {
+        $key = 'JWT_SECRET_KEY_SAMPLE_HERE';
+        $authHeader = $this->request->getHeader("Authorization");
+
+        if ($authHeader) {
+            $authHeader = $authHeader->getValue();
+            $token = str_replace('Bearer ', '', $authHeader);
+            $token = trim($token);
+            try {
+                $decoded = JWT::decode($token, new Key($key, "HS256"));
+                $userModel = new UserModel();
+                $userId = $decoded->id; // Adjust this based on your token's payload structure
+
+                $validationRules = [
+                    'currentPassword' => 'required',
+                    'newPassword' => 'required|min_length[5]',
+                ];
+
+                $validation = Services::validation();
+                $validation->setRules($validationRules);
+
+                if (!$validation->withRequest($this->request)->run()) {
+                    $messageErr = '';
+                    foreach ($validation->getErrors() as $key => $messages) {
+                        $messageErr .= $messages . ' ';
                     }
-                } else {
-                    $response = [
-                        'status' => 404,
-                        'messages' => 'Authorization header missing',
-                        'user' => null
-                    ];
-                    return $this->response->setJSON($response)->setStatusCode(404);
+                    return $this->response->setJSON([
+                        'status' => 409,
+                        'message' => $messageErr,
+                    ])->setStatusCode(409);
                 }
-         }
+
+                $userModel = new UserModel();
+
+                $oldPassword = $this->request->getPost('currentPassword');
+                $newPassword = $this->request->getPost('newPassword');
+
+                $result = $userModel->updatePasswordUsingId($userId, $oldPassword, $newPassword);
+
+                if ($result === true) {
+                    return $this->response->setJSON([
+                        'status' => 200,
+                        'message' => 'Password updated successfully'
+                    ])->setStatusCode(200);
+                } elseif ($result === 'error') {
+                    return $this->response->setJSON([
+                        'status' => 404,
+                        'message' => 'Incorrect old password'
+                    ])->setStatusCode(404);
+                } else {
+                    return $this->response->setJSON([
+                        'status' => 404,
+                        'message' => 'Failed to update password'
+                    ])->setStatusCode(404);
+                }
+            } catch (\Exception $e) {
+                $error = [$e->getMessage()];
+                $errormsg = json_encode($error);
+                return $this->response->setJSON([
+                    'status' => 500,
+                    'message' => $errormsg
+                ])->setStatusCode(500);
+            }
+        } else {
+            $response = [
+                'status' => 404,
+                'messages' => 'Authorization header missing',
+                'user' => null
+            ];
+            return $this->response->setJSON($response)->setStatusCode(404);
+        }
+    }
 
 
     //edit profile//
-    public function edit_profile(){
+    public function edit_profile()
+    {
 
         try {
             $userid = $this->request->getPost('userId');
@@ -422,7 +426,7 @@ class ApiController extends BaseController
 
             // Validation rules
             $rules = [
-                'userId'=>['rules'=>'required|max_length[3]'],
+                'userId' => ['rules' => 'required|max_length[3]'],
                 'fullname' => ['rules' => 'required|min_length[3]|max_length[255]'],
                 'email' => ['rules' => 'required|min_length[4]|max_length[255]|valid_email|is_unique[users.email]'],
                 'address' => ['rules' => 'required|min_length[4]|max_length[255]'],
@@ -450,19 +454,19 @@ class ApiController extends BaseController
                     'date_of_birth' => $dob,
                     'phone' => $phone,
                     'role' => 6,
-                   
+
                 ];
-                if($newName){
-                    $data['profile'] =$newName;
+                if ($newName) {
+                    $data['profile'] = $newName;
                 }
 
-                $model->editData($userid,$data);
+                $model->editData($userid, $data);
 
                 return $this->respond(['status' => 200, 'message' => 'Registered Successfully'], 200);
             } else {
-                    $response = [
+                $response = [
                     'status' => 409,
-                   'message'=> $this->validator->getErrors(),
+                    'message' => $this->validator->getErrors(),
                 ];
                 return $this->respond($response);
             }
@@ -475,80 +479,80 @@ class ApiController extends BaseController
 
 
     }
-    
-    
+
+
 
     public function patient_details()
     {
         try {
-            $id= $this->request->getPost('id');
+            $id = $this->request->getPost('id');
             $users = new UserModel();
             // Fetch patient with the given ID, role 6, and status 'active'
             $result = $users->where('id', $id)
-                            ->where('role', 6)
-                            ->first();
-    
+                ->where('role', 6)
+                ->first();
+
             if (empty($result)) {
-                return $this->respond(['status'=>404, 'message' => 'No patient found', 'patient' => null ], 404);
+                return $this->respond(['status' => 404, 'message' => 'No patient found', 'patient' => null], 404);
             }
-    
+
             // Append the base path to the profile name
             if (!empty($result['profile'])) {
                 $result['profile'] = $this->imagePath . $result['profile'];
             }
-    
-            return $this->respond(['status'=>200,'message' => 'Patient Details', 'patient' => $result], 200);
+
+            return $this->respond(['status' => 200, 'message' => 'Patient Details', 'patient' => $result], 200);
         } catch (\Exception $e) {
-            return $this->respond(['status'=>500,'message' => $e->getMessage()], 500);
+            return $this->respond(['status' => 500, 'message' => $e->getMessage()], 500);
         }
     }
-    
+
 
     public function user_details()
     {
         $key = 'JWT SECRET KEY SAMPLE HERE';
         $authHeader = $this->request->getHeader("Authorization");
-    
+
         if ($authHeader) {
             $authHeader = $authHeader->getValue();
             $token = str_replace('Bearer ', '', $authHeader);
-            $token = trim($token); 
-    
+            $token = trim($token);
+
             try {
                 $decoded = JWT::decode($token, new Key($key, "HS256"));
                 $userModel = new UserModel();
                 $userId = $decoded->id; // Adjust this based on your token's payload structure
-    
+
                 // Fetch user details from UserModel using the decoded user ID
                 $user = $userModel->find($userId);
-                
+
                 if (!empty($user['profile'])) {
-                 $user['profile'] = $this->imagePath . $user['profile'];
+                    $user['profile'] = $this->imagePath . $user['profile'];
                 }
-                
+
                 if ($user) {
                     $response = [
                         'status' => 200,
                         'messages' => 'User details',
                         'user' => $user
                     ];
-                      return $this->respondCreated($response,200);
+                    return $this->respondCreated($response, 200);
                 } else {
                     $response = [
                         'status' => 404,
                         'messages' => 'User not found',
                         'user' => null
                     ];
-                      return $this->respondCreated($response,404);
+                    return $this->respondCreated($response, 404);
                 }
-              
+
             } catch (\Exception $ex) {
                 $response = [
                     'status' => 404,
-                    'messages' => 'User details', 
+                    'messages' => 'User details',
                     'user' => null
                 ];
-                return $this->respondCreated($response,404);
+                return $this->respondCreated($response, 404);
             }
         } else {
             $response = [
@@ -556,10 +560,10 @@ class ApiController extends BaseController
                 'messages' => 'Authorization header missing',
                 'user' => null
             ];
-            return $this->respondCreated($response,404);
+            return $this->respondCreated($response, 404);
         }
     }
-    
+
 
 
 
@@ -692,6 +696,120 @@ class ApiController extends BaseController
 
     }
     // END Forgot Password - 
+
+
+
+    //dr wise appointment
+    public function dr_wise_appointment()
+    {
+        try {
+            $appointmentModel = new Appointments;
+            $dr_id = $this->request->getPost('id');
+
+            if (!empty($dr_id)) {
+                $appointments = $appointmentModel->where('assigne_to', $dr_id)->findAll();
+
+                if (!empty($appointments)) {
+                    // Fetch user details for each appointment
+                    foreach ($appointments as &$appointment) {
+                        $inquiryId = $appointment['inquiry_id'];
+                        $inquiryModel = new EnquiryModel();
+                        $inquiry = $inquiryModel->find($inquiryId);
+
+
+                        if (!empty($inquiry)) {
+
+                            $images = json_decode($inquiry['image'], true);
+
+                            foreach ($images as &$image) {
+                                $image = $this->imagePath . $image;
+                            }
+                            $inquiry['image'] = $images;
+                            $appointment['enquiry_details'] = $inquiry;
+                            // Fetch user details for this inquiry
+                            $userId = $inquiry['user_id'];
+                            $userModel = new UserModel();
+                            $user = $userModel->find($userId);
+
+                            if (!empty($user)) {
+                                // Attach user details to the appointment
+                                $appointment['user_datails'] = $user;
+                            }
+                        }
+                    }
+
+                    // Prepare response
+                    $response = [
+                        'status' => 200,
+                        'messages' => 'Appointments',
+                        'appointments' => $appointments
+                    ];
+                    return $this->respond($response, 200);
+                } else {
+                    // No appointments found
+                    $response = [
+                        'status' => 404,
+                        'messages' => 'Appointments not found',
+                        'appointments' => []
+                    ];
+                    return $this->respond($response, 404);
+                }
+            } else {
+                // Doctor ID is empty
+                $response = [
+                    'status' => 409,
+                    'messages' => 'Doctor ID is empty',
+                    'appointments' => []
+                ];
+                return $this->respond($response, 409);
+            }
+        } catch (\Exception $e) {
+            // Handle any exceptions
+            return json_encode(['status' => 409, 'message' => 'An error occurred: ' . $e->getMessage()]);
+        }
+    }
+
+
+    public function get_enquiryById()
+    {
+        try {
+            $enquiryId = $this->request->getPost('id');
+
+            // Load the EnquiryModel
+            $enquiryModel = new EnquiryModel();
+
+            // Retrieve the inquiry by its ID
+            $enquiry = $enquiryModel->find($enquiryId);
+
+            if (!empty($enquiry)) {
+
+                $images = json_decode($enquiry['image'], true);
+
+                foreach ($images as &$image) {
+                    $image = $this->imagePath . $image;
+                }
+                $enquiry['image'] = $images;
+                // Inquiry found, return it
+                $response = [
+                    'status' => 200,
+                    'enquiry' => $enquiry
+                ];
+                // return json_encode($response)
+                return $this->respond($response, 200);
+            } else {
+                // Inquiry not found
+                $response = [
+                    'status' => 404,
+                    'enquiry' => null
+                ];
+                return $this->respond($response, 404);
+            }
+        } catch (\Exception $e) {
+            // Handle any exceptions
+            return json_encode(['status' => 500, 'message' => 'An error occurred: ' . $e->getMessage()]);
+        }
+    }
+
 
 
 
