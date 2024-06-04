@@ -130,7 +130,7 @@ $image = session()->get('profile');
       </li> -->
       <!-- Patient -->
 
-       <li class="nav-item">
+       <!-- <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#pay-nav" data-bs-toggle="collapse" href="111">
           <i class="bi bi-coin"></i><span>Payment</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
@@ -146,7 +146,7 @@ $image = session()->get('profile');
             </a>
           </li>
         </ul>
-      </li>
+      </li> -->
       
 
       <li class="nav-item">

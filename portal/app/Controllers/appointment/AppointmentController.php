@@ -91,20 +91,20 @@ class AppointmentController extends BaseController
         $enquiryModel = new EnquiryModel();
 
         // Define validation rules
-        $validationRules = [
-            'patient_name' => 'required',
-            'doctor_name' => 'required',
-            'appointment_slot' => 'required',
-            'note' => 'permit_empty|string',
-            // 'time' => 'required',
-            'referral' => 'permit_empty|string'
-        ];
+        // $validationRules = [
+        //     // 'patient_name' => 'required',
+        //     // 'doctor_name' => 'required',
+        //     // 'appointment_slot' => 'required',
+        //     // 'note' => 'permit_empty|string',
+        //     // 'time' => 'required',
+        //     // 'referral' => 'permit_empty|string'
+        // ];
 
         // Validate the request
-        if (!$this->validate($validationRules)) {
-            // If validation fails, redirect back with input and errors
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-        }
+        // if (!$this->validate($validationRules)) {
+        //     // If validation fails, redirect back with input and errors
+        //     return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        // }
 
         // Retrieve form data
         $patient_id = $this->request->getPost('patient_name');

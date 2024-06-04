@@ -11,7 +11,8 @@ Add-Doctor
                 <h1>Add New Doctor</h1>
                 <nav>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="<?= base_url() . '' . session('prefix') . '/' . 'doctor' ?>">All
+                        <li class="breadcrumb-item"><a
+                                href="<?= base_url() . '' . session('prefix') . '/' . 'doctor' ?>">All
                                 Doctor</a></li>
                         <!-- <li class="breadcrumb-item"><a href="enquiry.php"> Enquiry </a></li> -->
                         <li class="breadcrumb-item active">Add New Doctor</li>
@@ -137,15 +138,15 @@ Add-Doctor
                             </div>
                             <div class="row">
                                 <div class="col-lg-6 mb-3">
-                                    <label for="schedule" class="form-label"><i class="bi bi-calendar-event-fill"
-                                            style="font-size: 18px;"></i> Schedule</label>
-                                    <input type="text" class="form-control" id="schedule" name="schedule"
-                                        placeholder="e.g., Mon-Fri, 9am-5pm">
-                                    <?php if (session('errors.schedule')): ?>
-                                        <small class="text-danger"><?= esc(session('errors.schedule')) ?><i
+                                    <label for="image" class="form-label"><i class="bi bi-image-fill"
+                                            style="font-size: 18px;"></i> Doctor Image</label>
+                                    <input type="file" class="form-control" id="image" name="image">
+                                    <?php if (session('errors.image')): ?>
+                                        <small class="text-danger"><?= esc(session('errors.image')) ?><i
                                                 class="bi bi-exclamation-circle"></i></small>
                                     <?php endif; ?>
                                 </div>
+
 
                                 <div class="col-lg-6 mb-3">
                                     <label for="about" class="form-label"><i class="bi bi-person-fill"
@@ -159,17 +160,72 @@ Add-Doctor
                             </div>
 
 
-                            <div class="row mb-3">
-
+                            <!-- <div class="row mb-3">
                                 <div class="col-lg-6 mb-3">
-                                    <label for="image" class="form-label"><i class="bi bi-image-fill"
-                                            style="font-size: 18px;"></i> Doctor Image</label>
-                                    <input type="file" class="form-control" id="image" name="image">
-                                    <?php if (session('errors.image')): ?>
-                                        <small class="text-danger"><?= esc(session('errors.image')) ?><i
-                                                class="bi bi-exclamation-circle"></i></small>
-                                    <?php endif; ?>
+                                    <label class="form-label"><i class="bi bi-calendar-event-fill"
+                                            style="font-size: 18px;"></i> Schedule</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="monday" id="monday"
+                                            value="Monday">
+                                        <label class="form-check-label" for="monday">Monday</label>
+                                        <input type="time" class="form-control" id="monday-time" name="monday-time"
+                                            placeholder="Time ">
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="tuesday" id="tuesday"
+                                            value="Tuesday">
+                                        <label class="form-check-label" for="tuesday">Tuesday</label>
+                                        <input type="time" class="form-control" id="tuesday-time" name="tuesday-time"
+                                            placeholder="Time ">
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="wednesday" id="wednesday"
+                                            value="Wednesday">
+                                        <label class="form-check-label" for="wednesday">Wednesday</label>
+                                        <input type="time" class="form-control" id="wednesday-time"
+                                            name="wednesday-time" placeholder="Time">
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="thursday" id="thursday"
+                                            value="Thursday">
+                                        <label class="form-check-label" for="thursday">Thursday</label>
+                                        <input type="time" class="form-control" id="thursday-time" name="thursday-time"
+                                            placeholder="Time">
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="friday" id="friday"
+                                            value="Friday">
+                                        <label class="form-check-label" for="friday">Friday</label>
+                                        <input type="time" class="form-control" id="friday-time" name="friday-time"
+                                            placeholder="Time ">
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="saturday" id="saturday"
+                                            value="saturday">
+                                        <label class="form-check-label" for="friday">Saturday</label>
+                                        <input type="text" class="form-control" id="friday-time" name="saturday-time"
+                                            placeholder="Time">
+                                    </div>
                                 </div>
+
+                                <script type="text/javascript"
+                                    src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+                                <script type="text/javascript"
+                                    src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+                                <link rel="stylesheet" type="text/css"
+                                    href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+                                <script>
+                                    $('input[name="saturday-time"]').daterangepicker({
+                                        timePicker: true,
+                                        // datePicker: false,
+                                        startDate: moment().startOf('hour'),
+                                        endDate: moment().startOf('hour').add(32, 'hour'),
+                                        locale: {
+                                            format: 'M/DD hh:mm A'
+                                        }
+                                    });
+                                </script> -->
+
                                 <div class="col-lg-6 mb-3">
                                     <label for="selectSpecialistOrPractice" class="form-label"><i
                                             class="bi bi-check-square-fill" style="font-size: 18px;"></i></i> Which is
@@ -211,5 +267,103 @@ Add-Doctor
         </script>
     <?php endif; ?>
 </main>
+<script>
+    $(document).ready(function () {
+        function isValidEmail(email) {
+            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailPattern.test(email);
+        }
+        $('#doctor_form').submit(function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Clear previous error messages
+            $('.error-msg').remove();
+
+            // Perform validation
+            var name = $('#name').val();
+            var email = $('#email').val();
+            var password = $('#password').val();
+            var address = $('#address').val();
+            var dob = $('#dob').val();
+            var phone = $('#phone').val();
+            var specialist = $('#specialist').val();
+            var qualification = $('#qualification').val();
+            var schedule = $('#schedule').val();
+            var about = $('#about').val();
+            var image = $('#image').val();
+            var specialistOrPractice = $('#specialistOrPractice').val();
+
+            // Validation for each field
+            if (name === '') {
+                $('#name').after('<small class="error-msg text-danger">Please enter a name.</small>');
+                return false;
+            }
+
+            if (email === '') {
+                $('#email').after('<small class="error-msg text-danger">Please enter an email.</small>');
+                return false;
+            } else if (!isValidEmail(email)) {
+                $('#email').after('<small class="error-msg text-danger">Please enter a valid email address.</small>');
+                return false;
+            }
+
+            if (password === '') {
+                $('#password').after('<small class="error-msg text-danger">Please enter a password.</small>');
+                return false;
+            }
+
+            if (address === '') {
+                $('#address').after('<small class="error-msg text-danger">Please enter an address.</small>');
+                return false;
+            }
+
+            if (dob === '') {
+                $('#dob').after('<small class="error-msg text-danger">Please enter a date of birth.</small>');
+                return false;
+            }
+
+            if (phone === '') {
+                $('#phone').after('<small class="error-msg text-danger">Please enter a phone number.</small>');
+                return false;
+            }
+
+            if (specialist === '') {
+                $('#specialist').after('<small class="error-msg text-danger">Please select a specialist.</small>');
+                return false;
+            }
+
+            if (qualification === '') {
+                $('#qualification').after('<small class="error-msg text-danger">Please enter a qualification.</small>');
+                return false;
+            }
+
+            if (schedule === '') {
+                $('#schedule').after('<small class="error-msg text-danger">Please enter a schedule.</small>');
+                return false;
+            }
+
+            if (about === '') {
+                $('#about').after('<small class="error-msg text-danger">Please enter about information.</small>');
+                return false;
+            }
+
+            // if (image === '') {
+            //     $('#image').after('<small class="error-msg text-danger">Please select an image.</small>');
+            //     return false; // Prevent form submission
+            // }
+
+            if (specialistOrPractice === '') {
+                $('#specialistOrPractice').after('<small class="error-msg text-danger">Please select a preference.</small>');
+                return false;
+            }
+
+            this.submit();
+        });
+    });
+</script>
+
+</script>
+
+</script>
 
 <?= $this->endSection() ?>

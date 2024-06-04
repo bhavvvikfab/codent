@@ -3,6 +3,9 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\AppointmentModel;
+use App\Models\DoctorModel;
+use App\Models\EnquiryModel;
 use App\Models\UserModel;
 use CodeIgniter\Config\Services;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -30,10 +33,39 @@ class UserController extends BaseController
         $id = session('user_id');
         // Set form validation rules with custom error messages
         $validation->setRules([
-            'fullname' => 'required',
-            'phone' => 'required|numeric|min_length[10]|max_length[15]',
-            'email' => "required|valid_email",
-            'dob' => 'required',
+            'fullname' => [
+                'label' => 'Full Name',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'The Full Name is required.'
+                ]
+            ],
+            'phone' => [
+                'label' => 'Phone',
+                'rules' => 'required|numeric|min_length[10]|max_length[15]',
+                'errors' => [
+                    'required' => 'The Phone is required.',
+                    'numeric' => 'The Phone must contain only numbers.',
+                    'min_length' => 'The Phone must be at least 10 digits long.',
+                    'max_length' => 'The Phone cannot exceed 15 digits.'
+                ]
+            ],
+            'email' => [
+                'label' => 'Email',
+                'rules' => "required|valid_email|is_unique[users.email,id,{$id}]",
+                'errors' => [
+                    'required' => 'The Email is required.',
+                    'valid_email' => 'Please enter a valid Email address.',
+                    'is_unique' => 'This Email is already in use.'
+                ]
+            ],
+            'dob' => [
+                'label' => 'Date of Birth',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'The Date of Birth is required.'
+                ]
+            ],
         ]);
 
         // Check if the profile image is uploaded and add validation rules for it
@@ -94,7 +126,6 @@ class UserController extends BaseController
             ]);
             return $this->response->setJSON(['status' => 'success', 'message' => 'Profile updated successfully!']);
         } else {
-            log_message('error', 'Failed to update profile for user ID: ' . $id);
             return $this->response->setJSON(['status' => 'error', 'message' => 'Profile updated failed!']);
         }
     }
@@ -102,10 +133,31 @@ class UserController extends BaseController
     public function change_password()
     {
         $validationRules = [
-            'currentPassword' => 'required',
-            'newpassword' => 'required|min_length[5]',
-            'confirm_Password' => 'required|matches[newpassword]'
+            'currentPassword' => [
+                'label' => 'Current Password',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'The Current Password is required.'
+                ]
+            ],
+            'newPassword' => [
+                'label' => 'New Password',
+                'rules' => 'required|min_length[5]',
+                'errors' => [
+                    'required' => 'The New Password is required.',
+                    'min_length' => 'The New Password must be at least 5 characters long.'
+                ]
+            ],
+            'confirmPassword' => [
+                'label' => 'Confirm Password',
+                'rules' => 'required|matches[newPassword]',
+                'errors' => [
+                    'required' => 'The Confirm Password is required.',
+                    'matches' => 'The Confirm Password does not match the New Password field.'
+                ]
+            ]
         ];
+        
 
         $validation = Services::validation();
         $validation->setRules($validationRules);
@@ -131,10 +183,87 @@ class UserController extends BaseController
         }
     }
 
+    public function dashboard() {
+        $appointmentModel = new AppointmentModel();
+        $enquiryModel = new EnquiryModel();
+        $doctorModel = new DoctorModel();
+        $userModel = new UserModel();
+        
+        // Get current date components
+        $today = date('Y-m-d');
+        $currentMonth = date('m');
+        $currentYear = date('Y');
+        
+        // Filter appointments
+        $appointmentsToday = $appointmentModel->where('DATE(created_at)', $today)->where('hospital_id', session('user_id'))->findAll();
+        $appointmentsThisMonth = $appointmentModel->where('MONTH(created_at)', $currentMonth)->where('YEAR(created_at)', $currentYear)->where('hospital_id', session('user_id'))->findAll();
+        $appointmentsThisYear = $appointmentModel->where('YEAR(created_at)', $currentYear)->where('hospital_id', session('user_id'))->findAll();
+        $allAppointments = $appointmentModel->where('hospital_id', session('user_id'))->findAll();
+        
+        // Combine with enquiries and doctors
+        $appointmentsTodayCombined = $this->combineWithEnquiriesAndDoctors($appointmentsToday, $enquiryModel, $doctorModel, $userModel);
+        $appointmentsThisMonthCombined = $this->combineWithEnquiriesAndDoctors($appointmentsThisMonth, $enquiryModel, $doctorModel, $userModel);
+        $appointmentsThisYearCombined = $this->combineWithEnquiriesAndDoctors($appointmentsThisYear, $enquiryModel, $doctorModel, $userModel);
+        $allAppointmentsCombined = $this->combineWithEnquiriesAndDoctors($allAppointments, $enquiryModel, $doctorModel, $userModel);
+        
+        // Filter enquiries
+        $enquiriesToday = $enquiryModel->where('DATE(created_at)', $today)->where('hospital_id', session('user_id'))->findAll();
+        $enquiriesThisMonth = $enquiryModel->where('MONTH(created_at)', $currentMonth)->where('YEAR(created_at)', $currentYear)->where('hospital_id', session('user_id'))->findAll();
+        $enquiriesThisYear = $enquiryModel->where('YEAR(created_at)', $currentYear)->where('hospital_id', session('user_id'))->findAll();
+        $allEnquiries = $enquiryModel->where('hospital_id', session('user_id'))->findAll();
+        
+        // Filter users
+        $usersToday = $userModel->where('DATE(created_at)', $today)->where('hospital_id', session('user_id'))->findAll();
+        $usersThisMonth = $userModel->where('MONTH(created_at)', $currentMonth)->where('YEAR(created_at)', $currentYear)->where('hospital_id', session('user_id'))->findAll();
+        $usersThisYear = $userModel->where('YEAR(created_at)', $currentYear)->where('hospital_id', session('user_id'))->findAll();
+        $allUsers = $userModel->where('hospital_id', session('user_id'))->findAll();
+        
+        // Prepare data to return
+        $data = [
+            'appointments' => [
+                'today' => $appointmentsTodayCombined,
+                'this_month' => $appointmentsThisMonthCombined,
+                'this_year' => $appointmentsThisYearCombined,
+                'all' => $allAppointmentsCombined,
+            ],
+            'enquiries' => [
+                'today' => $enquiriesToday,
+                'this_month' => $enquiriesThisMonth,
+                'this_year' => $enquiriesThisYear,
+                'all' => $allEnquiries,
+            ],
+            'users' => [
+                'today' => $usersToday,
+                'this_month' => $usersThisMonth,
+                'this_year' => $usersThisYear,
+                'all' => $allUsers,
+            ]
+        ];
+        
+        return view('dashboard', ['data' => $data]);
+        
+    }
+    
+    private function combineWithEnquiriesAndDoctors($appointments, $enquiryModel, $doctorModel ,$userModel) {
+        foreach ($appointments as &$appointment) {
+            // Combine with enquiry
+            $appointment['enquiry'] = $enquiryModel->find($appointment['inquiry_id']);
+    
+            // Combine with doctor
+            if (isset($appointment['assigne_to'])) {
+                $appointment['doctor'] = $doctorModel->where('user_id', $appointment['assigne_to'])->first();
 
-
-
-
+                $dr_id = $appointment['doctor']['user_id'];
+                $doctorData = $userModel->find($dr_id);
+                $appointment['doctor']['doctor_data'] = $doctorData;
+                
+            } else {
+                $appointment['doctor'] = null;
+            }
+        }
+        return $appointments;
+    }
+    
 
 
 }

@@ -85,7 +85,7 @@ All-Appointment
                           </div>
                           <div class="deleten p-1">
                             <a
-                              href="<?= base_url() . '/' . session('prefix') . '/delete_appointment/' . $item['appointment']['id'] ?>">
+                              href="<?= base_url() . '/' . session('prefix') . '/delete_appointment/' . $item['appointment']['id'] ?>" class="delete_btn" >
                               <button type="button" class="btn btn-danger btn-sm"><i
                                   class="ri-delete-bin-line"></i></button>
                             </a>
@@ -131,6 +131,26 @@ All-Appointment
   <?php endif; ?>
 
 </main><!-- End #main -->
-
+<script>
+  $(document).ready(function () {
+    $('.delete_btn').on('click', function (e) {
+      e.preventDefault();
+      var url = $(this).attr('href');
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = url;
+        }
+      });
+    });
+  });
+</script>
 
 <?= $this->endSection() ?>

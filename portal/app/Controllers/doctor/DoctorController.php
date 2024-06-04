@@ -44,17 +44,17 @@ class DoctorController extends BaseController
         $userModel = new UserModel();
     
         $validationRules = [
-            'name' => 'required|min_length[3]|max_length[255]',
+            // 'name' => 'required|min_length[3]|max_length[255]',
             'email' => 'required|valid_email|is_unique[users.email]',
-            'password' => 'required|min_length[5]|max_length[255]',
-            'address' => 'required|min_length[4]|max_length[255]',
-            'dob' => 'required|valid_date',
-            'phone' => 'required|min_length[10]|max_length[15]',
-            'specialist' => 'required|min_length[3]|max_length[255]',
-            'qualification' => 'required|min_length[3]|max_length[255]',
-            'schedule' => 'required|min_length[3]|max_length[255]',
-            'about' => 'required|min_length[3]|max_length[255]',
-            'specialistOrPractice' => 'required|integer',
+            // 'password' => 'required|min_length[5]|max_length[255]',
+            // 'address' => 'required|min_length[4]|max_length[255]',
+            // 'dob' => 'required|valid_date',
+            // 'phone' => 'required|min_length[10]|max_length[15]',
+            // 'specialist' => 'required|min_length[3]|max_length[255]',
+            // 'qualification' => 'required|min_length[3]|max_length[255]',
+            // 'schedule' => 'required|min_length[3]|max_length[255]',
+            // 'about' => 'required|min_length[3]|max_length[255]',
+            // 'specialistOrPractice' => 'required|integer',
         ];
     
         if (!$this->validate($validationRules)) {
@@ -139,7 +139,7 @@ class DoctorController extends BaseController
     public function doctor_edit()
     {
         $validationRules = [
-            'name' => 'required|min_length[3]|max_length[255]',
+            // 'name' => 'required|min_length[3]|max_length[255]',
             'email' => [
                 'label' => 'Email',
                 'rules' => 'required|valid_email|is_unique[users.email,id,{user_id}]',
@@ -147,14 +147,14 @@ class DoctorController extends BaseController
                     'is_unique' => 'This email address is already in use.'
                 ]
             ],
-            'address' => 'required|min_length[4]|max_length[255]',
-            'dob' => 'required|valid_date',
-            'phone' => 'required|min_length[10]|max_length[15]',
-            'specialist' => 'required|min_length[3]|max_length[255]',
-            'qualification' => 'required|min_length[3]|max_length[255]',
-            'schedule' => 'required|min_length[3]|max_length[255]',
-            'about' => 'required|min_length[3]|max_length[255]',
-            'specialistOrPractice' => 'required|integer',
+            // 'address' => 'required|min_length[4]|max_length[255]',
+            // 'dob' => 'required|valid_date',
+            // 'phone' => 'required|min_length[10]|max_length[15]',
+            // 'specialist' => 'required|min_length[3]|max_length[255]',
+            // 'qualification' => 'required|min_length[3]|max_length[255]',
+            // 'schedule' => 'required|min_length[3]|max_length[255]',
+            // 'about' => 'required|min_length[3]|max_length[255]',
+            // 'specialistOrPractice' => 'required|integer',
             'user_id' => 'required|integer',
             'dr_id' => 'required|integer',
         ];

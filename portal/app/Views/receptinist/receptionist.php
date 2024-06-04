@@ -62,9 +62,9 @@ All-Receptionist
                       <td><?php echo $key + 1; ?></td>
                       <td>
                         <img
-                          src="<?= config('App')->baseURL2 ?>/public/images/<?= isset($rep['profile']) && !empty($rep['profile']) ? $rep['profile'] : 'user-profile.jpg' ?>"
-                          height="50" width="50">
-
+                          src="<?= config('App')->baseURL2 ?>/public/images/<?= !empty($rep['profile']) ? $rep['profile'] : 'default.jpg' ?>"
+                          height="50" width="50"
+                          onerror="this.onerror=null; this.src='<?= config('App')->baseURL2 ?>/public/images/default.jpg';">
                       </td>
 
                       <td><?php echo isset($rep['fullname']) ? $rep['fullname'] : 'N/A'; ?></td>

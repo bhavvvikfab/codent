@@ -42,10 +42,11 @@ Edit-Receptionist
 
                         <!-- General Form Elements -->
                         <form id="doctor_form" enctype="multipart/form-data"
-                            action="<?= base_url() . '' . session('prefix') . '/' . 'receptionist_edit' ?>" method="post">
+                            action="<?= base_url() . '' . session('prefix') . '/' . 'receptionist_edit' ?>"
+                            method="post">
 
-                            
-                            <input type="hidden" name="user_id" value="<?= $rep['id'] ?>" >
+
+                            <input type="hidden" name="user_id" value="<?= $rep['id'] ?>">
                             <div class="row">
                                 <div class="col-lg-6 mb-3">
                                     <label for="name" class="form-label"><i class="bi bi-person-circle"
@@ -114,7 +115,7 @@ Edit-Receptionist
                                                 class="bi bi-exclamation-circle"></i></small>
                                     <?php endif; ?>
                                 </div>
-                              
+
 
                             </div>
 
@@ -143,5 +144,77 @@ Edit-Receptionist
         </script>
     <?php endif; ?>
 </main>
+
+<script>
+    $(document).ready(function () {
+        $('form').submit(function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Clear previous error messages
+            $('.error-msg').remove();
+
+            // Perform validation
+            var name = $('#name').val();
+            var email = $('#email').val();
+            var password = $('#password').val();
+            var dob = $('#dob').val();
+            // var image = $('#image').val();
+            var phone = $('#phone').val().trim();
+            var address = $('#address').val();
+
+            // Validation for each field
+            if (name === '') {
+                $('#name').after('<small class="error-msg text-danger">Please enter a name.</small>');
+                return false;
+            }
+
+            if (email === '') {
+                $('#email').after('<small class="error-msg text-danger">Please enter an email.</small>');
+                return false;
+            } else if (!isValidEmail(email)) {
+                $('#email').after('<small class="error-msg text-danger">Please enter a valid email address.</small>');
+                return false;
+            }
+
+            if (password === '') {
+                $('#password').after('<small class="error-msg text-danger">Please enter a password.</small>');
+                return false;
+            }
+        
+
+            if (dob === '') {
+                $('#dob').after('<small class="error-msg text-danger">Please enter your date of birth.</small>');
+                return false;
+            }
+
+            // if (image === '') {
+            //     $('#image').after('<small class="error-msg text-danger">Please upload a profile image.</small>');
+            //     return false; 
+            // }
+
+            if (phone === '') {
+                $('#phone').after('<small class="error-msg text-danger">Please enter a phone number.</small>');
+                return false;
+            } else if (phone.length < 10 || phone.length > 15) {
+                $('#phone').after('<small class="error-msg text-danger">Phone number must be between 10 and 15 characters.</small>');
+                return false;
+            }
+
+            if (address === '') {
+                $('#address').after('<small class="error-msg text-danger">Please enter an address.</small>');
+                return false;
+            }
+
+
+            this.submit();
+        });
+
+        // Function to validate email format
+        function isValidEmail(email) {
+            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailPattern.test(email);
+        }
+    });
+</script>
 
 <?= $this->endSection() ?>

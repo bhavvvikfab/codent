@@ -46,7 +46,7 @@ Add-Enquiry
           <div class="card-body">
 
             <!-- No Labels Form -->
-            <form class="row g-3" method="post" enctype="multipart/form-data"
+            <form class="row g-3" method="post" id="add_enquiry" enctype="multipart/form-data"
               action="<?= base_url() . '' . session('prefix') . '/' . 'store_enquiry' ?>">
               <?php if (session('user_role') == 6): ?>
                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
@@ -104,7 +104,7 @@ Add-Enquiry
                 <label class="col-form-label"><i class="bi bi-calendar-week-fill" style="font-size: 18px;"></i>
                   Appointment
                   Date</label>
-                <div class="input-group">
+                <div class="input-group app_date">
                   <span class="input-group-text rounded-2 btn-cal" id="bdate34"><i class="bi bi-calendar3"></i></span>
                   <input type="date" class="form-control rounded-2" name="app_date">
                 </div>
@@ -223,6 +223,78 @@ Add-Enquiry
     });
   </script>
 
+<script>
+  $('#add_enquiry').submit(function(event) {
+    event.preventDefault(); // Prevent form submission
+
+    // Get form inputs
+    var patientName = $('input[name="patient_name"]').val().trim();
+    // var dob = $('input[name="dob"]').val().trim();
+    var appDate = $('input[name="app_date"]').val().trim();
+    var phone = $('input[name="phone"]').val().trim();
+    var specialty = $('select[name="required_specialist"]').val().trim();
+    var referralDoctor = $('select[name="referral_doctor"]').val().trim();
+    var note = $('textarea[name="note"]').val().trim();
+    // var images = $('input[name="images[]"]').prop('files');
+
+    // Validation
+    var isValid = true;
+
+    if (patientName === '') {
+        isValid = false;
+        $('input[name="patient_name"]').next('.text-danger').remove();
+        $('input[name="patient_name"]').after('<small class="text-danger">Please enter the patient\'s name.</small>');
+    }
+
+    // if (dob === '') {
+    //     isValid = false;
+    //     $('input[name="dob"]').next('.text-danger').remove();
+    //     $('input[name="dob"]').after('<small class="text-danger">Please enter the patient\'s date of birth.</small>');
+    // }
+
+    if (appDate === '') {
+        isValid = false;
+        $('input[name="app_date"]').next('.text-danger').remove();
+        $('.app_date').after('<small class="text-danger">Please enter the appointment date.</small>');
+    }
+
+    if (phone === '') {
+        isValid = false;
+        $('input[name="phone"]').next('.text-danger').remove();
+        $('input[name="phone"]').after('<small class="text-danger">Please enter a phone number.</small>');
+    }
+
+    if (specialty === 'n/a') {
+        isValid = false;
+        $('select[name="required_specialist"]').next('.text-danger').remove();
+        $('select[name="required_specialist"]').after('<small class="text-danger">Please select a specialty.</small>');
+    }
+
+    // if (referralDoctor === '') {
+    //     isValid = false;
+    //     $('select[name="referral_doctor"]').next('.text-danger').remove();
+    //     $('select[name="referral_doctor"]').after('<small class="text-danger">Please select a referral doctor.</small>');
+    // }
+
+    // if (note === '') {
+    //     isValid = false;
+    //     $('textarea[name="note"]').next('.text-danger').remove();
+    //     $('textarea[name="note"]').after('<small class="text-danger">Please enter a note.</small>');
+    // }
+
+    // if (images.length === 0) {
+    //     isValid = false;
+    //     $('input[name="images[]"]').next('.text-danger').remove();
+    //     $('input[name="images[]"]').after('<small class="text-danger">Please select at least one image.</small>');
+    // }
+
+    // If form is valid, submit
+    if (isValid) {
+        this.submit();
+    }
+});
+
+</script>
 </main><!-- End #main -->
 
 <?= $this->endSection() ?>

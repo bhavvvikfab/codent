@@ -83,7 +83,7 @@ All-Enquiries
                           <div class="deleten m-1">
                             <a type="button"
                               href="<?= base_url() . session('prefix') . '/delete_enquiry/' . esc($enquiry['enquiry_id']) ?>"
-                              class="btn btn-dark btn-sm"><i class="ri-delete-bin-line"></i></a>
+                              class="btn btn-dark btn-sm delete_btn"><i class="ri-delete-bin-line"></i></a>
                           </div>
                         </div>
                       </td>
@@ -123,5 +123,27 @@ All-Enquiries
     </script>
   <?php endif; ?>
 </main><!-- End #main -->
+
+<script>
+  $(document).ready(function () {
+    $('.delete_btn').on('click', function (e) {
+      e.preventDefault();
+      var url = $(this).attr('href');
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = url;
+        }
+      });
+    });
+  });
+</script>
 
 <?= $this->endSection() ?>

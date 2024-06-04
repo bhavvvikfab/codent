@@ -54,8 +54,9 @@ Receptionist-Profile
 
                                         <div style="display: flex; justify-content: center;">
 
-                                            <img src="<?= config('App')->baseURL2 ?>/public/images/<?= isset($rep['profile']) && !empty($rep['profile']) ? $rep['profile'] : 'user-profile.jpg' ?>"
-                                                height="250" width="250">
+                                            <img src="<?= config('App')->baseURL2 ?>/public/images/<?= !empty($rep['profile']) ? $rep['profile'] : 'default.jpg' ?>"
+                                                height="250" width="250"
+                                                onerror="this.onerror=null; this.src='<?= config('App')->baseURL2 ?>/public/images/default.jpg';">
                                         </div>
 
                                     </div>
