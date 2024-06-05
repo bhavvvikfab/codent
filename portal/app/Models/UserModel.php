@@ -54,6 +54,7 @@ class UserModel extends Model
             return false;
         }
         $user = $this->find($id);
+        
         if (password_verify($oldPassword, $user['password'])) {
             $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
             $data = ['password' => $hashedPassword];

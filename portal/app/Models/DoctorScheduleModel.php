@@ -4,18 +4,28 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class DoctorModel extends Model
+class DoctorScheduleModel extends Model
 {
-    protected $table            = 'doctors';
+    protected $table            = 'doctor_schedule';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['user_id','hospital_id','qualification','specialist_of','schedule','about'];
+    protected $allowedFields = [
+        'user_id',
+        'doctor_id',
+        'monday',
+        'tuesday',
+        'wednesday',
+        'thursday',
+        'friday',
+        'saturday',
+        'sunday',
+        'created_at'
+    ];
 
-
-    protected bool $allowEmptyInserts = true;
+    protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
 
     protected array $casts = [];
@@ -44,23 +54,4 @@ class DoctorModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-
-
-
-    public function getDoctorById($id){
-        return $this->where('id', $id)->first();
-    }
-
-    // public function updateDoctor($id, $data)
-    // {
-    //     return $this->where('id', $id)->update($data);
-    // }
-
-    public function insertDoctor($data)
-    {
-         $this->insert($data);
-         return $this->insertID();
-    }
-
 }
-

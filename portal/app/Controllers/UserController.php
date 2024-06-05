@@ -170,7 +170,7 @@ class UserController extends BaseController
         $id = session('user_id');
         $oldPassword = $this->request->getPost('currentPassword');
 
-        $newPassword = $this->request->getPost('newpassword');
+        $newPassword = $this->request->getPost('newPassword');
 
         $result = $user->updatePassword($id, $oldPassword, $newPassword);
 

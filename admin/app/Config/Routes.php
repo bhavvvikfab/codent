@@ -213,11 +213,13 @@ $routes->group('',$authFilter, function ($routes) {
   $routes->get("receptinists", "ApiController::receptinists", ['filter' => 'apiAuth']);
   $routes->post("change_password", "ApiController::change_password", ['filter' => 'apiAuth']);
   $routes->post("edit_profile", "ApiController::edit_profile", ['filter' => 'apiAuth']);
-  $routes->post("doctor_search", "ApiController::doctor_search", ['filter' => 'apiAuth']);
+  $routes->post("doctor_search", "ApiController::doctor_search");
   $routes->post("patient_details", "ApiController::patient_details", ['filter' => 'apiAuth']);
   $routes->get("user_details", "ApiController::user_details", ['filter' => 'apiAuth']);
   $routes->post("dr_wise_appointment", "ApiController::dr_wise_appointment");
   $routes->post("get_enquiryById", "ApiController::get_enquiryById");
+  $routes->post("get_today_appointment", "ApiController::get_today_appointment");
+
   
   //forgot password end
   $routes->post('forgotPassword', 'ApiController::forgotPassword');

@@ -414,7 +414,7 @@ class LoginController extends BaseController
     {
         $baseUrl = base_url();
         $url = 'http://' . $_SERVER['HTTP_HOST'];
-        $redirectUrl = base_url() . 'forgot_pass.php?url=' . $baseUrl . '&userID=' . $userID . '&key=' . $key;
+        $redirectUrl = base_url() . 'forget_pass.php?url=' . $baseUrl . '&userID=' . $userID . '&key=' . $key;
         return redirect()->to($redirectUrl);
 
     }
