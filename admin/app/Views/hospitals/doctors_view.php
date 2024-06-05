@@ -247,10 +247,22 @@ View_Hospitals
 
     function reattachEventHandlers() {
         // Delete button click event
-        $('.delete_btn').off('click').on('click', function () {
-            var doctorId = $(this).data('id');
-            var confirmDelete = confirm('Are you sure you want to delete this doctor?');
-            if (confirmDelete) {
+        $('.delete_btn').off('click').on('click', function (e) {
+    e.preventDefault(); // Prevent the default action (navigation)
+
+    var doctorId = $(this).data('id');
+    var url = $(this).attr('href');
+
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+        if (result.isConfirmed) {
                 $.ajax({
                     url: '<?= base_url('deleteDoctor') ?>',
                     type: 'POST',
@@ -258,9 +270,9 @@ View_Hospitals
                     success: function (response) {
                         console.log(response);
                         showToast(response);
-                        setTimeout(function () {
+                        setTimeout(function () {    
                             location.reload();
-                        }, 2000);
+                        }, 1000);
                     },
                     error: function (xhr, status, error) {
                         console.error(xhr.responseText);
@@ -269,6 +281,8 @@ View_Hospitals
                 });
             }
         });
+    });
+
 
         // Status toggle button click event
         $('.statusToggleBtn').off('click').on('click', function () {

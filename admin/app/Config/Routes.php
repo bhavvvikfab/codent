@@ -122,8 +122,8 @@ $routes->group('',$authFilter, function ($routes) {
 //  $routes->get('get_doctors', 'EnquiryController::get_doctors_fun');
  $routes->get('get_doctors/(:num)', 'EnquiryController::get_doctors/$1');
  $routes->post('add_Enquery', 'EnquiryController::add_Enquery_fun');
- $routes->get('editEnquiry', 'EnquiryController::editEnquiry_fun');
- $routes->post('update_enquiry', 'EnquiryController::update_enquiry_fun');
+ $routes->get('edit_enquiry', 'EnquiryController::editEnquiry_fun');
+ $routes->post('update_form', 'EnquiryController::update_enquiry_fun');
 
  $routes->get('viewEnquiry', 'EnquiryController::viewEnquiry_fun');
 

@@ -52,7 +52,7 @@ Enquiries
 
 
             <!-- No Labels Form -->
-            <form id="update_enquiry" class="row g-3" action="<?=base_url('update_enquiry')?>" method="post" enctype="multipart/form-data"> 
+            <form id="errors_form"  class="row g-3" action="<?=base_url('update_form')?>" method="post" enctype="multipart/form-data"> 
 
 
 
@@ -67,8 +67,7 @@ Enquiries
             </option>
         <?php endforeach; ?>
     </select>
-    <div id="error_hopi"></div>
-
+    <div id="hospital_error" class="error-msg text-danger"></div>
 </div>
 
 
@@ -78,6 +77,8 @@ Enquiries
                 <label class="col-form-label"><i class="bi bi-person-circle" style="font-size: 18px;"></i> Patient Name</label>
                 <input type="hidden" class="form-control" id="id" name="id" value="<?= $enquiry['id'] ?>">
                 <input type="text" class="form-control" id="name" name="name" value="<?= $enquiry['patient_name'] ?>">
+    <div id="name_error" class="error-msg text-danger"></div>
+
                 <?php if (session('errors.name')): ?>
                                         <small class="text-danger"><?= esc(session('errors.name')) ?><i class="bi bi-exclamation-circle"></i></small>
                       <?php endif; ?>
@@ -88,15 +89,16 @@ Enquiries
                 <div class="input-group">
                         <span class="input-group-text rounded-2 btn-cal" id="bdate34"><i class="bi bi-calendar3"></i></span>                        
                        <input type="date" class="form-control rounded-2" id="dob" name="dob" id="bdate" value="<?= $enquiry['date_of_birth'] ?>">
-                       <?php if (session('errors.dob')): ?>
-                                        <small class="text-danger"><?= esc(session('errors.dob')) ?><i class="bi bi-exclamation-circle"></i></small>
-                      <?php endif; ?>
-        <div id="doberror"></div>
+                       
+
 
                        <div class="input-group-prepend">
                           
                             </div>
+
                      </div>
+                     <div id="dob_error" class="error-msg text-danger"></div>
+
 
 
                      
@@ -110,21 +112,21 @@ Enquiries
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                 <label class="col-form-label"><i class="bi bi-file-earmark-medical-fill" style="font-size: 18px;"></i>  Appointmen Date</label>
                 <input type="date" class="form-control" id="appointment_date" name="appointment_date" value="<?= $enquiry['appointment_date'] ?>" >
-<div id="apperror"></div>
+                <div id="hospital_error" class="error-msg text-danger"></div>
+
+              <div id="appointment_date_error" class="error-msg text-danger"></div>
                 
-                <?php if (session('errors.appointment_date')): ?>
-                                        <small class="text-danger"><?= esc(session('errors.appointment_date')) ?><i class="bi bi-exclamation-circle"></i></small>
-                      <?php endif; ?>
+                
               </div>
+
               
               
 
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                 <label class="col-form-label"><i class="bi bi-telephone-fill" style="font-size: 18px;"></i> Phone Number</label>
                 <input type="text" class="form-control" min="1" max="10" id="phone" name="phone" value="<?= $enquiry['phone'] ?>" >
-                <?php if (session('errors.phone')): ?>
-                                        <small class="text-danger"><?= esc(session('errors.phone')) ?><i class="bi bi-exclamation-circle"></i></small>
-                      <?php endif; ?>
+               <div id="phone_error" class="error-msg text-danger"></div>
+                
               </div>
               <div class="col-md-6">
     <label class="col-form-label"><i class="bi bi-file-medical-fill" style="font-size: 18px;"></i> Specialty required</label>
@@ -137,15 +139,17 @@ Enquiries
         <option value="Radiology" <?= $enquiry['required_specialist'] == 'Radiology' ? 'selected' : '' ?>>Radiology</option>
         <option value="Sedation" <?= $enquiry['required_specialist'] == 'Sedation' ? 'selected' : '' ?>>Sedation</option>
     </select>
-    <?php if (session('errors.required_specialist')): ?>
-                                        <small class="text-danger"><?= esc(session('errors.required_specialist')) ?><i class="bi bi-exclamation-circle"></i></small>
-                      <?php endif; ?>
+    <div id="required_specialist_error" class="error-msg text-danger"></div>
+
+    
 </div>
 
 
 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                 <label class="col-form-label"><i class="bi bi-chat-left-text-fill" style="font-size: 18px;"></i> Add Note</label>
                 <input type="text" class="form-control" id="note" name="note" value="<?= $enquiry['note'] ?>" >
+    <div id="note_error" class="error-msg text-danger"></div>
+
               </div>
 
 <div class="col-md-6">
@@ -160,7 +164,8 @@ Enquiries
             <?php endforeach; ?>
         <?php endif; ?>
     </select>
-    <div id="doctorerror"></div>
+    <div id="hospital_error" class="error-msg text-danger"></div>
+
 
 </div>
 
@@ -203,9 +208,7 @@ Enquiries
         }
         ?>
         </div>
-    <?php if (session('errors.images')): ?>
-                                        <small class="text-danger"><?= esc(session('errors.images')) ?><i class="bi bi-exclamation-circle"></i></small>
-                      <?php endif; ?>
+   
 </div>
 
               
@@ -262,67 +265,93 @@ Enquiries
     // dropdownCssClass: 'bordered' // Add form-control class to the dropdown
   });
 
-  $('#update_enquiry').click(function(event) {
-            event.preventDefault(); // Prevent the default form submission
+    $('#errors_form').submit(function(event) {
+        event.preventDefault(); // Prevent the default form submission
 
-            // Clear previous error messages
-            $('.error-msg').remove();
+        // Clear previous error messages
+        $('.error-msg').empty();
 
-            // Perform validation
-            var hospital = $('#hospital').val();
-            var name = $('#name').val();
-            var dob = $('#dob').val();
-            var appointment_date = $('#appointment_date').val();
-            var phone = $('#phone').val();
-            var specialty = $('#specialty').val();
-            var doctor = $('#doctor').val();
+// Perform validation
+        var hospital_id = $('#hospital_id').val();
+        var name = $('#name').val();
+        var dob = $('#dob').val();
+        var appointment_date = $('#appointment_date').val();
+        var phone = $('#phone').val();
+        var required_specialist = $('#required_specialist').val();
+        var note = $('#note').val();
+        var doctor = $('#doctor_id').val();
 
-            // var email = $('#email').val();
-            // var password = $('#password').val();
-            // var address = $('#address').val();
-            // var qualification = $('#qualification').val();
-            // var schedule = $('#schedule').val();
-            // var about = $('#about').val();
-            // var image = $('#image').val();
-            // var specialistOrPractice = $('#specialistOrPractice').val();
+        var isValid = true; // Flag to track overall form validity
+        var errors = []; // Array to store error messages
 
-            if (hospital === '') {
-                $('#error_hopi').after('<small class="error-msg text-danger">Please select hospital.</small>');
+        if (hospital_id === '') {
+            isValid = false;
+            $('#hospital_error').html('Please select a hospital.');
+        }
+
+        // Validate Name
+        if (name === '') {
+                $('#name_error').after('<small class="error-msg text-danger">Please enter a name.</small>');
                 return false;
             }
+
+             // Validate Name
+       
+        // Validate DOB
+        if (dob === '') {
+          $('#dob_error').after('<small class="error-msg text-danger">Please enter date of birth..</small>');
+                return false;
             
-            if (name === '') {
-                $('#name').after('<small class="error-msg text-danger">Please enter a name.</small>');
-                return false;
-            }
+        }
 
-            if (dob === '') {
-                $('#doberror').html('<small class="error-msg text-danger">Please enter a date of birth.</small>');
-                return false; 
-            }
+        // Validate Appointment Date
+        if (appointment_date === '') {
+          $('#appointment_date_error').after('<small class="error-msg text-danger">Please enter an appointment date.</small>');
+                return false;
+        }
 
-            if (appointment_date == '') {
-                $('#apperror').html('<small class="error-msg text-danger">Please enter a appointment date.</small>');
-                return false;
-            }
-            if (phone === '') {
-    $('#phone').after('<small class="error-msg text-danger">Please enter a phone number.</small>');
-    return false; 
-} else if (!(/^\d{10}$/.test(phone))) {
-    $('#phone').after('<small class="error-msg text-danger">Please enter a 10-digit phone number.</small>');
-    return false;
-}
-            if (specialty === 'n/a') {
-                $('#specialtyerror').html('<small class="error-msg text-danger">Please select a specialist.</small>');
-                return false; 
-            
-              }
-              if (doctor === '') {
-                $('#doctorerror').after('<small class="error-msg text-danger">Please select doctor.</small>');
-                return false;
-            }
-            this.submit();
-        });
+        // Validate Phone
+
+        if (required_specialist === '') 
+        {
+            isValid = false;
+            $('#required_specialist_error').after('<small class="error-msg text-danger">Please select a specialty.</small>');
+        }
+
+        if (note === '') {
+          $('#note_error').after('<small class="error-msg text-danger">Please enter a note.</small> ');
+        }
+
+        // Validate Specialty
+        // if (required_specialist === '') {
+        //     errors.push('Please select a specialty.');
+        // }
+
+        // Validate Doctor
+        if (doctor === '') {
+            errors.push('Please select a doctor.');
+        }
+
+        // Validate Note
+        if (note === '') {
+            errors.push('Please enter a note.');
+        }
+
+        // Display errors
+        if (errors.length > 0) {
+            isValid = false;
+            var errorMessage = '<div class="error-msg text-danger">' + errors.join('<br>') + '</div>';
+            $('#general-error').html(errorMessage);
+        }
+
+        // If all validations pass, submit the form
+       
+            this.submit(); // Submit the form
+    });
+
+
+
+  
 
 });
 
