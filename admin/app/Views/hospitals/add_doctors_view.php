@@ -233,11 +233,8 @@ Add Hospitals
                     success: function(response) {
                    console.log(response);
                    showToast(response); // Assuming showToast is a function to display a toast notification
-                   setTimeout(function() 
-                   {
-                    $('#doctor_form')[0].reset();
+                   $('#doctor_form')[0].reset();
                     window.location.href = "<?= base_url('doctors') ?>";
-                  }, 2000); // Specify the delay in milliseconds
                   },
 
                     error: function(jqXHR, textStatus, errorThrown) {

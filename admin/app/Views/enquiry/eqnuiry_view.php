@@ -75,7 +75,7 @@ Enquiries
                     <td>
                       <div class="d-flex justify-content-around align-items-center">
                         <div class="editen p-1">
-                          <a href="<?=base_url('editEnquiry?id='. $enquiry['id'])?>">
+                          <a href="<?=base_url('edit_enquiry?id='. $enquiry['id'])?>">
                             <button type="button" class="btn btn-secondary btn-sm"><i class='bx bx-edit'></i></button>
                           </a>
                         </div>
