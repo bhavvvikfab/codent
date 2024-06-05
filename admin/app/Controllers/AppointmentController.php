@@ -92,7 +92,8 @@ public function register_fun()
     ];
 
     // Validate the request
-    if (!$this->validate($validationRules)) {
+    if (!$this->validate($validationRules))
+    {
         // If validation fails, redirect back with input and errors
         return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
     }
@@ -256,7 +257,7 @@ public function editappoint($id)
 
     // Fetch the specific appointment by ID with joined data
     $appointment = $appointmentModel
-        ->select('appointments.*, users.fullname as doctor_name, enquiries.patient_name')
+        ->select('appointments.*, users.fullname as doctor_name,users.profile, enquiries.patient_name,enquiries.phone,enquiries.date_of_birth,enquiries.required_specialist,enquiries.image,enquiries.note as about,enquiries.appointment_date,')
         ->join('users', 'users.id = appointments.assigne_to')
         ->join('enquiries', 'enquiries.id = appointments.inquiry_id')
         ->where('appointments.id', $id)

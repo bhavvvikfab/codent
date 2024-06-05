@@ -262,7 +262,7 @@ Enquiries
     // dropdownCssClass: 'bordered' // Add form-control class to the dropdown
   });
 
-  $('#update_enquiry').submit(function(event) {
+  $('#update_enquiry').click(function(event) {
             event.preventDefault(); // Prevent the default form submission
 
             // Clear previous error messages

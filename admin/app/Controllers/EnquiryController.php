@@ -265,23 +265,23 @@ public function getDoctorsByHospital($hospitalId)
 
         $enquiryModel = new EnquiryModel();
 
-        $validationRules = [
-            // 'hospital_id' => 'required|integer',
-            'name' => 'required|string|max_length[255]',
-            'dob' => 'required|valid_date',
-            'appointment_date' => 'required|valid_date',
-            'phone' => 'required|string|max_length[20]',
-            // 'note' => 'permit_empty|string',
-            'required_specialist' => 'required|string|max_length[255]',
-            // 'doctor_id' => 'required|integer',
-            'images' => 'permit_empty|uploaded[images.*]|max_size[images.*,2048]|is_image[images.*]|mime_in[images.*,image/jpg,image/jpeg,image/png,image/gif]'
-        ];
+        // $validationRules = [
+        //     // 'hospital_id' => 'required|integer',
+        //     'name' => 'required|string|max_length[255]',
+        //     'dob' => 'required|valid_date',
+        //     'appointment_date' => 'required|valid_date',
+        //     'phone' => 'required|string|max_length[20]',
+        //     // 'note' => 'permit_empty|string',
+        //     'required_specialist' => 'required|string|max_length[255]',
+        //     // 'doctor_id' => 'required|integer',
+        //     'images' => 'permit_empty|uploaded[images.*]|max_size[images.*,2048]|is_image[images.*]|mime_in[images.*,image/jpg,image/jpeg,image/png,image/gif]'
+        // ];
 
-        // Validate input data
-        if (!$this->validate($validationRules)) {
-            // Validation failed
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-        }
+        // // Validate input data
+        // if (!$this->validate($validationRules)) {
+        //     // Validation failed
+        //     return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        // }
 
 
 
