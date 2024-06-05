@@ -19,6 +19,7 @@ Dashboard
     </div><!-- End Page Title -->
  
 
+    
 
     <section class="section dashboard" id="dash896">
         <div class="row">
@@ -295,7 +296,7 @@ Dashboard
                                     <?php foreach ($data['appointments']['today'] as $appointment): ?>
                                     <tr>
                                     <td class="text-center"><?= $serial++ ?></td>
-                                    <td><?= $appointment['enquiry']['patient_name'] ?></td>
+                                    <td><?= $appointment['enquiry']['patient_name'] ?? '' ?></td>
                                     <td><?= $appointment['doctor']['doctor_data']['fullname'] ?? '' ?></td>
                                     <td><?= $appointment['doctor']['doctor_data']['email'] ?? '' ?></td>
                                     <td><?= $appointment['schedule'] ?? '' ?></td>

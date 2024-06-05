@@ -47,9 +47,9 @@ Appointments
           <div class="card-body">
 
             <!-- No Labels Form -->
-            <form class="row g-3" action="<?=base_url('register_form')?>" method="post" enctype="multipart/form-data">
+            <form id="validat_form" class="row g-3" action="<?=base_url('register_form')?>" method="post" enctype="multipart/form-data">
             <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-    <label for="patient_name"><i class="bi bi-question-circle-fill" style="font-size: 18px;"></i> Enquiry </label>
+    <label for="patient_name"><i class="bi bi-question-circle-fill" style="font-size: 18px;"></i> Patient Name </label>
     <select name="patient_name" id="patient_name" class="form-control two select2">
         <option value="">Select a patient</option>
         <?php foreach ($enquiries as $enquiry): ?>
@@ -58,6 +58,7 @@ Appointments
             </option>
         <?php endforeach; ?>
     </select>
+    <div id="patient_name_error"></div>
     <?php if (session('errors.patient_name')): ?>
                                         <small class="text-danger"><?= esc(session('errors.patient_name')) ?><i class="bi bi-exclamation-circle"></i></small>
                       <?php endif; ?>
@@ -68,6 +69,8 @@ Appointments
         <option value="">Select a doctor</option>
         <!-- Doctor options will be populated by jQuery -->
     </select>
+    <div id="doctor_name_error"></div>
+
     <?php if (session('errors.doctor_name')): ?>
                                         <small class="text-danger"><?= esc(session('errors.doctor_name')) ?><i class="bi bi-exclamation-circle"></i></small>
                       <?php endif; ?>
@@ -81,8 +84,9 @@ Appointments
                 <div class="input-group">
                         <span class="input-group-text rounded-2 btn-cal" id="bdate34"><i class="bi bi-calendar3"></i></span>                        
                        <input type="date" class="form-control rounded-2" id="appointment_slot" name="appointment_slot" >
-                                            
                      </div>
+                     <div id="appointment_slot_erro"></div>                   
+
                      <?php if (session('errors.appointment_slot')): ?>
                                         <small class="text-danger"><?= esc(session('errors.appointment_slot')) ?><i class="bi bi-exclamation-circle"></i></small>
                       <?php endif; ?>
@@ -92,7 +96,9 @@ Appointments
                              </div></span>
   <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
 </div> -->
+
               </div>
+
 
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                 <label class="col-form-label"><i class="bi bi-file-earmark-medical-fill" style="font-size: 18px;"></i>
@@ -102,7 +108,10 @@ Appointments
                   <small class="text-danger"><?= esc(session('errors.referral')) ?><i
                       class="bi bi-exclamation-circle"></i></small>
                 <?php endif; ?>
+                <div id="referral_erro"></div>
+
               </div>
+
 
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                 <label class="col-form-label"><i class="bi bi-file-earmark-text-fill" style="font-size: 18px;"></i>
@@ -188,6 +197,45 @@ Appointments
 <script>
     $(document).ready(function() 
     {
+
+      $('#validat_form').submit(function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Clear previous error messages
+            $('.error-msg').remove();
+
+            // Perform validation
+            var patient_name = $('#patient_name').val();
+            var doctor_name = $('#doctor_name').val();
+            var appointment_slot = $('#appointment_slot').val();
+            var referral = $('#referral').val();
+
+            if (patient_name === '') {
+                $('#patient_name_error').after('<small class="error-msg text-danger">Please select   patient name.</small>');
+                return false;
+            }
+
+            if (doctor_name === '') {
+                $('#doctor_name_error').after('<small class="error-msg text-danger">Please select doctor name.</small>');
+                return false;
+            }
+            if (appointment_slot === '') {
+                $('#appointment_slot_erro').after('<small class="error-msg text-danger">Please select appointment Date.</small>');
+                return false;
+            }
+
+            if (referral === '') {
+                $('#referral_erro').after('<small class="error-msg text-danger">Please enter referral.</small>');
+                return false;
+            }
+            
+            
+this.submit();
+        });
+
+
+
+
   $('.two').select2({
     // theme: 'bootstrap5', // Apply Bootstrap 4 theme
     // dropdownCssClass: 'bordered' // Add form-control class to the dropdown
