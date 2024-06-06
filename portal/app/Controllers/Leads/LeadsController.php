@@ -33,5 +33,30 @@ class LeadsController extends BaseController
         }
     }
 
+    public function add_lead_instruction()
+    {
+        $enquiryModel = new EnquiryModel();
+    
+        $enquiry_id = $this->request->getPost('enquiry_id');
+        $outcome = $this->request->getPost('outcome');
+        $comment = $this->request->getPost('comment');
+    
+        if ($enquiry_id) {
+            $data = [
+                'lead_instruction' => $outcome,
+                'lead_comment' => $comment
+            ];
+    
+            $result = $enquiryModel->update($enquiry_id, $data);
+            
+            if($result){
+                return response()->setJSON(['success']);
+            }else{
+                return response()->setJSON(['error']);
+            }
+        }
+  
+    }
+
     
 }

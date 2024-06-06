@@ -40,8 +40,10 @@ Appointment-Details
               </div>
             </div>
           </div>
+          <!-- <pre> -->
           <?php
-          // print_r($data);
+
+          // print_r($data['enquiry']);
           // die;
           $adminurl = config('App')->baseURL2;
           // $adminUrl = str_replace('portal', 'admin', $url);
@@ -53,29 +55,20 @@ Appointment-Details
               <form class="m-3">
                 <div class="row">
 
-                  <div class="col-lg-4 pb-2 pb-lg-0">
+                  <div class="col-lg-3 pb-2 pb-lg-0">
 
                     <i class="bi bi-image-fill" aria-hidden="true"></i>
                     <label class="form-label" for="inputNanme4">
-                      <h5><b>Profile Image: </b></h5>
+                      <h5><b>Patient Profile: </b></h5>
                     </label><br>
 
-
-                    <img src="<?= $adminurl ?>/public/images/<?= $data['patient']['profile'] ?>" style="" width="250" height="250"
-                       onerror="this.onerror=null; this.src='<?= config('App')->baseURL2 ?>/public/images/default.jpg';" >
-
-
-                    <!-- 
-                  <label class="form-label" for="inputNanme4"> <b> User Image: </b>
-                  </label> 
-                  <img src="assets/img/josh-d-avatar.jpg">
-                     <div class="user-view-thumbnail">
-                          <img src="assets/img/josh-d-avatar.jpg">
-                    </div>               -->
+                    <img src="<?= $adminurl ?>/public/images/<?= $data['enquiry']['profile'] ?>" style="" width="200"
+                      height="200"
+                      onerror="this.onerror=null; this.src='<?= config('App')->baseURL2 ?>/public/images/default.jpg';">
 
                   </div>
 
-                  <div class="col-lg-8 d-lg-flex flex-lg-column justify-content-lg-center">
+                  <div class="col-lg-9 d-lg-flex flex-lg-column justify-content-lg-center">
 
                     <div class="row">
 
@@ -93,23 +86,44 @@ Appointment-Details
                       </div>
                     </div>
                     <hr>
-                    <div class="row">
 
+                    <div class="row">
 
                       <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
                         <i class="bi bi-envelope-fill" aria-hidden="true"></i> <label class="form-label" for=""> <b>
                             Email: </b></label>
-                        <?= isset($data['patient']['email']) ? $data['patient']['email'] : 'N/A'; ?>
+                        <?= isset($data['enquiry']['email']) ? $data['enquiry']['email'] : 'N/A'; ?>
                       </div>
 
                       <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0"><i class="bi bi-telephone-fill"
                           aria-hidden="true"></i>
                         <label class="form-label" for=""> <b> Phone Number: </b>
-                          <?= isset($data['patient']['phone']) ? $data['patient']['phone'] : 'N/A'; ?>
-                        </label>
+                      </label>
+                          <?= isset($data['enquiry']['phone']) ? $data['enquiry']['phone'] : 'N/A'; ?>
                       </div>
 
                     </div>
+                    <hr>
+
+                    <div class="row">
+                      <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                        <i class="bi bi-person-fill" aria-hidden="true"></i>
+                        <label class="form-label" for="">
+                          <b> Age: </b>
+                        </label>
+                        <?= isset($data['enquiry']['age']) ? $data['enquiry']['age'] : 'N/A'; ?> Years
+                      </div>
+
+                      <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                        <i class="bi bi-gender-ambiguous" aria-hidden="true"></i>
+                        <label class="form-label" for="">
+                          <b> Gender: </b>
+                        </label>
+                        <?= isset($data['enquiry']['gender']) ? $data['enquiry']['gender'] : 'N/A'; ?>
+                      </div>
+                    </div>
+
+
                     <hr>
                     <div class="row">
 
@@ -119,20 +133,6 @@ Appointment-Details
                         <?= isset($data['enquiry']['required_specialist']) ? $data['enquiry']['required_specialist'] : 'N/A'; ?>
                       </div>
 
-                      <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0"><i class="bi bi-bounding-box-circles"></i>
-                        <label class="form-label" for="inputNanme4"> <b> Referral: </b>
-                        </label> <?= isset($ref['fullname']) ? $ref['fullname'] : 'N/A'; ?>
-                      </div>
-
-                    </div>
-                    <hr>
-                    <div class="row">
-
-                      <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
-                        <i class="bi bi-chat-left-text-fill"></i> <label class="form-label" for="">
-                          <b>Enquiry About : </b></label>
-                        <?= isset($data['enquiry']['note']) ? $data['enquiry']['note'] : 'N/A'; ?>
-                      </div>
 
                       <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0"><i class="bi bi-calendar-check-fill"></i>
                         <label class="form-label" for="inputNanme4"> <b> Appointment Date: </b>
@@ -140,21 +140,41 @@ Appointment-Details
                         <?= isset($data['enquiry']['appointment_date']) ? $data['enquiry']['appointment_date'] : 'N/A'; ?>
                       </div>
 
+
                     </div>
                     <hr>
                     <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0 ">
+                        <i class="bi bi-check-square-fill"></i>
+                          <label class="form-label m-0"><b>  Instruction:</b></label>
+                          <span class="ms-2"><?= isset($data['enquiry']['lead_instruction']) ? $data['enquiry']['lead_instruction'] : 'N/A'; ?></span>
+                        </div>
 
-                      <div class="col-lg-12 col-md-12 col-sm-12 pb-2 pb-lg-0">
+                        <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0 ">
+                          <i class="bi bi-chat-left-text-fill me-2"></i>
+                          <label class="form-label m-0"><b>Comment:</b></label>
+                          <span class="ms-2"><?= isset($data['enquiry']['lead_comment']) ? $data['enquiry']['lead_comment'] : 'N/A'; ?></span>
+                        </div>
+                      </div>
+                    <hr>
+                    <div class="row">
+
+                      <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
                         <i class="bi bi-chat-left-text-fill"></i> <label class="form-label" for="">
-                          <b>Appointment About : </b></label>
+                          <b>Enquiry note : </b></label>
+                        <?= isset($data['enquiry']['note']) ? $data['enquiry']['note'] : 'N/A'; ?>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                        <i class="bi bi-chat-left-text-fill"></i> <label class="form-label" for="">
+                          <b>Appointment note : </b></label>
                         <?= isset($data['appointment']['note']) ? $data['appointment']['note'] : 'N/A'; ?>
                       </div>
 
                     </div>
-                    <hr>
+                  <hr>
 
                     <div class="row">
-                      <label class="form-label" for="images"><b><i class="bi bi-images"></i> Images : </b></label>
+                      <label class="form-label" for="images"><b><i class="bi bi-images"></i> Documents : </b></label>
                       <div class="col-12">
                         <div class="row">
                           <?php if (isset($data['enquiry']['image']) && !empty($data['enquiry']['image'])): ?>

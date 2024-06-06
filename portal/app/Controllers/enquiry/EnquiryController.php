@@ -15,7 +15,7 @@ class EnquiryController extends BaseController
     public function all_enquiry()
     {
         $enquiryModel = new EnquiryModel();
-        $enquiries = $enquiryModel->findAll();
+        $enquiries = $enquiryModel->where('status', null)->findAll();
         return view('enquiry/enquiry.php', ['enquiries' => $enquiries]);
 
     }

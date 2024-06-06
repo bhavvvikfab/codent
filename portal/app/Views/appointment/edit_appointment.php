@@ -45,19 +45,20 @@ Edit-Appointment
           <div class="card-body">
 
             <!-- No Labels Form -->
-            <form class="row g-3 edit_form" action="<?= base_url() . '' . session('prefix') . '/' . 'update_appointment' ?>" method="post"
-              enctype="multipart/form-data" >
+            <form class="row g-3 edit_form"
+              action="<?= base_url() . '' . session('prefix') . '/' . 'update_appointment' ?>" method="post"
+              enctype="multipart/form-data">
               <input type="hidden" class="form-control rounded-2" id="id" name="id"
-                value="<?= esc($appointment['id']) ?>">
+                value="<?= esc($appointment['id']) ?? '' ?>">
 
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                 <label for="patient_name"><i class="bi bi-question-circle-fill" style="font-size: 18px;"></i>
                   Enquiry</label>
                 <select name="patient_name" id="patient_name" class="form-control two">
-                  <?php if (isset($enquirys) && !empty($enquirys)) : ?>
-                  <?php foreach ($enquirys as $enquiry): ?>
-                    <option value="<?= $enquiry['id'] ?>" <?= $appointment['inquiry_id'] == $enquiry['id'] ? 'selected' : '' ?>><?= esc($enquiry['patient_name']) ?></option>
-                  <?php endforeach; ?>
+                  <?php if (isset($enquirys) && !empty($enquirys)): ?>
+                    <?php foreach ($enquirys as $enquiry): ?>
+                      <option value="<?= $enquiry['id'] ?? '' ?>" <?= $appointment['inquiry_id'] == $enquiry['id'] ? 'selected' : '' ?>><?= esc($enquiry['patient_name']) ?? '' ?></option>
+                    <?php endforeach; ?>
                   <?php endif; ?>
                 </select>
                 <small class="name_error text-danger"></small>
@@ -67,10 +68,10 @@ Edit-Appointment
                 <label for="doctor_name"><i class="bi bi-person-circle" style="font-size: 18px;"></i> Doctor
                   Name</label>
                 <select name="doctor_name" id="doctor_name" class="form-control two">
-                <option value="">--Select--Doctor--</option>
-                <?php if (isset($doctor) && !empty($doctor)) : ?>
-                <option value="<?= esc($doctor['id'])?>" selected ><?= esc($doctor['fullname'])?></option>
-                <?php endif; ?>
+                  <option value="">--Select--Doctor--</option>
+                  <?php if (isset($doctor) && !empty($doctor)): ?>
+                    <option value="<?= esc($doctor['id']) ?? ''  ?>" selected><?= esc($doctor['fullname']) ?? '' ?></option>
+                  <?php endif; ?>
                 </select>
                 <small class="dr_name_error text-danger"></small>
               </div>
@@ -82,7 +83,7 @@ Edit-Appointment
                 <div class="input-group">
                   <span class="input-group-text rounded-2 btn-cal" id="bdate34"><i class="bi bi-calendar3"></i></span>
                   <input type="date" class="form-control rounded-2" id="schedule" name="schedule"
-                    value="<?= esc($appointment['schedule']) ?>">
+                    value="<?= esc($appointment['schedule']) ?? '' ?>">
                   <small class="app_slot text-danger"></small>
                   <div class="input-group-prepend">
 
@@ -92,70 +93,47 @@ Edit-Appointment
                   <small class="text-danger"><?= esc(session('errors.appointment_slot')) ?><i
                       class="bi bi-exclamation-circle"></i></small>
                 <?php endif; ?>
-                <!-- <label class="col-form-label">Email Address</label> -->
-                <!--  <div class="input-group mb-3">
-              <span class="input-group-text" id="basic-addon1"><i class="bi bi-calendar3"></i></span>
-                                        </div></span>
-              <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-            </div> -->
+               
               </div>
-              <!--<div class="col-lg-6 col-md-6 col-sm-12 mb-3">-->
-              <!--  <label class="col-form-label"><i class="bi bi-envelope-fill" style="font-size: 18px;"></i> Email Address</label>-->
-              <!--  <input type="text" class="form-control" value="john45@gmail.com" placeholder="Email address">-->
-              <!--</div>-->
-
-              <!--<div class="col-lg-6 col-md-6 col-sm-12 mb-3">-->
-              <!--  <label class="col-form-label"><i class="bi bi-telephone-fill" style="font-size: 18px;"></i> Phone Number</label>-->
-              <!--  <input type="text" class="form-control" min="1" max="10" value="1593602464" placeholder="Phone Number">-->
-              <!--</div>-->
+              
 
 
 
 
 
 
-
-              <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+              <!-- <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                 <label class="col-form-label"><i class="bi bi-file-earmark-medical-fill" style="font-size: 18px;"></i>
                   Referral</label>
                 <input type="text" class="form-control" id="referral" name="referral"
-                  value="<?= esc($appointment['lead_instruction']) ?>">
+                  value="<?= esc($appointment['lead_instruction']) ?? '' ?>">
                 <?php if (session('errors.referral')): ?>
                   <small class="text-danger"><?= esc(session('errors.referral')) ?><i
                       class="bi bi-exclamation-circle"></i></small>
                 <?php endif; ?>
+              </div> -->
+
+              <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                <label class="col-form-label">
+                  <b><i class="bi bi-currency-dollar" style="font-size: 18px;"></i></b> Treatment Price
+                </label>
+                <div class="input-group">
+                  <input type="text" class="form-control" name="treatment_price" placeholder="Enter price" value="<?= esc($appointment['treatment_price'])?? '0' ?>" >
+                </div>
               </div>
 
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                 <label class="col-form-label"><i class="bi bi-file-earmark-text-fill" style="font-size: 18px;"></i>
                   Appointment About</label>
-                <input type="text" class="form-control" id="note" name="note" value="<?= esc($appointment['note']) ?>">
+                  <textarea name="note" rows="1"  id="note" class="form-control"><?= esc($appointment['note']) ?? '' ?></textarea>
+                
                 <?php if (session('errors.note')): ?>
                   <small class="text-danger"><?= esc(session('errors.note')) ?><i
                       class="bi bi-exclamation-circle"></i></small>
                 <?php endif; ?>
               </div>
-              <!-- <div class="col-md-12">
-                <div class="product-description-card-body">
-                  <label class="col-form-label">Product Description</label>
-                  <div class="quill-editor-default">
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
-                  </div>
-                </div>
-              </div> -->
-              <!-- <div class="col-md-12 col-12">
-                  <label class="col-form-label"><i class="bi bi-image-fill" style="font-size: 18px;"></i> Patient Image Upload</label>
-                  <div class="order-images">
-                    <img src="assets/img/profile-img.jpg" alt="product-img">
-                      <div class="d-flex editimages-button align-items-center pt-2">
-                          <input type="file" class="custom-file-input image-gallery" id="image-gallery" accept="image/png, image/jpeg" name="image-gallery[]" multiple accept="image/*" style="display: none;">
-                          <label class="custom-file-label btn btn-success m-1" for="image-gallery">
-                            <i class="bi bi-file-earmark-arrow-up"></i>
-                          </label>
-                          <button type="button" class="btn btn-primary m-1"><i class="ri-delete-bin-line"></i></button>
-                      </div>
-                  </div>
-              </div> -->
+
+
               <div class="d-flex justify-content-end align-items-center">
                 <button type="submit" class="btn btn-dark"> Update </button>
               </div>
@@ -200,44 +178,44 @@ Edit-Appointment
       });
     });
 
-  
-    $('.edit_form').submit(function(event) {
-        event.preventDefault(); // Prevent the default form submission
 
-        // Clear previous error messages
+    $('.edit_form').submit(function (event) {
+      event.preventDefault(); // Prevent the default form submission
 
-        $('.name_error').text('');
-        $('.dr_name_error').text('');
-        $('.app_slot').text('');
+      // Clear previous error messages
 
-        
-        var patientName = $('#patient_name').val();
-        var doctorName = $('#doctor_name').val();
-        var appointmentSlot = $('#appointment_slot').val();
-      
+      $('.name_error').text('');
+      $('.dr_name_error').text('');
+      $('.app_slot').text('');
 
-        if (patientName === '') {
-            $('.name_error').text('Please select an enquiry.');
-            return false;
-        }
 
-        if (doctorName === '') {
-          $('.dr_name_error').text('Please select an Doctor Name.');
-            return false;
-        }
+      var patientName = $('#patient_name').val();
+      var doctorName = $('#doctor_name').val();
+      var appointmentSlot = $('#appointment_slot').val();
 
-        if (appointmentSlot === '') {
-          $('.app_slot').text('Please select an Appointment Slot.');
-            return false;
-        }
 
-     
+      if (patientName === '') {
+        $('.name_error').text('Please select an enquiry.');
+        return false;
+      }
 
-        this.submit();
+      if (doctorName === '') {
+        $('.dr_name_error').text('Please select an Doctor Name.');
+        return false;
+      }
+
+      if (appointmentSlot === '') {
+        $('.app_slot').text('Please select an Appointment Slot.');
+        return false;
+      }
+
+
+
+      this.submit();
     })
 
 
-    
+
   });
 
 </script>

@@ -142,10 +142,7 @@ All-Enquiries
                         <?= isset($enquiry['required_specialist']) ? $enquiry['required_specialist'] : 'N/A'; ?>
                       </div>
 
-                      <!-- <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0"><i class="bi bi-bounding-box-circles"></i>
-                        <label class="form-label" for="inputNanme4"> <b> Referral: </b>
-                        </label> <? isset($ref['fullname']) ? $ref['fullname'] : 'N/A'; ?>
-                      </div> -->
+                
                       <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0"><i class="bi bi-calendar-check-fill"></i>
                         <label class="form-label" for="inputNanme4"> <b> Appointment Date: </b>
                         </label> <?= isset($enquiry['appointment_date']) ? $enquiry['appointment_date'] : 'N/A'; ?>
@@ -164,7 +161,7 @@ All-Enquiries
                      
 
                     </div>
-    <hr>
+                 <hr>
                     <div class="row">
 
                       <div class="col-lg-12 col-md-12 col-sm-12 pb-2 pb-lg-0">

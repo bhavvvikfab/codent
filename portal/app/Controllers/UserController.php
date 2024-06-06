@@ -183,64 +183,155 @@ class UserController extends BaseController
         }
     }
 
-    public function dashboard() {
-        $appointmentModel = new AppointmentModel();
-        $enquiryModel = new EnquiryModel();
-        $doctorModel = new DoctorModel();
-        $userModel = new UserModel();
+    public function dashboard() 
+
+        {
+            $appointmentModel = new AppointmentModel();
+            $enquiryModel = new EnquiryModel();
+            $doctorModel = new DoctorModel();
+            $userModel = new UserModel();
+            $hospital_id = session('user_id'); 
+            // Get current date components
+            $currentYear = date('Y');
         
-        // Get current date components
-        $today = date('Y-m-d');
-        $currentMonth = date('m');
-        $currentYear = date('Y');
+            // Fetch appointments month-wise
+            $appointmentsByMonth = [];
+            for ($month = 1; $month <= 12; $month++) {
+                $monthAppointments = $appointmentModel
+                    ->where('hospital_id', $hospital_id)
+                    ->where('MONTH(created_at)', $month)
+                    ->where('YEAR(created_at)', $currentYear)
+                    ->findAll();
+                $appointmentsByMonth[$month] = $monthAppointments;
+            }
         
-        // Filter appointments
-        $appointmentsToday = $appointmentModel->where('DATE(created_at)', $today)->where('hospital_id', session('user_id'))->findAll();
-        $appointmentsThisMonth = $appointmentModel->where('MONTH(created_at)', $currentMonth)->where('YEAR(created_at)', $currentYear)->where('hospital_id', session('user_id'))->findAll();
-        $appointmentsThisYear = $appointmentModel->where('YEAR(created_at)', $currentYear)->where('hospital_id', session('user_id'))->findAll();
-        $allAppointments = $appointmentModel->where('hospital_id', session('user_id'))->findAll();
+            // Fetch enquiries month-wise
+            $enquiriesByMonth = [];
+            for ($month = 1; $month <= 12; $month++) {
+                $monthEnquiries = $enquiryModel
+                    ->where('hospital_id', $hospital_id)
+                    // ->where('status', null)
+                    ->where('MONTH(created_at)', $month)
+                    ->where('YEAR(created_at)', $currentYear)
+                    ->findAll();
+                $enquiriesByMonth[$month] = $monthEnquiries;
+            }
         
-        // Combine with enquiries and doctors
-        $appointmentsTodayCombined = $this->combineWithEnquiriesAndDoctors($appointmentsToday, $enquiryModel, $doctorModel, $userModel);
-        $appointmentsThisMonthCombined = $this->combineWithEnquiriesAndDoctors($appointmentsThisMonth, $enquiryModel, $doctorModel, $userModel);
-        $appointmentsThisYearCombined = $this->combineWithEnquiriesAndDoctors($appointmentsThisYear, $enquiryModel, $doctorModel, $userModel);
-        $allAppointmentsCombined = $this->combineWithEnquiriesAndDoctors($allAppointments, $enquiryModel, $doctorModel, $userModel);
+            // Fetch users month-wise
+            $usersByMonth = [];
+            for ($month = 1; $month <= 12; $month++) {
+                $monthUsers = $userModel
+                    ->where('hospital_id', $hospital_id)
+                    ->where('MONTH(created_at)', $month)
+                    ->where('YEAR(created_at)', $currentYear)
+                    ->findAll();
+                $usersByMonth[$month] = $monthUsers;
+            }
         
-        // Filter enquiries
-        $enquiriesToday = $enquiryModel->where('DATE(created_at)', $today)->where('hospital_id', session('user_id'))->findAll();
-        $enquiriesThisMonth = $enquiryModel->where('MONTH(created_at)', $currentMonth)->where('YEAR(created_at)', $currentYear)->where('hospital_id', session('user_id'))->findAll();
-        $enquiriesThisYear = $enquiryModel->where('YEAR(created_at)', $currentYear)->where('hospital_id', session('user_id'))->findAll();
-        $allEnquiries = $enquiryModel->where('hospital_id', session('user_id'))->findAll();
+            // Count total appointments, enquiries, and users
+            $countAppointments = $appointmentModel->where('hospital_id', $hospital_id)
+                                                 ->countAllResults();
+
+            $countEnquiries = $enquiryModel->where('hospital_id', $hospital_id)
+                                            ->where('status', null)
+                                            ->countAllResults();
+
+            $leadsCount = $enquiryModel->where('hospital_id', $hospital_id)
+                                        ->where('status', 'lead')
+                                        ->countAllResults();
+
+            $countUsers = $userModel ->where('hospital_id', $hospital_id)
+                                     ->countAllResults();
+            
+
+            $appointments = $appointmentModel
+                        ->select('appointments.*, enquiries.*')
+                        ->join('enquiries', 'appointments.inquiry_id = enquiries.id')
+                        ->where('appointments.hospital_id', $hospital_id)
+                        ->findAll();
+                                 
+                                 
+            $countAppointments = count($appointments);
         
-        // Filter users
-        $usersToday = $userModel->where('DATE(created_at)', $today)->where('hospital_id', session('user_id'))->findAll();
-        $usersThisMonth = $userModel->where('MONTH(created_at)', $currentMonth)->where('YEAR(created_at)', $currentYear)->where('hospital_id', session('user_id'))->findAll();
-        $usersThisYear = $userModel->where('YEAR(created_at)', $currentYear)->where('hospital_id', session('user_id'))->findAll();
-        $allUsers = $userModel->where('hospital_id', session('user_id'))->findAll();
+            // Prepare data to return
+            $data = [
+                'appointments' => [
+                    'by_month' => $appointmentsByMonth,
+                ],
+                'enquiries' => [
+                    'by_month' => $enquiriesByMonth,
+                ],
+                'users' => [
+                    'by_month' => $usersByMonth,
+                ],
+            ];
         
-        // Prepare data to return
-        $data = [
-            'appointments' => [
-                'today' => $appointmentsTodayCombined,
-                'this_month' => $appointmentsThisMonthCombined,
-                'this_year' => $appointmentsThisYearCombined,
-                'all' => $allAppointmentsCombined,
-            ],
-            'enquiries' => [
-                'today' => $enquiriesToday,
-                'this_month' => $enquiriesThisMonth,
-                'this_year' => $enquiriesThisYear,
-                'all' => $allEnquiries,
-            ],
-            'users' => [
-                'today' => $usersToday,
-                'this_month' => $usersThisMonth,
-                'this_year' => $usersThisYear,
-                'all' => $allUsers,
-            ]
-        ];
+            return view('dashboard', [
+                'data' => $data,
+                'countApp' => $countAppointments,
+                'countEn' => $countEnquiries,
+                'countUsers' => $countUsers,
+                'appointments' => $appointments,
+                'leadsCount'=>$leadsCount
+            ]);
         
-        return view('dashboard', ['data' => $data]);
+        // $appointmentModel = new AppointmentModel();
+        // $enquiryModel = new EnquiryModel();
+        // $doctorModel = new DoctorModel();
+        // $userModel = new UserModel();
+        
+        // // Get current date components
+        // $today = date('Y-m-d');
+        // $currentMonth = date('m');
+        // $currentYear = date('Y');
+        
+        // // Filter appointments
+        // $appointmentsToday = $appointmentModel->where('DATE(created_at)', $today)->where('hospital_id', session('user_id'))->findAll();
+        // $appointmentsThisMonth = $appointmentModel->where('MONTH(created_at)', $currentMonth)->where('YEAR(created_at)', $currentYear)->where('hospital_id', session('user_id'))->findAll();
+        // $appointmentsThisYear = $appointmentModel->where('YEAR(created_at)', $currentYear)->where('hospital_id', session('user_id'))->findAll();
+        // $allAppointments = $appointmentModel->where('hospital_id', session('user_id'))->findAll();
+        
+        // // Combine with enquiries and doctors
+        // $appointmentsTodayCombined = $this->combineWithEnquiriesAndDoctors($appointmentsToday, $enquiryModel, $doctorModel, $userModel);
+        // $appointmentsThisMonthCombined = $this->combineWithEnquiriesAndDoctors($appointmentsThisMonth, $enquiryModel, $doctorModel, $userModel);
+        // $appointmentsThisYearCombined = $this->combineWithEnquiriesAndDoctors($appointmentsThisYear, $enquiryModel, $doctorModel, $userModel);
+        // $allAppointmentsCombined = $this->combineWithEnquiriesAndDoctors($allAppointments, $enquiryModel, $doctorModel, $userModel);
+        
+        // // Filter enquiries
+        // $enquiriesToday = $enquiryModel->where('DATE(created_at)', $today)->where('hospital_id', session('user_id'))->findAll();
+        // $enquiriesThisMonth = $enquiryModel->where('MONTH(created_at)', $currentMonth)->where('YEAR(created_at)', $currentYear)->where('hospital_id', session('user_id'))->findAll();
+        // $enquiriesThisYear = $enquiryModel->where('YEAR(created_at)', $currentYear)->where('hospital_id', session('user_id'))->findAll();
+        // $allEnquiries = $enquiryModel->where('hospital_id', session('user_id'))->findAll();
+        
+        // // Filter users
+        // $usersToday = $userModel->where('DATE(created_at)', $today)->where('hospital_id', session('user_id'))->findAll();
+        // $usersThisMonth = $userModel->where('MONTH(created_at)', $currentMonth)->where('YEAR(created_at)', $currentYear)->where('hospital_id', session('user_id'))->findAll();
+        // $usersThisYear = $userModel->where('YEAR(created_at)', $currentYear)->where('hospital_id', session('user_id'))->findAll();
+        // $allUsers = $userModel->where('hospital_id', session('user_id'))->findAll();
+        
+        // // Prepare data to return
+        // $data = [
+        //     'appointments' => [
+        //         'today' => $appointmentsTodayCombined,
+        //         'this_month' => $appointmentsThisMonthCombined,
+        //         'this_year' => $appointmentsThisYearCombined,
+        //         'all' => $allAppointmentsCombined,
+        //     ],
+        //     'enquiries' => [
+        //         'today' => $enquiriesToday,
+        //         'this_month' => $enquiriesThisMonth,
+        //         'this_year' => $enquiriesThisYear,
+        //         'all' => $allEnquiries,
+        //     ],
+        //     'users' => [
+        //         'today' => $usersToday,
+        //         'this_month' => $usersThisMonth,
+        //         'this_year' => $usersThisYear,
+        //         'all' => $allUsers,
+        //     ]
+        // ];
+        
+        // return view('dashboard', ['data' => $data]);
         
     }
     

@@ -22,6 +22,11 @@ Dashboard
 
 
     
+    <!-- <pre> -->
+        <?php 
+        // print_r($data);
+        ?>
+    <!-- </pre> -->
 
     <section class="section dashboard" id="dash896">
         <div class="row">

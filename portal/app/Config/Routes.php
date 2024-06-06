@@ -68,6 +68,7 @@ $routes->group('hospital', ['filter' => $authFilter], function ($routes) {
 
     $routes->get('leads', 'leads\LeadsController::leads');   
     $routes->get('view_lead/(:num)', 'leads\LeadsController::view_lead/$1');   
+    $routes->post('add_lead_instruction', 'leads\LeadsController::add_lead_instruction');   
 
 
 
@@ -81,7 +82,6 @@ $routes->group('hospital', ['filter' => $authFilter], function ($routes) {
     $routes->post('update_appointment', 'appointment\AppointmentController::update_appointment');
 
    
-
     $routes->get('get_doctor_dropdown','patient\PatientController::get_doctor_dropdown');
     
 });
