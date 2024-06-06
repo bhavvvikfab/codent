@@ -83,7 +83,10 @@ Enquiries
               <hr>
               <div class="row">
                                             
-                
+              <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                        <i class="bi bi-envelope-fill" aria-hidden="true"></i> <label class="form-label" for=""> <b>
+                            Email: </b></label> <?= isset($enquiry['email']) ? $enquiry['email'] : 'N/A'; ?>
+                      </div>
                   
 
                     <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0"><i class="bi bi-telephone-fill" aria-hidden="true"></i>
@@ -92,27 +95,78 @@ Enquiries
                      </div>
                  
 
-                     <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
-                    <i class="bi bi-file-medical-fill" aria-hidden="true"></i> <label class="form-label" for=""> <b>Specialty required: </b></label> <?= $enquiry['required_specialist'] ?>  
-                   </div>
+                    
               </div>
+              <hr>
+                    <div class="row">
+                      <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                        <i class="bi bi-person-fill" aria-hidden="true"></i>
+                        <label class="form-label" for="">
+                          <b> Age: </b>
+                        </label>
+                        <?= isset($enquiry['age']) ? $enquiry['age'] : 'N/A'; ?> Years
+                      </div>
+
+                      <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                        <i class="bi bi-gender-ambiguous" aria-hidden="true"></i>
+                        <label class="form-label" for="">
+                          <b> Gender: </b>
+                        </label>
+                        <?= isset($enquiry['gender']) ? $enquiry['gender'] : 'N/A'; ?>
+                      </div>
+                    </div>
+
               <hr>
              
               <div class="row">
-                                                    
+                              
+              <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                    <i class="bi bi-file-medical-fill" aria-hidden="true"></i> <label class="form-label" for=""> <b>Specialty required: </b></label> <?= $enquiry['required_specialist'] ?>  
+                   </div>
+
+                   <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0"><i class="bi bi-calendar-check-fill"></i>
+                        <label class="form-label" for="inputNanme4"> <b> Appointment Date: </b>
+                        </label> <?= isset($enquiry['appointment_date']) ? $enquiry['appointment_date'] : 'N/A'; ?>
+                      </div>
                   
 
-                   <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0"><i class="bi bi-file-earmark-medical-fill" aria-hidden="true"></i>
-                  <label class="form-label" for="inputNanme4"> <b> Referral: </b>  <?= esc($doctorName) ?>
-                  </label> 
-                </div>
+                  
                  
               </div>
+              
               <hr>
 
               <div class="row">
+
+
+
+              <div class="col-lg-12 col-md-12 col-sm-12 pb-2 pb-lg-0">
+                      <i class="bi bi-geo-alt-fill"></i> <label class="form-label" for="">
+                          <b>Address : </b></label>
+                        <?= isset($enquiry['address']) ? $enquiry['address'] : 'N/A'; ?>
+                      </div>
+                      </div>
+
+
+                      <hr>
+                    <div class="row">
+
+                      <div class="col-lg-12 col-md-12 col-sm-12 pb-2 pb-lg-0">
+                        <i class="bi bi-chat-left-text-fill"></i> <label class="form-label" for="">
+                          <b>Note : </b></label>
+                        <?= isset($enquiry['note']) ? $enquiry['note'] : 'N/A'; ?>
+                      </div>
+
+            
+
+                    </div>
+                    <hr>
+
                       <label class="form-label" for="images"><b><i class="bi bi-images"></i> Images : </b></label>
               <div class="col-12">
+
+
+              
     <div class="row">
         <?php
         // Decode the JSON string to an array
@@ -150,12 +204,6 @@ Enquiries
         ?>
     </div>
 </div>
-
-
-
-
-
-             
               <?php endforeach; ?>   
                   <?php else: ?>
         <p>No enquiries found.</p>

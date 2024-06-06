@@ -12,7 +12,7 @@ class EnquiryModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id','user_id','hospital_id','date_of_birth','phone','patient_name','required_specialist','referral_doctor','note','image','status','appointment_date'];
+    protected $allowedFields    = ['id','user_id','hospital_id','date_of_birth','phone','email','patient_name','gender','age','profile','required_specialist','note','address','referral_doctor','assign_to','image','status','appointment_date'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

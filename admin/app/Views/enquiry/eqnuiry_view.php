@@ -39,68 +39,69 @@ Enquiries
 
             <div class="card-body allappuser-table table-responsive">
                           <!-- Table with stripped rows -->
-              <table class="table table-borderless datatable appuser-table">
-              <!-- <table class="table datatable table-bordered supplier-table"> -->
-                <thead>
-                <?php if (!empty($enquiries) && is_array($enquiries)): ?>
-                  <tr>
-                    <th> Sr. No. </th>
-                    <th>Patient Name</th>
-                    <!-- <th>Birth Date</th>
-                    <th>Email Address</th> -->
-                    <th>Phone No.</th>
-                    <th>Specialist</th>
-                    <th>Status</th>                  
-                    <th>Action</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                <?php $serial = 1;?> 
-
-            <?php foreach ($enquiries as $enquiry): ?>
-
-                  <tr>
-                   <td class="text-center"><?= $serial++ ?></td>
-
-                    <!-- <td class="text-center"><?= $enquiry['id']?></td> -->
-                    <td><?= $enquiry['patient_name']?></td>
-                    <td><?= $enquiry['phone']?></td>
-                    <td><?= $enquiry['required_specialist']?></td>
+                          <table class="table table-borderless datatable dash-order-table">
+    <thead>
+        <tr>
+            <th class="text-center"> Sr. No. </th>
+            <th>Patient Name</th>
+            <th>Phone</th>
+            <th>Required Specialist</th>
+            <th class="text-center">Status</th>
+            <th class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if (!empty($enquiries) && is_array($enquiries)) : ?>
+            <?php $serial = 1; ?>
+            <?php foreach ($enquiries as $enquiry) : ?>
+                <tr>
+                    <td class="text-center"><?= $serial++ ?></td>
+                    <td><?= $enquiry['patient_name'] ?></td>
+                    <td><?= $enquiry['phone'] ?></td>
+                    <td><?= $enquiry['required_specialist'] ?></td>
+                    <td class="text-center">
+                        <?php
+                        $enquiry_status = $enquiry['status'];
+                        if ($enquiry_status == 'lead') {
+                          echo '<span class="badge bg-success style="font-size: 1.25rem; padding: 0.5rem 1rem;"">' . $enquiry_status . '</span>';
+                      } elseif ($enquiry_status == 'appointment') {
+                          echo '<span class="badge bg-primary badge-lg">' . $enquiry_status . '</span>';
+                      } elseif ($enquiry_status == 'cancel') {
+                          echo '<span class="badge bg-danger badge-lg">' . $enquiry_status . '</span>';
+                      } else {
+                          echo '<span class="badge bg-secondary">Enquiry</span>';
+                      }
+                        ?>
+                    </td>
                     <td>
                         <div class="d-flex justify-content-around align-items-center">
-                        <button type="button" class="btn btn-success btn-sm">Approve</button>
-                      </div>
+                            <div class="editen p-1">
+                                <a href="<?= base_url('edit_enquiry?id=' . $enquiry['id']) ?>">
+                                    <button type="button" class="btn btn-secondary btn-sm"><i class='bx bx-edit'></i></button>
+                                </a>
+                            </div>
+                            <div class="viewsenq p-1">
+                                <a href="<?= base_url('viewEnquiry?id=' . $enquiry['id']) ?>">
+                                    <button type="button" class="btn btn-sm"><i class="ri-eye-line"></i></button>
+                                </a>
+                            </div>
+                            <div class="deleten p-1">
+                                <a class="delete_btn" href="<?= base_url('deleteEnquiry?id=' . $enquiry['id']) ?>">
+                                    <button type="button" class="btn btn-danger btn-sm"><i class="ri-delete-bin-line"></i></button>
+                                </a>
+                            </div>
+                        </div>
                     </td>
-                    <td>
-                      <div class="d-flex justify-content-around align-items-center">
-                        <div class="editen p-1">
-                          <a href="<?=base_url('edit_enquiry?id='. $enquiry['id'])?>">
-                            <button type="button" class="btn btn-secondary btn-sm"><i class='bx bx-edit'></i></button>
-                          </a>
-                        </div>
-                        <div class="viewsenq p-1">
-                          <a href="<?=base_url('viewEnquiry?id='. $enquiry['id'])?>">
-                            <button type="button" class="btn btn-sm"><i class="ri-eye-line"></i></button>
-                          </a>
-                        </div>
-                        <div class="deleten p-1">
-                        <a class="delete_btn" href="<?=base_url('deleteEnquiry?id='. $enquiry['id'])?>">
-                          
-                          <button type="button" class="btn btn-danger btn-sm "><i class="ri-delete-bin-line"></i></button>
-                         </a>
+                </tr>
+            <?php endforeach; ?>
+        <?php else : ?>
+            <tr>
+                <td colspan="6">No enquiries found.</td>
+            </tr>
+        <?php endif; ?>
+    </tbody>
+</table>
 
-                        </div>
-                      </div>
-                    </td>
-                    
-                  </tr>
-                  <?php endforeach; ?>   
-                  <?php else: ?>
-        <p>No enquiries found.</p>
-    <?php endif; ?>        
-                </tbody>
-              </table>
               <!-- End Table with stripped rows -->
 
             </div>

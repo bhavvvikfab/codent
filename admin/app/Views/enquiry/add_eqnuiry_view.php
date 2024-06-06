@@ -70,34 +70,77 @@ Enquiries
             <span class="input-group-text rounded-2 btn-cal" id="bdate34"><i class="bi bi-calendar3"></i></span> <br>                      
             <input type="date" class="form-control rounded-2" id="dob" name="dob" placeholder="" aria-describedby="bdate34">
         </div>
-        <div id="doberror"></div>
-
-       
+        <div id="doberror"></div> 
     </div>
-
-    
     <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-    <label for="appointment_date"><i class="bi bi-calendar2-date-fill" style="font-size: 18px;"></i> Appointmen Date</label>
-    <input class="form-control" type="date" id="appointment_date" name="appointment_date">
-<div id="apperror"></div>
-    
-</div>
+                <label >
+                    <i class="bi bi-calendar-event-fill" style="font-size: 18px;"></i> Patient Age
+                </label>
+                <input type="number" class="form-control" id="age" name="age">
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                <label >
+                    <i class="bi bi-gender-ambiguous" style="font-size: 18px;"></i> Gender
+                </label>
+                <select class="form-control" id="gender" name="gender">
+                    <option value="">--Select--Gender--</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+                <div id="gender_error"></div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                <label class="">
+                    <i class="bi bi-envelope-fill" style="font-size: 18px;"></i> Email
+                </label>
+                <input type="email" class="form-control" id="email" name="email">
+            </div>
 
 
-    <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                <label>
+                    <i class="bi bi-geo-alt-fill" style="font-size: 18px;"></i> Address
+                </label>
+                <textarea type="text" class="form-control" id="address" name="address"  rows="1" ></textarea>
+            </div>
+
+
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
         <label for="phone"><i class="bi bi-telephone-fill" style="font-size: 18px;"></i> Phone Number</label>
         <input type="text" class="form-control" id="phone" name="phone">
         <?php if (session('errors.phone')): ?>
                                         <small class="text-danger"><?= esc(session('errors.phone')) ?><i class="bi bi-exclamation-circle"></i></small>
                       <?php endif; ?>
     </div>
-    <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-    <label for="note"><i class="bi bi-chat-left-text-fill" style="font-size: 18px;"></i> Add Note</label>
-    <textarea class="form-control" id="note" name="note" rows="1"></textarea>
-    <?php if (session('errors.note')): ?>
-                                        <small class="text-danger"><?= esc(session('errors.note')) ?><i class="bi bi-exclamation-circle"></i></small>
-                      <?php endif; ?>
-</div>
+   
+    
+              
+
+
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                <label ><i class="bi bi-calendar-week-fill" style="font-size: 18px;"></i>
+                  Appointment  Date and time</label>
+                <div class="input-group app_date">
+                  <span class="input-group-text rounded-2 btn-cal" id="bdate34"><i class="bi bi-calendar3"></i></span>
+                  <input type="text" class="form-control rounded-2" name="app_date">
+                </div>
+                <?php if (session('errors.app_date')): ?>
+                  <small class="text-danger"><?= esc(session('errors.app_date')) ?><i
+                      class="bi bi-exclamation-circle"></i></small>
+                <?php endif; ?>
+
+              
+              </div>
+            
+
+    
+    
+
+
+    
 
     <div class="col-md-6">
         <label for="specialty"><i class="bi bi-file-medical-fill" style="font-size: 18px;"></i> Specialty required</label>
@@ -127,6 +170,13 @@ Enquiries
         <div id="doctorerror"></div>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+    <label for="note"><i class="bi bi-chat-left-text-fill" style="font-size: 18px;"></i> Add Note</label>
+    <textarea class="form-control" id="note" name="note" rows="1"></textarea>
+    <?php if (session('errors.note')): ?>
+                                        <small class="text-danger"><?= esc(session('errors.note')) ?><i class="bi bi-exclamation-circle"></i></small>
+                      <?php endif; ?>
+</div>
+    <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
     <label for="images"><i class="bi bi-image-fill" style="font-size: 18px;"></i> Upload Images</label>
     <input class="form-control" type="file" id="images" name="images[]" multiple>
     <div id="image-preview" class="mt-3"></div>
@@ -134,6 +184,12 @@ Enquiries
                                         <small class="text-danger"><?= esc(session('errors.image')) ?><i class="bi bi-exclamation-circle"></i></small>
                       <?php endif; ?>
 </div>
+<div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                <label >
+                    <i class="bi bi-person-fill" style="font-size: 18px;"></i> Profile
+                </label>
+                <input type="file" class="form-control" name="profile">
+            </div>
     <div class="d-flex justify-content-end align-items-center col-12">
         <button type="submit" class="btn btn-dark">Add Enquiry</button>
     </div>
@@ -147,6 +203,8 @@ Enquiries
   </section>
 
   
+
+  
   <?php if (session()->has('status') && session('status') == 'error'): ?>
       <script>
              showToast('Something is wrong .....please try again later.'); 
@@ -158,7 +216,11 @@ Enquiries
       </script>
 <?php endif; ?>
 </main><!-- End #main -->
-
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+                <script type="text/javascript"
+                  src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+                <link rel="stylesheet" type="text/css"
+                  href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
 <script>
     $(document).ready(function() {
@@ -167,6 +229,20 @@ Enquiries
             // theme: 'bootstrap5', // Apply Bootstrap 4 theme
             // dropdownCssClass: 'bordered' // Add form-control class to the dropdown
         });
+
+        $(function () {
+                    $('input[name="app_date"]').daterangepicker({
+                      singleDatePicker: true,
+                      timePicker: true,
+                      timePicker24Hour: false,
+                      minDate: moment(),
+                      locale: {
+                        format: 'M/DD hh:mm A'
+                      }
+                    });
+                  });
+
+                  
 
         $('#hospital').change(function() {
             var hospitalId = $(this).val();
@@ -197,12 +273,17 @@ Enquiries
             var isValid = true;
             var hospital = $('#hospital').val();
             var name = $('#name').val();
+            var age = $('#age').val();
+            var gender = $('#gender').val();
+            var email = $('#email').val();
+
+
             var dob = $('#dob').val();
             var appointment_date = $('#appointment_date').val();
             var phone = $('#phone').val();
             var specialty = $('#specialty').val();
             var doctor = $('#doctor').val();
-
+            
             if (hospital === '') {
                 $('#error_hopi').after('<small class="error-msg text-danger">Please select a hospital.</small>');
                 isValid = false;
@@ -210,6 +291,27 @@ Enquiries
             if (name === '') {
                 $('#name').after('<small class="error-msg text-danger">Please enter a name.</small>');
                 isValid = false;
+            }
+           
+            if (age === '') {
+                $('#age').after('<small class="error-msg text-danger">Please enter your age.</small>');
+                isValid = false;
+            }
+            if (gender === '') {
+                $('#gender_error').after('<small class="error-msg text-danger">Please select gender.</small>');
+                isValid = false;
+            }
+            if (email === '') {
+             $('#email').after('<small class="error-msg text-danger">Please enter an email address.</small>');
+                isValid = false;
+            } else if (!isValidEmail(email)) {
+                $('#email').after('<small class="error-msg text-danger">Please enter a valid email address.</small>');
+                isValid = false;
+            }
+            function isValidEmail(email) {
+                // Regular expression for email validation
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
             }
             if (dob === '') {
                 $('#doberror').html('<small class="error-msg text-danger">Please enter a date of birth.</small>');
