@@ -162,13 +162,12 @@ Enquiries
 
 <script>
     $(document).ready(function() {
-  $('.single').select2({
-    // theme: 'bootstrap5', // Apply Bootstrap 4 theme
-    // dropdownCssClass: 'bordered' // Add form-control class to the dropdown
-  });
-});
+        // Initialize Select2 for the dropdown
+        $('.single').select2({
+            // theme: 'bootstrap5', // Apply Bootstrap 4 theme
+            // dropdownCssClass: 'bordered' // Add form-control class to the dropdown
+        });
 
-    $(document).ready(function() {
         $('#hospital').change(function() {
             var hospitalId = $(this).val();
             if (hospitalId) {
@@ -177,19 +176,14 @@ Enquiries
                     type: 'GET',
                     dataType: 'json',
                     success: function(data) {
-    $('#doctor').empty();
-    $('#doctor').append('<option value="">Select Doctor</option>');
-    $.each(data, function(key, value)
-    {
-        $('#doctor').append('<option value="' + value.id + '">' + value.fullname + '</option>');
-        console.log(value.id );
-    });
-}
-
+                        $('#doctor').empty().append('<option value="">Select Doctor</option>');
+                        $.each(data, function(key, value) {
+                            $('#doctor').append('<option value="' + value.id + '">' + value.fullname + '</option>');
+                        });
+                    }
                 });
             } else {
-                $('#doctor').empty();
-                $('#doctor').append('<option value="">Select Doctor</option>');
+                $('#doctor').empty().append('<option value="">Select Doctor</option>');
             }
         });
 
@@ -200,6 +194,7 @@ Enquiries
             $('.error-msg').remove();
 
             // Perform validation
+            var isValid = true;
             var hospital = $('#hospital').val();
             var name = $('#name').val();
             var dob = $('#dob').val();
@@ -208,105 +203,44 @@ Enquiries
             var specialty = $('#specialty').val();
             var doctor = $('#doctor').val();
 
-            // var email = $('#email').val();
-            // var password = $('#password').val();
-            // var address = $('#address').val();
-            // var qualification = $('#qualification').val();
-            // var schedule = $('#schedule').val();
-            // var about = $('#about').val();
-            // var image = $('#image').val();
-            // var specialistOrPractice = $('#specialistOrPractice').val();
-
             if (hospital === '') {
-                $('#error_hopi').after('<small class="error-msg text-danger">Please select hospital.</small>');
-                return false;
+                $('#error_hopi').after('<small class="error-msg text-danger">Please select a hospital.</small>');
+                isValid = false;
             }
-            
             if (name === '') {
                 $('#name').after('<small class="error-msg text-danger">Please enter a name.</small>');
-                return false;
+                isValid = false;
             }
-
             if (dob === '') {
                 $('#doberror').html('<small class="error-msg text-danger">Please enter a date of birth.</small>');
-                return false; 
+                isValid = false;
             }
-
-            if (appointment_date == '') {
-                $('#apperror').html('<small class="error-msg text-danger">Please enter a appointment date.</small>');
-                return false;
+            if (appointment_date === '') {
+                $('#apperror').html('<small class="error-msg text-danger">Please enter an appointment date.</small>');
+                isValid = false;
             }
             if (phone === '') {
-    $('#phone').after('<small class="error-msg text-danger">Please enter a phone number.</small>');
-    return false; 
-} else if (!(/^\d{10}$/.test(phone))) {
-    $('#phone').after('<small class="error-msg text-danger">Please enter a 10-digit phone number.</small>');
-    return false;
-}
+                $('#phone').after('<small class="error-msg text-danger">Please enter a phone number.</small>');
+                isValid = false;
+            } else if (!(/^\d{10}$/.test(phone))) {
+                $('#phone').after('<small class="error-msg text-danger">Please enter a 10-digit phone number.</small>');
+                isValid = false;
+            }
             if (specialty === 'n/a') {
                 $('#specialtyerror').html('<small class="error-msg text-danger">Please select a specialist.</small>');
-                return false; 
-            
-              }
-              if (doctor === '') {
-                $('#doctorerror').after('<small class="error-msg text-danger">Please select doctor.</small>');
-                return false;
+                isValid = false;
+            }
+            if (doctor === '') {
+                $('#doctorerror').after('<small class="error-msg text-danger">Please select a doctor.</small>');
+                isValid = false;
             }
 
-
-            // if (email == '') {
-            //     $('#emailError').html('<small class="error-msg text-danger">Please enter an email.</small>');
-            //     return false; 
-            // }
-
-            // if (password === '') {
-            //     $('#password').after('<small class="error-msg text-danger">Please enter a password.</small>');
-            //     return false; 
-            // }
-
-            // if (address === '') {
-            //     $('#address').after('<small class="error-msg text-danger">Please enter an address.</small>');
-            //     return false; 
-            // }
-
-            
-
-            
-
-            
-            
-              
-
-            // if (qualification === '') {
-            //     $('#qualification').after('<small class="error-msg text-danger">Please enter a qualification.</small>');
-            //     return false; 
-            // }
-            // if (schedule === '') {
-            //     $('#schedule').after('<small class="error-msg text-danger">Please enter a schedule.</small>');
-            //     return false; 
-            // }
-
-            // if (about === '') {
-            //     $('#about').after('<small class="error-msg text-danger">Please enter about information.</small>');
-            //     return false;
-            // }
-
-            // if (image === '') {
-            //     $('#image').after('<small class="error-msg text-danger">Please select an image.</small>');
-            //     return false; 
-            // }
-
-            // if (specialistOrPractice === '') {
-            //     $('#specialistOrPractice').after('<small class="error-msg text-danger">Please select a preference.</small>');
-            //     return false; 
-            // }
-
             // If all validations pass, submit the form
-            this.submit();
+            if (isValid) {
+                this.submit();
+            }
         });
-
-
-        
     });
 </script>
+
 <?= $this->endSection() ?>

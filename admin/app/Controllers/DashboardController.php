@@ -12,106 +12,114 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class DashboardController extends BaseController
 {
-    public function index() {
-        $appointmentModel = new Appointments();
-        $enquiryModel = new EnquiryModel();
-        $doctorModel = new DoctorModel();
-        $userModel = new UserModel();
-        
-        // Get current date components
-        $today = date('Y-m-d');
-        $currentMonth = date('m');
-        $currentYear = date('Y');
-        
-        // Filter appointments
-        $appointmentsToday = $appointmentModel->where('DATE(created_at)', $today)->findAll();
-        $appointmentsThisMonth = $appointmentModel->where('MONTH(created_at)', $currentMonth)->where('YEAR(created_at)', $currentYear)->findAll();
-        $appointmentsThisYear = $appointmentModel->where('YEAR(created_at)', $currentYear)->findAll();
-        $allAppointments = $appointmentModel->findAll();
-        
-        // Combine with enquiries and doctors
-        $appointmentsTodayCombined = $this->combineWithEnquiriesAndDoctors($appointmentsToday, $enquiryModel, $doctorModel, $userModel);
-        $appointmentsThisMonthCombined = $this->combineWithEnquiriesAndDoctors($appointmentsThisMonth, $enquiryModel, $doctorModel, $userModel);
-        $appointmentsThisYearCombined = $this->combineWithEnquiriesAndDoctors($appointmentsThisYear, $enquiryModel, $doctorModel, $userModel);
-        $allAppointmentsCombined = $this->combineWithEnquiriesAndDoctors($allAppointments, $enquiryModel, $doctorModel, $userModel);
-        
-        // Filter enquiries
-        $enquiriesToday = $enquiryModel->where('DATE(created_at)', $today)->findAll();
-        $enquiriesThisMonth = $enquiryModel->where('MONTH(created_at)', $currentMonth)->where('YEAR(created_at)', $currentYear)->findAll();
-        $enquiriesThisYear = $enquiryModel->where('YEAR(created_at)', $currentYear)->findAll();
-        $allEnquiries = $enquiryModel->findAll();
-        
-        // Filter users
-        $usersToday = $userModel->where('DATE(created_at)', $today)->findAll();
-        $usersThisMonth = $userModel->where('MONTH(created_at)', $currentMonth)->where('YEAR(created_at)', $currentYear)->findAll();
-        $usersThisYear = $userModel->where('YEAR(created_at)', $currentYear)->findAll();
-        $allUsers = $userModel->findAll();
-
-
-                $countAppointments = $appointmentModel->countAll(); 
-                $countEnquiries = $enquiryModel->countAll(); 
-                $countUsers = $userModel->countAll(); 
-        
-        // Prepare data to return
-        $data = [
-            'appointments' => [
-                'today' => $appointmentsTodayCombined,
-                'this_month' => $appointmentsThisMonthCombined,
-                'this_year' => $appointmentsThisYearCombined,
-                'all' => $allAppointmentsCombined,
-            ],
-            'enquiries' => [
-                'today' => $enquiriesToday,
-                'this_month' => $enquiriesThisMonth,
-                'this_year' => $enquiriesThisYear,
-                'all' => $allEnquiries,
-            ],
-            'users' => [
-                'today' => $usersToday,
-                'this_month' => $usersThisMonth,
-                'this_year' => $usersThisYear,
-                'all' => $allUsers,
-            ]
-        ];
-        
-        
-        return view('dashboard', ['data' => $data,
-                'countApp' => $countAppointments,
-                'countEn' => $countEnquiries,
-                'countUsers' => $countUsers,]);
-        
-    }
-    
-    private function combineWithEnquiriesAndDoctors($appointments, $enquiryModel, $doctorModel, $userModel)
+    public function index()
 {
-    foreach ($appointments as &$appointment) {
-        // Combine with enquiry
-        $appointment['enquiry'] = $enquiryModel->find($appointment['inquiry_id']);
+    $appointmentModel = new Appointments();
+    $enquiryModel = new EnquiryModel();
+    $userModel = new UserModel();
 
-        // Combine with doctor
-        if (isset($appointment['assigne_to'])) {
-            $appointment['doctor'] = $doctorModel->where('user_id', $appointment['assigne_to'])->first();
+    // Get current date components
+    $currentYear = date('Y');
 
-            if ($appointment['doctor']) {
-                $dr_id = $appointment['doctor']['user_id'];
-                $doctorData = $userModel->find($dr_id);
-                if ($doctorData) {
-                    $appointment['doctor']['doctor_data'] = $doctorData;
-                } else {
-                    // Handle case where doctor data is null
-                    $appointment['doctor']['doctor_data'] = null;
-                }
-            } else {
-                // Handle case where doctor is null
-                $appointment['doctor'] = null;
-            }
-        } else {
-            // Handle case where assignee is not set
-            $appointment['doctor'] = null;
-        }
+    // Fetch appointments month-wise
+    $appointmentsByMonth = [];
+    for ($month = 1; $month <= 12; $month++) {
+        $monthAppointments = $appointmentModel
+            ->where('MONTH(created_at)', $month)
+            ->where('YEAR(created_at)', $currentYear)
+            ->findAll();
+        $appointmentsByMonth[$month] = $monthAppointments;
     }
-    return $appointments;
+
+    // Fetch enquiries month-wise
+    $enquiriesByMonth = [];
+    for ($month = 1; $month <= 12; $month++) {
+        $monthEnquiries = $enquiryModel
+            ->where('MONTH(created_at)', $month)
+            ->where('YEAR(created_at)', $currentYear)
+            ->findAll();
+        $enquiriesByMonth[$month] = $monthEnquiries;
+    }
+
+    // Fetch users month-wise
+    $usersByMonth = [];
+    for ($month = 1; $month <= 12; $month++) {
+        $monthUsers = $userModel
+            ->where('MONTH(created_at)', $month)
+            ->where('YEAR(created_at)', $currentYear)
+            ->findAll();
+        $usersByMonth[$month] = $monthUsers;
+    }
+
+    // Count total appointments, enquiries, and users
+    $countAppointments = $appointmentModel->countAll(); 
+    $countEnquiries = $enquiryModel->countAll(); 
+    $countUsers = $userModel->countAll();
+
+    // Find all appointments, enquiries, and users
+    
+
+    // Additional data for appointments
+    $appointments = $appointmentModel
+        ->select('appointments.*, users.fullname as user_name, users.email, enquiries.patient_name as patient_name')
+        ->join('users', 'appointments.assigne_to = users.id')
+        ->join('enquiries', 'appointments.inquiry_id = enquiries.id')
+        ->findAll();
+$countAppointments = count($appointments);
+
+    // Prepare data to return
+    $data = [
+        'appointments' => [
+            'by_month' => $appointmentsByMonth,
+        ],
+        'enquiries' => [
+            'by_month' => $enquiriesByMonth,
+        ],
+        'users' => [
+            'by_month' => $usersByMonth,
+        ],
+    ];
+
+    return view('dashboard', [
+        'data' => $data,
+        'countApp' => $countAppointments,
+        'countEn' => $countEnquiries,
+        'countUsers' => $countUsers,
+        'appointments' => $appointments
+    ]);
 }
+
+        
+//     private function combineWithEnquiriesAndDoctors($appointments, $enquiryModel, $doctorModel, $userModel)
+// {
+//     foreach ($appointments as &$appointment) {
+//         // Combine with enquiry
+//         $appointment['enquiry'] = $enquiryModel->find($appointment['inquiry_id']);
+
+//         // Combine with doctor
+//         if (isset($appointment['assigne_to'])) {
+//             $appointment['doctor'] = $doctorModel->where('user_id', $appointment['assigne_to'])->first();
+
+//             if ($appointment['doctor']) {
+//                 $dr_id = $appointment['doctor']['user_id'];
+//                 $doctorData = $userModel->find($dr_id);
+//                 if ($doctorData) {
+//                     $appointment['doctor']['doctor_data'] = $doctorData;
+//                 } else {
+//                     // Handle case where doctor data is null
+//                     $appointment['doctor']['doctor_data'] = null;
+//                 }
+//             } else {
+//                 // Handle case where doctor is null
+//                 $appointment['doctor'] = null;
+//             }
+//         } else {
+//             // Handle case where assignee is not set
+//             $appointment['doctor'] = null;
+//         }
+//     }
+//     return $appointments;
+// }
 
 
 
