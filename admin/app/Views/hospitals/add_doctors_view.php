@@ -192,9 +192,12 @@ Add Hospitals
                 isValid = false;
             }
             if (phone === '') {
-                $('#phoneError').text('Please enter a Phone Number.');
-                isValid = false;
-            }
+            $('#phoneError').text('Please enter a phone number.');
+            isValid = false;
+        } else if (!(/^\d{10}$/.test(phone))) {
+            $('#phoneError').text('Please enter a 10-digit phone number.');
+            isValid = false;
+        }
             if (specialist === '') {
                 $('#specialistError').text('Please enter a Specialist.');
                 isValid = false;

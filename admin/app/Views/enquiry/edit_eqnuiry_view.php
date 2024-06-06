@@ -88,7 +88,7 @@ Enquiries
                 <label class="col-form-label"><i class="bi bi-calendar-week-fill" style="font-size: 18px;"></i> Birth Date</label>
                 <div class="input-group">
                         <span class="input-group-text rounded-2 btn-cal" id="bdate34"><i class="bi bi-calendar3"></i></span>                        
-                       <input type="date" class="form-control rounded-2" id="dob" name="dob" id="bdate" value="<?= $enquiry['date_of_birth'] ?>">
+                       <input type="date" class="form-control rounded-2" id="dob" name="dob"  value="<?= $enquiry['date_of_birth'] ?>">
                        
 
 
@@ -97,7 +97,6 @@ Enquiries
                             </div>
 
                      </div>
-                     <div id="dob_error" class="error-msg text-danger"></div>
 
 
 
@@ -265,89 +264,75 @@ Enquiries
     // dropdownCssClass: 'bordered' // Add form-control class to the dropdown
   });
 
-    $('#errors_form').submit(function(event) {
-        event.preventDefault(); // Prevent the default form submission
+  $('#errors_form').submit(function(event) {
+    event.preventDefault(); // Prevent the default form submission
 
-        // Clear previous error messages
-        $('.error-msg').empty();
+    // Clear previous error messages
+    $('.error-msg').remove();
 
-// Perform validation
-        var hospital_id = $('#hospital_id').val();
-        var name = $('#name').val();
-        var dob = $('#dob').val();
-        var appointment_date = $('#appointment_date').val();
-        var phone = $('#phone').val();
-        var required_specialist = $('#required_specialist').val();
-        var note = $('#note').val();
-        var doctor = $('#doctor_id').val();
+    // Perform validation
+    var hospital_id = $('#hospital_id').val();
+    var name = $('#name').val();
+    var dob = $('#dob').val();
+    var appointment_date = $('#appointment_date').val();
+    var phone = $('#phone').val();
+    var required_specialist = $('#required_specialist').val();
+    var note = $('#note').val();
+    var doctor = $('#doctor_id').val();
 
-        var isValid = true; // Flag to track overall form validity
-        var errors = []; // Array to store error messages
+    var isValid = true; // Flag to track overall form validity
+    var errors = []; // Array to store error messages
 
-        if (hospital_id === '') {
-            isValid = false;
-            $('#hospital_error').html('Please select a hospital.');
-        }
+    if (hospital_id === '') {
+        isValid = false;
+        $('#hospital_error').html('Please select a hospital.');
+    }
 
-        // Validate Name
-        if (name === '') {
-                $('#name_error').after('<small class="error-msg text-danger">Please enter a name.</small>');
-                return false;
-            }
+    // Validate Name
+    if (name === '') {
+        isValid = false;
+        $('#name_error').after('<small class="error-msg text-danger">Please enter a name.</small>');
+    }
 
-             // Validate Name
-       
-        // Validate DOB
-        if (dob === '') {
-          $('#dob_error').after('<small class="error-msg text-danger">Please enter date of birth..</small>');
-                return false;
-            
-        }
+    // Validate DOB
+    if (dob === '') {
+        isValid = false;
+        $('#dob_error').after('<small class="error-msg text-danger">Please enter date of birth.</small>');
+    }
 
-        // Validate Appointment Date
-        if (appointment_date === '') {
-          $('#appointment_date_error').after('<small class="error-msg text-danger">Please enter an appointment date.</small>');
-                return false;
-        }
+    // Validate Appointment Date
+    if (appointment_date === '') {
+        isValid = false;
+        $('#appointment_date_error').after('<small class="error-msg text-danger">Please enter an appointment date.</small>');
+    }
 
-        // Validate Phone
+    // Validate Specialty
+    if (required_specialist === '') {
+        isValid = false;
+        $('#required_specialist_error').after('<small class="error-msg text-danger">Please select a specialty.</small>');
+    }
 
-        if (required_specialist === '') 
-        {
-            isValid = false;
-            $('#required_specialist_error').after('<small class="error-msg text-danger">Please select a specialty.</small>');
-        }
+    // Validate Doctor
+    if (doctor === '') {
+        isValid = false;
+        errors.push('Please select a doctor.');
+    }
 
-        if (note === '') {
-          $('#note_error').after('<small class="error-msg text-danger">Please enter a note.</small> ');
-        }
+    // Validate Note
+    if (note === '') {
+        isValid = false;
+        $('#note_error').after('<small class="error-msg text-danger">Please enter a note.</small>');
+    }
 
-        // Validate Specialty
-        // if (required_specialist === '') {
-        //     errors.push('Please select a specialty.');
-        // }
-
-        // Validate Doctor
-        if (doctor === '') {
-            errors.push('Please select a doctor.');
-        }
-
-        // Validate Note
-        if (note === '') {
-            errors.push('Please enter a note.');
-        }
-
-        // Display errors
-        if (errors.length > 0) {
-            isValid = false;
-            var errorMessage = '<div class="error-msg text-danger">' + errors.join('<br>') + '</div>';
-            $('#general-error').html(errorMessage);
-        }
-
+    // Display general errors
+    if (!isValid) {
+        var errorMessage = '<div class="error-msg text-danger">' + errors.join('<br>') + '</div>';
+        $('#general-error').html(errorMessage);
+    } else {
         // If all validations pass, submit the form
-       
-            this.submit(); // Submit the form
-    });
+        this.submit();
+    }
+});
 
 
 

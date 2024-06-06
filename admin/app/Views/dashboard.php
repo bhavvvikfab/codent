@@ -17,7 +17,9 @@ Dashboard
             </div>
         </div>
     </div><!-- End Page Title -->
- 
+                 
+                
+    
 
     
 
@@ -26,7 +28,7 @@ Dashboard
             <!-- Customers Card -->
             <div class="col-xxl-3 col-lg-3 col-md-6">
         <div class="card info-card customers-card">
-            <div class="filter">
+            <!-- <div class="filter">
                 <a class="icon" href="#" id="filterDropdown"><i class="bi bi-three-dots"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                     <li class="dropdown-header text-start">
@@ -36,7 +38,7 @@ Dashboard
                     <li><a class="dropdown-item" href="#" data-filter="this-month">This Month</a></li>
                     <li><a class="dropdown-item" href="#" data-filter="this-year">This Year</a></li>
                 </ul>
-            </div>
+            </div> -->
             <div class="card-body">
         <h5 class="card-title"> All Appointments</h5>
         <div class="d-flex align-items-center">
@@ -55,7 +57,7 @@ Dashboard
 
             <div class="col-xxl-3 col-lg-3 col-md-6">
                 <div class="card info-card enquiry-card">
-                    <div class="filter">
+                    <!-- <div class="filter">
                         <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                             <li class="dropdown-header text-start">
@@ -65,7 +67,7 @@ Dashboard
                             <li><a class="dropdown-item" href="#">This Month</a></li>
                             <li><a class="dropdown-item" href="#">This Year</a></li>
                         </ul>
-                    </div>
+                    </div> -->
                     <div class="card-body">
                         <h5 class="card-title">All Enquiries</h5>
                         <div class="d-flex align-items-center">
@@ -86,7 +88,7 @@ Dashboard
             <!-- Order Card -->
             <div class="col-xxl-3 col-lg-3 col-md-6">
                 <div class="card info-card sales-card">
-                    <div class="filter">
+                    <!-- <div class="filter">
                         <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                             <li class="dropdown-header text-start">
@@ -96,7 +98,7 @@ Dashboard
                             <li><a class="dropdown-item" href="#">This Month</a></li>
                             <li><a class="dropdown-item" href="#">This Year</a></li>
                         </ul>
-                    </div>
+                    </div> -->
                     <div class="card-body">
                         <h5 class="card-title">All Referrals</h5>
 
@@ -117,7 +119,7 @@ Dashboard
 
             <div class="col-xxl-3 col-lg-3 col-md-6">
                 <div class="card info-card user-card">
-                    <div class="filter">
+                    <!-- <div class="filter">
                         <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                             <li class="dropdown-header text-start">
@@ -127,7 +129,7 @@ Dashboard
                             <li><a class="dropdown-item" href="#">This Month</a></li>
                             <li><a class="dropdown-item" href="#">This Year</a></li>
                         </ul>
-                    </div>
+                    </div> -->
                     <div class="card-body">
                         <h5 class="card-title">All User</h5>
                         <div class="d-flex align-items-center">
@@ -155,7 +157,7 @@ Dashboard
                     <!-- Reports -->
                     <div class="col-12">
                         <div class="card">
-                            <div class="filter">
+                            <!-- <div class="filter">
                                 <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                                     <li class="dropdown-header text-start">
@@ -165,85 +167,88 @@ Dashboard
                                     <li><a class="dropdown-item" href="#">This Month</a></li>
                                     <li><a class="dropdown-item" href="#">This Year</a></li>
                                 </ul>
-                            </div>
+                            </div> -->
                             <div class="card-body">
                                 <h5 class="card-title">Reports <span>/Today</span></h5>
                                 <!-- Line Chart -->
                                 <div id="reportsChart"></div>
-                                <?php
-                            //Variable for appointments
-                            $day_app = count($data['appointments']['today']);
-                            $month_app = count($data['appointments']['this_month']);
-                            $year_app = count($data['appointments']['this_year']);
-                            $all_app = count($data['appointments']['all']);
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        new ApexCharts(document.querySelector("#reportsChart"), {
+            series: [
+                {
+                    name: 'All Appointments',
+                    data: [
+                        <?php
+                        foreach ($data['appointments']['by_month'] as $monthData) {
+                            echo count($monthData) . ',';
+                        }
+                        ?>
+                    ],
+                },
+                {
+                    name: 'All Enquiries',
+                    data: [
+                        <?php
+                        foreach ($data['enquiries']['by_month'] as $monthData) {
+                            echo count($monthData) . ',';
+                        }
+                        ?>
+                    ],
+                },
+                {
+                    name: 'All Users',
+                    data: [
+                        <?php
+                        foreach ($data['users']['by_month'] as $monthData) {
+                            echo count($monthData) . ',';
+                        }
+                        ?>
+                    ],
+                }
+            ],
+            chart: {
+                height: 350,
+                type: 'area',
+                toolbar: {
+                    show: false
+                },
+            },
+            markers: {
+                size: 4
+            },
+            colors: ['#ff771d', '#6120b5', '#2eca6a'],
+            fill: {
+                type: "gradient",
+                gradient: {
+                    shadeIntensity: 1,
+                    opacityFrom: 0.3,
+                    opacityTo: 0.4,
+                    stops: [0, 90, 100]
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'smooth',
+                width: 2
+            },
+            xaxis: {
+                categories: [
+                    'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
+                ]
+            },
+            tooltip: {
+                x: {
+                    format: 'dd/MM/yy HH:mm'
+                },
+            }
+        }).render();
+    });
+</script>
 
-                            // Variables for enquiries
-                            $day_enq = count($data['enquiries']['today']);
-                            $month_enq = count($data['enquiries']['this_month']);
-                            $year_enq = count($data['enquiries']['this_year']);
-                            $all_enq = count($data['enquiries']['all']);
-
-                            // Variables for users
-                            $day_users = count($data['users']['today']);
-                            $month_users = count($data['users']['this_month']);
-                            $year_users = count($data['users']['this_year']);
-                            $all_users = count($data['users']['all']);
-                            ?>
-                               <script>
-                                    document.addEventListener("DOMContentLoaded", () => {
-                                        new ApexCharts(document.querySelector("#reportsChart"), {
-                                            series: [
-                                                {
-                                                    name: 'All Appointments',
-                                                    data: [<?= $day_app ?>, <?= $month_app ?>, <?= $year_app ?>, <?= $all_app ?>],
-                                                },
-                                                {
-                                                    name: 'All Enquiries',
-                                                    data: [<?= $day_enq ?>, <?= $month_enq ?>, <?= $year_enq ?>, <?= $all_enq ?>],
-                                                },
-                                                {
-                                                    name: 'All Users',
-                                                    data: [<?= $day_users ?>, <?= $month_users ?>, <?= $year_users ?>, <?= $all_users ?>],
-                                                }
-                                            ],
-                                            chart: {
-                                                height: 350,
-                                                type: 'area',
-                                                toolbar: {
-                                                    show: false
-                                                },
-                                            },
-                                            markers: {
-                                                size: 4
-                                            },
-                                            colors: ['#ff771d', '#6120b5', '#2eca6a'],
-                                            fill: {
-                                                type: "gradient",
-                                                gradient: {
-                                                    shadeIntensity: 1,
-                                                    opacityFrom: 0.3,
-                                                    opacityTo: 0.4,
-                                                    stops: [0, 90, 100]
-                                                }
-                                            },
-                                            dataLabels: {
-                                                enabled: false
-                                            },
-                                            stroke: {
-                                                curve: 'smooth',
-                                                width: 2
-                                            },
-                                            xaxis: {
-                                                categories: ['Today', 'This Month', 'This Year', 'All']
-                                            },
-                                            tooltip: {
-                                                x: {
-                                                    format: 'dd/MM/yy HH:mm'
-                                                },
-                                            }
-                                        }).render();
-                                    });
-                                </script>
+                               
                             </div>
                         </div>
                     </div><!-- End Reports -->
@@ -274,45 +279,41 @@ Dashboard
                             <div class="card-body">
                                 <h5 class="card-title">Appointment <span>| Today</span></h5>
                                 <table class="table table-borderless datatable dash-order-table">
-                                    <thead>
-                                        <tr>
-                                            <th> Sr. No. </th>
-                                            <th>Name</th>
-                                            <th>Dr. Name</th>
-                                            <th>Email</th>
-                                            <!-- <th>Phone No.</th> -->
-                                            <!--<th data-type="date" data-format="DD/MM/YYYY">Date</th>-->
-                                            <th>Slot</th>
-                                            <th>Status</th>
-                                            <th></th>
-
-                                        </tr>
-                                    </thead>
-                                    
-
-                                    <tbody>
-                                    <?php if (!empty($data) && is_array($data)) : ?>
-                                        <?php $serial = 1;?> 
-                                    <?php foreach ($data['appointments']['today'] as $appointment): ?>
-                                    <tr>
-                                    <td class="text-center"><?= $serial++ ?></td>
-                                    <td><?= $appointment['enquiry']['patient_name'] ?? '' ?></td>
-                                    <td><?= $appointment['doctor']['doctor_data']['fullname'] ?? '' ?></td>
-                                    <td><?= $appointment['doctor']['doctor_data']['email'] ?? '' ?></td>
-                                    <td><?= $appointment['schedule'] ?? '' ?></td>
-                
-                <td>
-                    <div class="d-flex justify-content-around align-items-center">
-                        <button type="button" class="btn btn-warning"><?= $appointment['status'] ?? '' ?></button>
-                    </div>
-                </td>
+    <thead>
+        <tr>
+            <th>Sr. No.</th>
+            <th>Name</th>
+            <th>Dr. Name</th>
+            <th>Email</th>
+            <th>Date</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if (!empty($appointments) && is_array($appointments)) : ?>
+            <?php $serial = 1; ?>
+            <?php foreach ($appointments as $appointment) : ?>
+                <tr>
+                    <td class="text-center"><?= $serial++ ?></td>
+                    <td><?= $appointment['patient_name'] ?? '' ?></td>
+                    <td><?= $appointment['user_name'] ?? '' ?></td>
+                    <td><?= $appointment['email'] ?? '' ?></td>
+                    <td><?= $appointment['schedule'] ?? '' ?></td>
+                    <td>
+                        <div class="d-flex justify-content-around align-items-center">
+                            <button type="button" class="btn btn-warning"><?= $appointment['status'] ?? '' ?></button>
+                        </div>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        <?php else : ?>
+            <tr>
+                <td colspan="6">No patients found.</td>
             </tr>
-                                    </tbody>
-                                    <?php endforeach; ?>
-                  <?php else : ?>
-                  <p>No patients found.</p>
-                  <?php endif; ?>
-                                </table>
+        <?php endif; ?>
+    </tbody>
+</table>
+
                                 <!-- End Table with stripped rows -->
                             </div>
                         </div>

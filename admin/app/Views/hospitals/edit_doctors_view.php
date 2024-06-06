@@ -182,26 +182,26 @@ Edit_Hospitals
       $('#updateForm').submit(function(e) 
       {
         e.preventDefault(); // Prevent the form from submitting normally
-        var fileInput = $('#image');
-            var filePath = fileInput.val();
-            var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+        // var fileInput = $('#image');
+        //     var filePath = fileInput.val();
+        //     var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
 
-            // Validate file extension
-            if (!allowedExtensions.exec(filePath)) 
-            {
-                alert('Please upload files with extensions .jpeg/.jpg/.png/.gif only.');
-                fileInput.val('');
-                return false; // Abort form submission if invalid file type
-            }
+        //     // Validate file extension
+        //     if (!allowedExtensions.exec(filePath)) 
+        //     {
+        //         alert('Please upload files with extensions .jpeg/.jpg/.png/.gif only.');
+        //         fileInput.val('');
+        //         return false; // Abort form submission if invalid file type
+        //     }
 
             // Show image preview
-            if (fileInput[0].files && fileInput[0].files[0]) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    $('#imagePreview').attr('src', e.target.result);
-                };
-                reader.readAsDataURL(fileInput[0].files[0]);
-            }
+            // if (fileInput[0].files && fileInput[0].files[0]) {
+            //     var reader = new FileReader();
+            //     reader.onload = function(e) {
+            //         $('#imagePreview').attr('src', e.target.result);
+            //     };
+            //     reader.readAsDataURL(fileInput[0].files[0]);
+            // }
 
 
         var isValid = true;
@@ -284,11 +284,9 @@ if (isValid) {
             contentType: false,
             success: function(response)
             {
+                  window.location.href = '<?= base_url("doctors")?>'; 
                   showToast(response.message);
-                  setTimeout(function() 
-                  {
-                    window.location.href = '<?= base_url("doctors")?>'; 
-                  }, 2000);
+                  
                 
             },
             error: function(xhr, status, error) {

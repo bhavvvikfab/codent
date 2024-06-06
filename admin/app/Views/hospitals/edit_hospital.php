@@ -154,111 +154,76 @@ Edit_Hospitals
 </main>
 <script>
    $(document).ready(function() {
+    $('#update_hospital').submit(function(event) {
+        event.preventDefault(); // Prevent the default form submission
 
-    $('#update_hospital').submit(function(event) 
- {
-            event.preventDefault(); // Prevent the default form submission
+        // Clear previous error messages
+        $('.error-msg').remove();
+        $('small.text-danger').remove();
 
-            // Clear previous error messages    
-            $('.error-msg').remove();
+        // Perform validation
+        var isValid = true; // Flag to track if the form is valid
 
-            // Perform validation
-            var hospital_name = $('#hospital_name').val();
-            var phone = $('#phone').val();
-            var email = $('#email').val();
-            var password = $('#password').val();
-            var plan_name = $('#plan_name').val();
-            var address = $('#address').val();
-            var about = $('#about').val();
+        var hospital_name = $('#hospital_name').val();
+        var phone = $('#phone').val();
+        var email = $('#email').val();
+        var password = $('#password').val();
+        var plan_name = $('#plan_name').val();
+        var address = $('#address').val();
+        var about = $('#about').val();
 
-            
+        // Validate hospital name
+        if (hospital_name === '') {
+            $('#hospital_name').after('<small class="error-msg text-danger">Please enter a name.</small>');
+            isValid = false;
+        }
 
-            // var name = $('#name').val();
-            // var password = $('#password').val();
-            // var address = $('#address').val();
-            // var dob = $('#dob').val();
-            // var specialist = $('#specialist').val();
-            // var qualification = $('#qualification').val();
-            // var schedule = $('#schedule').val();
-            // var about = $('#about').val();
-            // var image = $('#image').val();
-            // var specialistOrPractice = $('#specialistOrPractice').val();
+        // Validate phone number
+        if (phone === '') {
+            $('#phone').after('<small class="error-msg text-danger">Please enter a phone number.</small>');
+            isValid = false;
+        } else if (!(/^\d{10}$/.test(phone))) {
+            $('#phone').after('<small class="error-msg text-danger">Please enter a 10-digit phone number.</small>');
+            isValid = false;
+        }
 
-            if (hospital_name === '') {
-                $('#hospital_name').after('<small class="error-msg text-danger">Please enter a name.</small>');
-                return false;
-            }
+        // Validate email
+        if (email === '') {
+            $('#email').after('<small class="error-msg text-danger">Please enter an email.</small>');
+            isValid = false;
+        }
 
-            if (phone === '') {
-    $('#phone').after('<small class="error-msg text-danger">Please enter a phone number.</small>');
-    return false; 
-} else if (!(/^\d{10}$/.test(phone))) {
-    $('#phone').after('<small class="error-msg text-danger">Please enter a 10-digit phone number.</small>');
-    return false;
-}
-            if (email == '') {
-                $('#email').after('<small class="error-msg text-danger">Please enter an email.</small>');
-                return false; 
-            }
+        // Validate password
+        if (password === '') {
+            $('#password').after('<small class="error-msg text-danger">Please enter a password.</small>');
+            isValid = false;
+        }
 
-            if (password === '') {
-                $('#password').after('<small class="error-msg text-danger">Please enter a password.</small>');
-                return false; 
-            }
-            
-        
-            
-            
-            if (address === '') {
-                $('#address').after('<small class="error-msg text-danger">Please enter an address.</small>');
-                return false; 
-            }
+        // Validate plan name
+        if (plan_name === '') {
+            $('#plan_name').after('<small class="error-msg text-danger">Please select a plan.</small>');
+            isValid = false;
+        }
 
-            if (about === '') {
-                $('#about').after('<small class="error-msg text-danger">Please enter about information.</small>');
-                return false;
-            }
+        // Validate address
+        if (address === '') {
+            $('#address').after('<small class="error-msg text-danger">Please enter an address.</small>');
+            isValid = false;
+        }
 
-            // if (dob === '') {
-            //     $('#dob').after('<small class="error-msg text-danger">Please enter a date of birth.</small>');
-            //     return false; 
-            // }
+        // Validate about information
+        if (about === '') {
+            $('#about').after('<small class="error-msg text-danger">Please enter about information.</small>');
+            isValid = false;
+        }
 
-            
-
-            // if (specialist === 'n/a') {
-            //     $('#specialist').after('<small class="error-msg text-danger">Please select a specialist.</small>');
-            //     return false; 
-            // }
-
-            // if (qualification === '') {
-            //     $('#qualification').after('<small class="error-msg text-danger">Please enter a qualification.</small>');
-            //     return false; 
-            // }
-            // if (schedule === '') {
-            //     $('#schedule').after('<small class="error-msg text-danger">Please enter a schedule.</small>');
-            //     return false; 
-            // }
-
-            // if (about === '') {
-            //     $('#about').after('<small class="error-msg text-danger">Please enter about information.</small>');
-            //     return false;
-            // }
-
-            // if (image === '') {
-            //     $('#image').after('<small class="error-msg text-danger">Please select an image.</small>');
-            //     return false; 
-            // }
-
-            // if (specialistOrPractice === '') {
-            //     $('#specialistOrPractice').after('<small class="error-msg text-danger">Please select a preference.</small>');
-            //     return false; 
-            // }
-
-            // If all validations pass, submit the form
-            this.submit();
-        });
+        // If all validations pass, submit the form
+        if (isValid) {
+            this.submit(); // Use native form submission method
+        }
     });
+});
+
 
 </script>
 <?= $this->endSection() ?>
