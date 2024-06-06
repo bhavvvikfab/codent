@@ -70,29 +70,54 @@
   <!-- ======= sidebar ======= -->
   <?= view('layout/sidebar.php') ?>
   <!-- ======= sdiebar end ======= -->
+  
+  <!-- date range -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+ <!-- date range -->
+
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
   <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+
+
   <script>
 
     function showToast(message, position) {
+      // Swal.fire({
+      //   text: message,
+      //   icon: 'success',
+      //   toast: true,
+      //   position: position || 'center',
+      //   showConfirmButton: false,
+      //   timer: 1500,
+      //   customClass: {
+      //     container: 'custom-swal-container', 
+      //   },
+      //   customContainerClass: 'custom-swal-toast', 
+      //   background: 'rgba(0, 0, 0, 0.9)',
+      //   padding: '3rem', 
+      //   grow: 'row' 
+      // });
       Swal.fire({
+        icon: 'success',
+        title: 'Success',
         text: message,
-        icon: 'success', // Set the icon to 'success'
-        toast: true,
-        position: position || 'center',
-        showConfirmButton: false,
-        timer: 1500,
-        customClass: {
-          container: 'custom-swal-container', // Add a custom class for styling
-        },
-        customContainerClass: 'custom-swal-toast', // Add a custom class for the toast
-        background: 'rgba(0, 0, 0, 0.9)', // Set the background color to black
-        padding: '3rem', // Add padding for a larger size
-        grow: 'row' // Grow horizontally for a square design
+        timer: 1000,
+        showConfirmButton: false
       });
-
+    }
+    function showToastError(message, position) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: message,
+      timer: 1000,
+      showConfirmButton: false
+    });
     }
 
 

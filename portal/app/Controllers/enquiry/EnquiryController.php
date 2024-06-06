@@ -15,8 +15,7 @@ class EnquiryController extends BaseController
     public function all_enquiry()
     {
         $enquiryModel = new EnquiryModel();
-        $userId = session('user_id');
-        $enquiries = $enquiryModel->getEnquiriesWithUserDetails($userId);
+        $enquiries = $enquiryModel->findAll();
         return view('enquiry/enquiry.php', ['enquiries' => $enquiries]);
 
     }
@@ -24,36 +23,40 @@ class EnquiryController extends BaseController
     public function view_enquiry($id)
     {
         $enquiryModel = new EnquiryModel();
-        $enquiry = $enquiryModel->getEnquiryById($id);
-        $ref_id = $enquiry['referral_doctor'];
-        $userModel = new UserModel();
-        $refUser = $userModel->getUserById($ref_id);
 
-        return view('enquiry/view_enquiry.php', [
-            'enquiry' => $enquiry,
-            'ref' => $refUser
-        ]);
+        $enquiry = $enquiryModel->find($id);
+
+        if ($enquiry) {
+            $user_id = $enquiry['user_id'];
+
+            $details = $enquiryModel->getEnquiryAndUserById($id, $user_id);
+
+            $enquiryDetails = $details['enquiry'];
+            $userDetails = $details['user'];
+
+            return view('enquiry/view_enquiry.php', ['enquiry' => $enquiryDetails, 'user' => $userDetails]);
+        }
     }
 
     public function delete_enquiry($id)
     {
         $enquiryModel = new EnquiryModel();
-        $appointmentModel= new AppointmentModel();
+        $appointmentModel = new AppointmentModel();
 
-        $appointment=
-        $enquiry = $enquiryModel->find($id);
+        $appointment =
+            $enquiry = $enquiryModel->find($id);
         if ($enquiry) {
             $appointment = $appointmentModel->where('inquiry_id', $enquiry['id'])->first();
             if ($appointment) {
                 $appointmentModel->delete($appointment['id']);
             }
             if ($enquiryModel->delete($id)) {
-                return redirect()->to(base_url() . '' . session('prefix') . '/' . 'enquiry')->with('delete_success', 'Enquiry deleted successfully.');
+                return redirect()->to(base_url() . '' . session('prefix') . '/' . 'enquiry')->with('success', 'Enquiry deleted successfully.');
             } else {
-                return redirect()->to(base_url() . '' . session('prefix') . '/' . 'enquiry')->with('delete_error', 'Failed to delete the enquiry. Please try again.');
+                return redirect()->to(base_url() . '' . session('prefix') . '/' . 'enquiry')->with('error', 'Failed to delete the enquiry. Please try again.');
             }
         } else {
-            return redirect()->to(base_url() . '' . session('prefix') . '/' . 'enquiry')->with('delete_error', 'Enquiry not found.');
+            return redirect()->to(base_url() . '' . session('prefix') . '/' . 'enquiry')->with('error', 'Enquiry not found.');
         }
     }
     public function add_enquiry()
@@ -101,7 +104,13 @@ class EnquiryController extends BaseController
         $app_date = $this->request->getPost("app_date");
         $ref_doctor = $this->request->getPost("referral_doctor");
 
-        
+        $gender = $this->request->getPost("gender");
+        $age = $this->request->getPost("age");
+        $email = $this->request->getPost("email");
+        $address = $this->request->getPost("address");
+
+
+
         $data = [
             'patient_name' => $patient_name,
             'date_of_birth' => $dob,
@@ -109,9 +118,24 @@ class EnquiryController extends BaseController
             'phone' => $phone,
             'appointment_date' => $app_date,
             'note' => $note,
-            'referral_doctor' => $ref_doctor
+            'referral_doctor' => $ref_doctor,
+            'age' => $age,
+            'email' => $email,
+            'gender' => $gender,
+            'address' => $address
+
         ];
+
         $images = $this->request->getFiles("images");
+        $profile = $this->request->getFile("profile");
+        if ($profile) {
+            if ($profile->isValid() && !$profile->hasMoved()) {
+                $profileName = time() . '_' . uniqid() . '.' . $profile->getExtension();
+                $destinationPath = ROOTPATH . '../admin/public/images';
+                $profile->move($destinationPath, $profileName);
+                $data['profile'] = $profileName;
+            }
+        }
 
         $uploadedImages = [];
         if ($images) {
@@ -145,25 +169,114 @@ class EnquiryController extends BaseController
         $result = $enquiryModel->insertEnquiry($data);
 
         if ($result) {
-            return redirect()->to(base_url() . '' . session('prefix') . '/' . 'enquiry')->with('enquiry_add', 'Enquiry Register Successfully');
+            return redirect()->to(base_url() . '' . session('prefix') . '/' . 'enquiry')->with('success', 'Enquiry Register Successfully');
         } else {
             return redirect()->back()->with('error', 'Something is wrong....Try again next time');
         }
 
     }
 
-    // public function edit_enquiry($id){
-    //     $enquiryModel = new EnquiryModel();
-    //     $enquiry = $enquiryModel->getEnquiryById($id);
-    //     $ref_id = $enquiry['referral_doctor'];
-    //     $userModel = new UserModel();
-    //     $refUser = $userModel->getUserById($ref_id);
+    public function edit_enquiry($id)
+    {
 
-    //     return view('enquiry/edit_enquiry.php', [
-    //         'enquiry' => $enquiry,
-    //         'ref' => $refUser
-    //     ]); 
-    // }
+        $enquiryModel = new EnquiryModel();
+
+        $enquiry = $enquiryModel->find($id);
+
+        if ($enquiry) {
+            $user_id = $enquiry['user_id'];
+
+            $details = $enquiryModel->getEnquiryAndUserById($id, $user_id);
+
+            $enquiryDetails = $details['enquiry'];
+            $userDetails = $details['user'];
+
+            return view('enquiry/edit_enquiry.php', ['enquiry' => $enquiryDetails, 'user' => $userDetails]);
+        }
+    }
+
+    public function convert_into_lead()
+    {
+        $id = $this->request->getPost('id');
+        $enquiryModel = new EnquiryModel();
+        $updated = $enquiryModel->Enquiry_Status_update($id, 'lead');
+
+        if ($updated) {
+            return $this->response->setJSON(['success' => true]);
+        } else {
+            return $this->response->setJSON(['success' => false]);
+        }
+    }
+
+
+    public function update_enquiry()
+{
+    $enquiryModel = new EnquiryModel();
+
+    // Get data from POST request
+    $id = $this->request->getPost("id");
+    $patient_name = $this->request->getPost("patient_name");
+    $dob = $this->request->getPost("dob");
+    $phone = $this->request->getPost("phone");
+    $specialist = $this->request->getPost("required_specialist");
+    $note = $this->request->getPost("note");
+    $app_date = $this->request->getPost("app_date");
+    $gender = $this->request->getPost("gender");
+    $age = $this->request->getPost("age");
+    $email = $this->request->getPost("email");
+    $address = $this->request->getPost("address");
+
+    if ($id) {
+        $data = [
+            'patient_name' => $patient_name,
+            'date_of_birth' => $dob,
+            'required_specialist' => $specialist,
+            'phone' => $phone,
+            'appointment_date' => $app_date,
+            'note' => $note,
+            'age' => $age,
+            'email' => $email,
+            'gender' => $gender,
+            'address' => $address
+        ];
+
+        $profile = $this->request->getFile("profile");
+        if ($profile && $profile->isValid() && !$profile->hasMoved()) {
+            $profileName = time() . '_' . uniqid() . '.' . $profile->getExtension();
+            $destinationPath = ROOTPATH . '../admin/public/images';
+            $profile->move($destinationPath, $profileName);
+            $data['profile'] = $profileName;
+        }
+
+        $images = $this->request->getFiles("images");
+        $uploadedImages = [];
+        if ($images) {
+            foreach ($images['images'] as $image) {
+                if ($image->isValid() && !$image->hasMoved()) {
+                    $imageName = time() . '_' . uniqid() . '.' . $image->getExtension();
+                    $destinationPath = ROOTPATH . '../admin/public/images';
+                    $image->move($destinationPath, $imageName);
+                    $uploadedImages[] = $imageName;
+                }
+            }
+        }
+
+        if (!empty($uploadedImages)) {
+            $data['image'] = json_encode($uploadedImages);
+        }
+
+        $result = $enquiryModel->where('id', $id)->set($data)->update();
+
+        if ($result) {
+            return redirect()->to(base_url() . '' . session('prefix') . '/' . 'enquiry')->with('success', 'Enquiry updated successfully');
+        } else {
+            return redirect()->back()->with('error', 'Something went wrong. Please try again.');
+        }
+    }
+
+    return redirect()->back()->with('error', 'Invalid ID. Please try again.');
+}
+
 
 
 

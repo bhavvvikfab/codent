@@ -169,7 +169,7 @@
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-          <img src="<?= config('App')->baseURL2  ?>/public/images/<?= session('profile') && !empty(session('profile')) ? session('profile') : 'user-profile.jpg' ?>" alt="Profile" class="rounded-circle" width="auto">
+          <img src="<?= config('App')->baseURL2  ?>/public/images/<?= session('profile') && !empty(session('profile')) ? session('profile') : 'user-profile.jpg' ?>" alt="Profile" class="rounded-circle" width="40" height="40" >
             <span class="d-none d-md-block dropdown-toggle ps-2"><?= session('fullname') ? session('fullname') : 'User Name' ?></span>
 
           </a><!-- End Profile Iamge Icon -->

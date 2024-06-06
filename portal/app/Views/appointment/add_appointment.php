@@ -50,11 +50,11 @@ Add-Appointment
               method="post" enctype="multipart/form-data">
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                 <label class="col-form-label">
-                  <i class="bi bi-question-circle-fill" style="font-size: 18px;"></i> Enquiry
+                  <i class="bi bi-question-circle-fill" style="font-size: 18px;"></i> Patient Name
                 </label>
                 <select class="form-select two" aria-label="Default select example" name="patient_name"
                   id="patient_name">
-                  <option value="">--Select--Referral--Enquiry--</option>
+                  <option value="">--Select--Patient--</option>
                   <?php foreach ($enquiries as $enquiry): ?>
                     <option value="<?= $enquiry['id'] ?>"><?= $enquiry['patient_name'] ?></option>
                   <?php endforeach; ?>
@@ -114,7 +114,8 @@ Add-Appointment
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                 <label class="col-form-label"><i class="bi bi-file-earmark-text-fill" style="font-size: 18px;"></i>
                   Appointment About</label>
-                <input type="text" class="form-control" id="note" name="note">
+                  <textarea name="note" rows="1" class="form-control"></textarea>
+                <!-- <input type="text" class="form-control" id="note" name="note"> -->
                 <?php if (session('errors.note')): ?>
                   <small class="text-danger"><?= esc(session('errors.note')) ?><i
                       class="bi bi-exclamation-circle"></i></small>
