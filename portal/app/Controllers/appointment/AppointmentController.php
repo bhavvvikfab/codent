@@ -37,8 +37,15 @@ class AppointmentController extends BaseController
         $enquiryModel = new EnquiryModel();
         $userModel = new UserModel();
         $hospital_id = session('user_id');
-        $enquiries = $enquiryModel->where('hospital_id', $hospital_id)->findAll();
+        $enquiries = $enquiryModel->groupStart()
+                                    ->Where('status', 'lead')
+                                    ->where('hospital_id', $hospital_id)
+                                    ->groupEnd()
+                                    ->findAll();
 
+        // echo '<pre>';
+        // print_r($enquiries);
+        // die;
         foreach ($enquiries as &$enquiry) {
             $referralDoctorId = $enquiry['referral_doctor'];
             if ($referralDoctorId) {
@@ -124,7 +131,8 @@ class AppointmentController extends BaseController
         $appointment_slot = $this->request->getPost('appointment_slot');
         $note = $this->request->getPost('note');
         $time = $this->request->getPost('time');
-        $referral = $this->request->getPost('referral');
+        $treatment_price = $this->request->getPost('treatment_price');
+        // $referral = $this->request->getPost('referral');
 
         $data = [
             'inquiry_id' => $patient_id,
@@ -132,7 +140,7 @@ class AppointmentController extends BaseController
             'schedule' => $appointment_slot,
             'note' => $note,
             'hospital_id' => $hospital_id,
-            'lead_instruction' => $referral 
+            'treatment_price'=>$treatment_price
         ];
 
         $result = $appointmentModel->insert($data);
@@ -255,7 +263,7 @@ class AppointmentController extends BaseController
         $doctor_id = $this->request->getPost('doctor_name');
         $appointment_slot = $this->request->getPost('schedule');
         $note = $this->request->getPost('note');
-        $referral = $this->request->getPost('referral');
+        $treatment_price = $this->request->getPost('treatment_price');
 
         $data = [
             'inquiry_id' => $enquery_id,
@@ -263,8 +271,7 @@ class AppointmentController extends BaseController
             'schedule' => $appointment_slot,
             'note' => $note,
             'hospital_id' => $hospital_id,
-            // 'time' => $time,
-            'lead_instruction' => $referral
+            'treatment_price'=>$treatment_price
         ];
 
         if ($appointmentModel->update($appointment_id, $data)) {

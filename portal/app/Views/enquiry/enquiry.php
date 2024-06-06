@@ -65,8 +65,8 @@ All-Enquiries
                       <td>
                         <div class="d-flex justify-content-around align-items-center">
                           <button type="button" class="btn btn-success btn-sm convert-lead-btn"
-                            data-id="<?= $enquiry['id'] ?>" <?= $enquiry['status'] == 'lead' ? 'disabled' : '' ?>>
-                            <?= $enquiry['status'] == 'lead' ? 'Lead' : 'Convert to Lead' ?>
+                            data-id="<?= $enquiry['id'] ?>">
+                            Convert to Lead
                           </button>
                         </div>
                       </td>
@@ -143,40 +143,38 @@ All-Enquiries
     });
 
 
-    $('.convert-lead-btn').on('click', function () {
-    var enquiryId = $(this).data('id');
-    var button = $(this);
-
-    Swal.fire({
+    $(document).on('click', '.convert-lead-btn', function () {
+      var enquiryId = $(this).data('id');
+      Swal.fire({
         title: "Do you want to convert this enquiry into lead ?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes"
-    }).then((result) => {
+      }).then((result) => {
         if (result.isConfirmed) {
-            $.ajax({
-                url: "<?= base_url(session('prefix') . '/convert_into_lead') ?>",
-                type: 'POST',
-                data: { id: enquiryId },
-                success: function (response) {
-                    // console.log(response);
-                    if (response.success == true) {
-                        showToast('Enquiry Converted Into lead.');
-                        button.text('Lead');
-                        button.prop('disabled', true);
-                    } else {
-                        showToast('Enquiry Not Converted Into lead.');
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.log(error);
-                }
-            });
+          $.ajax({
+            url: "<?= base_url(session('prefix') . '/convert_into_lead') ?>",
+            type: 'POST',
+            data: { id: enquiryId },
+            success: function (response) {
+              // console.log(response);
+              if (response.success == true) {
+
+                showToast('Enquiry Converted Into lead.');
+                $('.datatable').load("<?= base_url(session('prefix') . '/enquiry') ?> .datatable")
+              } else {
+                showToastError('Enquiry Not Converted Into lead.');
+              }
+            },
+            error: function (xhr, status, error) {
+              console.log(error);
+            }
+          });
         }
+      });
     });
-});
 
 
   });
