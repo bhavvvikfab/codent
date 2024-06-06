@@ -159,73 +159,39 @@ Add-Doctor
                                 </div>
                             </div>
 
+                            <div class="row">
 
-                            <!-- <div class="row mb-3">
+                                <!-- <div class="row mb-3"> -->
                                 <div class="col-lg-6 mb-3">
                                     <label class="form-label"><i class="bi bi-calendar-event-fill"
                                             style="font-size: 18px;"></i> Schedule</label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="monday" id="monday"
-                                            value="Monday">
-                                        <label class="form-check-label" for="monday">Monday</label>
-                                        <input type="time" class="form-control" id="monday-time" name="monday-time"
-                                            placeholder="Time ">
+                                    <div class="btn-group-toggle" data-toggle="buttons">
+                                        <label class="btn btn-secondary btn-sm m-1">
+                                            <input type="checkbox" name="day-select" value="sunday"> Sunday
+                                        </label>
+                                        <label class="btn btn-secondary btn-sm m-1">
+                                            <input type="checkbox" name="day-select" value="monday"> Monday
+                                        </label>
+                                        <label class="btn btn-secondary btn-sm m-1">
+                                            <input type="checkbox" name="day-select" value="tuesday"> Tuesday
+                                        </label>
+                                        <label class="btn btn-secondary btn-sm m-1">
+                                            <input type="checkbox" name="day-select" value="wednesday"> Wednesday
+                                        </label>
+                                        <label class="btn btn-secondary btn-sm m-1">
+                                            <input type="checkbox" name="day-select" value="thursday"> Thursday
+                                        </label>
+                                        <label class="btn btn-secondary btn-sm m-1">
+                                            <input type="checkbox" name="day-select" value="friday"> Friday
+                                        </label>
+                                        <label class="btn btn-secondary btn-sm m-1">
+                                            <input type="checkbox" name="day-select" value="saturday"> Saturday
+                                        </label>
+
+                                        <!-- Add more checkboxes for other days -->
                                     </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="tuesday" id="tuesday"
-                                            value="Tuesday">
-                                        <label class="form-check-label" for="tuesday">Tuesday</label>
-                                        <input type="time" class="form-control" id="tuesday-time" name="tuesday-time"
-                                            placeholder="Time ">
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="wednesday" id="wednesday"
-                                            value="Wednesday">
-                                        <label class="form-check-label" for="wednesday">Wednesday</label>
-                                        <input type="time" class="form-control" id="wednesday-time"
-                                            name="wednesday-time" placeholder="Time">
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="thursday" id="thursday"
-                                            value="Thursday">
-                                        <label class="form-check-label" for="thursday">Thursday</label>
-                                        <input type="time" class="form-control" id="thursday-time" name="thursday-time"
-                                            placeholder="Time">
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="friday" id="friday"
-                                            value="Friday">
-                                        <label class="form-check-label" for="friday">Friday</label>
-                                        <input type="time" class="form-control" id="friday-time" name="friday-time"
-                                            placeholder="Time ">
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="saturday" id="saturday"
-                                            value="saturday">
-                                        <label class="form-check-label" for="friday">Saturday</label>
-                                        <input type="text" class="form-control" id="friday-time" name="saturday-time"
-                                            placeholder="Time">
-                                    </div>
+                                    <div id="time-range-container"></div>
                                 </div>
-
-                                <script type="text/javascript"
-                                    src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-                                <script type="text/javascript"
-                                    src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-                                <link rel="stylesheet" type="text/css"
-                                    href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-                                <script>
-                                    $('input[name="saturday-time"]').daterangepicker({
-                                        timePicker: true,
-                                        // datePicker: false,
-                                        startDate: moment().startOf('hour'),
-                                        endDate: moment().startOf('hour').add(32, 'hour'),
-                                        locale: {
-                                            format: 'M/DD hh:mm A'
-                                        }
-                                    });
-                                </script> -->
-
                                 <div class="col-lg-6 mb-3">
                                     <label for="selectSpecialistOrPractice" class="form-label"><i
                                             class="bi bi-check-square-fill" style="font-size: 18px;"></i></i> Which is
@@ -241,19 +207,92 @@ Add-Doctor
                                     <?php endif; ?>
                                 </div>
 
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-lg-12">
-                                    <button class="btn addsup-btn" type="submit">Add Doctor</button>
-                                </div>
-                            </div>
-                        </form>
-                        <!-- End General Form Elements -->
-                    </div>
-                </div>
 
+                                <script type="text/javascript"
+                                    src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+                                <script type="text/javascript"
+                                    src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+                                <link rel="stylesheet" type="text/css"
+                                    href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+                                <script>
+                                    $(document).ready(function () {
+                                        var timeRanges = {
+                                            'monday': 'Monday',
+                                            'tuesday': 'Tuesday',
+                                            'wednesday': 'Wednesday',
+                                            'thursday': 'Thursday',
+                                            'friday': 'Friday',
+                                            'saturday': 'Saturday',
+                                            'sunday': 'Sunday'
+                                        };
+
+                                        function generateTimeRangeInputs(day) {
+                                            var timeRangeInput = `
+                                            <div class="form-group" id="${day}-time-range-container">
+                                                <label for="${day}-time-range">Set schedule for ${timeRanges[day]}:</label>
+                                                <input type="text" class="form-control time-range-input" id="${day}-time-range" name="${day}_time" readonly>
+                                            </div>
+                                        `;
+                                            return timeRangeInput;
+                                        }
+
+                                        for (var day in timeRanges) {
+                                            var timeRangeInputs = generateTimeRangeInputs(day);
+                                            $('#time-range-container').append(timeRangeInputs);
+                                            $('#' + day + '-time-range-container').hide();
+                                            initializeDateTimePicker(day);
+                                        }
+
+                                        $('input[name="day-select"]').change(function () {
+                                            var selectedDay = $(this).val();
+                                            if ($(this).is(':checked')) {
+                                                $('#' + selectedDay + '-time-range-container').show();
+                                            } else {
+                                                $('#' + selectedDay + '-time-range-container').hide();
+                                            }
+                                        });
+
+                                        function initializeDateTimePicker(day) {
+
+                                            $('#' + day + '-time-range').daterangepicker({
+                                                timePicker: true,
+                                                timePicker24Hour: true,
+                                                timePickerIncrement: 1,
+                                                locale: {
+                                                    format: 'HH:mm',
+                                                    placeholder: '00:00 - 00:00'
+                                                }
+                                            });
+
+                                        }
+                                        
+                                        $('form').submit(function () {
+                                            $('input[type="checkbox"]').each(function () {
+                                                if (!$(this).is(':checked')) {
+                                                    var day = $(this).val();
+                                                    $('#' + day + '-time-range').remove();
+                                                }
+                                            });
+                                        });
+                                    });
+                                </script>
+
+
+                            </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-lg-12">
+                            <button class="btn addsup-btn" type="submit">Add Doctor</button>
+                        </div>
+                    </div>
+                    </form>
+                    <!-- End General Form Elements -->
+                </div>
             </div>
-            <!--  --><!-- End General Form Elements -->
+
+        </div>
+        <!--  --><!-- End General Form Elements -->
         </div>
         </div>
 

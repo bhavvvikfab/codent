@@ -299,7 +299,7 @@ Profile
                     <div class="col-md-8 col-lg-9">
                       <!-- <input name="newpassword" type="password" class="form-control" id="newPassword"> -->
                       <div class="input-group">
-                        <input name="newpassword" type="password" class="form-control" id="newPassword">
+                        <input name="newPassword" type="password" class="form-control" id="newPassword">
                         <button type="button" class="btn btn-outline-secondary" id="showpass">
                           <i class="bi bi-eye-slash"></i>
                         </button>
@@ -310,7 +310,7 @@ Profile
                   <div class="row mb-3">
                     <label for="confirm_Password" class="col-md-4 col-lg-3 col-form-label">Confirm Password</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="confirm_Password" type="password" class="form-control" id="confirm_Password">
+                      <input name="confirmPassword" type="password" class="form-control" id="confirmPassword">
                     </div>
                   </div>
 

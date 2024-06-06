@@ -98,10 +98,12 @@ View_Hospitals
                                                 <label class="form-label" for=""><b>Phone Number:</b>
                                                     <?php echo isset($doctor['user']['phone']) ? $doctor['user']['phone'] : 'Unknown'; ?></label>
                                             </div>
+
                                             <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
-                                                <i class="bi bi-calendar-week-fill" aria-hidden="true"></i>
-                                                <label class="form-label" for="inputName4"><b>Schedule:</b>
-                                                    <?php echo $doctor['doctor']['schedule']; ?></label>
+                                                <i class="bi bi-award-fill" aria-hidden="true"></i>
+                                                <label class="form-label" for=""><b>Qualification :</b>
+                                                    <?php echo $doctor['doctor']['qualification']; ?></label>
+
                                             </div>
                                         </div>
 
@@ -114,10 +116,26 @@ View_Hospitals
                                                     <?php echo $doctor['doctor']['specialist_of']; ?></label>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
-                                                <i class="bi bi-award-fill" aria-hidden="true"></i>
-                                                <label class="form-label" for=""><b>Qualification :</b>
-                                                    <?php echo $doctor['doctor']['qualification']; ?></label>
+                                                <!-- <i class="bi bi-calendar-week-fill" aria-hidden="true"></i>
+                                                <label class="form-label" for="inputName4"><b>Schedule:</b>
+                                                    label> -->
 
+                                                <li class="nav-item dropdown list-unstyled">
+                                                    <i class="bi bi-calendar-week-fill" aria-hidden="true"></i>
+                                                    <button class="btn dropdown-toggle fw-bold"
+                                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                                        Show Schedule :
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-right  dropdown-menu-light dropend border border-dark">
+                                                        <li><a class="dropdown-item">Monday : <?php echo $doctor['schedule']['moneday'] ?? 'Not set'; ?> </a></li>
+                                                        <li><a class="dropdown-item">Tuesday : <?php echo $doctor['schedule']['tuesday'] ?? 'Not set'; ?> </a></li>
+                                                        <li><a class="dropdown-item">Wednesday : <?php echo $doctor['schedule']['wednesday'] ?? 'Not set'; ?> </a></li>
+                                                        <li><a class="dropdown-item">Thursday : <?php echo $doctor['schedule']['thursday'] ?? 'Not set'; ?> </a></li>
+                                                        <li><a class="dropdown-item">Friday : <?php echo $doctor['schedule']['friday'] ?? 'Not set'; ?> </a></li>
+                                                        <li><a class="dropdown-item">Satarday : <?php echo $doctor['schedule']['saturday'] ?? 'Not set'; ?> </a></li>
+                                                        <li><a class="dropdown-item">Sunday : <?php echo $doctor['schedule']['sunday'] ?? 'Not set'; ?> </a></li>
+                                                    </ul>
+                                                </li>
                                             </div>
                                         </div>
 
