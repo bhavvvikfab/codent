@@ -100,11 +100,18 @@ public function get_doctors($hospitalId)
     $hospitalId = $this->request->getPost('hospital');
     $name = $this->request->getPost('name');
     $dob = $this->request->getPost('dob');
-    $appointment_date = $this->request->getPost('appointment_date');
+    $age = $this->request->getPost('age');
+    $gender = $this->request->getPost('gender');
+    $email = $this->request->getPost('email');
+    $address = $this->request->getPost('address');
+    $name = $this->request->getPost('name');
     $phone = $this->request->getPost('phone');
-    $note = $this->request->getPost('note');
+    $appointment_date = $this->request->getPost('appointment_date');
     $specialty = $this->request->getPost('specialty');
     $doctor = $this->request->getPost('doctor');
+    $note = $this->request->getPost('note');
+
+
 
  
 
@@ -113,15 +120,20 @@ public function get_doctors($hospitalId)
     $data = [
         'user_id'=>$userId,
         'hospital_id' => $hospitalId,
+        'phone' => $phone,
+        'email' => $email,
         'patient_name' => $name,
+        'gender' => $gender,
+        'age' => $age,
+        'address' => $address,
         'date_of_birth' => $dob,
         'appointment_date' => $appointment_date,
-        'phone' => $phone,
         'note' => $note,
         'required_specialist' => $specialty,
         'referral_doctor' => $doctor,
         // Image path to be inserted into the database
     ];
+
 
     $images = $this->request->getFiles('images');
     $uploadedImages = [];

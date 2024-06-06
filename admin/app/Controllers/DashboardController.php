@@ -61,11 +61,11 @@ class DashboardController extends BaseController
 
     // Additional data for appointments
     $appointments = $appointmentModel
-        ->select('appointments.*, users.fullname as user_name, users.email, enquiries.patient_name as patient_name')
+        ->select('appointments.*, users.fullname as user_name, enquiries.patient_name as patient_name,users.email')
         ->join('users', 'appointments.assigne_to = users.id')
         ->join('enquiries', 'appointments.inquiry_id = enquiries.id')
         ->findAll();
-$countAppointments = count($appointments);
+    // $countAppointments = count($appointments);
 
     // Prepare data to return
     $data = [

@@ -49,7 +49,7 @@ Appointments
                     <!-- <th>Phone No.</th> -->
                     <th data-type="date" data-format="DD/MM/YYYY" class="text-center">Schedule</th>
                     <!-- <th>Slot</th> -->
-                    <!-- <th class="text-center">Status</th> -->
+                    <th class="text-center">Status</th>
                     <th class="text-center">Action</th>
 
                   </tr>
@@ -67,6 +67,8 @@ Appointments
                         <td><?= esc($appointment['patient_name']); ?></td>
                         <td><?= esc($appointment['fullname']); ?></td>
                         <td><?= esc($appointment['schedule']); ?></td>
+                        <td class="text-center">confirm</td>
+
 
                     <!-- <td>13/05/2023</td> -->
                     <!-- <td>

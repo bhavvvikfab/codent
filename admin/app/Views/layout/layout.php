@@ -60,19 +60,11 @@
   <script>
      function showToast(message, position) {
       Swal.fire({
+        icon: 'success',
+        title: 'Success',
         text: message,
-        icon: 'success', // Set the icon to 'success'
-        toast: true,
-        position: position || 'center',
-        showConfirmButton: false,
-        timer: 1500,
-        customClass: {
-          container: 'custom-swal-container', // Add a custom class for styling
-        },
-        customContainerClass: 'custom-swal-toast', // Add a custom class for the toast
-        background: 'rgba(0, 0, 0, 0.9)', // Set the background color to black
-        padding: '3rem', // Add padding for a larger size
-        grow: 'row' // Grow horizontally for a square design
+        timer: 1000,
+        showConfirmButton: false
       });
       }
   </script>
