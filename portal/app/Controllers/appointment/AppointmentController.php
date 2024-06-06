@@ -67,7 +67,7 @@ class AppointmentController extends BaseController
         $enq_id = $this->request->getGet('id');
         $enquiryModel = new EnquiryModel();
         $enquiry = $enquiryModel->find($enq_id);
-        $hospital_id=$enquiry['hospital_id'];
+        $hospital_id = $enquiry['hospital_id'];
         $userModel = new UserModel();
         if ($hospital_id) {
             // Assuming 'role' column values are integers

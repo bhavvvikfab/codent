@@ -102,16 +102,34 @@ Add-Enquiry
               </div>
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                 <label class="col-form-label"><i class="bi bi-calendar-week-fill" style="font-size: 18px;"></i>
-                  Appointment
-                  Date</label>
+                  Appointment  Date and time</label>
                 <div class="input-group app_date">
                   <span class="input-group-text rounded-2 btn-cal" id="bdate34"><i class="bi bi-calendar3"></i></span>
-                  <input type="date" class="form-control rounded-2" name="app_date">
+                  <input type="text" class="form-control rounded-2" name="app_date">
                 </div>
                 <?php if (session('errors.app_date')): ?>
                   <small class="text-danger"><?= esc(session('errors.app_date')) ?><i
                       class="bi bi-exclamation-circle"></i></small>
                 <?php endif; ?>
+
+                <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+                <script type="text/javascript"
+                  src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+                <link rel="stylesheet" type="text/css"
+                  href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+                <script>
+                  $(function () {
+                    $('input[name="app_date"]').daterangepicker({
+                      singleDatePicker: true,
+                      timePicker: true,
+                      timePicker24Hour: false,
+                      minDate: moment(),
+                      locale: {
+                        format: 'M/DD hh:mm A'
+                      }
+                    });
+                  });
+                </script>
               </div>
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                 <label class="col-form-label"><i class="bi bi-telephone-fill" style="font-size: 18px;"></i> Phone
@@ -143,6 +161,46 @@ Add-Enquiry
               </div>
 
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                <label class="col-form-label">
+                    <i class="bi bi-calendar-event-fill" style="font-size: 18px;"></i> Patient Age
+                </label>
+                <input type="number" class="form-control" name="age">
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                <label class="col-form-label">
+                    <i class="bi bi-gender-ambiguous" style="font-size: 18px;"></i> Gender
+                </label>
+                <select class="form-control" name="gender">
+                    <option value="">--Select--Gender--</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                <label class="col-form-label">
+                    <i class="bi bi-envelope-fill" style="font-size: 18px;"></i> Email
+                </label>
+                <input type="email" class="form-control" name="email">
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                <label class="col-form-label">
+                    <i class="bi bi-person-fill" style="font-size: 18px;"></i> Profile
+                </label>
+                <input type="file" class="form-control" name="profile">
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                <label class="col-form-label">
+                    <i class="bi bi-geo-alt-fill" style="font-size: 18px;"></i> Address
+                </label>
+                <textarea type="text" class="form-control" name="address"  rows="1" ></textarea>
+            </div>
+
+              <!-- <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                 <label class="col-form-label"><i class="bi bi-file-earmark-medical-fill" style="font-size: 18px;"></i>
                   Referral</label>
                 <select class="form-control doctors" name="referral_doctor">
@@ -153,33 +211,30 @@ Add-Enquiry
                         <option value="<?= $doc['id'] ?>">
                           <?= $doc['fullname'] ?>
                         </option>
-                      <?php endforeach; ?>
+                      <?php endforeach;?>
                     <?php endif; ?>
                   <?php endif; ?>
                 </select>
               </div>
               <?php if (Session('user_role') == 6): ?>
                 <input type="hidden" name="user_id" value="<?= session('user_id') ?>">
-              <?php endif; ?>
+              <?php endif; ?> -->
+
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                 <label class="col-form-label"><i class="bi bi-file-earmark-medical-fill" style="font-size: 18px;"></i>
                   Note</label>
+                  .
                 <textarea name="note" rows="1" class="form-control"></textarea>
 
               </div>
 
-              <!-- <div class="col-md-12">
-                <div class="product-description-card-body">
-                  <label class="col-form-label">Product Description</label>
-                  <div class="quill-editor-default">
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
-                  </div>
-                </div>
-              </div> -->
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                <label class="col-form-label"><i class="bi bi-image-fill" style="font-size: 18px;"></i> Images</label>
+                <label class="col-form-label"><i class="bi bi-image-fill" style="font-size: 18px;"></i>
+                  Documents</label>
                 <input type="file" class="form-control" name="images[]" multiple>
               </div>
+
+
               <div class="d-flex justify-content-end align-items-center">
                 <button type="submit" class="btn btn-dark">Add Enquiry</button>
               </div>
@@ -223,78 +278,111 @@ Add-Enquiry
     });
   </script>
 
-<script>
-  $('#add_enquiry').submit(function(event) {
-    event.preventDefault(); // Prevent form submission
+  <script>
+    $('#add_enquiry').submit(function (event) {
+      event.preventDefault(); // Prevent form submission
 
-    // Get form inputs
-    var patientName = $('input[name="patient_name"]').val().trim();
-    // var dob = $('input[name="dob"]').val().trim();
-    var appDate = $('input[name="app_date"]').val().trim();
-    var phone = $('input[name="phone"]').val().trim();
-    var specialty = $('select[name="required_specialist"]').val().trim();
-    var referralDoctor = $('select[name="referral_doctor"]').val().trim();
-    var note = $('textarea[name="note"]').val().trim();
-    // var images = $('input[name="images[]"]').prop('files');
+      // Get form inputs
+      var patientName = $('input[name="patient_name"]').val().trim();
+      // var dob = $('input[name="dob"]').val().trim();
+      var appDate = $('input[name="app_date"]').val().trim();
+      var phone = $('input[name="phone"]').val().trim();
+      var specialty = $('select[name="required_specialist"]').val().trim();
+      // var referralDoctor = $('select[name="referral_doctor"]').val().trim();
+      var note = $('textarea[name="note"]').val().trim();
+      // var images = $('input[name="images[]"]').prop('files');
 
-    // Validation
-    var isValid = true;
 
-    if (patientName === '') {
+      var age = $('input[name="age"]').val().trim();
+      var gender = $('select[name="gender"]').val().trim();
+      var email = $('input[name="email"]').val().trim();
+      var profile = $('input[name="profile"]').val().trim();
+      var address = $('textarea[name="address"]').val().trim();
+
+      // Validation
+      var isValid = true;
+
+      if (patientName === '') {
         isValid = false;
         $('input[name="patient_name"]').next('.text-danger').remove();
-        $('input[name="patient_name"]').after('<small class="text-danger">Please enter the patient\'s name.</small>');
-    }
+        $('input[name="patient_name"]').after('<small class="text-danger">Please enter the Patient name.</small>');
+      }
 
-    // if (dob === '') {
-    //     isValid = false;
-    //     $('input[name="dob"]').next('.text-danger').remove();
-    //     $('input[name="dob"]').after('<small class="text-danger">Please enter the patient\'s date of birth.</small>');
-    // }
+      // if (dob === '') {
+      //     isValid = false;
+      //     $('input[name="dob"]').next('.text-danger').remove();
+      //     $('input[name="dob"]').after('<small class="text-danger">Please enter the patient\'s date of birth.</small>');
+      // }
 
-    if (appDate === '') {
+      if (appDate === '') {
         isValid = false;
         $('input[name="app_date"]').next('.text-danger').remove();
         $('.app_date').after('<small class="text-danger">Please enter the appointment date.</small>');
-    }
+      }
 
-    if (phone === '') {
+      if (phone === '') {
         isValid = false;
         $('input[name="phone"]').next('.text-danger').remove();
         $('input[name="phone"]').after('<small class="text-danger">Please enter a phone number.</small>');
-    }
+      }
 
-    if (specialty === 'n/a') {
+      if (specialty === 'n/a') {
         isValid = false;
         $('select[name="required_specialist"]').next('.text-danger').remove();
         $('select[name="required_specialist"]').after('<small class="text-danger">Please select a specialty.</small>');
+      }
+
+      // if (referralDoctor === '') {
+      //     isValid = false;
+      //     $('select[name="referral_doctor"]').next('.text-danger').remove();
+      //     $('select[name="referral_doctor"]').after('<small class="text-danger">Please select a referral doctor.</small>');
+      // }
+
+      // if (note === '') {
+      //     isValid = false;
+      //     $('textarea[name="note"]').next('.text-danger').remove();
+      //     $('textarea[name="note"]').after('<small class="text-danger">Please enter a note.</small>');
+      // }
+
+      // if (images.length === 0) {
+      //     isValid = false;
+      //     $('input[name="images[]"]').next('.text-danger').remove();
+      //     $('input[name="images[]"]').after('<small class="text-danger">Please select at least one image.</small>');
+      // }
+
+
+      if (age === '') {
+        isValid = false;
+        $('input[name="age"]').next('.text-danger').remove();
+        $('input[name="age"]').after('<small class="text-danger">Please enter the patient\'s age.</small>');
     }
 
-    // if (referralDoctor === '') {
-    //     isValid = false;
-    //     $('select[name="referral_doctor"]').next('.text-danger').remove();
-    //     $('select[name="referral_doctor"]').after('<small class="text-danger">Please select a referral doctor.</small>');
-    // }
+    if (gender === '') {
+        isValid = false;
+        $('select[name="gender"]').next('.text-danger').remove();
+        $('select[name="gender"]').after('<small class="text-danger">Please select a gender.</small>');
+    }
 
-    // if (note === '') {
-    //     isValid = false;
-    //     $('textarea[name="note"]').next('.text-danger').remove();
-    //     $('textarea[name="note"]').after('<small class="text-danger">Please enter a note.</small>');
-    // }
+    if (email === '') {
+        isValid = false;
+        $('input[name="email"]').next('.text-danger').remove();
+        $('input[name="email"]').after('<small class="text-danger">Please enter an email address.</small>');
+    }
 
-    // if (images.length === 0) {
-    //     isValid = false;
-    //     $('input[name="images[]"]').next('.text-danger').remove();
-    //     $('input[name="images[]"]').after('<small class="text-danger">Please select at least one image.</small>');
-    // }
+    if (address === '') {
+        isValid = false;
+        $('textarea[name="address"]').next('.text-danger').remove();
+        $('textarea[name="address"]').after('<small class="text-danger">Please enter an address.</small>');
+    }
 
-    // If form is valid, submit
-    if (isValid) {
+
+      // If form is valid, submit
+      if (isValid) {
         this.submit();
-    }
-});
+      }
+    });
 
-</script>
+  </script>
 </main><!-- End #main -->
 
 <?= $this->endSection() ?>

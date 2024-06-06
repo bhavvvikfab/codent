@@ -60,6 +60,14 @@ $routes->group('hospital', ['filter' => $authFilter], function ($routes) {
     $routes->post('store_enquiry', 'enquiry\EnquiryController::store_enquiry');    
     $routes->get('delete_enquiry/(:num)', 'enquiry\EnquiryController::delete_enquiry/$1');    
     $routes->get('view_enquiry/(:num)', 'enquiry\EnquiryController::view_enquiry/$1');    
+    $routes->get('edit_enquiry/(:num)', 'enquiry\EnquiryController::edit_enquiry/$1');    
+    $routes->post('update_enquiry', 'enquiry\EnquiryController::update_enquiry');    
+    $routes->post('convert_into_lead', 'enquiry\EnquiryController::convert_into_lead'); 
+    
+    
+
+    $routes->get('leads', 'leads\LeadsController::leads');   
+    $routes->get('view_lead/(:num)', 'leads\LeadsController::view_lead/$1');   
 
 
 

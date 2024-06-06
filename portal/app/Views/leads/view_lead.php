@@ -1,6 +1,6 @@
 <?= $this->extend('layout/layout') ?>
 <?= $this->section('title') ?>
-All-Enquiries
+All-lead
 <?= $this->endSection() ?>
 <?= $this->section('content') ?>
 
@@ -8,12 +8,12 @@ All-Enquiries
   <div class="pagetitle">
     <div class="row">
       <div class="col-xxl-12 col-lg-12 col-md-12 col-sm-12">
-        <h1>View Enquiry</h1>
+        <h1>View Lead</h1>
         <nav>
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a
                 href="<?= base_url() . '' . session('prefix') . '/' . 'dashboard' ?>">Dashboard</a></li>
-            <li class="breadcrumb-item active">View Enquiry</li>
+            <li class="breadcrumb-item active">View Lead</li>
           </ol>
         </nav>
       </div>
@@ -31,11 +31,11 @@ All-Enquiries
           <div class="card-header">
             <div class="row">
               <div class="col-lg-8">
-                <h5 class="card-title text-start">Enquiry Info</h5>
+                <h5 class="card-title text-start">Lead Info</h5>
               </div>
               <div class="col-lg-4">
                 <h5 class="card-title text-end addsup">
-                  <a href="<?= base_url() . '' . session('prefix') . '/' . 'enquiry' ?>"> Back </a>
+                  <a href="<?= base_url() . '' . session('prefix') . '/' . 'leads' ?>"> Back </a>
                 </h5>
               </div>
             </div>

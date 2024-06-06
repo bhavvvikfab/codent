@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use Config\Database;
 
 class EnquiryModel extends Model
 {
@@ -12,7 +13,7 @@ class EnquiryModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields = ['id','user_id', 'hospital_id', 'date_of_birth', 'phone', 'patient_name', 'required_specialist', 'note', 'image', 'status', 'assign_to', 'appointment_date','referral_doctor'];
+    protected $allowedFields = ['id','user_id', 'hospital_id', 'date_of_birth', 'phone', 'patient_name', 'required_specialist', 'note', 'image', 'status', 'assign_to', 'appointment_date','referral_doctor','age','address','profile','gender','email'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -58,12 +59,30 @@ class EnquiryModel extends Model
                     ->findAll();
     }
 
-    public function getEnquiryById($id)
+    public function getEnquiryAndUserById($enquiry_id, $user_id)
     {
-        return $this->select('enquiries.*, users.*')
-                    ->join('users', 'enquiries.user_id = users.id')
-                    ->where('enquiries.id', $id)
-                    ->first();
+        // Retrieve the enquiry details based on the provided enquiry ID
+        $enquiry = $this->where('id', $enquiry_id)->first();
+    
+        // Retrieve the user details based on the provided user ID
+        $userModel = new UserModel();
+        $user = $userModel->find($user_id);
+    
+        return [
+            'enquiry' => $enquiry,
+            'user' => $user
+        ];
+    }
+
+    public function Enquiry_Status_update($id, $status)
+    {
+        $db = Database::connect();
+        $builder = $db->table($this->table);
+
+        $builder->where('id', $id);
+        $builder->update(['status' => $status]);
+
+        return $db->affectedRows() > 0;
     }
     
 }

@@ -28,7 +28,7 @@ Hospital-Dashboard
             <!-- Customers Card -->
             <div class="col-xxl-3 col-lg-3 col-md-6">
                 <div class="card info-card customers-card">
-                    <div class="filter">
+                    <!-- <div class="filter">
                         <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                             <li class="dropdown-header text-start">
@@ -38,7 +38,7 @@ Hospital-Dashboard
                             <li><a class="dropdown-item" href="#">This Month</a></li>
                             <li><a class="dropdown-item" href="#">This Year</a></li>
                         </ul>
-                    </div>
+                    </div> -->
                     <div class="card-body">
                         <h5 class="card-title"> All Apponitments</h5>
 
@@ -59,7 +59,7 @@ Hospital-Dashboard
 
             <div class="col-xxl-3 col-lg-3 col-md-6">
                 <div class="card info-card enquiry-card">
-                    <div class="filter">
+                    <!-- <div class="filter">
                         <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                             <li class="dropdown-header text-start">
@@ -69,7 +69,7 @@ Hospital-Dashboard
                             <li><a class="dropdown-item" href="#">This Month</a></li>
                             <li><a class="dropdown-item" href="#">This Year</a></li>
                         </ul>
-                    </div>
+                    </div> -->
                     <div class="card-body">
                         <h5 class="card-title">All Enuqiries</h5>
                         <div class="d-flex align-items-center">
@@ -92,7 +92,7 @@ Hospital-Dashboard
             <!-- Order Card -->
             <div class="col-xxl-3 col-lg-3 col-md-6">
                 <div class="card info-card sales-card">
-                    <div class="filter">
+                    <!-- <div class="filter">
                         <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                             <li class="dropdown-header text-start">
@@ -102,7 +102,7 @@ Hospital-Dashboard
                             <li><a class="dropdown-item" href="#">This Month</a></li>
                             <li><a class="dropdown-item" href="#">This Year</a></li>
                         </ul>
-                    </div>
+                    </div> -->
                     <div class="card-body">
                         <h5 class="card-title">All Referrals</h5>
 
@@ -123,7 +123,7 @@ Hospital-Dashboard
 
             <div class="col-xxl-3 col-lg-3 col-md-6">
                 <div class="card info-card user-card">
-                    <div class="filter">
+                    <!-- <div class="filter">
                         <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                             <li class="dropdown-header text-start">
@@ -133,7 +133,7 @@ Hospital-Dashboard
                             <li><a class="dropdown-item" href="#">This Month</a></li>
                             <li><a class="dropdown-item" href="#">This Year</a></li>
                         </ul>
-                    </div>
+                    </div> -->
                     <div class="card-body">
                         <h5 class="card-title">All User</h5>
                         <div class="d-flex align-items-center">
@@ -161,7 +161,7 @@ Hospital-Dashboard
                     <!-- Reports -->
                     <div class="col-12">
                         <div class="card">
-                            <div class="filter">
+                            <!-- <div class="filter">
                                 <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                                     <li class="dropdown-header text-start">
@@ -171,7 +171,7 @@ Hospital-Dashboard
                                     <li><a class="dropdown-item" href="#">This Month</a></li>
                                     <li><a class="dropdown-item" href="#">This Year</a></li>
                                 </ul>
-                            </div>
+                            </div> -->
                             <?php
                             //Variable for appointments
                             $day_app = count($data['appointments']['today']);
@@ -192,7 +192,7 @@ Hospital-Dashboard
                             $all_users = count($data['users']['all']);
                             ?>
                             <div class="card-body">
-                                <h5 class="card-title">Reports <span>/Today</span></h5>
+                                <h5 class="card-title">Reports</h5>
                                 <!-- Line Chart -->
                                 <div id="reportsChart"></div>
                                 <script>
@@ -266,7 +266,7 @@ Hospital-Dashboard
                     <!-- Latest En -->
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto dashbord-order-table ">
-                            <div class="filter">
+                            <!-- <div class="filter">
                                 <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                                     <li class="dropdown-header text-start">
@@ -276,9 +276,9 @@ Hospital-Dashboard
                                     <li><a class="dropdown-item" href="#">This Month</a></li>
                                     <li><a class="dropdown-item" href="#">This Year</a></li>
                                 </ul>
-                            </div>
+                            </div> -->
                             <div class="card-body">
-                                <h5 class="card-title">Appointment <span>| Today</span></h5>
+                                <h5 class="card-title">Appointments</h5>
                                 <table class="table table-borderless datatable dash-order-table">
                                     <thead>
                                         <tr>
@@ -315,7 +315,7 @@ Hospital-Dashboard
                                             <?php endforeach; ?>
                                         <?php else: ?>
                                             <tr>
-                                                <td colspan="6">No appointments found.</td>
+                                                <td colspan="6" class="text-center" >No appointments found.</td>
                                             </tr>
                                         <?php endif; ?>
                                     </tbody>

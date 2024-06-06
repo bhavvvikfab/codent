@@ -61,7 +61,8 @@ Appointment-Details
                     </label><br>
 
 
-                    <img src="<?= $adminurl ?>/public/images/<?= $data['patient']['profile'] ?>" style="" width="auto">
+                    <img src="<?= $adminurl ?>/public/images/<?= $data['patient']['profile'] ?>" style="" width="250" height="250"
+                       onerror="this.onerror=null; this.src='<?= config('App')->baseURL2 ?>/public/images/default.jpg';" >
 
 
                     <!-- 

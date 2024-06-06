@@ -69,6 +69,17 @@ $image = session()->get('profile');
       </li><!-- End Enquiry Nav -->
 
       <li class="nav-item">
+      
+        <a href="<?= base_url().''.session('prefix').'/'.'leads'?>" class="nav-link collapsed">
+        <i class="bi bi-person-plus"></i><span>Leads</span>
+            </a>
+        
+      </li>
+
+
+
+
+      <li class="nav-item">
         <!-- <a class="nav-link collapsed" data-bs-target="#user-nav" data-bs-toggle="collapse" href="111">
           <i class="bi bi-question-circle"></i><span>Enquiry</span>
 
