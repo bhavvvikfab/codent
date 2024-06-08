@@ -115,7 +115,6 @@ public function register_fun()
     $appointment_slot = $this->request->getPost('appointment_slot') ?? '';
     if ($appointment_slot) {
         $dateTime = \DateTime::createFromFormat('d/m/Y h:i A', $appointment_slot);
-    // print_r($dateTime);die;
 
         if ($dateTime) {
             $appointment_slot = $dateTime->format('Y-m-d H:i:s');
@@ -128,8 +127,11 @@ public function register_fun()
 
 
     $note = $this->request->getPost('note');
-    $time = $this->request->getPost('time');
-    $treatment_price = $this->request->getPost('treatment_price');
+    $method = $this->request->getPost('method');
+    $instruction_for_lead = $this->request->getPost('instruction_for_lead');
+    $contacted_via = $this->request->getPost('contacted_via');
+    $assign_next_to = $this->request->getPost('assign_next_to');
+
 
     $data = [
         'inquiry_id' => $patient_id,
@@ -137,7 +139,12 @@ public function register_fun()
         'schedule' => $appointment_slot,
         'note_for_team' => $note,
         'hospital_id' => $hospital_id,
-        'treatment_price' => $treatment_price, 
+        'method' => $method,
+        'instruction_for_lead' => $instruction_for_lead,
+        'contacted_via' => $contacted_via,
+        'next_task_assign_to' => $assign_next_to,
+
+
     ];
 
     $result = $appointmentModel->insert($data);
@@ -210,42 +217,58 @@ public function editappoint($id)
         //     // If validation fails, redirect back with input and errors
         //     return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         // }
-    
-        // Retrieve form data
         $appointment_id = $this->request->getPost('id');
         // print_r($appointment_id );die;
+
+
+
         $patient_id = $this->request->getPost('patient_name');
-        // print_r($patient_id );die;
-    
-        // Find the enquiry by patient ID to get the hospital ID
-        $enquiry = $enquiryModel->where('id', $patient_id)->first();
 
-    
-        if (!$enquiry) {
-            // Handle the case where the enquiry is not found
-            return redirect()->back()->with('error', 'Invalid patient ID');
+    $enquiry = $enquiryModel->where('id', $patient_id)->first();
+
+    if (!$enquiry) {
+        return redirect()->back()->with('error', 'Invalid patient ID');
+    }
+
+    $hospital_id = $enquiry['hospital_id'];
+    $defaultDateTime = date('Y-m-d H:i:s');
+
+    // print_r($defaultDateTime);die;
+    $doctor_id = $this->request->getPost('doctor_name');
+    $appointment_slot = $this->request->getPost('appointment_slot') ?? '';
+    if ($appointment_slot) {
+        $dateTime = \DateTime::createFromFormat('d/m/Y h:i A', $appointment_slot);
+
+        if ($dateTime) {
+            $appointment_slot = $dateTime->format('Y-m-d H:i:s');
+        } else {
+            $appointment_slot = $defaultDateTime;
         }
-        // print_r("thdfhdfgdfg" );die;
+    } else {
+        $appointment_slot = $defaultDateTime;
+    }
 
-    
-        $hospital_id = $enquiry['hospital_id'];
-    
-        // Retrieve other form data
-        $doctor_id = $this->request->getPost('doctor_name');
-        $appointment_slot = $this->request->getPost('schedule');
-        $note = $this->request->getPost('note');
-        // $time = $this->request->getPost('time');
-        $referral = $this->request->getPost('referral');
-    
-        $data = [
-            'inquiry_id' => $patient_id,
-            'assigne_to' => $doctor_id,
-            'schedule' => $appointment_slot,
-            'note' => $note,
-            'hospital_id' => $hospital_id,
-            // 'time' => $time,
-            'lead_instruction' => $referral
-        ];
+
+    $note = $this->request->getPost('note');
+    $method = $this->request->getPost('method');
+    $instruction_for_lead = $this->request->getPost('instruction_for_lead');
+    $contacted_via = $this->request->getPost('contacted_via');
+    $assign_next_to = $this->request->getPost('assign_next_to');
+
+
+    $data = [
+        'inquiry_id' => $patient_id,
+        'assigne_to' => $doctor_id,
+        'schedule' => $appointment_slot,
+        'note_for_team' => $note,
+        'hospital_id' => $hospital_id,
+        'method' => $method,
+        'instruction_for_lead' => $instruction_for_lead,
+        'contacted_via' => $contacted_via,
+        'next_task_assign_to' => $assign_next_to,
+
+
+    ];
     
         // Update the data in the database
         if ($appointmentModel->update($appointment_id, $data)) {
@@ -264,15 +287,21 @@ public function editappoint($id)
 
     public function viewappoint_fun($id)
 {
+
     $appointmentModel = new Appointments();
 
     // Fetch the specific appointment by ID with joined data
     $appointment = $appointmentModel
-        ->select('appointments.*, users.fullname as doctor_name,users.profile, enquiries.patient_name,enquiries.phone,enquiries.date_of_birth,enquiries.required_specialist,enquiries.image,enquiries.note as about,enquiries.appointment_date,')
+        ->select('appointments.*, users.fullname as doctor_name,users.profile, enquiries.*')
         ->join('users', 'users.id = appointments.assigne_to')
         ->join('enquiries', 'enquiries.id = appointments.inquiry_id')
         ->where('appointments.id', $id)
         ->first();
+// echo "<pre>";
+//         print_r($appointment);
+// echo "</pre>";
+// die;
+
 
     if ($appointment) {
         // Pass the appointment data to the view

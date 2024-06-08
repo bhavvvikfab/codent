@@ -222,6 +222,7 @@ public function viewEnquiry_fun()
 {
     $id = $this->request->getGet('id');
 
+
     $enquiryModel = new EnquiryModel();
     $eadInstruction = new LeadInstruction();
 
@@ -316,15 +317,34 @@ public function viewEnquiry_fun()
 
 
 
+    $name = $this->request->getPost('name');
+    $dob = $this->request->getPost('dob');
+    $age = $this->request->getPost('age');
+    $gender = $this->request->getPost('gender');
+    $email = $this->request->getPost('email');
+    $address = $this->request->getPost('address');
+    $name = $this->request->getPost('name');
+    $phone = $this->request->getPost('phone');
+    $appointment_date = $this->request->getPost('appointment_date');
+    $specialty = $this->request->getPost('required_specialist');
+    $doctor = $this->request->getPost('doctor_id');
+    $note = $this->request->getPost('note');
+
+
+
     $data = [
-        'hospital_id' => $this->request->getPost('hospital_id'),
-        'patient_name' => $this->request->getPost('name'),
-        'date_of_birth' => $this->request->getPost('dob'),
-        'appointment_date' => $this->request->getPost('appointment_date'),
-        'phone' => $this->request->getPost('phone'),
-        'note' => $this->request->getPost('note'),
-        'required_specialist' => $this->request->getPost('required_specialist'),
-        'referral_doctor' => $this->request->getPost('doctor_id'),
+        'phone' => $phone,
+        'email' => $email,
+        'patient_name' => $name,
+        'gender' => $gender,
+        'age' => $age,
+        'address' => $address,
+        'date_of_birth' => $dob,
+        'appointment_date' => $appointment_date,
+        'note' => $note,
+        'required_specialist' => $specialty,
+        'referral_doctor' => $doctor,
+        // Image path to be inserted into the database
     ];
 //     echo '<pre>';
 //     print_r($data);

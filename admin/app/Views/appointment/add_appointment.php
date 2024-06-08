@@ -99,14 +99,7 @@ Appointments
                 
 
 
-              <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                <label class="col-form-label">
-                  <b><i class="bi bi-currency-dollar" style="font-size: 18px;"></i></b> Treatment Price
-                </label>
-                <div class="input-group">
-                  <input type="text" class="form-control" id="treatment_price" name="treatment_price" placeholder="Enter price">
-                </div>
-              </div>
+                  
 
 
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
@@ -117,7 +110,44 @@ Appointments
                   <small class="text-danger"><?= esc(session('errors.note')) ?><i
                       class="bi bi-exclamation-circle"></i></small>
                 <?php endif; ?>
+                <div id="appointment_slot_error"></div>
+
               </div>
+
+              <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                  <label class="col-form-label">
+                    <b><i class="bi bi-gear-fill" style="font-size: 18px;"></i></b> Method
+                  </label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" name="method" placeholder="">
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                  <label class="col-form-label">
+                    <b><i class="bi bi-file-earmark-text-fill" style="font-size: 18px;"></i></b> Instruction for Lead
+                  </label>
+                  <div class="input-group">
+                    <textarea type="text" class="form-control" name="instruction_for_lead" rows="1" ></textarea>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                  <label class="col-form-label">
+                    <b><i class="bi bi-chat-fill" style="font-size: 18px;"></i></b> Contacted them Via
+                  </label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" name="contacted_via" placeholder="">
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                  <label class="col-form-label">
+                    <b><i class="bi bi-person-check-fill" style="font-size: 18px;"></i></b> Assign next task to
+                  </label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" name="assign_next_to" placeholder="">
+                  </div>
+                </div>
 
 
 

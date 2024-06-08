@@ -47,7 +47,7 @@ Appointments
                     <th>Patient Name</th>
                     <th class="text-center">Dr. Name</th>
                     <!-- <th>Phone No.</th> -->
-                    <th data-type="date" data-format="DD/MM/YYYY" class="text-center">Schedule</th>
+                    <th data-type="date" data-format="DD/MM/YYYY" class="text-center">Date and Time</th>
                     <!-- <th>Slot</th> -->
                     <th class="text-center">Status</th>
                     <th class="text-center">Action</th>
@@ -66,16 +66,38 @@ Appointments
                         <!-- <td><?= esc($appointment['id']); ?></td> -->
                         <td><?= esc($appointment['patient_name']); ?></td>
                         <td><?= esc($appointment['fullname']); ?></td>
-                        <td><?= esc($appointment['schedule']); ?></td>
-                        <td class="text-center">confirm</td>
+                        <td class="text-center"><?= esc($appointment['schedule']); ?></td>
+                        <td class="text-center">
+                <?php
+                $enquiry_status = $appointment['appointment_status'];
+                $badge_class = '';
+                $status_text = '';
 
+                switch ($enquiry_status) {
+                    case 'confirm':
+                        $badge_class = 'bg-success';
+                        $status_text = 'Confirmed';
+                        break;
+                    case 'pending':
+                        $badge_class = 'bg-primary';
+                        $status_text = 'Pending';
+                        break;
+                    case 'cancel':
+                        $badge_class = 'bg-danger';
+                        $status_text = 'Cancelled';
+                        break;
+                    default:
+                        $badge_class = 'bg-secondary';
+                        $status_text = 'Unknown';
+                        break;
+                }
+                ?>
 
-                    <!-- <td>13/05/2023</td> -->
-                    <!-- <td>
-                      <div class="d-flex justify-content-around align-items-center">
-                        <button type="button" class="btn btn-warning btn-sm">Pending</button>
-                      </div>
-                    </td> -->
+                <span class="badge <?= $badge_class; ?>" style="font-size: 1rem; padding: 0.5rem 1rem;">
+                    <?= $status_text; ?>
+                </span>
+            </td>           
+                   
                     <td>
                       <div class="d-flex justify-content-around align-items-center">
                         <div class="editen p-1">

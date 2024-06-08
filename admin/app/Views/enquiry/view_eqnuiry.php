@@ -104,6 +104,7 @@ Enquiries
                         <label class="form-label" for="">
                           <b> Age: </b>
                         </label>
+                        <?= $enquiry['phone'] ?>
                         <?= isset($enquiry['age']) ? $enquiry['age'] : 'N/A'; ?> Years
                       </div>
 
