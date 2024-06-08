@@ -116,7 +116,7 @@ Edit-Enquiry
                       timePicker24Hour: false,
                       // minDate: moment(),
                       locale: {
-                        format: 'M/DD hh:mm A'
+                        format: 'DD/MM/YYYY hh:mm A'
                       }
                     });
                   });

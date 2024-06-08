@@ -50,7 +50,7 @@ Edit-Receptionist
                             <div class="row">
                                 <div class="col-lg-6 mb-3">
                                     <label for="name" class="form-label"><i class="bi bi-person-circle"
-                                            style="font-size: 18px;"></i> Doctor Name</label>
+                                            style="font-size: 18px;"></i> Full Name</label>
                                     <input type="text" class="form-control" id="name" name="name"
                                         value="<?= isset($rep['fullname']) ? $rep['fullname'] : 'N/A'; ?>">
                                     <?php if (session('errors.name')): ?>

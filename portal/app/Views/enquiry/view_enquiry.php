@@ -57,7 +57,7 @@ All-Enquiries
               <form class="m-3">
                 <div class="row">
 
-                  <div class="col-lg-4 pb-2 pb-lg-0">
+                  <div class="col-lg-3 pb-2 pb-lg-0">
 
                     <i class="bi bi-image-fill" aria-hidden="true"></i>
                     <label class="form-label" for="inputNanme4">
@@ -65,8 +65,8 @@ All-Enquiries
                     </label><br>
 
 
-                    <img src="<?= $adminurl ?>/public/images/<?= $enquiry['profile'] ?>" style="" width="250"
-                      height="250"
+                    <img src="<?= $adminurl ?>/public/images/<?= $enquiry['profile'] ?>" style="" width="200"
+                      height="200"
                       onerror="this.onerror=null; this.src='<?= config('App')->baseURL2 ?>/public/images/default.jpg';">
 
 
@@ -80,7 +80,7 @@ All-Enquiries
 
                   </div>
 
-                  <div class="col-lg-8 d-lg-flex flex-lg-column justify-content-lg-center">
+                  <div class="col-lg-9 d-lg-flex flex-lg-column justify-content-lg-center">
 
                     <div class="row">
 
@@ -192,7 +192,7 @@ All-Enquiries
                             <?php endforeach; ?>
                           <?php else: ?>
                             <div class="col-12 col-lg-12 col-sm-12">
-                              No Image Uploaded.
+                              Documents not Uploaded.
                             </div>
                           <?php endif; ?>
                         </div>

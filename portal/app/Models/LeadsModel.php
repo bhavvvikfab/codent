@@ -4,26 +4,16 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class DoctorScheduleModel extends Model
+class LeadsModel extends Model
 {
-    protected $table            = 'doctor_schedule';
+    protected $table            = 'lead_details';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields = [
-        'user_id',
-        'doctor_id',
-        'monday',
-        'tuesday',
-        'wednesday',
-        'thursday',
-        'friday',
-        'saturday',
-        'sunday',
-        'created_at'
-    ];
+    protected $allowedFields = ['message','method','enquiry_id','response', 'date_time', 'appointment_with', 'contacted_via', 'note_for_team', 'remind_me', 'assigne_next_task', 'created_at'];
+
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -54,10 +44,4 @@ class DoctorScheduleModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-
-
-    public function getScheduleByUserId($id)
-    {
-        return $this->where('user_id', $id)->first();
-    }
 }

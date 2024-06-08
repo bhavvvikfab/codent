@@ -1,62 +1,61 @@
- <?php 
+<?php
 $userId = session()->get('user_id');
 $userRole = session()->get('user_role');
 $image = session()->get('profile');
 
 ?>
 
-  
-  <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar">
 
-    <ul class="sidebar-nav" id="sidebar-nav">
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="<?= base_url().''.session('prefix').'/'.'dashboard'?>">
-          <i class="bi bi-grid"></i>
-          <span>Dashboard</span>
-        </a>
-      </li><!-- End Dashboard Nav -->
-      
-       <li class="nav-item">
+  <ul class="sidebar-nav" id="sidebar-nav">
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="<?= base_url() . '' . session('prefix') . '/' . 'dashboard' ?>">
+        <i class="bi bi-grid"></i>
+        <span>Dashboard</span>
+      </a>
+    </li><!-- End Dashboard Nav -->
+
+    <!-- <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#hospital-nav" data-bs-toggle="collapse" href="111">
          <i class="bi bi-people"></i> <span>Users</span>
 
 
           <i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="hospital-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="<?= base_url().''.session('prefix').'/'.'reception'?>" class="nav-link collapsed">
-              <i class="bi bi-circle"></i><span>Receptionists</span>
-            </a>
-          </li>
-          <li>
-            <a href="<?= base_url().''.session('prefix').'/'.'doctor'?>" class="nav-link collapsed">
-              <i class="bi bi-circle"></i><span>Doctors</span>
-            </a>
-          </li>
-          <!-- <li>
-           <a href="<?= base_url().''.session('prefix').'/'.'patient'?>" class="nav-link collapsed">
+       
+      </li>End Enquiry Nav -->
 
-              <i class="bi bi-circle"></i><span>Patients</span>
-            </a>
-          </li> -->
-        </ul>
-      </li><!-- End Enquiry Nav -->
+  
+    <li class="nav-item">
+      <a href="<?= base_url() . '' . session('prefix') . '/' . 'doctor' ?>" class="nav-link collapsed">
 
-      <li class="nav-item">
-        <!-- <a class="nav-link collapsed" data-bs-target="#user-nav" data-bs-toggle="collapse" href="111">
+      <i class="bi bi-heart-pulse"></i><span>Doctors</span>
+      </a>
+    </li>
+
+
+    <li class="nav-item">
+      <a href="<?= base_url() . '' . session('prefix') . '/' . 'reception' ?>" class="nav-link collapsed">
+      <i class="bi bi-person-fill"></i>Receptionists</span>
+      </a>
+    </li>
+    
+
+    <li class="nav-item">
+      <!-- <a class="nav-link collapsed" data-bs-target="#user-nav" data-bs-toggle="collapse" href="111">
           <i class="bi bi-question-circle"></i><span>Enquiry</span>
 
           <i class="bi bi-chevron-down ms-auto"></i>
         </a> -->
-        <a href="<?= base_url().''.session('prefix').'/'.'enquiry'?>" class="nav-link collapsed">
+      <a href="<?= base_url() . '' . session('prefix') . '/' . 'enquiry' ?>" class="nav-link collapsed">
         <i class="bi bi-question-circle"></i><span>Enquiries</span>
-            </a>
-        <!-- <ul id="user-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+      </a>
+      <!-- <ul id="user-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="<?= base_url().''.session('prefix').'/'.'enquiry'?>" class="nav-link collapsed">
+            <a href="<?= base_url() . '' . session('prefix') . '/' . 'enquiry' ?>" class="nav-link collapsed">
               <i class="bi bi-circle"></i><span>All Enquiries</span>
             </a>
           </li>
@@ -66,31 +65,31 @@ $image = session()->get('profile');
             </a>
           </li> appointment
         </ul> -->
-      </li><!-- End Enquiry Nav -->
+    </li><!-- End Enquiry Nav -->
 
-      <li class="nav-item">
-      
-        <a href="<?= base_url().''.session('prefix').'/'.'leads'?>" class="nav-link collapsed">
+    <li class="nav-item">
+
+      <a href="<?= base_url() . '' . session('prefix') . '/' . 'leads' ?>" class="nav-link collapsed">
         <i class="bi bi-person-plus"></i><span>Leads</span>
-            </a>
-        
-      </li>
+      </a>
+
+    </li>
 
 
 
 
-      <li class="nav-item">
-        <!-- <a class="nav-link collapsed" data-bs-target="#user-nav" data-bs-toggle="collapse" href="111">
+    <li class="nav-item">
+      <!-- <a class="nav-link collapsed" data-bs-target="#user-nav" data-bs-toggle="collapse" href="111">
           <i class="bi bi-question-circle"></i><span>Enquiry</span>
 
           <i class="bi bi-chevron-down ms-auto"></i>
         </a> -->
-        <a href="<?= base_url().''.session('prefix').'/'.'appointment'?>" class="nav-link collapsed">
+      <a href="<?= base_url() . '' . session('prefix') . '/' . 'appointment' ?>" class="nav-link collapsed">
         <i class="bi bi-calendar-week"></i><span>Appointment</span>
-            </a>
-        <!-- <ul id="user-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+      </a>
+      <!-- <ul id="user-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="<?= base_url().''.session('prefix').'/'.'appointment'?>" class="nav-link collapsed">
+            <a href="<?= base_url() . '' . session('prefix') . '/' . 'appointment' ?>" class="nav-link collapsed">
               <i class="bi bi-circle"></i><span>All Enquiries</span>
             </a>
           </li>
@@ -100,10 +99,10 @@ $image = session()->get('profile');
             </a>
           </li> appointment
         </ul> -->
-      </li>
-      <!-- End appointment Nav -->
+    </li>
+    <!-- End appointment Nav -->
 
-      <!-- <li class="nav-item">
+    <!-- <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#doc-nav" data-bs-toggle="collapse" href="111">
           <i class="bi bi-people"></i><span>Doctor</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
@@ -120,9 +119,9 @@ $image = session()->get('profile');
           </li>
         </ul>
       </li> -->
-      <!-- Doctor -->
+    <!-- Doctor -->
 
-      <!-- <li class="nav-item">
+    <!-- <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#Subcri-nav" data-bs-toggle="collapse" href="111">
           <i class="bi bi-people"></i><span>Patient</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
@@ -139,9 +138,9 @@ $image = session()->get('profile');
           </li>
         </ul>
       </li> -->
-      <!-- Patient -->
+    <!-- Patient -->
 
-       <!-- <li class="nav-item">
+    <!-- <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#pay-nav" data-bs-toggle="collapse" href="111">
           <i class="bi bi-coin"></i><span>Payment</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
@@ -158,40 +157,40 @@ $image = session()->get('profile');
           </li>
         </ul>
       </li> -->
-      
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="chatadmin.php">
-          <i class="bi bi-chat-dots"></i>
-          <span>Communication</span>
-        </a>
-      </li>
 
 
-      
-      
-      <!-- End Subscription Nav -->
-      
-      <!-- <li class="nav-item">
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="chatadmin.php">
+        <i class="bi bi-chat-dots"></i>
+        <span>Communication</span>
+      </a>
+    </li>
+
+
+
+
+    <!-- End Subscription Nav -->
+
+    <!-- <li class="nav-item">
         <a class="nav-link collapsed" href="chatadmin.php">
           <i class="bi bi-chat-dots"></i>
           <span>Chat Messages</span>
         </a>
       </li> -->
- 
-      
-      <!-- End Chat Nav-->
-        <!-- <li class="nav-item">
+
+
+    <!-- End Chat Nav-->
+    <!-- <li class="nav-item">
             <a class="nav-link collapsed" href="Admininvoice.php">
               <i class="bi bi-receipt"></i>
               <span>Invoice</span>
             </a>
           </li> -->
-          
-        <!-- End Invoice Nav-->
-        
-        
-        <!-- <li class="nav-item">
+
+    <!-- End Invoice Nav-->
+
+
+    <!-- <li class="nav-item">
           <a class="nav-link collapsed" data-bs-target="#order-nav" data-bs-toggle="collapse" href="#">
             <i class="bi bi-journal-text"></i><span>Order</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
@@ -207,58 +206,57 @@ $image = session()->get('profile');
               </a>
             </li>
           </ul>
-      </li> -->  
-      <!--==========  End Order----------------->
-      
-      
-       <li class="nav-item">
-            <a class="nav-link collapsed" href="document.php">
-              <i class="bi bi-receipt"></i>
-              <span>Document</span>
-            </a>
-      </li>
-          
-        <!-- End Feedback Nav-->
-        
-        <!--  <li class="nav-item">
+      </li> -->
+    <!--==========  End Order----------------->
+
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="document.php">
+        <i class="bi bi-receipt"></i>
+        <span>Document</span>
+      </a>
+    </li>
+
+    <!-- End Feedback Nav-->
+
+    <!--  <li class="nav-item">
             <a class="nav-link collapsed" href="delivery.php">
               <i class="bi bi-receipt"></i>
               <span>All Delivery</span>
             </a>
           </li> -->
-          
-        <!-- End Invoice Nav-->
-          
-      
 
-      <!-- <li class="nav-item">-->
-      <!--  <a class="nav-link collapsed" href="users-profile.php">-->
-      <!--    <i class="bi bi-person"></i>-->
-      <!--    <span>Profile</span>-->
-      <!--  </a>-->
-      <!--</li>End Profile Page Nav
+    <!-- End Invoice Nav-->
+
+
+
+    <!-- <li class="nav-item">-->
+    <!--  <a class="nav-link collapsed" href="users-profile.php">-->
+    <!--    <i class="bi bi-person"></i>-->
+    <!--    <span>Profile</span>-->
+    <!--  </a>-->
+    <!--</li>End Profile Page Nav
 
      
 
       <li class="nav-item">-->
-      <!--  <a class="nav-link collapsed" href="register.php">-->
-      <!--    <i class="bi bi-card-list"></i>-->
-      <!--    <span>Register</span>-->
-      <!--  </a>-->
-      <!--</li>-->
-      <!-- End Register Page Nav -->
+    <!--  <a class="nav-link collapsed" href="register.php">-->
+    <!--    <i class="bi bi-card-list"></i>-->
+    <!--    <span>Register</span>-->
+    <!--  </a>-->
+    <!--</li>-->
+    <!-- End Register Page Nav -->
 
-      <!--<li class="nav-item">-->
-      <!--  <a class="nav-link collapsed" href="login.php">-->
-      <!--    <i class="bi bi-box-arrow-in-right"></i>-->
-      <!--    <span>Login</span>-->
-      <!--  </a>-->
-      <!-- </li>End Login Page Nav -->
+    <!--<li class="nav-item">-->
+    <!--  <a class="nav-link collapsed" href="login.php">-->
+    <!--    <i class="bi bi-box-arrow-in-right"></i>-->
+    <!--    <span>Login</span>-->
+    <!--  </a>-->
+    <!-- </li>End Login Page Nav -->
 
-      
 
-    </ul>
 
-  </aside>
-  <!-- ======= Sidebar end ======= -->  
- 
+  </ul>
+
+</aside>
+<!-- ======= Sidebar end ======= -->

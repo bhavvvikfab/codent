@@ -14,9 +14,17 @@ class AppointmentController extends BaseController
     {
         $inquiryModel = new EnquiryModel();
         $appointmentModel = new AppointmentModel();
-    
-        $appointments = $appointmentModel->findAll();
-    
+        if(session('user_role')==2){
+            $hospitalId = session('user_id');
+        }else{
+            $hospitalId = session('hospital_id');
+        }
+        
+                                
+        $appointments = $appointmentModel
+                        ->where('hospital_id', $hospitalId)
+                        ->findAll();
+        
         $combinedData = [];
         foreach ($appointments as $appointment) {
             $inquiry = $inquiryModel->find($appointment['inquiry_id']);
@@ -31,15 +39,18 @@ class AppointmentController extends BaseController
     }
 
 
-
     public function add_appointment()
     {
         $enquiryModel = new EnquiryModel();
         $userModel = new UserModel();
-        $hospital_id = session('user_id');
+        if(session('user_role')==2){
+            $hospitalId = session('user_id');
+        }else{
+            $hospitalId = session('hospital_id');
+        }
         $enquiries = $enquiryModel->groupStart()
                                     ->Where('status', 'lead')
-                                    ->where('hospital_id', $hospital_id)
+                                    ->where('hospital_id', $hospitalId)
                                     ->groupEnd()
                                     ->findAll();
 
@@ -79,9 +90,9 @@ class AppointmentController extends BaseController
         if ($hospital_id) {
             // Assuming 'role' column values are integers
             $doctors = $userModel->where('hospital_id', $hospital_id)
-                ->whereIn('role', [3, 4]) // Pass an array of roles
-                ->where('status', 'active')
-                ->findAll();
+                                ->whereIn('role', [3, 4])
+                                ->where('status', 'active')
+                                ->findAll();
 
             // Convert $doctors to JSON for response
             echo json_encode($doctors);
@@ -118,11 +129,14 @@ class AppointmentController extends BaseController
 
         // Find the enquiry by patient ID to get the hospital ID
         $enquiry = $enquiryModel->where('id', $patient_id)->first();
-
+        
         if (!$enquiry) {
             // Handle the case where the enquiry is not found
             return redirect()->back()->with('error', 'Invalid patient ID');
         }
+        // else{
+        //     $enquiryModel->update($patient_id, ['status' => 'appointment']);
+        // }
 
         $hospital_id = $enquiry['hospital_id'];
 
@@ -130,17 +144,23 @@ class AppointmentController extends BaseController
         $doctor_id = $this->request->getPost('doctor_name');
         $appointment_slot = $this->request->getPost('appointment_slot');
         $note = $this->request->getPost('note');
-        $time = $this->request->getPost('time');
-        $treatment_price = $this->request->getPost('treatment_price');
-        // $referral = $this->request->getPost('referral');
+        $method = $this->request->getPost('method');
+        $next_task_assign = $this->request->getPost('assign_next_to');
+        $instruction_for_lead = $this->request->getPost('instruction_for_lead');
+        $contacted_via = $this->request->getPost('contacted_via');
+
 
         $data = [
             'inquiry_id' => $patient_id,
             'assigne_to' => $doctor_id,
             'schedule' => $appointment_slot,
-            'note' => $note,
+            'note_for_team' => $note,
             'hospital_id' => $hospital_id,
-            'treatment_price'=>$treatment_price
+            'method'=>$method,
+            'next_task_assign_to'=>$next_task_assign,
+            'instruction_for_lead'=>$instruction_for_lead,
+            'contacted_via'=>$contacted_via
+
         ];
 
         $result = $appointmentModel->insert($data);
@@ -207,8 +227,13 @@ class AppointmentController extends BaseController
         if ($appointment) {
             
             $enquiry = $enquiryModel->find($appointment['inquiry_id']);
-            $hospitalId = session('user_id');
-            $enquirys = $enquiryModel->where('hospital_id', $hospitalId)->findAll(); 
+            if(session('user_role')==2){
+                $hospitalId = session('user_id');
+            }else{
+                $hospitalId = session('hospital_id');
+            }
+            $enquirys = $enquiryModel->where('hospital_id', $hospitalId)->where('status', 'lead')->findAll();
+
             // $enquirys = $enquiryModel->findAll();
             $user=$appointment['assigne_to'];
             $doc = $userModel->find($user);
@@ -234,44 +259,35 @@ class AppointmentController extends BaseController
         $appointmentModel = new AppointmentModel();
         $enquiryModel = new EnquiryModel();
 
-        $validationRules = [
-            // 'appointment_id' => 'required|integer',
-            // 'patient_name' => 'required|integer',
-            // 'doctor_name' => 'required|integer',
-            // 'appointment_slot' => 'required',
-            'note' => 'permit_empty|string',
-            'referral' => 'permit_empty|string'
-        ];
-
-        // Validate the request
-        if (!$this->validate($validationRules)) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-        }
 
         // Retrieve form data
         $appointment_id = $this->request->getPost('id');
-        // print_r($appointment_id );die;
         $enquery_id = $this->request->getPost('patient_name');
-        // print_r($patient_id );die;
 
-        // Find the enquiry by patient ID to get the hospital ID
         $enquiry = $enquiryModel->where('id', $enquery_id)->first();
-
 
         $hospital_id = $enquiry['hospital_id'];
 
         $doctor_id = $this->request->getPost('doctor_name');
         $appointment_slot = $this->request->getPost('schedule');
         $note = $this->request->getPost('note');
-        $treatment_price = $this->request->getPost('treatment_price');
+
+        $method = $this->request->getPost('method');
+        $next_task_assign = $this->request->getPost('assign_next_to');
+        $instruction_for_lead = $this->request->getPost('instruction_for_lead');
+        $contacted_via = $this->request->getPost('contacted_via');
 
         $data = [
             'inquiry_id' => $enquery_id,
             'assigne_to' => $doctor_id,
             'schedule' => $appointment_slot,
             'note' => $note,
+            'note_for_team' => $note,
             'hospital_id' => $hospital_id,
-            'treatment_price'=>$treatment_price
+            'method'=>$method,
+            'next_task_assign_to'=>$next_task_assign,
+            'instruction_for_lead'=>$instruction_for_lead,
+            'contacted_via'=>$contacted_via
         ];
 
         if ($appointmentModel->update($appointment_id, $data)) {
@@ -282,7 +298,52 @@ class AppointmentController extends BaseController
         }
     }
 
+    public function confirm_appointment(){
 
+        $appointmentId = $this->request->getPost('appointmentId');
+        $treatment_price = $this->request->getPost('treatment_price');
+        $note_for_team = $this->request->getPost('note_for_team');
+    
+        $appointmentsModel = new AppointmentModel();
+    
+      
+        if($appointmentId){
+            $dataToUpdate = [
+                'treatment_price' => $treatment_price,
+                'note_for_team' => $note_for_team,
+                'appointment_status'=>'confirm'
+            ];
+        
+            $updated = $appointmentsModel->update($appointmentId, $dataToUpdate);
+        
+            if ($updated) {
+                return $this->response->setJSON(['success' => true, 'message' => 'Appointment confirmed successfully']);
+            } else {
+                return $this->response->setJSON(['success' => false, 'message' => 'Failed to confirm appointment']);
+            }
+        }else{
+            return $this->response->setJSON(['success' => false, 'message' => 'Failed to confirm appointment']);
+        }
+      
+    }
+
+    public function cancel_appointment(){
+
+        $appointmentId = $this->request->getPost('id');
+        $appointmentsModel = new AppointmentModel();
+        if($appointmentId){
+            $result=$appointmentsModel->update($appointmentId,['appointment_status'=>'canceled']);
+            if($result){
+                return $this->response->setJSON(['success' => true, 'message' => 'Appointment Cancel successfully']);
+            }else{
+                return $this->response->setJSON(['success' => false, 'message' => 'Failed to Cancel appointment']);
+            }
+        }else{
+            return $this->response->setJSON(['success' => false, 'message' => 'Failed to Cancel appointment']);
+            
+        }
+    }
+    
 
 
 

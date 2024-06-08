@@ -48,8 +48,8 @@ All-Doctors
                   <th>Image</th>
                   <th>Name</th>
                   <th>Phone</th>
-                  <th>Qualification</th>
-                  <th>Specialist In</th>
+                  <!-- <th>Qualification</th> -->
+                  <th>Specialist Of</th>
                   <th>Status</th>
                   <th>Action</th>
                   <!-- <th>Status</th> -->
@@ -73,7 +73,6 @@ All-Doctors
                       </td>
                       <td>Dr. <?= esc($doctor['user']['fullname']) ?></td>
                       <td><?= esc($doctor['user']['phone']) ?></td>
-                      <td><?= esc($doctor['doctor']['qualification']) ?></td>
                       <td><?= esc($doctor['doctor']['specialist_of']) ?></td>
                       <td>
                       <button

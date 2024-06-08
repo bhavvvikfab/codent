@@ -16,7 +16,11 @@ class DoctorController extends BaseController
     {
         $doctorModel = new DoctorModel();
         $userModel = new UserModel();
-        $hospitalId = session('user_id');
+        if(session('user_role')==2){
+            $hospitalId = session('user_id');
+        }else{
+            $hospitalId = session('hospital_id');
+        }
         $doctors = $doctorModel->where('hospital_id', $hospitalId)->findAll();
 
         $combinedData = [];
@@ -153,10 +157,13 @@ class DoctorController extends BaseController
             $doctorData = $doc->getDoctorById($id);
             $user_id = $doctorData['user_id'];
             $user = new UserModel;
+            $scheduleModel=new DoctorScheduleModel();
+            $schedule=$scheduleModel->getScheduleByUserId($user_id);
             $doctor = $user->getUserById($user_id);
             $data = [
                 'doctor' => $doctorData,
-                'user' => $doctor
+                'user' => $doctor,
+                'schedule'=>$schedule
             ];
             return view('doctor/edit_doctor.php', ['doctor' => $data]);
         } else {
@@ -204,23 +211,30 @@ class DoctorController extends BaseController
         $phone = $this->request->getPost("phone");
         $specialist = $this->request->getPost("specialist");
         $qualification = $this->request->getPost("qualification");
-        $schedule = $this->request->getPost("schedule");
         $about = $this->request->getPost("about");
         $image = $this->request->getFile("image");
         $specialistOrPractice = $this->request->getPost("specialistOrPractice");
 
-        // Image upload handling
+        $monday_time = $this->request->getPost("monday_time");
+        $tuesday_time = $this->request->getPost("tuesday_time");
+        $wednesday_time = $this->request->getPost("wednesday_time");
+        $thursday_time = $this->request->getPost("thursday_time");
+        $friday_time = $this->request->getPost("friday_time");
+        $saturday_time = $this->request->getPost("saturday_time");
+        $sunday_time = $this->request->getPost("sunday_time");
+        $schedule_id = $this->request->getPost("schedule_id");
 
 
         $doctorModel = new DoctorModel();
         $userModel = new UserModel();
+        $scheduleModel = new DoctorScheduleModel();
 
         // Doctor data array
         $doctorData = [
             'qualification' => $qualification,
             'specialist_of' => $specialist,
-            'schedule' => $schedule,
             'about' => $about,
+            'schedule'=>null
         ];
 
         $doctorUpdateResult = $doctorModel->update($dr_id, $doctorData);
@@ -235,6 +249,22 @@ class DoctorController extends BaseController
 
         ];
 
+        $scheduledata = [
+            'monday' => $monday_time ?? null,
+            'tuesday' => $tuesday_time ?? null,
+            'wednesday' => $wednesday_time ?? null,
+            'thursday' => $thursday_time ?? null,
+            'friday' => $friday_time ?? null,
+            'saturday' => $saturday_time ?? null,
+            'sunday' => $sunday_time ?? null,
+            'created_at' => date('Y-m-d H:i:s'),
+        ];
+        
+        // Remove null values from the array
+        $scheduledata = array_filter($scheduledata);
+
+        $scheduleUpdate = $scheduleModel->update($schedule_id,$scheduledata);
+                       
         if ($image && $image->isValid() && !$image->hasMoved()) {
             $imageName = time() . '_' . uniqid() . '.' . $image->getExtension();
             $destinationPath = ROOTPATH . '../admin/public/images';
@@ -242,10 +272,9 @@ class DoctorController extends BaseController
             $userData['profile'] = $imageName;
         }
 
-
         $userUpdateResult = $userModel->update($user_id, $userData);
 
-        if ($doctorUpdateResult && $userUpdateResult) {
+        if ($doctorUpdateResult && $userUpdateResult && $scheduleUpdate ) {
             return redirect()->to(base_url() . session('prefix') . '/doctor')->with('edit_dr', 'Doctor Info Updated Successfully');
         } else {
             return redirect()->back()->with('error', 'Something went wrong. Please try again.');

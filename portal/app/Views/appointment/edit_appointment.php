@@ -82,13 +82,29 @@ Edit-Appointment
                   Appointment Slot</label>
                 <div class="input-group">
                   <span class="input-group-text rounded-2 btn-cal" id="bdate34"><i class="bi bi-calendar3"></i></span>
-                  <input type="date" class="form-control rounded-2" id="schedule" name="schedule"
+                  <input type="text" class="form-control rounded-2" id="schedule" name="schedule"
                     value="<?= esc($appointment['schedule']) ?? '' ?>">
                   <small class="app_slot text-danger"></small>
-                  <div class="input-group-prepend">
-
-                  </div>
                 </div>
+
+                <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+                <script type="text/javascript"
+                  src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+                <link rel="stylesheet" type="text/css"
+                  href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+                <script>
+                  $(function () {
+                    $('input[name="schedule"]').daterangepicker({
+                      singleDatePicker: true,
+                      timePicker: true,
+                      timePicker24Hour: false,
+                      minDate: moment(),
+                      locale: {
+                        format: 'DD/MM/YYYY hh:mm A'
+                      }
+                    });
+                  });
+                </script>
                 <?php if (session('errors.appointment_slot')): ?>
                   <small class="text-danger"><?= esc(session('errors.appointment_slot')) ?><i
                       class="bi bi-exclamation-circle"></i></small>
@@ -97,41 +113,53 @@ Edit-Appointment
               </div>
               
 
-
-
-
-
-
-              <!-- <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                <label class="col-form-label"><i class="bi bi-file-earmark-medical-fill" style="font-size: 18px;"></i>
-                  Referral</label>
-                <input type="text" class="form-control" id="referral" name="referral"
-                  value="<?= esc($appointment['lead_instruction']) ?? '' ?>">
-                <?php if (session('errors.referral')): ?>
-                  <small class="text-danger"><?= esc(session('errors.referral')) ?><i
-                      class="bi bi-exclamation-circle"></i></small>
-                <?php endif; ?>
-              </div> -->
-
-              <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                <label class="col-form-label">
-                  <b><i class="bi bi-currency-dollar" style="font-size: 18px;"></i></b> Treatment Price
-                </label>
-                <div class="input-group">
-                  <input type="text" class="form-control" name="treatment_price" placeholder="Enter price" value="<?= esc($appointment['treatment_price'])?? '0' ?>" >
-                </div>
-              </div>
-
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                 <label class="col-form-label"><i class="bi bi-file-earmark-text-fill" style="font-size: 18px;"></i>
                   Appointment About</label>
-                  <textarea name="note" rows="1"  id="note" class="form-control"><?= esc($appointment['note']) ?? '' ?></textarea>
+                  <textarea name="note" rows="1"  id="note" class="form-control"><?= esc($appointment['note_for_team']) ?? '' ?></textarea>
                 
                 <?php if (session('errors.note')): ?>
                   <small class="text-danger"><?= esc(session('errors.note')) ?><i
                       class="bi bi-exclamation-circle"></i></small>
                 <?php endif; ?>
               </div>
+
+
+              <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                  <label class="col-form-label">
+                    <b><i class="bi bi-gear-fill" style="font-size: 18px;"></i></b> Method
+                  </label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" name="method" placeholder="" value="<?= esc($appointment['method']) ?? '' ?>" >
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                  <label class="col-form-label">
+                    <b><i class="bi bi-file-earmark-text-fill" style="font-size: 18px;"></i></b> Instruction for Lead
+                  </label>
+                  <div class="input-group">
+                    <textarea type="text" class="form-control" name="instruction_for_lead" rows="1" ><?= esc($appointment['instruction_for_lead']) ?? '' ?></textarea>
+                  </div>
+                </div>
+              
+                <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                  <label class="col-form-label">
+                    <b><i class="bi bi-chat-fill" style="font-size: 18px;"></i></b> Contacted them Via
+                  </label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" name="contacted_via" placeholder="" value="<?= esc($appointment['contacted_via']) ?? '' ?>" >
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                  <label class="col-form-label">
+                    <b><i class="bi bi-person-check-fill" style="font-size: 18px;"></i></b> Assign next task to
+                  </label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" name="assign_next_to" placeholder="" value="<?= esc($appointment['next_task_assign_to']) ?? '' ?>" >
+                  </div>
+                </div>
 
 
               <div class="d-flex justify-content-end align-items-center">

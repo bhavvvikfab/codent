@@ -51,6 +51,7 @@ class LoginController extends BaseController
                             'fullname' => $user['fullname'],
                             'profile' => $user['profile'],
                             'logged_in' => true,
+                            'hospital_id'=>$user['hospital_id']
                         ]);
                         switch ($user['role']) {
                             case '2':
@@ -60,9 +61,9 @@ class LoginController extends BaseController
                                 return redirect()->to('/hospital/dashboard');
                             case '3':
                                 session()->set([
-                                    'prefix' => 'receptionist'
+                                    'prefix' => 'practices'
                                 ]);
-                                return redirect()->to('/receptionist/dashboard');
+                                return redirect()->to('/practices/dashboard');
                             case '4':
                                 session()->set([
                                     'prefix' => 'specialist'
@@ -70,9 +71,9 @@ class LoginController extends BaseController
                                 return redirect()->to('/specialist/dashboard');
                             case '5':
                                 session()->set([
-                                    'prefix' => 'practices'
+                                    'prefix' => 'receptionist'
                                 ]);
-                                return redirect()->to('/practices/dashboard');
+                                return redirect()->to('/receptionist/dashboard');
                             case '6':
                                 session()->set([
                                     'prefix' => 'patient'
@@ -121,6 +122,7 @@ class LoginController extends BaseController
                 'fullname' => $user['fullname'],
                 'profile' => $user['profile'],
                 'status' => $user['status'],
+                'hospital_id'=>$user['hospital_id']
             ];
         } else {
             return null; // User not found
@@ -396,7 +398,7 @@ class LoginController extends BaseController
             $email_dt->setMessage($message);
 
             if ($email_dt->send()) {
-                return redirect('forgot_password')->with('email','We have sent link for password recovery.');
+                return redirect('forgot_password')->with('email','We have sent email for password recovery.');
             } else {
 
                   return redirect('forgot_password')->with('email','Something went wrong..!!');

@@ -512,10 +512,10 @@
                                     </div>
                                 </div>
 
-                                <div class="credits text-center">
+                                <!-- <div class="credits text-center">
                                     Designed by <a href="https://fableadtechnolabs.com/">Fablead Developers
                                         Technolab</a>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -591,7 +591,7 @@
                     success: function (data) {
 
                         if (data.status == 1) {
-                            $("#message").html('<h4 class="text-success ">Registration Successful. <i class="bi bi-check-circle"></i></h4>');
+                            $("#message").html('<h4 class="text-success ">Registration Successful.<i class="bi bi-check-circle"></i></h4>');
                             $("#message").show();
                             $('#hospital_id').val(data.hospital_id);
 

@@ -190,7 +190,7 @@ Appointment-Details
                             <?php endforeach; ?>
                           <?php else: ?>
                             <div class="col-12 col-lg-12 col-sm-12">
-                              No Image Uploaded.
+                              Documents not Uploaded.
                             </div>
                           <?php endif; ?>
                         </div>

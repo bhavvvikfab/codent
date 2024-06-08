@@ -14,8 +14,12 @@ class ReceptionController extends BaseController
 
     {
         $userModel= new UserModel;
-        $user_id=session('user_id');
-        $data=$userModel->getUsersByRoleAndHospital(5,$user_id);
+        if(session('user_role')==2){
+            $hospitalId = session('user_id');
+        }else{
+            $hospitalId = session('hospital_id');
+        }
+        $data=$userModel->getUsersByRoleAndHospital(5,$hospitalId);
         return view('receptinist/receptionist',['data'=>$data]);
     }
     

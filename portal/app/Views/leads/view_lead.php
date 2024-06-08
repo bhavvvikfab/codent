@@ -40,24 +40,23 @@ All-lead
               </div>
             </div>
           </div>
-          <pre>
-
-            <?php
-            // print_r($enquiry);
-            // print_r($user);
-            // die;
-            $adminurl = config('App')->baseURL2;
-            // $adminUrl = str_replace('portal', 'admin', $url);
-            $enquiry['image'] = json_decode($enquiry['image'], true);
-            ?>
-          </pre>
+          <!-- <pre> -->
+          <?php
+          // print_r($enquiry);
+          // print_r($user);
+          // print_r($lead);
+          // die;
+          $adminurl = config('App')->baseURL2;
+          $enquiry['image'] = json_decode($enquiry['image'], true);
+          ?>
+          <!-- </pre> -->
           <div class="card-body">
 
             <div class="table-responsive">
               <form class="m-3">
                 <div class="row">
 
-                  <div class="col-lg-4 pb-2 pb-lg-0">
+                  <div class="col-lg-3 pb-2 pb-lg-0">
 
                     <i class="bi bi-image-fill" aria-hidden="true"></i>
                     <label class="form-label" for="inputNanme4">
@@ -65,22 +64,12 @@ All-lead
                     </label><br>
 
 
-                    <img src="<?= $adminurl ?>/public/images/<?= $enquiry['profile'] ?>" style="" width="250"
-                      height="250"
+                    <img src="<?= $adminurl ?>/public/images/<?= $enquiry['profile'] ?>" style="" width="200"
+                      height="200"
                       onerror="this.onerror=null; this.src='<?= config('App')->baseURL2 ?>/public/images/default.jpg';">
-
-
-                    <!-- 
-                  <label class="form-label" for="inputNanme4"> <b> User Image: </b>
-                  </label> 
-                  <img src="assets/img/josh-d-avatar.jpg">
-                     <div class="user-view-thumbnail">
-                          <img src="assets/img/josh-d-avatar.jpg">
-                    </div>               -->
-
                   </div>
 
-                  <div class="col-lg-8 d-lg-flex flex-lg-column justify-content-lg-center">
+                  <div class="col-lg-9 d-lg-flex flex-lg-column justify-content-lg-center">
 
                     <div class="row">
 
@@ -99,8 +88,6 @@ All-lead
                     </div>
                     <hr>
                     <div class="row">
-
-
                       <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
                         <i class="bi bi-envelope-fill" aria-hidden="true"></i> <label class="form-label" for=""> <b>
                             Email: </b></label> <?= isset($enquiry['email']) ? $enquiry['email'] : 'N/A'; ?>
@@ -156,15 +143,15 @@ All-lead
                     <div class="row">
 
                       <div class="col-lg-12 col-md-12 col-sm-12 pb-2 pb-lg-0">
-                      <i class="bi bi-geo-alt-fill"></i> <label class="form-label" for="">
+                        <i class="bi bi-geo-alt-fill"></i> <label class="form-label" for="">
                           <b>Address : </b></label>
                         <?= isset($enquiry['address']) ? $enquiry['address'] : 'N/A'; ?>
                       </div>
 
-                     
+
 
                     </div>
-    <hr>
+                    <hr>
                     <div class="row">
 
                       <div class="col-lg-12 col-md-12 col-sm-12 pb-2 pb-lg-0">
@@ -173,10 +160,12 @@ All-lead
                         <?= isset($enquiry['note']) ? $enquiry['note'] : 'N/A'; ?>
                       </div>
 
-            
+
 
                     </div>
                     <hr>
+
+
 
                     <div class="row">
                       <label class="form-label" for="images"><b><i class="bi bi-images"></i> Documents : </b></label>
@@ -195,12 +184,82 @@ All-lead
                             <?php endforeach; ?>
                           <?php else: ?>
                             <div class="col-12 col-lg-12 col-sm-12">
-                              No Image Uploaded.
+                              Documents not Uploaded.
                             </div>
                           <?php endif; ?>
                         </div>
                       </div>
                     </div>
+
+                    <?php
+                    function formatDate($date) {
+                        $dateTime = new DateTime($date);
+                        return $dateTime->format('F j, Y \a\t h:i A');
+                    }
+                    ?>
+                    <hr>
+                    <div class="row">
+                      <h5 class="fw-bold" ><u>FollowUp Details :</u></h5>
+                      <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                        <i class="bi bi-calendar-fill" aria-hidden="true"></i>
+                        <label class="form-label" for=""><b>Date & Time:</b></label>
+                        <?= isset($lead['date_time']) ? formatDate($lead['date_time']) : 'N/A'; ?>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                        <i class="bi bi-chat-dots-fill" aria-hidden="true"></i>
+                        <label class="form-label" for=""><b>Response:</b></label>
+                        <?= isset($lead['response']) ? $lead['response'] : 'N/A'; ?>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                        <i class="bi bi-envelope-fill" aria-hidden="true"></i>
+                        <label class="form-label" for=""><b>Contacted Via:</b></label>
+                        <?= isset($lead['contacted_via']) ? $lead['contacted_via'] : 'N/A'; ?>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                        <i class="bi bi-sticky-fill" aria-hidden="true"></i>
+                        <label class="form-label" for=""><b>Note for Team:</b></label>
+                        <?= isset($lead['note_for_team']) ? $lead['note_for_team'] : 'N/A'; ?>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                        <i class="bi bi-bell-fill" aria-hidden="true"></i>
+                        <label class="form-label" for=""><b>Remind Me:</b></label>
+                        <?= isset($lead['remind_me']) ? $lead['remind_me'] : 'N/A'; ?>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                        <i class="bi bi-person-fill" aria-hidden="true"></i>
+                        <label class="form-label" for=""><b>Appointment With:</b></label>
+                        <?= isset($lead['appointment_with']) ? $lead['appointment_with'] : 'N/A'; ?>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                        <i class="bi bi-clipboard-fill" aria-hidden="true"></i>
+                        <label class="form-label" for=""><b>Method:</b></label>
+                        <?= isset($lead['method']) ? $lead['method'] : 'N/A'; ?>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                        <i class="bi bi-person-badge-fill" aria-hidden="true"></i>
+                        <label class="form-label" for=""><b>Assign Next Task To:</b></label>
+                        <?= isset($lead['assigne_next_task']) ? $lead['assigne_next_task'] : 'N/A'; ?>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                     
+                      <div class="col-lg-12 col-md-12 col-sm-12 pb-2 pb-lg-0">
+                        <i class="bi bi-person-badge-fill" aria-hidden="true"></i>
+                        <label class="form-label" for=""><b>Message :</b></label>
+                        <?= isset($lead['message']) ? $lead['message'] : 'N/A'; ?>
+                      </div>
+                    </div>
+
 
 
                   </div>

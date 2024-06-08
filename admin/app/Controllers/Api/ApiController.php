@@ -5,6 +5,7 @@ namespace App\Controllers\Api;
 use App\Controllers\BaseController;
 use App\Models\AppointmentModel;
 use App\Models\Appointments;
+use App\Models\DoctorScheduleModel;
 use App\Models\EnquiryModel;
 use App\Models\HospitalsModel;
 use App\Models\UserModel;
@@ -151,189 +152,111 @@ class ApiController extends BaseController
     }
 
 
-    //get all patient function
-    public function patients()
-    {
-        try {
-            $users = new UserModel();
-
-            $result = $users->where('role', 6)->findAll();
-
-            if (empty($result)) {
-                return $this->respond(['status' => 404, 'message' => 'No patient found', 'patients' => []], 404);
-            }
-
-
-            // Append the base path to the profile name
-            foreach ($result as &$user) {
-                if (!empty($user['profile'])) {
-                    $user['profile'] = $this->imagePath . $user['profile'];
-                }
-            }
-
-            return $this->respond(['status' => 200, 'message' => 'patients', 'patients' => $result], 200);
-        } catch (\Exception $e) {
-            $error = array($e->getmessage());
-            $errormsg = json_encode($error);
-            echo $errormsg;
-        }
-    }
-
-
-    //get all users function
-    public function allUsers()
-    {
-        try {
-            $users = new UserModel();
-
-            $result = $users->findAll();
-
-            if (empty($result)) {
-                return $this->respond(['message' => 'No user found', 'users' => []], 404);
-            }
-
-            foreach ($result as &$user) {
-                if (!empty($user['profile'])) {
-                    $user['profile'] = $this->imagePath . $user['profile'];
-                }
-            }
-
-            return $this->respond(['users' => $result], 200);
-
-        } catch (\Exception $e) {
-            $error = array($e->getmessage());
-            $errormsg = json_encode($error);
-            echo $errormsg;
-        }
-
-    }
-
     //searching doctors//
-    public function doctor_search()
+    public function get_doctor_details()
     {
         try {
-            $keyword = $this->request->getPost('keyword');
-
-            $users = new UserModel();
-            $doctors = new DoctorModel();
-
-            // Base query with role and status conditions
-            $users->select('users.*, doctors.*')
-                ->join('doctors', 'doctors.user_id = users.id')
-                ->where('users.status', 'active')
-                ->groupStart()
-                ->where('users.role', 3)
-                ->orWhere('users.role', 4)
-                ->groupEnd();
-
-            // If keyword is provided, add search conditions
-            if ($keyword) {
-                $drs = $users->groupStart()
-                    ->like('users.fullname', $keyword)
-                    ->orLike('doctors.specialist_of', $keyword)
-                    ->groupEnd()
-                    ->findAll();
-                if ($drs) {
-                    foreach ($drs as &$drss) {
-                        if (!empty($drss['profile'])) {
-                            $drss['profile'] = $this->imagePath . $drss['profile'];
-                        }
-                    }
-                    return $this->respond(['status' => 200, 'message' => 'doctor details', 'doctor' => $drs], 200);
-                } else {
-                    return $this->respond(['status' => 404, 'message' => 'Doctor not found', 'doctor' => []], 404);
-                }
-
-            }
-
             $id = $this->request->getPost('id');
+            
             if ($id) {
-                $dr = $users->where('doctors.id', $id)->first();
-                if ($dr) {
-                    if (!empty($dr['profile'])) {
-                        $dr['profile'] = $this->imagePath . $dr['profile'];
+                $doctorModel = new DoctorModel();
+                $userModel = new UserModel();
+                $scheduleModel = new DoctorScheduleModel();
+                
+                // Fetch doctor details
+                $doctor = $doctorModel->select('doctors.*, users.*')
+                                      ->join('users', 'users.id = doctors.user_id')
+                                      ->where('users.id', $id)
+                                      ->first();
+                
+                if ($doctor) {
+                    if (!empty($doctor['profile'])) {
+                        $doctor['profile'] = $this->imagePath . $doctor['profile'];
                     }
-                    return $this->respond(['status' => 200, 'message' => 'doctor details', 'doctor' => $dr], 200);
+                    // Fetch schedule details
+                    $schedule = $scheduleModel->where('user_id', $id)->first();
+                    if($schedule){
+                        unset($doctor['schedule']);
+                        $doctor['schedule']= $schedule;
+                    }
+                    
+                    $response = [
+                        'status' => 200,
+                        'message' => 'Doctor details',
+                        'doctor' => $doctor,
+                    ];
+                    
+                    return $this->respond($response, 200);
                 } else {
                     return $this->respond(['status' => 404, 'message' => 'Doctor not found', 'doctor' => null], 404);
                 }
+            } else {
+                return $this->respond(['status' => 400, 'message' => 'ID is required', 'doctor' => null], 400);
             }
-            $result = $users->findAll();
-
-
-            // Append the base path to the profile name
-            foreach ($result as &$user) {
-                if (!empty($user['profile'])) {
-                    $user['profile'] = $this->imagePath . $user['profile'];
-                }
-            }
-
-            if (empty($result)) {
-                return $this->respond(['status' => 404, 'message' => 'No doctors found', 'doctor' => null], 404);
-            }
-            return $this->respond(['status' => 200, 'message' => 'doctors', 'doctor' => $result], 200);
         } catch (\Exception $e) {
-            $error = [$e->getMessage()];
-            $errormsg = json_encode($error);
-            return $this->respond(['status' => 500, 'message' => $errormsg], 500);
+            // Handle any exceptions
+            return $this->respond(['status' => 500, 'message' => 'An error occurred: ' . $e->getMessage()], 500);
         }
     }
+    
+    
+
 
     //get all hospital function
-    public function hospitals()
-    {
-        try {
+    // public function hospitals()
+    // {
+    //     try {
 
-            $users = new UserModel();
-            $result = $users->where('role', 2)->findAll();
+    //         $users = new UserModel();
+    //         $result = $users->where('role', 2)->findAll();
 
-            if (empty($result)) {
-                return $this->respond(['message' => 'No hospital found', 'hospitals' => []], 404);
-            }
+    //         if (empty($result)) {
+    //             return $this->respond(['message' => 'No hospital found', 'hospitals' => []], 404);
+    //         }
 
-            foreach ($result as &$user) {
-                if (!empty($user['profile'])) {
-                    $user['profile'] = $this->imagePath . $user['profile'];
-                }
-            }
+    //         foreach ($result as &$user) {
+    //             if (!empty($user['profile'])) {
+    //                 $user['profile'] = $this->imagePath . $user['profile'];
+    //             }
+    //         }
 
-            return $this->respond(['hospitals' => $result], 200);
-        } catch (\Exception $e) {
-            $error = array($e->getmessage());
-            $errormsg = json_encode($error);
-            echo $errormsg;
-        }
+    //         return $this->respond(['hospitals' => $result], 200);
+    //     } catch (\Exception $e) {
+    //         $error = array($e->getmessage());
+    //         $errormsg = json_encode($error);
+    //         echo $errormsg;
+    //     }
 
 
-    }
+    // }
 
 
     //get all receptinist function
-    public function receptinists()
-    {
-        try {
-            $users = new UserModel();
+    // public function receptinists()
+    // {
+    //     try {
+    //         $users = new UserModel();
 
-            $result = $users->where('role', 5)->findAll();
+    //         $result = $users->where('role', 5)->findAll();
 
-            if (empty($result)) {
-                return $this->respond(['message' => 'No receptinist found', 'receptinists' => []], 404);
-            }
+    //         if (empty($result)) {
+    //             return $this->respond(['message' => 'No receptinist found', 'receptinists' => []], 404);
+    //         }
 
-            foreach ($result as &$user) {
-                if (!empty($user['profile'])) {
-                    $user['profile'] = $this->imagePath . $user['profile'];
-                }
-            }
-            return $this->respond(['receptinists' => $result], 200);
+    //         foreach ($result as &$user) {
+    //             if (!empty($user['profile'])) {
+    //                 $user['profile'] = $this->imagePath . $user['profile'];
+    //             }
+    //         }
+    //         return $this->respond(['receptinists' => $result], 200);
 
-        } catch (\Exception $e) {
-            $error = array($e->getmessage());
-            $errormsg = json_encode($error);
-            echo $errormsg;
-        }
+    //     } catch (\Exception $e) {
+    //         $error = array($e->getmessage());
+    //         $errormsg = json_encode($error);
+    //         echo $errormsg;
+    //     }
 
-    }
+    // }
 
     //change password//
     public function change_password()
@@ -453,7 +376,7 @@ class ApiController extends BaseController
                     'address' => $address,
                     'date_of_birth' => $dob,
                     'phone' => $phone,
-                    'role' => 6,
+                    'role'=>6
 
                 ];
                 if ($newName) {
@@ -482,92 +405,69 @@ class ApiController extends BaseController
 
 
 
-    public function patient_details()
-    {
-        try {
-            $id = $this->request->getPost('id');
-            $users = new UserModel();
-            // Fetch patient with the given ID, role 6, and status 'active'
-            $result = $users->where('id', $id)
-                ->where('role', 6)
-                ->first();
+    // public function user_details()
+    // {
+    //     $key = 'JWT SECRET KEY SAMPLE HERE';
+    //     $authHeader = $this->request->getHeader("Authorization");
 
-            if (empty($result)) {
-                return $this->respond(['status' => 404, 'message' => 'No patient found', 'patient' => null], 404);
-            }
+    //     if ($authHeader) {
+    //         $authHeader = $authHeader->getValue();
+    //         $token = str_replace('Bearer ', '', $authHeader);
+    //         $token = trim($token);
 
-            // Append the base path to the profile name
-            if (!empty($result['profile'])) {
-                $result['profile'] = $this->imagePath . $result['profile'];
-            }
+    //         try {
+    //             $decoded = JWT::decode($token, new Key($key, "HS256"));
+    //             $userModel = new UserModel();
+    //             $userId = $decoded->id; // Adjust this based on your token's payload structure
 
-            return $this->respond(['status' => 200, 'message' => 'Patient Details', 'patient' => $result], 200);
-        } catch (\Exception $e) {
-            return $this->respond(['status' => 500, 'message' => $e->getMessage()], 500);
-        }
-    }
+    //             // Fetch user details from UserModel using the decoded user ID
+    //             $user = $userModel->find($userId);
 
+    //             if (!empty($user['profile'])) {
+    //                 $user['profile'] = $this->imagePath . $user['profile'];
+    //             }
 
-    public function user_details()
-    {
-        $key = 'JWT SECRET KEY SAMPLE HERE';
-        $authHeader = $this->request->getHeader("Authorization");
+    //             if ($user) {
+    //                 $response = [
+    //                     'status' => 200,
+    //                     'messages' => 'User details',
+    //                     'user' => $user
+    //                 ];
+    //                 return $this->respondCreated($response, 200);
+    //             } else {
+    //                 $response = [
+    //                     'status' => 404,
+    //                     'messages' => 'User not found',
+    //                     'user' => null
+    //                 ];
+    //                 return $this->respondCreated($response, 404);
+    //             }
 
-        if ($authHeader) {
-            $authHeader = $authHeader->getValue();
-            $token = str_replace('Bearer ', '', $authHeader);
-            $token = trim($token);
-
-            try {
-                $decoded = JWT::decode($token, new Key($key, "HS256"));
-                $userModel = new UserModel();
-                $userId = $decoded->id; // Adjust this based on your token's payload structure
-
-                // Fetch user details from UserModel using the decoded user ID
-                $user = $userModel->find($userId);
-
-                if (!empty($user['profile'])) {
-                    $user['profile'] = $this->imagePath . $user['profile'];
-                }
-
-                if ($user) {
-                    $response = [
-                        'status' => 200,
-                        'messages' => 'User details',
-                        'user' => $user
-                    ];
-                    return $this->respondCreated($response, 200);
-                } else {
-                    $response = [
-                        'status' => 404,
-                        'messages' => 'User not found',
-                        'user' => null
-                    ];
-                    return $this->respondCreated($response, 404);
-                }
-
-            } catch (\Exception $ex) {
-                $response = [
-                    'status' => 404,
-                    'messages' => 'User details',
-                    'user' => null
-                ];
-                return $this->respondCreated($response, 404);
-            }
-        } else {
-            $response = [
-                'status' => 404,
-                'messages' => 'Authorization header missing',
-                'user' => null
-            ];
-            return $this->respondCreated($response, 404);
-        }
-    }
+    //         } catch (\Exception $ex) {
+    //             $response = [
+    //                 'status' => 404,
+    //                 'messages' => 'User details',
+    //                 'user' => null
+    //             ];
+    //             return $this->respondCreated($response, 404);
+    //         }
+    //     } else {
+    //         $response = [
+    //             'status' => 404,
+    //             'messages' => 'Authorization header missing',
+    //             'user' => null
+    //         ];
+    //         return $this->respondCreated($response, 404);
+    //     }
+    // }
 
 
 
 
     // Forgot Password - Send Email
+
+
+
     public function forgotPassword()
     {
         $userEmail = $this->request->getPost('email');
@@ -670,7 +570,7 @@ class ApiController extends BaseController
     {
         $baseUrl = base_url();
         $url = 'http://' . $_SERVER['HTTP_HOST'];
-        $redirectUrl = $url . '/codent/admin/forget_pass.php?url=' . $baseUrl . '&userID=' . $userID . '&key=' . $key;
+        $redirectUrl = base_url() . 'forget_pass.php?url=' . $baseUrl . '&userID=' . $userID . '&key=' . $key;
         return redirect()->to($redirectUrl);
 
     }
@@ -703,55 +603,74 @@ class ApiController extends BaseController
     public function dr_wise_appointment()
     {
         try {
-            $appointmentModel = new Appointments;
+            $appointmentModel = new Appointments();
             $dr_id = $this->request->getPost('id');
             $patientName = $this->request->getPost('patient_name');
             $appointmentDate = $this->request->getPost('appointment_date');
-
+    
             if (!empty($dr_id)) {
                 // Prepare base query to fetch appointments for the given doctor
                 $query = $appointmentModel->where('assigne_to', $dr_id);
-
+    
                 // If patient name is provided, add search condition
                 if (!empty($patientName)) {
                     $query->join('enquiries', 'enquiries.id = appointments.inquiry_id')->like('enquiries.patient_name', $patientName);
+                } else {
+                    $query->join('enquiries', 'enquiries.id = appointments.inquiry_id');
                 }
-
+    
                 // If appointment date is provided, add search condition
-                if (!empty($appointmentDate)) {
-                    $query->where('appointments.schedule', $appointmentDate);
+                 if (!empty($appointmentDate)) {
+                    $appointmentDate = str_replace('/', '-', $appointmentDate);
+                    $query->where("DATE_FORMAT(STR_TO_DATE(schedule, '%d/%m %h:%i %p'), '%d-%m') =", $appointmentDate);
                 }
-
+    
                 // Retrieve the appointments
                 $appointments = $query->findAll();
-
+    
                 if (!empty($appointments)) {
                     // Fetch inquiry details for each appointment
                     foreach ($appointments as &$appointment) {
                         $inquiryId = $appointment['inquiry_id'];
                         $inquiryModel = new EnquiryModel();
                         $inquiry = $inquiryModel->find($inquiryId);
-
+    
                         if (!empty($inquiry)) {
                             // Process images
-                            $images = json_decode($inquiry['image'], true);
-                            foreach ($images as &$image) {
-                                $image = $this->imagePath . $image;
+                            $images = !empty($inquiry['image']) ? json_decode($inquiry['image'], true) : [];
+    
+                            if (is_array($images)) {
+                                foreach ($images as &$image) {
+                                    $image = $this->imagePath . $image;
+                                }
+                                $inquiry['image'] = $images;
+                            } else {
+                                $inquiry['image'] = [];
                             }
-                            $inquiry['image'] = $images;
+    
+                            // Process profile image
+                            if (!empty($inquiry['profile'])) {
+                                $inquiry['profile'] = $this->imagePath . $inquiry['profile'];
+                            }
+    
                             // Attach inquiry details to the appointment
                             $appointment['enquiry_details'] = $inquiry;
+    
                             // Fetch user details for this inquiry
                             $userId = $inquiry['user_id'];
                             $userModel = new UserModel();
                             $user = $userModel->find($userId);
-
+    
                             if (!empty($user)) {
-                                // Attach user details to the appointment
-                                $appointment['user_datails'] = $user;
+                                $user['profile'] = $this->imagePath . $user['profile'];
+                                $appointment['user_details'] = $user;
                             }
+                    
+                            // Remove enquiry details from main appointment array
+                            unset($appointment['user_id'], $appointment['date_of_birth'], $appointment['phone'], $appointment['email'], $appointment['patient_name'], $appointment['gender'], $appointment['age'], $appointment['profile'], $appointment['required_specialist'], $appointment['address'], $appointment['lead_instruction'], $appointment['lead_comment'], $appointment['image'], $appointment['status'], $appointment['assign_to(user_id)'], $appointment['referral_doctor'], $appointment['appointment_date']);
                         }
                     }
+    
                     // Prepare response
                     $response = [
                         'status' => 200,
@@ -782,6 +701,10 @@ class ApiController extends BaseController
             return json_encode(['status' => 409, 'message' => 'An error occurred: ' . $e->getMessage()]);
         }
     }
+    
+
+
+
 
 
     //get enquiry by id

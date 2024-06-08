@@ -251,19 +251,11 @@ if (empty($_GET['url']) || empty($_GET['userID']) || empty($_GET['key'])) {
 
             function showToast(message, position) {
                 Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
                     text: message,
-                    icon: 'success', // Set the icon to 'success'
-                    toast: true,
-                    position: position || 'center',
-                    showConfirmButton: false,
-                    timer: 2000,
-                    customClass: {
-                        container: 'custom-swal-container', // Add a custom class for styling
-                    },
-                    customContainerClass: 'custom-swal-toast', // Add a custom class for the toast
-                    background: 'rgba(0, 0, 0, 0.9)', // Set the background color to black
-                    padding: '3rem', // Add padding for a larger size
-                    grow: 'row' // Grow horizontally for a square design
+                    timer: 1000,
+                    showConfirmButton: false
                 });
 
             }
@@ -306,7 +298,6 @@ if (empty($_GET['url']) || empty($_GET['userID']) || empty($_GET['key'])) {
                 if (flag == 1) {
                     return false;
                 } else {
-                    console.log('adasd')
                     let reset_password_form = document.getElementById("reset_password_form");
                     let fd = new FormData(reset_password_form);
                     let url = $("#url").val();
@@ -321,13 +312,13 @@ if (empty($_GET['url']) || empty($_GET['userID']) || empty($_GET['key'])) {
                         success: function (data) {
                             console.log('success');
                             if (data == 1) {
-                               showToast('Password Reset Successfully.')
+                                showToast('Password Reset Successfully.')
                                 setTimeout(function () {
                                     location.href = 'forgotpassword.php?updated=1&key=' + key;
                                 }, 2000);
 
                             } else if (data == 2) {
-                              showToast('Password Reset Failed.')
+                                showToastError('Password Reset Failed.')
                             }
                         }
                     });
