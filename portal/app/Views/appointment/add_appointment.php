@@ -101,42 +101,26 @@ Add-Appointment
               </div>
 
               <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-                <script type="text/javascript"
-                  src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-                <link rel="stylesheet" type="text/css"
-                  href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-                <script>
-                  $(function () {
-                    $('input[name="appointment_slot"]').daterangepicker({
-                      singleDatePicker: true,
-                      timePicker: true,
-                      timePicker24Hour: false,
-                      minDate: moment(),
-                      locale: {
-                        format: 'M/DD hh:mm A'
-                      }
-                    });
+              <script type="text/javascript"
+                src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+              <link rel="stylesheet" type="text/css"
+                href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+              <script>
+                $(function () {
+                  $('input[name="appointment_slot"]').daterangepicker({
+                    singleDatePicker: true,
+                    timePicker: true,
+                    timePicker24Hour: false,
+                    minDate: moment(),
+                    locale: {
+                      format: 'DD/MM/YYYY hh:mm A'
+                    }
                   });
-                </script>
+                });
+              </script>
 
-              <!-- <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                <label class="col-form-label"><i class="bi bi-file-earmark-medical-fill" style="font-size: 18px;"></i>
-                  Referral</label>
-                <input type="text" class="form-control" name="referral" id="referral">
-                <?php if (session('errors.referral')): ?>
-                  <small class="text-danger"><?= esc(session('errors.referral')) ?><i
-                      class="bi bi-exclamation-circle"></i></small>
-                <?php endif; ?>
-              </div> -->
 
-              <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                <label class="col-form-label">
-                  <b><i class="bi bi-currency-dollar" style="font-size: 18px;"></i></b> Treatment Price
-                </label>
-                <div class="input-group">
-                  <input type="text" class="form-control" name="treatment_price" placeholder="Enter price">
-                </div>
-              </div>
+             
 
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                 <label class="col-form-label"><i class="bi bi-file-earmark-text-fill" style="font-size: 18px;"></i>
@@ -148,8 +132,45 @@ Add-Appointment
                       class="bi bi-exclamation-circle"></i></small>
                 <?php endif; ?>
               </div>
+          
+                <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                  <label class="col-form-label">
+                    <b><i class="bi bi-gear-fill" style="font-size: 18px;"></i></b> Method
+                  </label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" name="method" placeholder="">
+                  </div>
+                </div>
 
+                <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                  <label class="col-form-label">
+                    <b><i class="bi bi-file-earmark-text-fill" style="font-size: 18px;"></i></b> Instruction for Lead
+                  </label>
+                  <div class="input-group">
+                    <textarea type="text" class="form-control" name="instruction_for_lead" rows="1" ></textarea>
+                  </div>
+                </div>
+              
 
+             
+                <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                  <label class="col-form-label">
+                    <b><i class="bi bi-chat-fill" style="font-size: 18px;"></i></b> Contacted them Via
+                  </label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" name="contacted_via" placeholder="">
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                  <label class="col-form-label">
+                    <b><i class="bi bi-person-check-fill" style="font-size: 18px;"></i></b> Assign next task to
+                  </label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" name="assign_next_to" placeholder="">
+                  </div>
+                </div>
+              
               <div class="d-flex justify-content-end align-items-center">
                 <button type="submit" class="btn btn-dark"> Add Appointment </button>
               </div>

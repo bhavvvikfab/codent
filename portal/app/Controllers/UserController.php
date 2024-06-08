@@ -190,8 +190,12 @@ class UserController extends BaseController
             $enquiryModel = new EnquiryModel();
             $doctorModel = new DoctorModel();
             $userModel = new UserModel();
-            $hospital_id = session('user_id'); 
-            // Get current date components
+            if(session('user_role')==2){
+                $hospital_id = session('user_id');
+            }else{
+                $hospital_id = session('hospital_id');
+            }
+           
             $currentYear = date('Y');
         
             // Fetch appointments month-wise

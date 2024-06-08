@@ -127,7 +127,7 @@ View_Hospitals
                                                         Show Schedule :
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-menu-right  dropdown-menu-light dropend border border-dark">
-                                                        <li><a class="dropdown-item">Monday : <?php echo $doctor['schedule']['moneday'] ?? 'Not set'; ?> </a></li>
+                                                        <li><a class="dropdown-item">Monday : <?php echo $doctor['schedule']['monday'] ?? 'Not set'; ?> </a></li>
                                                         <li><a class="dropdown-item">Tuesday : <?php echo $doctor['schedule']['tuesday'] ?? 'Not set'; ?> </a></li>
                                                         <li><a class="dropdown-item">Wednesday : <?php echo $doctor['schedule']['wednesday'] ?? 'Not set'; ?> </a></li>
                                                         <li><a class="dropdown-item">Thursday : <?php echo $doctor['schedule']['thursday'] ?? 'Not set'; ?> </a></li>

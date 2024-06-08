@@ -310,7 +310,7 @@ Hospital-Dashboard
                                             <th>Email</th>
                                             <th>Phone</th>
                                             <!-- <th>Phone No.</th> -->
-                                            <th data-type="date" data-format="DD/MM/YYYY">Date</th>
+                                            <th data-type="date" data-format="DD/MM/YYYY">Date and Time</th>
                                             <!-- <th>Slot</th> -->
                                             <th>Status</th>
                                         </tr>
@@ -325,7 +325,7 @@ Hospital-Dashboard
                                                     <td><?= $appointment['patient_name']?? 'N/A'; ?></td>
                                                     <td><?= $appointment['email'] ?? 'N/A'; ?></td>
                                                     <td><?= $appointment['phone'] ?? 'N/A'; ?></td>
-                                                    <td><?= $appointment['appointment_date'] ?? 'N/A'; ?></td>
+                                                    <td><?= $appointment['schedule'] ?? 'N/A'; ?></td>
                                                     <td><span class="bg-success p-1 rounded text-light fw-bold"><?= ucfirst($appointment['status'] ?? '') ?></span></td>
                                                 </tr>
                                             <?php endforeach; ?>

@@ -82,7 +82,7 @@ All-Receptionist
 
                       <td>
                         <div class="d-flex ">
-                          <div class="editen m-1">
+                          <div class="editen m-1 ">
                             <a href="<?= base_url() . session('prefix') . '/reception_details/' . esc($rep['id']) ?>">
                               <button type="button" class="btn btn-secondary  btn-sm"><i class="bi bi-eye"></i></button>
                             </a>
@@ -106,7 +106,7 @@ All-Receptionist
                   <?php endforeach; ?>
                 <?php else: ?>
                   <tr>
-                    <td colspan="4">No Receptionist found.</td>
+                    <td colspan="6" class="text-center" >No Receptionist found.</td>
                   </tr>
                 <?php endif; ?>
 

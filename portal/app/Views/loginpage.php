@@ -109,32 +109,35 @@
                 </div>
               </div>
 
-              <div class="credits">
+              <!-- <div class="credits">
                 Designed by <a href="https://fableadtechnolabs.com/">Fablead Developers Technolab</a>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
         <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
-          function showToast(message, position) {
-            Toastify({
-              text: message,
-              duration: 3000,
-              gravity: 'top',
-              position: 'center',
-              className: 'custom-toast'
-            }).showToast();
-          }
+         
+            function showToast(message, position) {
+                  Swal.fire({
+                      icon: 'success',
+                      title: 'Success',
+                      text: message,
+                      showConfirmButton: true,
+                      timer: null
+                  });
+              }
+            
         </script>
       </section>
       <?php if (session('have_package')): ?>
         <script>
           showToast("<?= session('have_package') ?> ");  
         </script>
-      <?php endif; ?>password_changed
+      <?php endif; ?>
 
       <?php if (session('password_changed')): ?>
         <script>

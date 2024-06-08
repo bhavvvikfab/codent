@@ -206,9 +206,12 @@ Add-Doctor
                                                 class="bi bi-exclamation-circle"></i></small>
                                     <?php endif; ?>
                                 </div>
-                                <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-                                <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-                                <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+                                <script type="text/javascript"
+                                    src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+                                <script type="text/javascript"
+                                    src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+                                <link rel="stylesheet" type="text/css"
+                                    href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
                                 <script>
                                     $(document).ready(function () {
@@ -261,7 +264,7 @@ Add-Doctor
                                             });
 
                                         }
-                                        
+
                                         $('form').submit(function () {
                                             $('input[type="checkbox"]').each(function () {
                                                 if (!$(this).is(':checked')) {
@@ -275,12 +278,13 @@ Add-Doctor
 
 
                             </div>
+                            <div class="row mb-3">
+                                <div class="col-lg-12">
+                                    <button class="btn addsup-btn" type="submit">Add Doctor</button>
+                                </div>
+                            </div>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-lg-12">
-                            <button class="btn addsup-btn" type="submit">Add Doctor</button>
-                        </div>
-                    </div>
+
                     </form>
                     <!-- End General Form Elements -->
                 </div>

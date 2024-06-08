@@ -46,6 +46,7 @@ Edit-Doctor
 
                             <input type="hidden" name="dr_id" value="<?= $doctor['doctor']['id'] ?>" >
                             <input type="hidden" name="user_id" value="<?= $doctor['user']['id'] ?>" >
+                            <input type="hidden" name="schedule_id" value="<?= $doctor['schedule']['id'] ?>" >
                             <div class="row">
                                 <div class="col-lg-6 mb-3">
                                     <label for="name" class="form-label"><i class="bi bi-person-circle"
@@ -145,16 +146,26 @@ Edit-Doctor
 
                             </div>
                             <div class="row">
-                                <div class="col-lg-6 mb-3">
-                                    <label for="schedule" class="form-label"><i class="bi bi-calendar-event-fill"
-                                            style="font-size: 18px;"></i> Schedule</label>
-                                    <input type="text" class="form-control" id="schedule" name="schedule"
-                                        placeholder="e.g., Mon-Fri, 9am-5pm">
-                                    <?php if (session('errors.schedule')): ?>
-                                        <small class="text-danger"><?= esc(session('errors.schedule')) ?><i
+
+                            <div class="col-lg-6 mb-3">
+                                    <label for="selectSpecialistOrPractice" class="form-label"><i
+                                            class="bi bi-check-square-fill" style="font-size: 18px;"></i></i> Which is
+                                        Your Preference?</label>
+                                    <select class="form-select" id="specialistOrPractice" name="specialistOrPractice">
+                                        <!-- <option>Select Preference</option> -->
+                                        <option value="3" <?php if ($doctor['user']['role'] == 3): ?> selected
+                                            <?php endif; ?>>Specialist</option>
+                                        <option value="4" <?php if ($doctor['user']['role'] == 4): ?> selected
+                                            <?php endif; ?>>Practice</option>
+                                    </select>
+                                    <?php if (session('errors.specialistOrPractice')): ?>
+                                        <small class="text-danger"><?= esc(session('errors.specialistOrPractice')) ?><i
                                                 class="bi bi-exclamation-circle"></i></small>
                                     <?php endif; ?>
-                                </div>
+                             </div>
+
+
+                          
 
                                 <div class="col-lg-6 mb-3">
                                     <label for="about" class="form-label"><i class="bi bi-person-fill"
@@ -171,23 +182,108 @@ Edit-Doctor
 
                             <div class="row mb-3">
 
+                            <div class="col-lg-6 mb-3">
+                                    <label class="form-label"><i class="bi bi-calendar-event-fill"
+                                            style="font-size: 18px;"></i> Schedule</label>
+                                    <div class="btn-group-toggle" data-toggle="buttons">
+                                        <label class="btn btn-secondary btn-sm m-1">
+                                            <input type="checkbox" name="day-select" value="sunday"> Sunday
+                                        </label>
+                                        <label class="btn btn-secondary btn-sm m-1">
+                                            <input type="checkbox" name="day-select" value="monday"> Monday
+                                        </label>
+                                        <label class="btn btn-secondary btn-sm m-1">
+                                            <input type="checkbox" name="day-select" value="tuesday"> Tuesday
+                                        </label>
+                                        <label class="btn btn-secondary btn-sm m-1">
+                                            <input type="checkbox" name="day-select" value="wednesday"> Wednesday
+                                        </label>
+                                        <label class="btn btn-secondary btn-sm m-1">
+                                            <input type="checkbox" name="day-select" value="thursday"> Thursday
+                                        </label>
+                                        <label class="btn btn-secondary btn-sm m-1">
+                                            <input type="checkbox" name="day-select" value="friday"> Friday
+                                        </label>
+                                        <label class="btn btn-secondary btn-sm m-1">
+                                            <input type="checkbox" name="day-select" value="saturday"> Saturday
+                                        </label>
 
-                                <div class="col-lg-6 mb-3">
-                                    <label for="selectSpecialistOrPractice" class="form-label"><i
-                                            class="bi bi-check-square-fill" style="font-size: 18px;"></i></i> Which is
-                                        Your Preference?</label>
-                                    <select class="form-select" id="specialistOrPractice" name="specialistOrPractice">
-                                        <!-- <option>Select Preference</option> -->
-                                        <option value="3" <?php if ($doctor['user']['role'] == 3): ?> selected
-                                            <?php endif; ?>>Specialist</option>
-                                        <option value="4" <?php if ($doctor['user']['role'] == 4): ?> selected
-                                            <?php endif; ?>>Practice</option>
-                                    </select>
-                                    <?php if (session('errors.specialistOrPractice')): ?>
-                                        <small class="text-danger"><?= esc(session('errors.specialistOrPractice')) ?><i
-                                                class="bi bi-exclamation-circle"></i></small>
-                                    <?php endif; ?>
+                                        <!-- Add more checkboxes for other days -->
+                                    </div>
+                                    <div id="time-range-container"></div>
                                 </div>
+
+                                <!-- script  for schedule start -->
+                                <script type="text/javascript"
+                                    src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+                                <script type="text/javascript"
+                                    src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+                                <link rel="stylesheet" type="text/css"
+                                    href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+                                <script>
+                                    $(document).ready(function () {
+                                        var timeRanges = {
+                                            'monday': 'Monday',
+                                            'tuesday': 'Tuesday',
+                                            'wednesday': 'Wednesday',
+                                            'thursday': 'Thursday',
+                                            'friday': 'Friday',
+                                            'saturday': 'Saturday',
+                                            'sunday': 'Sunday'
+                                        };
+
+                                        function generateTimeRangeInputs(day) {
+                                            var timeRangeInput = `
+                                            <div class="form-group" id="${day}-time-range-container">
+                                                <label for="${day}-time-range">Set schedule for ${timeRanges[day]}:</label>
+                                                <input type="text" class="form-control time-range-input" id="${day}-time-range" name="${day}_time" readonly>
+                                            </div>
+                                        `;
+                                            return timeRangeInput;
+                                        }
+
+                                        for (var day in timeRanges) {
+                                            var timeRangeInputs = generateTimeRangeInputs(day);
+                                            $('#time-range-container').append(timeRangeInputs);
+                                            $('#' + day + '-time-range-container').hide();
+                                            initializeDateTimePicker(day);
+                                        }
+
+                                        $('input[name="day-select"]').change(function () {
+                                            var selectedDay = $(this).val();
+                                            if ($(this).is(':checked')) {
+                                                $('#' + selectedDay + '-time-range-container').show();
+                                            } else {
+                                                $('#' + selectedDay + '-time-range-container').hide();
+                                            }
+                                        });
+
+                                        function initializeDateTimePicker(day) {
+
+                                            $('#' + day + '-time-range').daterangepicker({
+                                                timePicker: true,
+                                                timePicker24Hour: true,
+                                                timePickerIncrement: 1,
+                                                locale: {
+                                                    format: 'HH:mm',
+                                                    placeholder: '00:00 - 00:00'
+                                                }
+                                            });
+
+                                        }
+
+                                        $('form').submit(function () {
+                                            $('input[type="checkbox"]').each(function () {
+                                                if (!$(this).is(':checked')) {
+                                                    var day = $(this).val();
+                                                    $('#' + day + '-time-range').remove();
+                                                }
+                                            });
+                                        });
+                                    });
+                                </script>
+                                <!-- script for schedule end -->
 
                             </div>
                             <div class="row mb-3">

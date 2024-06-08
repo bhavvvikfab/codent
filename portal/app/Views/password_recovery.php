@@ -108,16 +108,17 @@
         </div>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
           <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script> 
+          <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
          <script>
-             function showToast(message, position) {
-                Toastify({
+            function showToast(message, position) {
+            Swal.fire({
+                  icon: 'success',
+                  title: 'Success',
                   text: message,
-                  duration: 2500,
-                  gravity: 'top',
-                  position: 'center',
-                  className: 'custom-toast'
-                }).showToast();
-              }
+                  timer: 3000,
+                  showConfirmButton: false
+                });
+            }
           </script>
         
            <?php if (session('email')): ?>

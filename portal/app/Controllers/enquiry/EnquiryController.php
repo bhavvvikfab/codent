@@ -15,7 +15,14 @@ class EnquiryController extends BaseController
     public function all_enquiry()
     {
         $enquiryModel = new EnquiryModel();
-        $enquiries = $enquiryModel->where('status', null)->findAll();
+        if(session('user_role')==2){
+            $hospitalId = session('user_id');
+        }else{
+            $hospitalId = session('hospital_id');
+        }
+        $enquiries = $enquiryModel->where('status', null)
+                         ->where('hospital_id', $hospitalId)
+                         ->findAll();
         return view('enquiry/enquiry.php', ['enquiries' => $enquiries]);
 
     }
@@ -66,8 +73,12 @@ class EnquiryController extends BaseController
             ->where('status', 'active')
             ->findAll();
 
-        $hospital_id = session('user_id');
-        $Doctors = $userModel->where('hospital_id', $hospital_id)
+            if(session('user_role')==2){
+                $hospitalId = session('user_id');
+            }else{
+                $hospitalId = session('hospital_id');
+            }
+        $Doctors = $userModel->where('hospital_id', $hospitalId)
             ->where('status', 'active')
             ->groupStart()
             ->where('role', 4)
@@ -84,7 +95,7 @@ class EnquiryController extends BaseController
         $validationRules = [
             'patient_name' => 'required|min_length[3]|max_length[255]',
             'dob' => 'required|valid_date',
-            'app_date' => 'required|valid_date',
+            // 'app_date' => 'required|valid_date',
             'phone' => 'required|min_length[10]|max_length[15]',
         ];
         if (session('user_role') == 6) {

@@ -206,31 +206,37 @@ $routes->group('',$authFilter, function ($routes) {
  $routes->group("api", ['namespace' => 'App\Controllers\Api'], function($routes) {
 
   $routes->post("user_register", "ApiController::userRegister");
+  
+//   $routes->get("all_users", "ApiController::allUsers", ['filter' => 'apiAuth']);
+//   $routes->get("hospitals", "ApiController::hospitals", ['filter' => 'apiAuth']);
+//   $routes->get("receptinists", "ApiController::receptinists", ['filter' => 'apiAuth']);
+
+  $routes->post("get_doctor_details", "ApiController::get_doctor_details",['filter' => 'apiAuth']);
+  
+  
   $routes->post("login", "ApiController::login");
-  $routes->get("all_users", "ApiController::allUsers", ['filter' => 'apiAuth']);
-  $routes->get("patients", "ApiController::patients", ['filter' => 'apiAuth']);
-  $routes->get("hospitals", "ApiController::hospitals", ['filter' => 'apiAuth']);
-  $routes->get("receptinists", "ApiController::receptinists", ['filter' => 'apiAuth']);
-  $routes->post("change_password", "ApiController::change_password", ['filter' => 'apiAuth']);
   $routes->post("edit_profile", "ApiController::edit_profile", ['filter' => 'apiAuth']);
-  $routes->post("doctor_search", "ApiController::doctor_search");
+  $routes->post("change_password", "ApiController::change_password", ['filter' => 'apiAuth']);
+  
   $routes->post("patient_details", "ApiController::patient_details", ['filter' => 'apiAuth']);
   $routes->get("user_details", "ApiController::user_details", ['filter' => 'apiAuth']);
-  $routes->post("dr_wise_appointment", "ApiController::dr_wise_appointment");
-  $routes->post("get_enquiryById", "ApiController::get_enquiryById");
-  $routes->post("get_today_appointment", "ApiController::get_today_appointment");
+  $routes->post("dr_wise_appointment", "ApiController::dr_wise_appointment", ['filter' => 'apiAuth']);
+  $routes->post("get_enquiryById", "ApiController::get_enquiryById", ['filter' => 'apiAuth']);
+  $routes->post("get_today_appointment", "ApiController::get_today_appointment", ['filter' => 'apiAuth']);
 
+  
   
   //forgot password end
   $routes->post('forgotPassword', 'ApiController::forgotPassword');
   $routes->get('confirmforgotPassword/(:num)/(:any)', 'ApiController::confirmforgotPassword/$1/$2');
-  $routes->post('resetPassword', 'ApiController::resetPassword');
+  $routes->post('reset_Password', 'ApiController::resetPassword');
   //forgot password end
 
 });
 
 
  // ==============API routes end===========
+
 
 
 
