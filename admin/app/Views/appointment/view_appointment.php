@@ -145,9 +145,7 @@ Appointments
                       <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0"><i class="bi bi-calendar-check-fill"></i>
                         <label class="form-label" for="inputNanme4"> <b> Appointment Date: </b>
                         </label>
-                        <?= isset($appointment['appointment_date']) ? $appointment['appointment_date'] : 'N/A'; ?>
-
-                        
+                        <?= isset($appointment['appointment_date']) ? date('d/m/Y h:i A', strtotime($appointment['appointment_date'])) : 'N/A'; ?>
 
                       </div>
 

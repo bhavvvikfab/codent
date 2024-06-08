@@ -82,55 +82,66 @@ public function register_fun()
     $enquiryModel = new EnquiryModel();
 
     // Define validation rules
-    $validationRules = [
-        'patient_name' => 'required|integer',
-        'doctor_name' => 'required|integer',
-        'appointment_slot' => 'required',
-        'note' => 'permit_empty|string',
-        // 'time' => 'required',
-        'referral' => 'permit_empty|string'
-    ];
+    // $validationRules = [
+    //     'patient_name' => 'required|integer',
+    //     'doctor_name' => 'required|integer',
+    //     'appointment_slot' => 'required',
+    //     'note' => 'permit_empty|string',
+    //     // 'time' => 'required',
+    //     'referral' => 'permit_empty|string'
+    // ];
 
-    // Validate the request
-    if (!$this->validate($validationRules))
-    {
-        // If validation fails, redirect back with input and errors
-        return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-    }
+    // // Validate the request
+    // if (!$this->validate($validationRules))
+    // {
+    //     // If validation fails, redirect back with input and errors
+    //     return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+    // }
 
     // Retrieve form data
     $patient_id = $this->request->getPost('patient_name');
 
-    // Find the enquiry by patient ID to get the hospital ID
     $enquiry = $enquiryModel->where('id', $patient_id)->first();
 
     if (!$enquiry) {
-        // Handle the case where the enquiry is not found
         return redirect()->back()->with('error', 'Invalid patient ID');
     }
 
     $hospital_id = $enquiry['hospital_id'];
+    $defaultDateTime = date('Y-m-d H:i:s');
 
-    // Retrieve other form data
+    // print_r($defaultDateTime);die;
     $doctor_id = $this->request->getPost('doctor_name');
-    $appointment_slot = $this->request->getPost('appointment_slot');
+    $appointment_slot = $this->request->getPost('appointment_slot') ?? '';
+    if ($appointment_slot) {
+        $dateTime = \DateTime::createFromFormat('d/m/Y h:i A', $appointment_slot);
+    // print_r($dateTime);die;
+
+        if ($dateTime) {
+            $appointment_slot = $dateTime->format('Y-m-d H:i:s');
+        } else {
+            $appointment_slot = $defaultDateTime;
+        }
+    } else {
+        $appointment_slot = $defaultDateTime;
+    }
+
+
     $note = $this->request->getPost('note');
     $time = $this->request->getPost('time');
-    $referral = $this->request->getPost('referral');
+    $treatment_price = $this->request->getPost('treatment_price');
 
     $data = [
         'inquiry_id' => $patient_id,
         'assigne_to' => $doctor_id,
         'schedule' => $appointment_slot,
-        'note' => $note,
+        'note_for_team' => $note,
         'hospital_id' => $hospital_id,
-        'time' => $time, // Ensure this is included if needed
-        'lead_instruction' => $referral // Ensure this is included if needed
+        'treatment_price' => $treatment_price, 
     ];
 
     $result = $appointmentModel->insert($data);
 
-    // Insert the data into the database
     if ($result) {
         // If the insert is successful, redirect or show success message
         return redirect()->to('/appointment')->with('status', 'success');
@@ -184,21 +195,21 @@ public function editappoint($id)
         $enquiryModel = new EnquiryModel();
     
         // Define validation rules
-        $validationRules = [
-            // 'appointment_id' => 'required|integer',
-            // 'patient_name' => 'required|integer',
-            // 'doctor_name' => 'required|integer',
-            // 'appointment_slot' => 'required',
-            'note' => 'permit_empty|string',
-            // 'time' => 'required',
-            'referral' => 'permit_empty|string'
-        ];
+        // $validationRules = [
+        //     // 'appointment_id' => 'required|integer',
+        //     // 'patient_name' => 'required|integer',
+        //     // 'doctor_name' => 'required|integer',
+        //     // 'appointment_slot' => 'required',
+        //     'note' => 'permit_empty|string',
+        //     // 'time' => 'required',
+        //     'referral' => 'permit_empty|string'
+        // ];
     
         // Validate the request
-        if (!$this->validate($validationRules)) {
-            // If validation fails, redirect back with input and errors
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-        }
+        // if (!$this->validate($validationRules)) {
+        //     // If validation fails, redirect back with input and errors
+        //     return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        // }
     
         // Retrieve form data
         $appointment_id = $this->request->getPost('id');
