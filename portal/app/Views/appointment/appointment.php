@@ -72,20 +72,32 @@ All-Appointment
                       <td>
                         <?php
                         $status = $item['appointment']['appointment_status'];
-                        $badgeColor = '';
-                        if ($status === 'pending') {
-                          $badgeColor = 'warning';
-                        } elseif ($status === 'confirm') {
-                          $badgeColor = 'success';
-                        } elseif ($status === 'canceled') {
-                          $badgeColor = 'danger';
-                        } else {
-                          $badgeColor = 'secondary';
-                        }
+                        $badge_class = '';
+                        $status_text = '';
+
+                        switch ($status) {
+                          case 'Pending':
+                              $badge_class = 'bg-warning';
+                              $status_text = 'Pending';
+                              break;
+                          case 'Confirmed':
+                              $badge_class = 'bg-success';
+                              $status_text = 'Confirmed';
+                              break;
+                          case 'Cancelled':
+                              $badge_class = 'bg-danger';
+                              $status_text = 'Cancelled';
+                              break;
+                          default:
+                              $badge_class = 'bg-secondary';
+                              $status_text = 'Unknown';
+                              break;
+                      }
                         ?>
-                        <span class="badge bg-<?= $badgeColor; ?>">
-                          <?= esc($status); ?>
-                        </span>
+                        <span class="badge <?= $badge_class; ?>" style="font-size: 1rem; padding: 0.5rem 1rem;">
+                    <?= $status_text; ?>
+                </span>
+                        
                       </td>
                       <td>
                         <div class="d-flex justify-content-around align-items-center">

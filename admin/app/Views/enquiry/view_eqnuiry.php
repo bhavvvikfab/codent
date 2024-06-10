@@ -148,6 +148,14 @@ Enquiries
         <label class="form-label" for=""><b>Note:</b></label>
         <?= isset($enquiry['note']) ? $enquiry['note'] : 'N/A'; ?>
     </div>
+    </div>
+<hr>
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+        <i class="bi bi-chat-left-text-fill"></i> 
+        <label class="form-label" for=""><b>Enquiry Status :</b></label>
+        <?= isset($enquiry['status']) ? $enquiry['status'] : 'N/A'; ?>
+    </div>
 </div>
 <hr>
                       

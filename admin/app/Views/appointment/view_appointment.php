@@ -178,6 +178,16 @@ Appointments
 
                     
                       </div>
+                      </div>
+
+                    <hr>
+
+                      <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                        <i class="bi bi-chat-left-text-fill"></i> <label class="form-label" for="">
+                          <b>Appointment Status : </b></label>
+                        <?= isset($appointment['appointment_status']) ? $appointment['appointment_status'] : 'N/A'; ?>
+
+                    
 
                     </div>
                     

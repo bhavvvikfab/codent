@@ -74,15 +74,15 @@ Appointments
                 $status_text = '';
 
                 switch ($enquiry_status) {
-                    case 'confirm':
+                    case 'Confirmed':
                         $badge_class = 'bg-success';
                         $status_text = 'Confirmed';
                         break;
-                    case 'pending':
+                    case 'Pending':
                         $badge_class = 'bg-primary';
                         $status_text = 'Pending';
                         break;
-                    case 'cancel':
+                    case 'Cancelled':
                         $badge_class = 'bg-danger';
                         $status_text = 'Cancelled';
                         break;
@@ -97,7 +97,6 @@ Appointments
                     <?= $status_text; ?>
                 </span>
             </td>           
-                   
                     <td>
                       <div class="d-flex justify-content-around align-items-center">
                         <div class="editen p-1">
@@ -123,7 +122,6 @@ Appointments
 
                   <?php endforeach; ?>
                   <?php else : ?>
-                  <p>No patients found.</p>
                   <?php endif; ?>
             
                   
