@@ -122,7 +122,7 @@ View_Hospitals
                                     <?php endforeach; ?>
                                 <?php else: ?>
                                     <tr>
-                                        <td colspan="6">No doctors found.</td>
+                                        <td colspan="6" class="text-center">No doctors found.</td>
                                     </tr>
                                 <?php endif; ?>
                             </tbody>

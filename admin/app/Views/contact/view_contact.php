@@ -30,45 +30,45 @@ Contact Us
              <div class="card-header">
                <div class="row">
                   <div class="col-lg-8">
-                      <h5 class="card-title text-start">Enquiry</h5>
+                      <h5 class="card-title text-start">Contact</h5>
                   </div>
                   <div class="col-lg-4">
                       <h5 class="card-title text-end addsup">
-                          <a href="<?= base_url('enquiries') ?>"> Back </a></h5>
+                          <a href="<?= base_url('contactUs') ?>"> Back </a></h5>
                   </div>
                 </div>
              </div>
 
              <div class="card-body">
+             <?php foreach ($contact as $contactItem): ?>
                         <!-- Contact Information Content -->
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <h6>Address:</h6>
-                                <p>123 Street, City, Country</p>
+                                <h6>Name :</h6>
+                                <p><?= esc($contactItem['name']) ?></p>
                             </div>
                             <div class="col-md-6">
-                                <h6>Phone:</h6>
-                                <p>+123 456 7890</p>
+                                <h6>Contact Date :</h6>
+                                <p><?= esc($contactItem['date']) ?></p>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <h6>Email:</h6>
-                                <p>contact@yourdomain.com</p>
+                                <h6>Email :</h6>
+                                <p><?= esc($contactItem['email']) ?></p>
                             </div>
                             <div class="col-md-6">
-                                <h6>Working Hours:</h6>
-                                <p>Mon - Fri: 9 AM - 5 PM</p>
+                                <h6>Additional Information:</h6>
+                                <p><?= esc($contactItem['email']) ?>.</p>
                             </div>
+                            
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
-                                <h6>Additional Information:</h6>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl eros, pulvinar facilisis justo mollis, auctor consequat urna.</p>
-                            </div>
+                           
                         </div>
                     </div>
                 </div>
+                <?php endforeach; ?>
 
             </div>
         </div>

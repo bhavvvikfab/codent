@@ -156,12 +156,177 @@ Dashboard
 
         </div>
         <div class="row">
-            <!-- Left side columns -->
-            <div class="col-lg-8">
+    <!-- Reports and Table Side by Side -->
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Reports </h5>
+                <!-- Line Chart -->
+                <div id="reportsChart"></div>
+                <script>
+                    document.addEventListener("DOMContentLoaded", () => {
+                        new ApexCharts(document.querySelector("#reportsChart"), {
+                            series: [
+                                {
+                                    name: 'All Appointments',
+                                    data: [
+                                        <?php
+                                        foreach ($data['appointments']['by_month'] as $monthData) {
+                                            echo count($monthData) . ',';
+                                        }
+                                        ?>
+                                    ],
+                                },
+                                {
+                                    name: 'All Enquiries',
+                                    data: [
+                                        <?php
+                                        foreach ($data['enquiries']['by_month'] as $monthData) {
+                                            echo count($monthData) . ',';
+                                        }
+                                        ?>
+                                    ],
+                                },
+                                {
+                                    name: 'All Users',
+                                    data: [
+                                        <?php
+                                        foreach ($data['users']['by_month'] as $monthData) {
+                                            echo count($monthData) . ',';
+                                        }
+                                        ?>
+                                    ],
+                                }
+                            ],
+                            chart: {
+                                height: 350,
+                                type: 'area',
+                                toolbar: {
+                                    show: false
+                                },
+                            },
+                            markers: {
+                                size: 4
+                            },
+                            colors: ['#ff771d', '#6120b5', '#2eca6a'],
+                            fill: {
+                                type: "gradient",
+                                gradient: {
+                                    shadeIntensity: 1,
+                                    opacityFrom: 0.3,
+                                    opacityTo: 0.4,
+                                    stops: [0, 90, 100]
+                                }
+                            },
+                            dataLabels: {
+                                enabled: false
+                            },
+                            stroke: {
+                                curve: 'smooth',
+                                width: 2
+                            },
+                            xaxis: {
+                                categories: [
+                                    'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
+                                ]
+                            },
+                            tooltip: {
+                                x: {
+                                    format: 'dd/MM/yy HH:mm'
+                                },
+                            }
+                        }).render();
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Table -->
+    <div class="col-lg-6">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Enquiries</h5>
+            <!-- <div class="datatable-bottom d-flex justify-content-between align-items-center mb-2">
+                <div class="datatable-info">Showing 1 to 3 of <?= count($appointments) ?> entries</div>
+                <a href="path/to/all/enquiries" style="color: black;" class="btn btn-link">View All</a>
+            </div> -->
+            <table class="table table-sm table-borderless datatable dash-order-table mb-0" style="margin-left: -20px;">
+                <thead>
+                    <tr>
+                        <th style="font-size: small;">Sr. No.</th>
+                        <th style="font-size: small;">Patient Name</th>
+                        <th style="font-size: small;">Phone</th>
+                        <th style="font-size: small;">Required Specialist</th>
+                        <th style="font-size: small;">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php if (!empty($appointments) && is_array($appointments)) : ?>
+                    <?php $serial = 1; ?>
+                    <?php foreach ($appointments as $index => $enquiry) : ?>
+                        <?php if ($index >= 2) break; // Limit to first 3 entries ?>
+                        <tr style="font-size: small;">
+                            <td ><?= $serial++ ?></td>
+                            <td><?= esc($enquiry['patient_name']) ?></td>
+                            <td><?= esc($enquiry['phone']) ?></td>
+                            <td><?= esc($enquiry['required_specialist']) ?></td>
+                            <td class="text-center">
+                                <?php
+                                $enquiry_status = $enquiry['status'];
+                                $badge_class = '';
+                                $status_text = '';
+
+                                switch ($enquiry_status) {
+                                    case 'lead':
+                                        $badge_class = 'bg-success';
+                                        $status_text = 'Lead';
+                                        break;
+                                    case 'appointment':
+                                        $badge_class = 'bg-primary';
+                                        $status_text = 'Appointment';
+                                        break;
+                                    case 'cancel':
+                                        $badge_class = 'bg-danger';
+                                        $status_text = 'Cancelled';
+                                        break;
+                                    default:
+                                        $badge_class = 'bg-secondary';
+                                        $status_text = 'Enquiry';
+                                        break;
+                                }
+                                ?>
+                                <span class="badge <?= $badge_class; ?>" style="font-size: 1rem; padding: 0.5rem 1rem;"><?= esc($status_text); ?></span>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else : ?>
+                    <tr>
+                        <td colspan="5" class="text-center">No enquiries found.</td>
+                    </tr>
+                <?php endif; ?>
+                </tbody>
+            </table>     
+             
+            <div  style="flex: 1; text-align: right; margin-top: -16px">
+    <a href="<?= base_url('enquiries') ?>" style="color: black;">View All</a>
+</div>
+
+            
+        </div>
+    </div>
+</div>
+
+
+
+
+        <div class="row">
+            <div class="col-lg-12">
                 <div class="row">
-                    <!-- Reports -->
-                    <div class="col-9">
-                        <div class="card" >
+
+                    <!-- Latest En -->
+                    <div class="col-12">
+                        <div class="card recent-sales overflow-auto dashbord-order-table ">
                             <!-- <div class="filter">
                                 <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
@@ -174,115 +339,7 @@ Dashboard
                                 </ul>
                             </div> -->
                             <div class="card-body">
-                                <h5 class="card-title">Reports <span>/Today</span></h5>
-                                <!-- Line Chart -->
-                                <div id="reportsChart"></div>
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        new ApexCharts(document.querySelector("#reportsChart"), {
-            series: [
-                {
-                    name: 'All Appointments',
-                    data: [
-                        <?php
-                        foreach ($data['appointments']['by_month'] as $monthData) {
-                            echo count($monthData) . ',';
-                        }
-                        ?>
-                    ],
-                },
-                {
-                    name: 'All Enquiries',
-                    data: [
-                        <?php
-                        foreach ($data['enquiries']['by_month'] as $monthData) {
-                            echo count($monthData) . ',';
-                        }
-                        ?>
-                    ],
-                },
-                {
-                    name: 'All Users',
-                    data: [
-                        <?php
-                        foreach ($data['users']['by_month'] as $monthData) {
-                            echo count($monthData) . ',';
-                        }
-                        ?>
-                    ],
-                }
-            ],
-            chart: {
-                height: 350,
-                type: 'area',
-                toolbar: {
-                    show: false
-                },
-            },
-            markers: {
-                size: 4
-            },
-            colors: ['#ff771d', '#6120b5', '#2eca6a'],
-            fill: {
-                type: "gradient",
-                gradient: {
-                    shadeIntensity: 1,
-                    opacityFrom: 0.3,
-                    opacityTo: 0.4,
-                    stops: [0, 90, 100]
-                }
-            },
-            dataLabels: {
-                enabled: false
-            },
-            stroke: {
-                curve: 'smooth',
-                width: 2
-            },
-            xaxis: {
-                categories: [
-                    'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
-                ]
-            },
-            tooltip: {
-                x: {
-                    format: 'dd/MM/yy HH:mm'
-                },
-            }
-        }).render();
-    });
-</script>
-
-                               
-                            </div>
-                        </div>
-                    </div><!-- End Reports -->
-
-                </div>
-            </div><!-- End Left side columns -->
-
-        </div> <!-- End Right side columns -->
-
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="row">
-
-                    <!-- Latest En -->
-                    <div class="col-12">
-                        <div class="card recent-sales overflow-auto dashbord-order-table ">
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filter</h6>
-                                    </li>
-                                    <li><a class="dropdown-item" href="#">Today</a></li>
-                                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                                </ul>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title">Appointment <span>| Today</span></h5>
+                                <h5 class="card-title">Appointment </h5>
                                 <table class="table table-borderless datatable dash-order-table">
     <thead>
         <tr>
@@ -290,7 +347,7 @@ Dashboard
             <th>Name</th>
             <th>Dr. Name</th>
             <th>Email</th>
-            <th>Date</th>
+            <th>Date And Time</th>
             <th>Status</th>
         </tr>
     </thead>
@@ -298,17 +355,45 @@ Dashboard
         <?php if (!empty($appointments) && is_array($appointments)) : ?>
             <?php $serial = 1; ?>
             <?php foreach ($appointments as $appointment) : ?>
+                <?php if ($index >= 5) break; // Limit to first 3 entries ?>
                 <tr>
                     <td class="text-center"><?= $serial++ ?></td>
                     <td><?= $appointment['patient_name'] ?? '' ?></td>
                     <td><?= $appointment['user_name'] ?? '' ?></td>
                     <td><?= $appointment['email'] ?? '' ?></td>
                     <td><?= $appointment['schedule'] ?? '' ?></td>
+
                     <td>
-                        <div class="d-flex justify-content-around align-items-center">
-                            <button type="button" class="btn btn-warning"><?= $appointment['status'] ?? '' ?></button>
-                        </div>
-                    </td>
+                    <?php
+                $enquiry_status = $appointment['appointment_status'];
+                $badge_class = '';
+                $status_text = '';
+
+                switch ($enquiry_status) {
+                    case 'Confirmed':
+                        $badge_class = 'bg-success';
+                        $status_text = 'Confirmed';
+                        break;
+                    case 'Pending':
+                        $badge_class = 'bg-primary';
+                        $status_text = 'Pending';
+                        break;
+                    case 'Cancelled':
+                        $badge_class = 'bg-danger';
+                        $status_text = 'Cancelled';
+                        break;
+                    default:
+                        $badge_class = 'bg-secondary';
+                        $status_text = 'Unknown';
+                        break;
+                }
+                ?>
+
+                <span class="badge <?= $badge_class; ?>" style="font-size: 1rem; padding: 0.5rem 1rem;">
+                    <?= $status_text; ?>
+                </span>
+            </td>        
+                    
                 </tr>
             <?php endforeach; ?>
         <?php else : ?>

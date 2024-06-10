@@ -164,7 +164,8 @@ $routes->group('',$authFilter, function ($routes) {
 
 
  $routes->get('contactUs', 'ContactController::index');
- $routes->get('viewContactus', 'ContactController::viewContactus');
+ $routes->get('viewContactus/(:num)', 'ContactController::viewContactus/$1');
+
 
  
  

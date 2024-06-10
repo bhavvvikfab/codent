@@ -93,8 +93,7 @@ Patients
                     </td>
                   </tr>
                   <?php endforeach; ?>
-                  <?php else : ?>
-                  <p>No patients found.</p>
+                  <?php else : ?> 
                   <?php endif; ?>
                  
                 </tbody>

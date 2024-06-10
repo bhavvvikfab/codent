@@ -62,16 +62,29 @@ Enquiries
                     <td class="text-center">
                         <?php
                         $enquiry_status = $enquiry['status'];
-                        if ($enquiry_status == 'lead') {
-                          echo '<span class="badge bg-success style="font-size: 1.25rem; padding: 0.5rem 1rem;"">' . $enquiry_status . '</span>';
-                      } elseif ($enquiry_status == 'appointment') {
-                          echo '<span class="badge bg-primary badge-lg">' . $enquiry_status . '</span>';
-                      } elseif ($enquiry_status == 'cancel') {
-                          echo '<span class="badge bg-danger badge-lg">' . $enquiry_status . '</span>';
-                      } else {
-                          echo '<span class="badge bg-secondary">Enquiry</span>';
+                        $badge_class = '';
+                        $status_text = '';
+
+                        switch ($enquiry_status) {
+                          case 'lead':
+                              $badge_class = 'bg-success';
+                              $status_text = 'Lead';
+                              break;
+                          case 'appointment':
+                              $badge_class = 'bg-primary';
+                              $status_text = 'Appointment';
+                              break;
+                          case 'cancel':
+                              $badge_class = 'bg-danger';
+                              $status_text = 'Cancelled';
+                              break;
+                          default:
+                              $badge_class = 'bg-secondary';
+                              $status_text = 'Enquiry';
+                              break;
                       }
-                        ?>
+                      ?>
+                      <span class="badge <?= $badge_class; ?>" style="font-size: 1rem; padding: 0.5rem 1rem;"><?= $status_text; ?></span>
                     </td>
                     <td>
                         <div class="d-flex justify-content-around align-items-center">
@@ -96,7 +109,7 @@ Enquiries
             <?php endforeach; ?>
         <?php else : ?>
             <tr>
-                <td colspan="6">No enquiries found.</td>
+                <td colspan="6" class="text-center">No enquiries found.</td>
             </tr>
         <?php endif; ?>
     </tbody>

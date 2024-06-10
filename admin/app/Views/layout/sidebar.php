@@ -41,13 +41,13 @@
         </li>
         <li>
           <a href="<?= base_url('add_doctor') ?>" class="nav-link collapsed">
-            <i class="bi bi-circle"></i><span>Add New Doctor</span>
+            <i class="bi bi-heart-pulse"></i><span>Add New Doctor</span>
           </a>
         </li>
       </ul>
     </li>
     <!-- Doctor -->
-    <li class="nav-item">
+    <!-- <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#Pai-nav" data-bs-toggle="collapse" href="123">
         <i class="bi bi-people"></i><span>Patient</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
@@ -63,7 +63,7 @@
           </a>
         </li>
       </ul>
-    </li>
+    </li> -->
     <!-- Patient -->
 
     <li class="nav-item">

@@ -12,7 +12,7 @@ class ContactUsModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id','name','email','date','note'];
+    protected $allowedFields    = ['id','name','email','date','about'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

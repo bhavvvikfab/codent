@@ -42,7 +42,7 @@ Contact Us
                     <th class="text-center">Sr.No.</th>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>Date</th>
+                    <th class="text-center">Date</th>
                     <!-- <th>Status</th> -->
 
                     <!-- <th data-type="date" data-format="YYYY/DD/MM">Start Date</th> -->
@@ -51,21 +51,22 @@ Contact Us
                 </thead>
 
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>
+                <?php foreach ($contact as $contactItem): ?>
+                <tr>
+                <td class="text-center"><?= esc($contactItem['id']) ?></td>
+                <td><?= esc($contactItem['name']) ?></td>
+                <td><?= esc($contactItem['email']) ?></td>
+                <td class="text-center"><?= esc($contactItem['date']) ?></td>
+                <td class="text-center">
                         <div class="viewpai">
-                          <a href="<?=base_url('viewContactus')?>">
+                          <a href="<?=base_url('viewContactus/'.$contactItem['id'])?>">
                             <button type="button" class="btn btn-success btn-sm"><i class="ri-eye-line"></i></button>
                           </a>
                         </div>
                         </td>
 
                     </tr>
-                    
+                    <?php endforeach; ?>
 
 
                 </tbody>

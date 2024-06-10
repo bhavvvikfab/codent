@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\ContactUsModel;
+
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 
@@ -9,12 +11,18 @@ class ContactController extends BaseController
 {
     public function index()
     {
-        return view('contact/contact_view');
+        $contactUsModel = new ContactUsModel();
+
+        $data['contact'] = $contactUsModel->findAll();
+        return view('contact/contact_view',$data);
     }
 
-    public function viewContactus()
+    public function viewContactus($id)
     {
-        return view('contact/view_contact');
+        $contactUsModel = new ContactUsModel();
+
+        $data['contact'] = $contactUsModel->where('id',$id)->findAll();
+        return view('contact/view_contact',$data);
     }
 
 
