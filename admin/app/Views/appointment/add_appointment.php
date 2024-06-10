@@ -78,39 +78,28 @@ Appointments
 
              
 
-              <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+<div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                 <label class="col-form-label"><i class="bi bi-calendar-week-fill" style="font-size: 18px;"></i>
                   Appointment Slot</label>
                 <div class="input-group">
-                        <span class="input-group-text rounded-2 btn-cal" id="bdate34"><i class="bi bi-calendar3"></i></span>                        
-                       <input type="date" class="form-control rounded-2" id="appointment_slot" name="appointment_slot" >
-                     </div>
-                     <div id="appointment_slot_erro"></div>                   
-
-                     <?php if (session('errors.appointment_slot')): ?>
-                                        <small class="text-danger"><?= esc(session('errors.appointment_slot')) ?><i class="bi bi-exclamation-circle"></i></small>
-                      <?php endif; ?>
-                <!-- <label class="col-form-label">Email Address</label> -->
-                <!--  <div class="input-group mb-3">
-  <span class="input-group-text" id="basic-addon1"><i class="bi bi-calendar3"></i></span>
-                             </div></span>
-  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-</div> -->
-
-              </div>
-
-
-              <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                <label class="col-form-label"><i class="bi bi-file-earmark-medical-fill" style="font-size: 18px;"></i>
-                  Referral</label>
-                <input type="text" class="form-control" name="referral" id="referral">
-                <?php if (session('errors.referral')): ?>
-                  <small class="text-danger"><?= esc(session('errors.referral')) ?><i
+                  <span class="input-group-text rounded-2 btn-cal" id="bdate34"><i class="bi bi-calendar3"></i></span>
+                  <input type="text" class="form-control rounded-2" id="appointment_slot" name="appointment_slot">
+                </div>
+                <small class="app_slot text-danger"></small>
+                <?php if (session('errors.appointment_slot')): ?>
+                  <small class="text-danger"><?= esc(session('errors.appointment_slot')) ?><i
                       class="bi bi-exclamation-circle"></i></small>
                 <?php endif; ?>
-                <div id="referral_erro"></div>
-
+                <div id="appointment_slot_error"></div>
               </div>
+
+              
+
+             
+                
+
+
+                  
 
 
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
@@ -121,7 +110,44 @@ Appointments
                   <small class="text-danger"><?= esc(session('errors.note')) ?><i
                       class="bi bi-exclamation-circle"></i></small>
                 <?php endif; ?>
+                <div id="appointment_slot_error"></div>
+
               </div>
+
+              <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                  <label class="col-form-label">
+                    <b><i class="bi bi-gear-fill" style="font-size: 18px;"></i></b> Method
+                  </label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" name="method" placeholder="">
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                  <label class="col-form-label">
+                    <b><i class="bi bi-file-earmark-text-fill" style="font-size: 18px;"></i></b> Instruction for Lead
+                  </label>
+                  <div class="input-group">
+                    <textarea type="text" class="form-control" name="instruction_for_lead" rows="1" ></textarea>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                  <label class="col-form-label">
+                    <b><i class="bi bi-chat-fill" style="font-size: 18px;"></i></b> Contacted them Via
+                  </label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" name="contacted_via" placeholder="">
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                  <label class="col-form-label">
+                    <b><i class="bi bi-person-check-fill" style="font-size: 18px;"></i></b> Assign next task to
+                  </label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" name="assign_next_to" placeholder="">
+                  </div>
+                </div>
 
 
 
@@ -194,6 +220,12 @@ Appointments
   <div class="alert alert-danger"></div>
 <?php endif; ?>
 
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+                <script type="text/javascript"
+                  src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+                <link rel="stylesheet" type="text/css"
+                  href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
 <script>
     $(document).ready(function() 
     {
@@ -240,6 +272,19 @@ this.submit();
     // theme: 'bootstrap5', // Apply Bootstrap 4 theme
     // dropdownCssClass: 'bordered' // Add form-control class to the dropdown
   });
+
+
+  $(function () {
+                    $('input[name="appointment_slot"]').daterangepicker({
+                      singleDatePicker: true,
+                      timePicker: true,
+                      timePicker24Hour: false,
+                      minDate: moment(),
+                      locale: {
+                        format: 'DD/MM/YYYY hh:mm A'
+                      }
+                    });
+                  });
 
 
 $('#patient_name').change(function () {

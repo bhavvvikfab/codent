@@ -27,9 +27,11 @@ Profile
         <div class="card">
           <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-            <img
-              src="<?= base_url() ?>public/images/<?= isset($user['profile']) && !empty($user['profile']) ? $user['profile'] : 'user-profile.jpg' ?>"
-              alt="Profile" class="rounded-circle img-thumbnail" style="max-width: 100px;">
+          <img
+    src="<?php echo base_url() . 'public/images/' . (isset($user['profile']) && !empty($user['profile']) ? $user['profile'] : '1717391425.jpeg'); ?>"
+    onerror="this.onerror=null; this.src='<?php echo base_url(); ?>public/images/1717391425.jpeg';"
+    class="rounded-circle img-thumbnail"
+    style="max-width: 100px;">
 
 
             <h2><?= isset($user['fullname']) ? $user['fullname'] : 'User Name'; ?></h2>
@@ -132,7 +134,7 @@ Profile
                     <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
                     <div class="col-md-8 col-lg-9">
                       <img src="<?= base_url() ?>public/images/<?= isset($user['profile']) && !empty($user['profile']) ? $user['profile'] : 'user-profile.jpg' ?>"
-                        alt="Profile" class="rounded-circle img-thumbnail" style="max-width: 100px;">
+                      onerror="this.onerror=null; this.src='<?= base_url() ?>public/images/1717391425.jpeg';" class="rounded-circle img-thumbnail" style="max-width: 100px;">
 
 
                       <!-- <div class="pt-2">

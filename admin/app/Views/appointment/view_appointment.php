@@ -92,6 +92,13 @@ Appointments
                     <hr>
                     <div class="row">
 
+                    <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                        <i class="bi bi-envelope-fill" aria-hidden="true"></i> <label class="form-label" for=""> <b>
+                            Email: </b></label>
+                        <?= isset($appointment['email']) ? $appointment['email'] : 'N/A'; ?>
+                      </div>
+
+
 
                       
                       <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0"><i class="bi bi-telephone-fill"
@@ -101,14 +108,27 @@ Appointments
 
                         </label>
                       </div>
-
-                      <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0"><i class="bi bi-bounding-box-circles"></i>
-                        <label class="form-label" for="inputNanme4"> <b> Referral: </b>
-                        <?= isset($appointment['doctor_name']) ? $appointment['doctor_name'] : 'N/A'; ?>
-
-                        
                       </div>
 
+                      <hr>
+
+
+                      <div class="row">
+                      <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                        <i class="bi bi-person-fill" aria-hidden="true"></i>
+                        <label class="form-label" for="">
+                          <b> Age: </b>
+                        </label>
+                        <?= isset($appointment['age']) ? $appointment['age'] : 'N/A'; ?> Years
+                      </div>
+
+                      <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                        <i class="bi bi-gender-ambiguous" aria-hidden="true"></i>
+                        <label class="form-label" for="">
+                          <b> Gender: </b>
+                        </label>
+                        <?= isset($appointment['gender']) ? $appointment['gender'] : 'N/A'; ?>
+                      </div>
                     </div>
                     <hr>
                     <div class="row">
@@ -118,37 +138,45 @@ Appointments
                           <b>Specialty required: </b></label>
 
                         <?= isset($appointment['required_specialist']) ? $appointment['required_specialist'] : 'N/A'; ?>
-
-                        
-                      </div>
-                      <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
-                        <i class="bi bi-chat-left-text-fill"></i> <label class="form-label" for="">
-                          <b>Enquiry About : </b></label>
-                        <?= isset($appointment['about']) ? $appointment['about'] : 'N/A'; ?>
-
-                    
-                      </div>
-                     
-
-                    </div>
-                    <hr>
-                    <div class="row">
-
-                      <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
-                        <i class="bi bi-chat-left-text-fill"></i> <label class="form-label" for="">
-                          <b>Appointment About : </b></label>
-                        <?= isset($appointment['note']) ? $appointment['note'] : 'N/A'; ?>
-
-                    
                       </div>
 
                       <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0"><i class="bi bi-calendar-check-fill"></i>
                         <label class="form-label" for="inputNanme4"> <b> Appointment Date: </b>
                         </label>
-                        <?= isset($appointment['appointment_date']) ? $appointment['appointment_date'] : 'N/A'; ?>
+                        <?= isset($appointment['appointment_date']) ? date('d/m/Y h:i A', strtotime($appointment['appointment_date'])) : 'N/A'; ?>
 
-                        
+                      </div>
+                      </div>
+                      <hr>
 
+
+                      <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0 ">
+                        <i class="bi bi-check-square-fill"></i>
+                          <label class="form-label m-0"><b>  Instruction:</b></label>
+                          <span class="ms-2"><?= isset($appointment['lead_instruction']) ? $appointment['lead_instruction'] : 'N/A'; ?></span>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0 ">
+                          <i class="bi bi-chat-left-text-fill me-2"></i>
+                          <label class="form-label m-0"><b>Comment:</b></label>
+                          <span class="ms-2"><?= isset($appointment['lead_comment']) ? $appointment['lead_comment'] : 'N/A'; ?></span>
+                        </div>
+                      </div>
+                    <hr>
+
+                    <div class="row">
+                      <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                        <i class="bi bi-chat-left-text-fill"></i> <label class="form-label" for="">
+                          <b>Enquiry note : </b></label>
+                        <?= isset($appointment['note']) ? $appointment['note'] : 'N/A'; ?>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                        <i class="bi bi-chat-left-text-fill"></i> <label class="form-label" for="">
+                          <b>Appointment Note : </b></label>
+                        <?= isset($appointment['note_for_team']) ? $appointment['note_for_team'] : 'N/A'; ?>
+
+                    
                       </div>
 
                     </div>
@@ -156,7 +184,7 @@ Appointments
                     <hr>
 
                     <div class="row">
-                      <label class="form-label" for="images"><b><i class="bi bi-images"></i> Images : </b></label>
+                      <label class="form-label" for="images"><b><i class="bi bi-images"></i> Documents : </b></label>
                       <div class="col-12">
                         <div class="row">
 
@@ -176,7 +204,7 @@ Appointments
                             <?php endforeach; ?>
                           <?php else: ?>
                             <div class="col-12 col-lg-12 col-sm-12">
-                              No Image Uploaded.
+                            Documents not Uploaded.
                             </div>
                           <?php endif; ?>
                         </div>

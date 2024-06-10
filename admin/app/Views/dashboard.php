@@ -157,11 +157,11 @@ Dashboard
         </div>
         <div class="row">
             <!-- Left side columns -->
-            <div class="col-lg-12">
+            <div class="col-lg-8">
                 <div class="row">
                     <!-- Reports -->
-                    <div class="col-12">
-                        <div class="card">
+                    <div class="col-9">
+                        <div class="card" >
                             <!-- <div class="filter">
                                 <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">

@@ -5,6 +5,8 @@ use App\Models\UserModel;
 use App\Models\HospitalsModel;
 use App\Models\DoctorModel;
 use App\Models\EnquiryModel;
+use App\Models\LeadInstruction;
+
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -216,33 +218,47 @@ public function getDoctorsByHospital($hospitalId)
 
 
 
-    public function viewEnquiry_fun()
-    {
-        $id = $this->request->getGet('id');
-    
-        $enquiryModel = new EnquiryModel();
-        $enquiryData = $enquiryModel->where('id', $id)->findAll();
+public function viewEnquiry_fun()
+{
+    $id = $this->request->getGet('id');
 
-    
-        $userModel = new UserModel();
-        $doctorName = '';
-    
-        if (!empty($enquiryData)) {
-            $doctorId = $enquiryData[0]['referral_doctor'];
-            $doctor = $userModel->where('id', $doctorId)->first();
-    
-            if ($doctor) {
-                $doctorName = $doctor['fullname'];
-            }
+
+    $enquiryModel = new EnquiryModel();
+    $eadInstruction = new LeadInstruction();
+
+    $enquiryData = $enquiryModel->where('id', $id)->findAll();
+
+    $userModel = new UserModel();
+    $doctorName = '';
+
+    if (!empty($enquiryData)) {
+        $doctorId = $enquiryData[0]['referral_doctor'];
+        $doctor = $userModel->where('id', $doctorId)->first();
+
+        if ($doctor) {
+            $doctorName = $doctor['fullname'];
         }
-    
-        $data = [
-            'enquiries' => $enquiryData,
-            'doctorName' => $doctorName
-        ];
-    
-        return view('enquiry/view_eqnuiry', $data);
     }
+
+    // Fetch lead instructions for the specific enquiry ID
+    $leadInstructions = $eadInstruction->where('enquiry_id', $id)->first();
+
+    $data = [
+        'enquiries' => $enquiryData,
+        'doctorName' => $doctorName,
+        'leadInstructions' => $leadInstructions  // Add lead instructions data to the $data array
+    ];
+    
+    // Debugging output
+    // echo "<pre>"; 
+    // print_r($data);
+    // echo "</pre>"; 
+    // die;
+
+    // Assuming the view file is named 'view_eqnuiry', return the view with data
+    return view('enquiry/view_eqnuiry', $data);
+}
+
     
 
 
@@ -301,15 +317,34 @@ public function getDoctorsByHospital($hospitalId)
 
 
 
+    $name = $this->request->getPost('name');
+    $dob = $this->request->getPost('dob');
+    $age = $this->request->getPost('age');
+    $gender = $this->request->getPost('gender');
+    $email = $this->request->getPost('email');
+    $address = $this->request->getPost('address');
+    $name = $this->request->getPost('name');
+    $phone = $this->request->getPost('phone');
+    $appointment_date = $this->request->getPost('appointment_date');
+    $specialty = $this->request->getPost('required_specialist');
+    $doctor = $this->request->getPost('doctor_id');
+    $note = $this->request->getPost('note');
+
+
+
     $data = [
-        'hospital_id' => $this->request->getPost('hospital_id'),
-        'patient_name' => $this->request->getPost('name'),
-        'date_of_birth' => $this->request->getPost('dob'),
-        'appointment_date' => $this->request->getPost('appointment_date'),
-        'phone' => $this->request->getPost('phone'),
-        'note' => $this->request->getPost('note'),
-        'required_specialist' => $this->request->getPost('required_specialist'),
-        'referral_doctor' => $this->request->getPost('doctor_id'),
+        'phone' => $phone,
+        'email' => $email,
+        'patient_name' => $name,
+        'gender' => $gender,
+        'age' => $age,
+        'address' => $address,
+        'date_of_birth' => $dob,
+        'appointment_date' => $appointment_date,
+        'note' => $note,
+        'required_specialist' => $specialty,
+        'referral_doctor' => $doctor,
+        // Image path to be inserted into the database
     ];
 //     echo '<pre>';
 //     print_r($data);

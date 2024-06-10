@@ -52,7 +52,7 @@ Enquiries
 
 
             <!-- No Labels Form -->
-            <form id="errors_form"  class="row g-3" action="<?=base_url('update_form')?>" method="post" enctype="multipart/form-data"> 
+            <form  class="row g-3" action="<?=base_url('update_form')?>" method="post" enctype="multipart/form-data"> 
 
 
 
@@ -89,25 +89,56 @@ Enquiries
                 <div class="input-group">
                         <span class="input-group-text rounded-2 btn-cal" id="bdate34"><i class="bi bi-calendar3"></i></span>                        
                        <input type="date" class="form-control rounded-2" id="dob" name="dob"  value="<?= $enquiry['date_of_birth'] ?>">
-                       
-
-
-                       <div class="input-group-prepend">
-                          
-                            </div>
 
                      </div>
-
-
-
-                     
-                <!-- <label class="col-form-label">Email Address</label> -->
-               <!--  <div class="input-group mb-3">
-  <span class="input-group-text" id="basic-addon1"><i class="bi bi-calendar3"></i></span>
-                             </div></span>
-  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-</div> -->
+                                   
               </div>
+
+              <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                <label class="col-form-label">
+                    <i class="bi bi-calendar-event-fill" style="font-size: 18px;"></i> Patient Age
+                </label>
+                <input type="number" class="form-control" id="age" name="age" value="<?= $enquiry['age'] ?>">
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                <label class="col-form-label" >
+                    <i class="bi bi-gender-ambiguous" style="font-size: 18px;"></i> Gender
+                </label>
+                <select class="form-control" id="gender" name="gender">
+    <option value="">--Select Gender--</option>
+    <option value="male" <?= (isset($enquiry['gender']) && $enquiry['gender'] == 'male') ? 'selected' : '' ?>>Male</option>
+    <option value="female" <?= (isset($enquiry['gender']) && $enquiry['gender'] == 'female') ? 'selected' : '' ?>>Female</option>
+    <option value="other" <?= (isset($enquiry['gender']) && $enquiry['gender'] == 'other') ? 'selected' : '' ?>>Other</option>
+</select>
+
+                <div id="gender_error"></div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                <label class="col-form-label">
+                    <i class="bi bi-envelope-fill" style="font-size: 18px;"></i> Email
+                </label>
+                <input type="email" class="form-control" id="email" name="email" value="<?= $enquiry['email'] ?>">
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                <label class="col-form-label">
+                    <i class="bi bi-geo-alt-fill" style="font-size: 18px;"></i> Address
+                </label>
+                <textarea type="text" class="form-control" id="address" name="address"  rows="1" ><?= $enquiry['address'] ?>"</textarea>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                <label class="col-form-label"><i class="bi bi-telephone-fill" style="font-size: 18px;"></i> Phone Number</label>
+                <input type="text" class="form-control" min="1" max="10" id="phone" name="phone" value="<?= $enquiry['phone'] ?>" >
+               <div id="phone_error" class="error-msg text-danger"></div>
+                
+              </div>
+
+            
+
+              
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                 <label class="col-form-label"><i class="bi bi-file-earmark-medical-fill" style="font-size: 18px;"></i>  Appointmen Date</label>
                 <input type="date" class="form-control" id="appointment_date" name="appointment_date" value="<?= $enquiry['appointment_date'] ?>" >
@@ -118,15 +149,7 @@ Enquiries
                 
               </div>
 
-              
-              
-
-              <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                <label class="col-form-label"><i class="bi bi-telephone-fill" style="font-size: 18px;"></i> Phone Number</label>
-                <input type="text" class="form-control" min="1" max="10" id="phone" name="phone" value="<?= $enquiry['phone'] ?>" >
-               <div id="phone_error" class="error-msg text-danger"></div>
-                
-              </div>
+             
               <div class="col-md-6">
     <label class="col-form-label"><i class="bi bi-file-medical-fill" style="font-size: 18px;"></i> Specialty required</label>
     <select class="form-select" aria-label="Default select example" name="required_specialist" id="required_specialist" >
@@ -142,14 +165,6 @@ Enquiries
 
     
 </div>
-
-
-<div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                <label class="col-form-label"><i class="bi bi-chat-left-text-fill" style="font-size: 18px;"></i> Add Note</label>
-                <input type="text" class="form-control" id="note" name="note" value="<?= $enquiry['note'] ?>" >
-    <div id="note_error" class="error-msg text-danger"></div>
-
-              </div>
 
 <div class="col-md-6">
     <label class="col-form-label"><i class="bi bi-file-earmark-medical-fill" style="font-size: 18px;"></i> Referral</label>
@@ -168,47 +183,29 @@ Enquiries
 
 </div>
 
+
 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-<label for="images"><i class="bi bi-image-fill" style="font-size: 18px;"></i> Upload Images</label>
+                <label class="col-form-label"><i class="bi bi-chat-left-text-fill" style="font-size: 18px;"></i> Add Note</label>
+                <input type="text" class="form-control" id="note" name="note" value="<?= $enquiry['note'] ?>" >
+    <div id="note_error" class="error-msg text-danger"></div>
+
+              </div>
+
+
+
+<div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+<label for="images"><i class="bi bi-image-fill" style="font-size: 18px;"></i>Upload New Images</label>
     <input class="form-control" type="file" id="images" name="images[]" multiple>
-    <div class="row">
-    <?php
-        // Decode the JSON string to an array
-        $imagePaths = json_decode($enquiry['image'], true);
-
-        // Check if $imagePaths is an array and not empty
-        if (is_array($imagePaths) && !empty($imagePaths)) {
-            foreach ($imagePaths as $index => $imagePath) {
-                ?>
-                <div class="col-4 col-lg-2 col-sm-4"> <!-- Adjust the column sizes as needed -->
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal<?= $index ?>">
-                        <img src="<?= base_url('public/images/' . $imagePath) ?>" class="img-fluid m-1" alt="Image">
-                    </a>
-                </div>
-
-                <!-- Modal for each image -->
-                <div class="modal fade" id="imageModal<?= $index ?>" tabindex="-1" aria-labelledby="imageModalLabel<?= $index ?>" aria-hidden="true">
-                    <div class="modal-dialog modal-lg modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="imageModalLabel<?= $index ?>">Image Preview</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <img src="<?= base_url('public/images/' . $imagePath) ?>" style="width: 100%;" class="" alt="Image Preview">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <?php
-            }
-        } else {
-            echo "No images found."; // Handle case where no images are available
-        }
-        ?>
-        </div>
+    
    
 </div>
+
+<div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                <label >
+                    <i class="bi bi-person-fill" style="font-size: 18px;"></i> Profile
+                </label>
+                <input type="file" class="form-control" name="profile">
+            </div>
 
               
               <!-- <div class="col-md-12">

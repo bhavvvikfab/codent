@@ -104,6 +104,7 @@ Enquiries
                         <label class="form-label" for="">
                           <b> Age: </b>
                         </label>
+                        <?= $enquiry['phone'] ?>
                         <?= isset($enquiry['age']) ? $enquiry['age'] : 'N/A'; ?> Years
                       </div>
 
@@ -137,37 +138,85 @@ Enquiries
               <hr>
 
               <div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+        <i class="bi bi-geo-alt-fill"></i> 
+        <label class="form-label" for=""><b>Address:</b></label>
+        <?= isset($enquiry['address']) ? $enquiry['address'] : 'N/A'; ?>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+        <i class="bi bi-chat-left-text-fill"></i> 
+        <label class="form-label" for=""><b>Note:</b></label>
+        <?= isset($enquiry['note']) ? $enquiry['note'] : 'N/A'; ?>
+    </div>
+</div>
+<hr>
+                      
+                   <div class="row">
+    <h4><b>Follow Up Details</b></h4>
+    <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+        <i class="bi bi-calendar-check-fill"></i>
+        <label class="form-label"><b>Date and Time: </b>
+            <?= isset($leadInstructions['date_time']) ? 
+                DateTime::createFromFormat('Y-m-d\TH:i', $leadInstructions['date_time'])
+                ->format('F j, Y \a\t h:i A') 
+                : 'N/A'; 
+            ?>
+        </label>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+        <i class="bi bi-chat-left-text-fill"></i>
+        <label class="form-label" for=""><b> Response: </b></label>
+        <?= isset($leadInstructions['response']) ? $leadInstructions['response'] : 'N/A'; ?>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+    <i class="bi bi-envelope-fill"></i> 
+        <label class="form-label"><b>Contacted Via: </b></label>
+        <?= isset($leadInstructions['contacted_via']) ? $leadInstructions['contacted_via'] : 'N/A'; ?>
+
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+        <i class="bi bi-chat-left-text-fill"></i>
+        <label class="form-label" for=""><b> Note: </b></label>
+        <?= isset($leadInstructions['note_for_team']) ? $leadInstructions['note_for_team'] : 'N/A'; ?>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+    <i class="bi bi-alarm-fill"></i>
+        <label class="form-label"><b>Remind Me: </b></label>
+        <?= isset($leadInstructions['remind_me']) ? $leadInstructions['remind_me'] : 'N/A'; ?>
+
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+    <i class="bi bi-calendar-check-fill"></i>
+        <label class="form-label" for=""><b> Appointment With: </b></label>
+        <?= isset($leadInstructions['appointment_with']) ? $leadInstructions['appointment_with'] : 'N/A'; ?>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+    <i class="bi bi-wrench"></i> 
+        <label class="form-label"><b>Method: </b></label>
+        <?= isset($leadInstructions['method']) ? $leadInstructions['method'] : 'N/A'; ?>
+
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+    <i class="bi bi-person-plus-fill"></i>
+    <!-- <i class="bi bi-person-plus-circle"></i> -->
+        <label class="form-label" for=""><b> Assign Next Task To: </b></label>
+        <?= isset($leadInstructions['assigne_next_task']) ? $leadInstructions['assigne_next_task'] : 'N/A'; ?>
+    </div>
+</div>
+
+             
 
 
-
-              <div class="col-lg-12 col-md-12 col-sm-12 pb-2 pb-lg-0">
-                      <i class="bi bi-geo-alt-fill"></i> <label class="form-label" for="">
-                          <b>Address : </b></label>
-                        <?= isset($enquiry['address']) ? $enquiry['address'] : 'N/A'; ?>
-                      </div>
-                      </div>
-
-
-                      <hr>
-                    <div class="row">
-
-                      <div class="col-lg-12 col-md-12 col-sm-12 pb-2 pb-lg-0">
-                        <i class="bi bi-chat-left-text-fill"></i> <label class="form-label" for="">
-                          <b>Note : </b></label>
-                        <?= isset($enquiry['note']) ? $enquiry['note'] : 'N/A'; ?>
-                      </div>
-
-            
-
-                    </div>
-                    <hr>
-
-                      <label class="form-label" for="images"><b><i class="bi bi-images"></i> Images : </b></label>
-              <div class="col-12">
-
-
-              
+              <hr>
     <div class="row">
+    <label class="form-label" for="images"><b><i class="bi bi-images"></i> Images : </b></label>
         <?php
         // Decode the JSON string to an array
         $imagePaths = json_decode($enquiry['image'], true);

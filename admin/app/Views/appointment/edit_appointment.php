@@ -47,7 +47,7 @@ Appointments
           
        
             <!-- No Labels Form -->
-            <form class="row g-3" action="<?=base_url('update_appointment')?>" method="post" enctype="multipart/form-data">
+            <form id="validate" class="row g-3" action="<?=base_url('update_appointment')?>" method="post" enctype="multipart/form-data">
             <input type="hidden" class="form-control rounded-2" id="id" name="id" value="<?= esc($appointment['id']) ?>">
             
             <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
@@ -61,6 +61,7 @@ Appointments
             </option>
         <?php endforeach; ?>
     </select>
+    <div id="patient_name_error"></div>
 </div>
 
 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
@@ -73,60 +74,79 @@ Appointments
             </option>
         <?php endforeach; ?>
     </select>
+    <div id="doctor_name_error"></div>
+
 </div>
 
 
 
-              <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                <label class="col-form-label"><i class="bi bi-calendar-week-fill" style="font-size: 18px;"></i> Appointment Slot</label>
+
+<div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                <label class="col-form-label"><i class="bi bi-calendar-week-fill" style="font-size: 18px;"></i>
+                  Appointment Slot</label>
                 <div class="input-group">
-                        <span class="input-group-text rounded-2 btn-cal" id="bdate34"><i class="bi bi-calendar3"></i></span>                        
-                       <input type="date" class="form-control rounded-2" id="schedule" name="schedule" value="<?= esc($appointment['schedule']) ?>">
-                       <div class="input-group-prepend">
-                          
-                             </div>
-                     </div>
-                     <?php if (session('errors.appointment_slot')): ?>
-                                        <small class="text-danger"><?= esc(session('errors.appointment_slot')) ?><i class="bi bi-exclamation-circle"></i></small>
-                      <?php endif; ?>
-                <!-- <label class="col-form-label">Email Address</label> -->
-               <!--  <div class="input-group mb-3">
-  <span class="input-group-text" id="basic-addon1"><i class="bi bi-calendar3"></i></span>
-                             </div></span>
-  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-</div> -->
-              </div>
-              <!--<div class="col-lg-6 col-md-6 col-sm-12 mb-3">-->
-              <!--  <label class="col-form-label"><i class="bi bi-envelope-fill" style="font-size: 18px;"></i> Email Address</label>-->
-              <!--  <input type="text" class="form-control" value="john45@gmail.com" placeholder="Email address">-->
-              <!--</div>-->
-
-              <!--<div class="col-lg-6 col-md-6 col-sm-12 mb-3">-->
-              <!--  <label class="col-form-label"><i class="bi bi-telephone-fill" style="font-size: 18px;"></i> Phone Number</label>-->
-              <!--  <input type="text" class="form-control" min="1" max="10" value="1593602464" placeholder="Phone Number">-->
-              <!--</div>-->
-
-              
-
-              
-
-              
-
-               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                <label class="col-form-label"><i class="bi bi-file-earmark-medical-fill" style="font-size: 18px;"></i> Referral</label>
-                <input type="text" class="form-control" id="referral" name="referral" value="<?= esc($appointment['lead_instruction']) ?>">
-                <?php if (session('errors.referral')): ?>
-                                        <small class="text-danger"><?= esc(session('errors.referral')) ?><i class="bi bi-exclamation-circle"></i></small>
-                      <?php endif; ?>
+                  <span class="input-group-text rounded-2 btn-cal" id="bdate34"><i class="bi bi-calendar3"></i></span>
+                  <input type="text" class="form-control rounded-2" id="appointment_slot" name="appointment_slot">
+                </div>
+                <small class="app_slot text-danger"></small>
+                <?php if (session('errors.appointment_slot')): ?>
+                  <small class="text-danger"><?= esc(session('errors.appointment_slot')) ?><i
+                      class="bi bi-exclamation-circle"></i></small>
+                <?php endif; ?>
+                <div id="appointment_slot_error"></div>
               </div>
 
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                 <label class="col-form-label"><i class="bi bi-file-earmark-text-fill" style="font-size: 18px;"></i> Appointment About</label>
-                <input type="text" class="form-control" id="note" name="note" value="<?= esc($appointment['note']) ?>">
+                <input type="text" class="form-control" id="note" name="note" value="<?= esc($appointment['note_for_team']) ?>">
                 <?php if (session('errors.note')): ?>
                                         <small class="text-danger"><?= esc(session('errors.note')) ?><i class="bi bi-exclamation-circle"></i></small>
                       <?php endif; ?>
               </div>
+
+
+              <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                  <label class="col-form-label">
+                    <b><i class="bi bi-gear-fill" style="font-size: 18px;"></i></b> Method
+                  </label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" name="method" value="<?= esc($appointment['method']) ?>">
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                  <label class="col-form-label">
+                    <b><i class="bi bi-file-earmark-text-fill" style="font-size: 18px;"></i></b> Instruction for Lead
+                  </label>
+                  <div class="input-group">
+                    <textarea type="text" class="form-control" name="instruction_for_lead" rows="1" ><?= esc($appointment['instruction_for_lead']) ?>"</textarea>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                  <label class="col-form-label">
+                    <b><i class="bi bi-chat-fill" style="font-size: 18px;"></i></b> Contacted them Via
+                  </label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" name="contacted_via" value="<?= esc($appointment['contacted_via']) ?>">
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                  <label class="col-form-label">
+                    <b><i class="bi bi-person-check-fill" style="font-size: 18px;"></i></b> Assign next task to
+                  </label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" name="assign_next_to" value="<?= esc($appointment['next_task_assign_to']) ?>">
+                  </div>
+                </div>
+
+              
+
+            
+               
+
+              
               <!-- <div class="col-md-12">
                 <div class="product-description-card-body">
                   <label class="col-form-label">Product Description</label>
@@ -158,12 +178,61 @@ Appointments
     </div>
   </section>
 </main><!-- End #main -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+                <script type="text/javascript"
+                  src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+                <link rel="stylesheet" type="text/css"
+                  href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+               
 <script>
     $(document).ready(function() {
   $('.two').select2({
     // theme: 'bootstrap5', // Apply Bootstrap 4 theme
     // dropdownCssClass: 'bordered' // Add form-control class to the dropdown
   });
+
+
+  $('#validate').submit(function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Clear previous error messages
+            $('.error-msg').remove();
+
+            // Perform validation
+            var patient_name = $('#patient_name').val();
+            var doctor_name = $('#doctor_name').val();
+            var appointment_slot = $('#appointment_slot').val();
+            var referral = $('#referral').val();
+
+            if (patient_name === '') {
+                $('#patient_name_error').after('<small class="error-msg text-danger">Please select   patient name.</small>');
+                return false;
+            }
+            if (doctor_name === '') {
+                $('#doctor_name_error').after('<small class="error-msg text-danger">Please select   Doctor name.</small>');
+                return false;
+            }
+            if (appointment_slot === '') {
+                $('#appointment_slot_error').after('<small class="error-msg text-danger">Please select Date and Time.</small>');
+                return false;
+            }
+
+
+                        
+this.submit();
+        });
+
+  $(function () {
+                    $('input[name="appointment_slot"]').daterangepicker({
+                      singleDatePicker: true,
+                      timePicker: true,
+                      timePicker24Hour: false,
+                      minDate: moment(),
+                      locale: {
+                        format: 'DD/MM/YYYY hh:mm A'
+                      }
+                    });
+                  });
 
 
   $('#patient_name').change(function () {

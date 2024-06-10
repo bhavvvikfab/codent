@@ -37,9 +37,9 @@ Enquiries
                 </div>
              </div>
 
-            <div class="card-body allappuser-table table-responsive">
+             <div class="card-body view-supplier-table table-responsive">
                           <!-- Table with stripped rows -->
-                          <table class="table table-borderless datatable dash-order-table">
+              <table class="table table-borderless datatable supplier-table">
     <thead>
         <tr>
             <th class="text-center"> Sr. No. </th>

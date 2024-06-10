@@ -4,15 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class Appointments extends Model
+class LeadInstruction extends Model
 {
-    protected $table            = 'appointments';
+    protected $table            = 'lead_details';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id','hospital_id','inquiry_id','appointment_status','schedule','note_for_team','instruction_for_lead','method','treatment_price','contacted_via','assigne_to','next_task_assign_to','created_at'];
+    protected $allowedFields    = ['id','enquiry_id','date_time','response','message','method','appointment_with','contacted_via','note_for_team','remind_meassigne_next_task'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -43,16 +43,4 @@ class Appointments extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-
-    public function getMonthlyCounts()
-    {
-        return $this->select("DATE_FORMAT(created_at, '%Y-%m') as month, COUNT(*) as count")
-                    ->groupBy('month')
-                    ->orderBy('month')
-                    ->findAll();
-    }
-
-
-   
 }
-
