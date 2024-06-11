@@ -70,24 +70,24 @@ All-Appointment
                       <td><?= esc($item['inquiry']['required_specialist'] ?? 'N/A'); ?></td>
                       <td><?= esc($item['appointment']['schedule']); ?></td>
                       <td>
-                        <?php
-                        $status = $item['appointment']['appointment_status'];
-                        $badgeColor = '';
-                        if ($status === 'Pending') {
-                          $badgeColor = 'warning';
-                        } elseif ($status === 'Confirmed') {
-                          $badgeColor = 'success';
-                        } elseif ($status === 'Cancelled') {
-                          $badgeColor = 'danger';
-                        } else {
-                          $badgeColor = 'secondary';
-                        }
-                        ?>
-                        <span class="badge <?= $badge_class; ?>" style="font-size: 1rem; padding: 0.5rem 1rem;">
-                    <?= $status_text; ?>
-                </span>
-                        
+                          <?php
+                          $status = isset($item['appointment']['appointment_status']) ? $item['appointment']['appointment_status'] : '';
+                          $badgeColor = '';
+                          if ($status === 'Pending') {
+                              $badgeColor = 'warning';
+                          } elseif ($status === 'Confirmed') {
+                              $badgeColor = 'success';
+                          } elseif ($status === 'Cancelled') {
+                              $badgeColor = 'danger';
+                          } else {
+                              $badgeColor = 'secondary';
+                          }
+                          ?>
+                          <span class="badge bg-<?= $badgeColor; ?> badge-sm" >
+                              <?= $status; ?>
+                          </span>
                       </td>
+
                       <td>
                         <div class="d-flex justify-content-around align-items-center">
                           <div class="editen ">

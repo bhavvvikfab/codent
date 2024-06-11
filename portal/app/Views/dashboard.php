@@ -277,18 +277,18 @@ Hospital-Dashboard
 
                 </div>
             </div><!-- End Left side columns -->
+
             <div class="col-lg-6">
     <div class="card">
-        <div class="card-body">
+        <div class="datatable-bottom d-flex justify-content-between align-items-center">
             <h5 class="card-title">Enquiries</h5>
-            <!-- <div class="datatable-bottom d-flex justify-content-between align-items-center mb-2">
-                <div class="datatable-info">Showing 1 to 3 of <?= count($appointments) ?> entries</div>
-                <a href="path/to/all/enquiries" style="color: black;" class="btn btn-link">View All</a>
-            </div> -->
-            <table class="table table-sm table-borderless datatable dash-order-table mb-0" style="margin-left: -20px;">
+            <a href="<?= base_url() . '' . session('prefix') . '/' . 'enquiry' ?>" style="margin-left:320px;" class = " float-end btn btn-dark btn-sm">View All</a>
+            </div>
+        <div class="card-body">
+            <table class="table table-sm table-borderless datatable dash-order-table">
                 <thead>
                     <tr>
-                        <th style="font-size: small;">Sr. No.</th>
+                        <!-- <th style="font-size: small;">Sr. No.</th> -->
                         <th style="font-size: small;">Patient Name</th>
                         <th style="font-size: small;">Phone</th>
                         <th style="font-size: small;">Required Specialist</th>
@@ -297,41 +297,42 @@ Hospital-Dashboard
                 </thead>
                 <tbody>
                 <?php if (!empty($appointments) && is_array($appointments)) : ?>
-                    <?php $serial = 1; ?>
+                    <!-- <?php $serial = 1; ?> -->
                     <?php foreach ($appointments as $index => $enquiry) : ?>
                         <?php if ($index >= 2) break; // Limit to first 3 entries ?>
                         <tr style="font-size: small;">
-                            <td ><?= $serial++ ?></td>
+                            <!-- <td ><?= $serial++ ?></td> -->
                             <td><?= esc($enquiry['patient_name']) ?></td>
                             <td><?= esc($enquiry['phone']) ?></td>
                             <td><?= esc($enquiry['required_specialist']) ?></td>
                             <td class="text-center">
-                                <?php
-                                $enquiry_status = $enquiry['status'];
-                                $badge_class = '';
-                                $status_text = '';
+                        <?php
+                        $enquiry_status = $enquiry['status'];
+                        $badge_class = '';
+                        $status_text = '';
 
-                                switch ($enquiry_status) {
-                                    case 'lead':
-                                        $badge_class = 'bg-success';
-                                        $status_text = 'Lead';
-                                        break;
-                                    case 'appointment':
-                                        $badge_class = 'bg-primary';
-                                        $status_text = 'Appointment';
-                                        break;
-                                    case 'cancel':
-                                        $badge_class = 'bg-danger';
-                                        $status_text = 'Cancelled';
-                                        break;
-                                    default:
-                                        $badge_class = 'bg-secondary';
-                                        $status_text = 'Enquiry';
-                                        break;
-                                }
-                                ?>
-                                <span class="badge <?= $badge_class; ?>" style="font-size: 1rem; padding: 0.5rem 1rem;"><?= esc($status_text); ?></span>
-                            </td>
+                        switch ($enquiry_status) {
+                          case 'lead':
+                              $badge_class = 'bg-success';
+                              $status_text = 'Lead';
+                              break;
+                          case 'appointment':
+                              $badge_class = 'bg-primary';
+                              $status_text = 'Appointment';
+                              break;
+                          case 'cancel':
+                              $badge_class = 'bg-danger';
+                              $status_text = 'Cancelled';
+                              break;
+                          default:
+                              $badge_class = 'bg-secondary';
+                              $status_text = 'Enquiry';
+                              break;
+                      }
+                      ?>
+                      <span class="badge <?= $badge_class; ?>" style="font-size: -1rem; padding: 0.4rem 1rem;"><?= $status_text; ?></span>
+                    </td>
+                           
                         </tr>
                     <?php endforeach; ?>
                 <?php else : ?>
@@ -341,12 +342,6 @@ Hospital-Dashboard
                 <?php endif; ?>
                 </tbody>
             </table>     
-             
-            <div  style="flex: 1; text-align: right; margin-top: -16px">
-    <a href="<?= base_url('enquiry') ?>" style="color: black;">View All</a>
-</div>
-
-            
         </div>
     </div>
 </div>
@@ -403,19 +398,19 @@ Hospital-Dashboard
                                                     $status = $appointment['appointment_status'] ?? '';
                                                     $badgeClass = '';
 
-                                                    if ($status === 'pending') {
-                                                        $badgeClass = 'bg-warning text-dark';
-                                                    } elseif ($status === 'confirmed') {
-                                                        $badgeClass = 'bg-success text-light';
-                                                    } elseif ($status === 'cancelled') {
-                                                        $badgeClass = 'bg-danger text-light';
+                                                    if ($status === 'Pending') {
+                                                        $badgeClass = 'warning';
+                                                    } elseif ($status === 'Confirmed') {
+                                                        $badgeClass = 'success';
+                                                    } elseif ($status === 'Cancelled') {
+                                                        $badgeClass = 'danger';
                                                     } else {
-                                                        $badgeClass = 'bg-secondary text-light';
+                                                        $badgeClass = 'secondary';
                                                     }
                                                 ?>
 
                                                     <td>
-                                                        <span class="<?= $badgeClass ?> p-1 rounded fw-bold">
+                                                        <span class="bg-<?= $badgeClass ?> badge badge-sm">
                                                             <?= ucfirst($status) ?>
                                                         </span>
                                                     </td>

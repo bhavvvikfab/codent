@@ -210,11 +210,11 @@ Appointment-Details
                             $status = isset($data['appointment']['appointment_status']) ? strtolower($data['appointment']['appointment_status']) : '';
                             $textColor = '';
                             
-                            if ($status === 'confirmed') {
+                            if ($status === 'Confirmed') {
                                 $textColor = 'text-success';
-                            } elseif ($status === 'pending') {
+                            } elseif ($status === 'Pending') {
                                 $textColor = 'text-warning';
-                            } elseif ($status === 'cancelled') {
+                            } elseif ($status === 'Cancelled') {
                                 $textColor = 'text-danger';
                             }
                             ?>
