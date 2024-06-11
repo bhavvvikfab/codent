@@ -4,6 +4,7 @@ namespace App\Controllers\Appointment;
 
 use App\Controllers\BaseController;
 use App\Models\AppointmentModel;
+use App\Models\DoctorModel;
 use App\Models\EnquiryModel;
 use App\Models\UserModel;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -191,18 +192,19 @@ class AppointmentController extends BaseController
         $inquiryModel = new EnquiryModel();
         $appointmentModel = new AppointmentModel();
         $userModel=new UserModel();
+        $doctorModel=new DoctorModel();
         $appointment = $appointmentModel->find($id);
-    
-        if (!$appointment) {
-        }
-    
+        
+        $doctor = $doctorModel->where('user_id', $appointment['assigne_to'])->first();
+        $doctor['data']= $userModel->find( $appointment['assigne_to']);
         $inquiry = $inquiryModel->find($appointment['inquiry_id']);
         $user_id=$inquiry['user_id'];
         $user = $userModel->find($user_id);
         $combinedData = [
             'appointment' => $appointment,
             'enquiry' => $inquiry,
-            'patient'=> $user
+            'patient'=> $user,
+            'doctor'=>$doctor
         ];
     
         return view('appointment/view_appointment.php', ['data' => $combinedData]);
@@ -311,7 +313,7 @@ class AppointmentController extends BaseController
             $dataToUpdate = [
                 'treatment_price' => $treatment_price,
                 'note_for_team' => $note_for_team,
-                'appointment_status'=>'confirm'
+                'appointment_status'=>'Confirmed'
             ];
         
             $updated = $appointmentsModel->update($appointmentId, $dataToUpdate);
@@ -332,7 +334,7 @@ class AppointmentController extends BaseController
         $appointmentId = $this->request->getPost('id');
         $appointmentsModel = new AppointmentModel();
         if($appointmentId){
-            $result=$appointmentsModel->update($appointmentId,['appointment_status'=>'canceled']);
+            $result=$appointmentsModel->update($appointmentId,['appointment_status'=>'Cancelled']);
             if($result){
                 return $this->response->setJSON(['success' => true, 'message' => 'Appointment Cancel successfully']);
             }else{

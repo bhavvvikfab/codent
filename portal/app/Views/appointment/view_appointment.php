@@ -43,10 +43,9 @@ Appointment-Details
           <!-- <pre> -->
           <?php
 
-          // print_r($data['enquiry']);
+          // print_r($data['doctor']);
           // die;
           $adminurl = config('App')->baseURL2;
-          // $adminUrl = str_replace('portal', 'admin', $url);
           $data['enquiry']['image'] = json_decode($data['enquiry']['image'], true);
           ?>
           <div class="card-body">
@@ -98,8 +97,8 @@ Appointment-Details
                       <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0"><i class="bi bi-telephone-fill"
                           aria-hidden="true"></i>
                         <label class="form-label" for=""> <b> Phone Number: </b>
-                      </label>
-                          <?= isset($data['enquiry']['phone']) ? $data['enquiry']['phone'] : 'N/A'; ?>
+                        </label>
+                        <?= isset($data['enquiry']['phone']) ? $data['enquiry']['phone'] : 'N/A'; ?>
                       </div>
 
                     </div>
@@ -144,18 +143,20 @@ Appointment-Details
                     </div>
                     <hr>
                     <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0 ">
+                      <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0 ">
                         <i class="bi bi-check-square-fill"></i>
-                          <label class="form-label m-0"><b>  Instruction:</b></label>
-                          <span class="ms-2"><?= isset($data['enquiry']['lead_instruction']) ? $data['enquiry']['lead_instruction'] : 'N/A'; ?></span>
-                        </div>
-
-                        <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0 ">
-                          <i class="bi bi-chat-left-text-fill me-2"></i>
-                          <label class="form-label m-0"><b>Comment:</b></label>
-                          <span class="ms-2"><?= isset($data['enquiry']['lead_comment']) ? $data['enquiry']['lead_comment'] : 'N/A'; ?></span>
-                        </div>
+                        <label class="form-label m-0"><b> Instruction:</b></label>
+                        <span
+                          class="ms-2"><?= isset($data['enquiry']['lead_instruction']) ? $data['enquiry']['lead_instruction'] : 'N/A'; ?></span>
                       </div>
+
+                      <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0 ">
+                        <i class="bi bi-chat-left-text-fill me-2"></i>
+                        <label class="form-label m-0"><b>Comment:</b></label>
+                        <span
+                          class="ms-2"><?= isset($data['enquiry']['lead_comment']) ? $data['enquiry']['lead_comment'] : 'N/A'; ?></span>
+                      </div>
+                    </div>
                     <hr>
                     <div class="row">
 
@@ -173,36 +174,100 @@ Appointment-Details
                     </div>
                     <hr>
 
-                    <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
-                        <i class="bi bi-chat-left-text-fill"></i> <label class="form-label" for="">
-                          <b>Appointment Status : </b></label>
-                        <?= isset($data['appointment']['appointment_status']) ? $data['appointment']['appointment_status'] : 'N/A'; ?>
-                      </div>
-                  <hr>
-
                     <div class="row">
                       <label class="form-label" for="images"><b><i class="bi bi-images"></i> Documents : </b></label>
                       <div class="col-12">
                         <div class="row">
                           <?php if (isset($data['enquiry']['image']) && !empty($data['enquiry']['image'])): ?>
 
-                            <?php foreach ($data['enquiry']['image'] as $index => $image): ?>
-                              <div class="col-1 col-lg-1 col-sm-3">
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal"
-                                  data-image="<?= $adminurl ?>/public/images/<?= $image ?>">
-                                  <img src="<?= $adminurl ?>/public/images/<?= $image ?>" style="" width="50" height="50"
-                                    class="m-1">
-                                </a>
-                              </div>
-                            <?php endforeach; ?>
+                              <?php foreach ($data['enquiry']['image'] as $index => $image): ?>
+                                  <div class="col-1 col-lg-1 col-sm-3">
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal"
+                                      data-image="<?= $adminurl ?>/public/images/<?= $image ?>">
+                                      <img src="<?= $adminurl ?>/public/images/<?= $image ?>" style="" width="50" height="50"
+                                        class="m-1">
+                                    </a>
+                                  </div>
+                              <?php endforeach; ?>
                           <?php else: ?>
-                            <div class="col-12 col-lg-12 col-sm-12">
-                              Documents not Uploaded.
-                            </div>
+                              <div class="col-12 col-lg-12 col-sm-12">
+                                Documents not Uploaded.
+                              </div>
                           <?php endif; ?>
                         </div>
                       </div>
                     </div>
+
+                   <hr>
+
+                   <div class="row">
+                        <h5 class="fw-bold"><u>Appointment Details :</u></h5>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                        <i class="bi bi-clipboard2-fill"></i>
+                            <label class="form-label" for=""><b>Status :</b></label>
+                            <?php
+                            $status = isset($data['appointment']['appointment_status']) ? strtolower($data['appointment']['appointment_status']) : '';
+                            $textColor = '';
+                            
+                            if ($status === 'Confirmed') {
+                                $textColor = 'text-success';
+                            } elseif ($status === 'Pending') {
+                                $textColor = 'text-warning';
+                            } elseif ($status === 'Cancelled') {
+                                $textColor = 'text-danger';
+                            }
+                            ?>
+                            <span class="<?= $textColor ?> fw-bold"><?= isset($data['appointment']['appointment_status']) ? $data['appointment']['appointment_status'] : 'N/A'; ?></span>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                        <i class="bi bi-person-circle"></i>
+                            <label class="form-label" for=""><b>Dr. Name :</b></label>
+                            <?= isset($data['doctor']['data']['fullname']) ? $data['doctor']['data']['fullname'] : 'N/A'; ?>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                            <i class="bi bi-clock-fill" aria-hidden="true"></i>
+                            <label class="form-label" for=""><b>Appointment Slot:</b></label>
+                            <?= isset($data['appointment']['schedule']) ? $data['appointment']['schedule'] : 'N/A'; ?>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                            <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
+                            <label class="form-label" for=""><b>Appointment About:</b></label>
+                            <?= isset($data['appointment']['instruction_for_lead']) ? $data['appointment']['instruction_for_lead'] : 'N/A'; ?>
+                        </div>
+
+                     
+                        <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                            <i class="bi bi-currency-dollar" aria-hidden="true"></i>
+                            <label class="form-label" for=""><b>Method:</b></label>
+                            <?= isset($data['appointment']['method']) ? $data['appointment']['method'] : 'N/A'; ?>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                            <i class="bi bi-bookmark-fill" aria-hidden="true"></i>
+                            <label class="form-label" for=""><b>Instruction for Lead:</b></label>
+                            <?= isset($data['appointment']['instruction_for_lead']) ? $data['appointment']['instruction_for_lead'] : 'N/A'; ?>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                            <i class="bi bi-telephone-fill" aria-hidden="true"></i>
+                            <label class="form-label" for=""><b>Contacted Via:</b></label>
+                            <?= isset($data['appointment']['contacted_via']) ? $data['appointment']['contacted_via'] : 'N/A'; ?>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                            <i class="bi bi-person-fill" aria-hidden="true"></i>
+                            <label class="form-label" for=""><b>Next Task Assign To:</b></label>
+                            <?= isset($data['appointment']['next_task_assign_to']) ? $data['appointment']['next_task_assign_to'] : 'N/A'; ?>
+                       </div>
+
+                       
+
+                    </div>
+
 
                   </div>
 
