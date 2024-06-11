@@ -79,7 +79,7 @@ Appointments
                         $status_text = 'Confirmed';
                         break;
                     case 'Pending':
-                        $badge_class = 'bg-primary';
+                        $badge_class = 'bg-warning';
                         $status_text = 'Pending';
                         break;
                     case 'Cancelled':
@@ -93,7 +93,7 @@ Appointments
                 }
                 ?>
 
-                <span class="badge <?= $badge_class; ?>" style="font-size: 1rem; padding: 0.5rem 1rem;">
+                <span class="badge <?= $badge_class; ?>" style="font-size: -1rem;; padding: 0.4rem 1rem;">
                     <?= $status_text; ?>
                 </span>
             </td>           

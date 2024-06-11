@@ -182,13 +182,49 @@ Appointments
 
                     <hr>
 
+                    <div class="row">
+                    <h4><b>Appointment Status</b></h4>
+
                       <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
                         <i class="bi bi-chat-left-text-fill"></i> <label class="form-label" for="">
                           <b>Appointment Status : </b></label>
                         <?= isset($appointment['appointment_status']) ? $appointment['appointment_status'] : 'N/A'; ?>
-
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                        <i class="bi bi-chat-left-text-fill"></i> <label class="form-label" for="">
+                          <b>Appointment Slot : </b></label>
+                        <?= isset($appointment['schedule']) ? $appointment['schedule'] : 'N/A'; ?>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                        <i class="bi bi-chat-left-text-fill"></i> <label class="form-label" for="">
+                          <b>Dr. Name  : </b></label>
+                        <?= isset($appointment['doctor_name']) ? $appointment['doctor_name'] : 'N/A'; ?>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                        <i class="bi bi-chat-left-text-fill"></i> <label class="form-label" for="">
+                          <b>Appointment About : </b></label>
+                        <?= isset($appointment['note_for_team']) ? $appointment['note_for_team'] : 'N/A'; ?>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                        <i class="bi bi-chat-left-text-fill"></i> <label class="form-label" for="">
+                          <b>Method : </b></label>
+                        <?= isset($appointment['method']) ? $appointment['method'] : 'N/A'; ?>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                        <i class="bi bi-chat-left-text-fill"></i> <label class="form-label" for="">
+                          <b>Instruction For Lead : </b></label>
+                        <?= isset($appointment['instruction_for_lead']) ? $appointment['instruction_for_lead'] : 'N/A'; ?>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                        <i class="bi bi-chat-left-text-fill"></i> <label class="form-label" for="">
+                          <b>Contacted Via : </b></label>
+                        <?= isset($appointment['contacted_via']) ? $appointment['contacted_via'] : 'N/A'; ?>
+                    </div>
                     
-
+                    <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                        <i class="bi bi-chat-left-text-fill"></i> <label class="form-label" for="">
+                          <b>Next Task To Assign : </b></label>
+                        <?= isset($appointment['next_task_assign_to']) ? $appointment['next_task_assign_to'] : 'N/A'; ?>
                     </div>
                     
                     <hr>
