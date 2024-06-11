@@ -433,5 +433,5 @@ Dashboard
                 });
             }
         });
-    </script>
+    </script> 
 <?= $this->endSection() ?>
