@@ -151,16 +151,58 @@ Enquiries
     </div>
 <hr>
 <div class="row">
+    <label class="form-label" for="images"><b><i class="bi bi-images"></i> Documents  : </b></label>
+        <?php
+        // Decode the JSON string to an array
+        $imagePaths = json_decode($enquiry['image'], true);
+
+        // Check if $imagePaths is an array and not empty
+        if (is_array($imagePaths) && !empty($imagePaths)) {
+            foreach ($imagePaths as $index => $imagePath) {
+                ?>
+                <div class="col-3 col-lg-1 col-sm-3"> <!-- Adjust the column sizes as needed -->
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal<?= $index ?>">
+                        <img src="<?= base_url('public/images/' . $imagePath) ?>" class="img-fluid m-1" alt="Image">
+                    </a>
+                </div>
+
+                <!-- Modal for each image -->
+                <div class="modal fade" id="imageModal<?= $index ?>" tabindex="-1" aria-labelledby="imageModalLabel<?= $index ?>" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="imageModalLabel<?= $index ?>">Documents  Preview</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <img src="<?= base_url('public/images/' . $imagePath) ?>" class="img-fluid" alt="Image Preview">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php
+            }
+        } else {
+            echo "No Documents  found."; // Handle case where no images are available
+        }
+        ?>
+    </div>
+
+
+<hr>
+                      
+                   <div class="row">
+    <h4><b>Follow Up Details</b></h4>
+
+    <div class="row">
     <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
         <i class="bi bi-chat-left-text-fill"></i> 
         <label class="form-label" for=""><b>Enquiry Status :</b></label>
         <?= isset($enquiry['status']) ? $enquiry['status'] : 'N/A'; ?>
     </div>
 </div>
-<hr>
-                      
-                   <div class="row">
-    <h4><b>Follow Up Details</b></h4>
+
+
     <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
         <i class="bi bi-calendar-check-fill"></i>
         <label class="form-label"><b>Date and Time: </b>
@@ -223,47 +265,12 @@ Enquiries
 
 
               <hr>
-    <div class="row">
-    <label class="form-label" for="images"><b><i class="bi bi-images"></i> Images : </b></label>
-        <?php
-        // Decode the JSON string to an array
-        $imagePaths = json_decode($enquiry['image'], true);
 
-        // Check if $imagePaths is an array and not empty
-        if (is_array($imagePaths) && !empty($imagePaths)) {
-            foreach ($imagePaths as $index => $imagePath) {
-                ?>
-                <div class="col-3 col-lg-1 col-sm-3"> <!-- Adjust the column sizes as needed -->
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal<?= $index ?>">
-                        <img src="<?= base_url('public/images/' . $imagePath) ?>" class="img-fluid m-1" alt="Image">
-                    </a>
-                </div>
-
-                <!-- Modal for each image -->
-                <div class="modal fade" id="imageModal<?= $index ?>" tabindex="-1" aria-labelledby="imageModalLabel<?= $index ?>" aria-hidden="true">
-                    <div class="modal-dialog modal-lg modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="imageModalLabel<?= $index ?>">Image Preview</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <img src="<?= base_url('public/images/' . $imagePath) ?>" class="img-fluid" alt="Image Preview">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <?php
-            }
-        } else {
-            echo "No images found."; // Handle case where no images are available
-        }
-        ?>
-    </div>
-</div>
-              <?php endforeach; ?>   
+              
+   
+              <?php endforeach; ?>    
                   <?php else: ?>
-        <p>No enquiries found.</p>
+        <p>No Enquiries  found.</p>
     <?php endif; ?>    
             </form>            
           </div>

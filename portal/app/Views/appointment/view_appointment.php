@@ -207,7 +207,7 @@ Appointment-Details
                         <i class="bi bi-clipboard2-fill"></i>
                             <label class="form-label" for=""><b>Status :</b></label>
                             <?php
-                            $status = isset($data['appointment']['appointment_status']) ? strtolower($data['appointment']['appointment_status']) : '';
+                            $status = isset($data['appointment']['appointment_status']) ? $data['appointment']['appointment_status'] : '';
                             $textColor = '';
                             
                             if ($status === 'Confirmed') {

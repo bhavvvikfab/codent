@@ -84,7 +84,7 @@ Enquiries
                               break;
                       }
                       ?>
-                      <span class="badge <?= $badge_class; ?>" style="font-size: 1rem; padding: 0.5rem 1rem;"><?= $status_text; ?></span>
+                      <span class="badge <?= $badge_class; ?>" style="font-size: -1rem; padding: 0.4rem 1rem;"><?= $status_text; ?></span>
                     </td>
                     <td>
                         <div class="d-flex justify-content-around align-items-center">
