@@ -200,19 +200,28 @@ All-lead
                     <hr>
                     <div class="row">
                       <h5 class="fw-bold" ><u>FollowUp Details :</u></h5>
+    
+                      <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
+                      <i class="bi bi-clipboard2-fill"></i>
+                        <label class="form-label" for=""><b>Status :</b></label>
+                      <span class="text-primary fw-bold" >  <?= isset($enquiry['status']) ? 'Lead' : 'N/A'; ?></span>
+                      </div>
+
+
+
                       <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
                         <i class="bi bi-calendar-fill" aria-hidden="true"></i>
                         <label class="form-label" for=""><b>Date & Time:</b></label>
                         <?= isset($lead['date_time']) ? formatDate($lead['date_time']) : 'N/A'; ?>
                       </div>
+
+
                       <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
                         <i class="bi bi-chat-dots-fill" aria-hidden="true"></i>
                         <label class="form-label" for=""><b>Response:</b></label>
                         <?= isset($lead['response']) ? $lead['response'] : 'N/A'; ?>
                       </div>
-                    </div>
-
-                    <div class="row">
+                  
                       <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
                         <i class="bi bi-envelope-fill" aria-hidden="true"></i>
                         <label class="form-label" for=""><b>Contacted Via:</b></label>
@@ -223,9 +232,7 @@ All-lead
                         <label class="form-label" for=""><b>Note for Team:</b></label>
                         <?= isset($lead['note_for_team']) ? $lead['note_for_team'] : 'N/A'; ?>
                       </div>
-                    </div>
-
-                    <div class="row">
+                   
                       <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
                         <i class="bi bi-bell-fill" aria-hidden="true"></i>
                         <label class="form-label" for=""><b>Remind Me:</b></label>
@@ -236,9 +243,7 @@ All-lead
                         <label class="form-label" for=""><b>Appointment With:</b></label>
                         <?= isset($lead['appointment_with']) ? $lead['appointment_with'] : 'N/A'; ?>
                       </div>
-                    </div>
-
-                    <div class="row">
+                   
                       <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
                         <i class="bi bi-clipboard-fill" aria-hidden="true"></i>
                         <label class="form-label" for=""><b>Method:</b></label>
@@ -249,15 +254,13 @@ All-lead
                         <label class="form-label" for=""><b>Assign Next Task To:</b></label>
                         <?= isset($lead['assigne_next_task']) ? $lead['assigne_next_task'] : 'N/A'; ?>
                       </div>
-                    </div>
-
-                    <div class="row">
-                     
+                    
                       <div class="col-lg-12 col-md-12 col-sm-12 pb-2 pb-lg-0">
                         <i class="bi bi-person-badge-fill" aria-hidden="true"></i>
                         <label class="form-label" for=""><b>Message :</b></label>
                         <?= isset($lead['message']) ? $lead['message'] : 'N/A'; ?>
                       </div>
+
                     </div>
 
 

@@ -17,12 +17,12 @@ Hospital-Dashboard
             </div>
         </div>
     </div><!-- End Page Title -->
-    <pre>
+    <!-- <pre> -->
     <?php
     // print_r($appointments);
     // die;
     ?>
-</pre>
+<!-- </pre> -->
 
     <section class="section dashboard" id="dash896">
         <div class="row">
@@ -399,7 +399,26 @@ Hospital-Dashboard
                                                     <td><?= $appointment['email'] ?? 'N/A'; ?></td>
                                                     <td><?= $appointment['phone'] ?? 'N/A'; ?></td>
                                                     <td><?= $appointment['schedule'] ?? 'N/A'; ?></td>
-                                                    <td><span class="bg-success p-1 rounded text-light fw-bold"><?= ucfirst($appointment['status'] ?? '') ?></span></td>
+                                                <?php
+                                                    $status = $appointment['appointment_status'] ?? '';
+                                                    $badgeClass = '';
+
+                                                    if ($status === 'pending') {
+                                                        $badgeClass = 'bg-warning text-dark';
+                                                    } elseif ($status === 'confirmed') {
+                                                        $badgeClass = 'bg-success text-light';
+                                                    } elseif ($status === 'cancelled') {
+                                                        $badgeClass = 'bg-danger text-light';
+                                                    } else {
+                                                        $badgeClass = 'bg-secondary text-light';
+                                                    }
+                                                ?>
+
+                                                    <td>
+                                                        <span class="<?= $badgeClass ?> p-1 rounded fw-bold">
+                                                            <?= ucfirst($status) ?>
+                                                        </span>
+                                                    </td>
                                                 </tr>
                                             <?php endforeach; ?>
                                         <?php else: ?>

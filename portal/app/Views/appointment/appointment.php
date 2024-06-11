@@ -72,27 +72,16 @@ All-Appointment
                       <td>
                         <?php
                         $status = $item['appointment']['appointment_status'];
-                        $badge_class = '';
-                        $status_text = '';
-
-                        switch ($status) {
-                          case 'Pending':
-                              $badge_class = 'bg-warning';
-                              $status_text = 'Pending';
-                              break;
-                          case 'Confirmed':
-                              $badge_class = 'bg-success';
-                              $status_text = 'Confirmed';
-                              break;
-                          case 'Cancelled':
-                              $badge_class = 'bg-danger';
-                              $status_text = 'Cancelled';
-                              break;
-                          default:
-                              $badge_class = 'bg-secondary';
-                              $status_text = 'Unknown';
-                              break;
-                      }
+                        $badgeColor = '';
+                        if ($status === 'Pending') {
+                          $badgeColor = 'warning';
+                        } elseif ($status === 'Confirmed') {
+                          $badgeColor = 'success';
+                        } elseif ($status === 'Cancelled') {
+                          $badgeColor = 'danger';
+                        } else {
+                          $badgeColor = 'secondary';
+                        }
                         ?>
                         <span class="badge <?= $badge_class; ?>" style="font-size: 1rem; padding: 0.5rem 1rem;">
                     <?= $status_text; ?>
@@ -121,16 +110,16 @@ All-Appointment
                             </a>
                           </div>
                           <div class="confirm">
-                            <?php if ($status == 'pending'): ?>
+                            <?php if ($status == 'Pending'): ?>
                               <button type="button" class="btn btn-primary btn-sm confirm_btn"
                                 data-id="<?= $item['appointment']['id'] ?>" data-bs-toggle="modal"
-                                data-bs-target="#confirmModal">Confirm
+                                data-bs-target="#confirmModal"><i class="bi bi-check-lg"></i>
                               </button>
-                            <?php elseif(($status == 'confirm')): ?>
+                            <?php elseif(($status == 'Confirmed')): ?>
                               <button type="button" class="btn btn-danger btn-sm cancel_btn"
                                 data-id="<?= $item['appointment']['id'] ?>"><i class="bi bi-x-lg"></i>
                               </button>
-                            <?php elseif(($status == 'canceled')): ?>
+                            <?php elseif(($status == 'Cancelled')): ?>
                               <button type="button" class="btn btn-primary btn-sm confirm_btn"
                                 data-id="<?= $item['appointment']['id'] ?>" data-bs-toggle="modal"
                                 data-bs-target="#confirmModal"><i class="bi bi-arrow-repeat"></i>
@@ -176,7 +165,7 @@ All-Appointment
                 <i class="bi bi-currency-dollar" style="font-size: 18px;"></i>
                 <b>Treatment Price :</b>
               </label>
-              <input type="text" class="form-control" id="price" name="treatment_price">
+              <input type="number" class="form-control" id="price" name="treatment_price"  min="0" required>
             </div>
             <div class="mb-3">
               <label for="note" class="form-label">
@@ -219,6 +208,7 @@ All-Appointment
 </main><!-- End #main -->
 <script>
   $(document).ready(function () {
+    // Delete button event with SweetAlert confirmation
     $(document).on('click', '.delete_btn', function (e) {
       e.preventDefault();
       var url = $(this).attr('href');
@@ -237,70 +227,114 @@ All-Appointment
       });
     });
 
-    $('.confirm_btn').on('click', function () {
+    // Confirm button event
+    $(document).on('click', '.confirm_btn', function () {
       let id = $(this).data('id');
       $('#appointment_id').val(id);
+
     });
 
-
-    $('#confirm_form').submit(function (event) {
+     // Confirm form submit event
+     $(document).on('submit', '#confirm_form', function (event) {
       event.preventDefault();
-      let formData = new FormData(this);
-      $.ajax({
-        url: "<?= base_url(session('prefix') . '/confirm_appointment') ?>",
-        type: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function (response) {
-          $('#confirmModal').modal('hide');
-          if (response.success == true) {
-            showToast(response.message);
-            $('.datatable').load("<?= base_url(session('prefix') . '/appointment') ?> .datatable")
-          } else {
-            showToastError(response.message);
-          }
-        },
-        error: function (xhr, status, error) {
-          console.error(xhr.responseText);
+      Swal.fire({
+        title: "Are you sure?",
+        text: "Do you want to confirm this appointment?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, confirm it!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          let formData = new FormData(this);
+          $.ajax({
+            url: "<?= base_url(session('prefix') . '/confirm_appointment') ?>",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+              $('#confirmModal').modal('hide');
+              $('#confirm_form')[0].reset(); // Reset the form after successful submission
+              if (response.success) {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Success',
+                  text: response.message,
+                });
+                $('.datatable').load("<?= base_url(session('prefix') . '/appointment') ?> .datatable");
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: response.message,
+                });
+              }
+            },
+            error: function (xhr, status, error) {
+              console.error(xhr.responseText);
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'An error occurred while processing your request.',
+              });
+            }
+          });
         }
       });
     });
 
-
-    $(document).on('click', '.cancel_btn', function (event) {
+     // Cancel button event
+     $(document).on('click', '.cancel_btn', function (event) {
       event.preventDefault();
       let id = $(this).data('id');
-      $.ajax({
-        url: "<?= base_url(session('prefix') . '/cancel_appointment') ?>",
-        type: "post",
-        data: { id: id }, 
-        success: function (response) {
-          $('#confirmModal').modal('hide');
-          if (response.success == true) {
-            showToast(response.message);
-            $('.datatable').load("<?= base_url(session('prefix') . '/appointment') ?> .datatable");
-          } else {
-            showToastError(response.message);
-          }
-        },
-        error: function (xhr, status, error) {
-          console.error(xhr.responseText);
+      Swal.fire({
+        title: "Are you sure?",
+        text: "Do you want to cancel this appointment?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, cancel it!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            url: "<?= base_url(session('prefix') . '/cancel_appointment') ?>",
+            type: "POST",
+            data: { id: id },
+            success: function (response) {
+              $('#confirmModal').modal('hide');
+              if (response.success) {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Success',
+                  text: response.message,
+                });
+                $('.datatable').load("<?= base_url(session('prefix') . '/appointment') ?> .datatable");
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: response.message,
+                });
+              }
+            },
+            error: function (xhr, status, error) {
+              console.error(xhr.responseText);
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'An error occurred while processing your request.',
+              });
+            }
+          });
         }
       });
     });
 
-
-
-
-
   });
-
-
-
-
-
-
 </script>
+
 
 <?= $this->endSection() ?>
