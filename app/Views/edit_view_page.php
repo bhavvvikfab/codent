@@ -4,13 +4,18 @@ Co-Dent - Edit Profile
 <?= $this->endSection() ?>
 <?= $this->section('content') ?>
 
+<div id="loader" class="loader-overlay" style="display: none;">
+    <div class="loader"></div>
+</div>
+
+
 <section class="my-dent-section ftco-section d-portal-bg d-flex flex-column justify-content-center">
     <div class="container">
         <div class="myoverlay"></div>
         <div class="container">
             <div class="row">
                 <div class="col-md-12 col-sm-12 ftco-animate">
-                    <h1 class="h1hedaing text-center">Edit Dentist Portal Profile</h1>
+                    <h1 class="h1hedaing text-center">Edit Profile</h1>
                 </div>
             </div>
         </div>
@@ -45,17 +50,20 @@ Co-Dent - Edit Profile
                             <div class="col-lg-8">
                                 <h4 class="mb-lg-4" style="color: #4154f1; font-weight: 600;"> Edit Profile </h4>
                             </div>
+                            <div class="col-lg-4 text-end">
+    <a href="<?= base_url('profile') ?>" class="btn btn-primary py-2 px-5 w-70">Back</a>
+</div>
                         </div>
                         <!-- Form for editing profile details -->
+    <div class="col">
     
                         <form id="editprofile_form" class="editprofile_form" method="post" enctype="multipart/form-data">  
     <!-- Add your form fields here -->
-    <div class="col">
 
     <div class="input-group mb-3 field">
-        <span class="input-group-text" id="basic-addon1"><i class="fa fa-user-circle-o"></i></span>
+        <span class="input-group-text" id="basic-addon3"><i class="fa fa-user-circle-o"></i></span>
         <input type="hidden" id="id" name="id" value="<?= esc($user['id'] ?? '') ?>">
-        <input type="text" class="form-control" name="fullname" placeholder="Full Name" value="<?= esc($user['fullname'] ?? '') ?>" aria-label="name" aria-describedby="basic-addon1">
+        <input type="text" class="form-control" name="fullname" placeholder="Full Name" value="<?= esc($user['fullname'] ?? '') ?>" aria-label="name" aria-describedby="basic-addon3">
     </div>
     <div id="fullnameError" class="text-danger text-start"></div>
 
@@ -79,7 +87,7 @@ Co-Dent - Edit Profile
 
     <div class="input-group mb-3 field">
         <span class="input-group-text" id="basic-addon6"><i class="fa fa-map-marker"></i></span>
-        <textarea class="form-control" name="address" placeholder="Address" style="resize: none; height: 40px;" aria-label="address" aria-describedby="basic-addon6"><?= esc($user['address'] ?? '') ?></textarea>
+        <textarea class="form-control" name="address" placeholder="Address" style="resize: none; height: 40px;" aria-label="address" aria-describedby="basic-addon3"><?= esc($user['address'] ?? '') ?></textarea>
     </div>
     <div id="addressError" class="text-danger text-start"></div>
 
@@ -109,6 +117,7 @@ Co-Dent - Edit Profile
     $(document).ready(function () {
         $(document).on('click', '#edit_profile', function (e) {
             e.preventDefault();
+            $('#loader').show();
             // Get form data
             var formData = new FormData($('#editprofile_form')[0]);
             $.ajax({
@@ -117,7 +126,9 @@ Co-Dent - Edit Profile
                 data: formData,
                 processData: false,
                 contentType: false,
-                success: function (data) {
+                success: function (data) 
+                {
+                    $('#loader').hide();
                     if (data.status === "success") {
                         
                             // Reattach event handler after the section is reloaded
@@ -144,7 +155,9 @@ Co-Dent - Edit Profile
                         }
                     }
                 },
-                error: function (xhr, status, error) {
+                error: function (xhr, status, error) 
+                {
+                    $('#loader').hide();
                     console.log(xhr.responseText);
                 }
             });

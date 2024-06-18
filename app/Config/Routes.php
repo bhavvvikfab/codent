@@ -55,6 +55,12 @@ $routes->post('profile_update', 'ProfileController::profile_update_fun');
 $routes->post('update_password', 'ProfileController::change_password');
 
 
+$routes->get('contact', 'ContactController::index');
+$routes->post('contact', 'ContactController::contact_fun');
+
+
+
+
 
 
 

@@ -16,28 +16,79 @@
               <li class="nav-item active"><a href="<?= base_url('/') ?>" class="nav-link">Home</a></li>
              <!--  <li class="nav-item"><a href="about.php" class="nav-link">About</a></li>
               <li class="nav-item"><a href="services.php" class="nav-link">Services</a></li> -->
-              <!-- <li class="nav-item"><a href="#" class="nav-link">Login</a></li> -->
+              
 
+
+
+
+              <?php
+        $id = session()->get('user_id');
+
+        if ($id != '') 
+        {
+          ?>
              <li class="nav-item"><a href="<?= base_url('referral') ?>" class="nav-link">Referral</a></li>
+
+<?php
+        }
+        else {
+          ?>
+          <li class="nav-item"><a href="<?= base_url('dentist_login') ?>" class="nav-link">Referral</a></li>
+          <?php
+        }
+        ?>
+
+<li class="nav-item"><a href="<?= base_url('contact') ?>" class="nav-link">Contact Us</a></li>
+
 
              <!-- <li class="nav-item"><a href="<?= base_url('lead') ?>" class="nav-link">Lead</a></li> -->
 
-              <li class="nav-item cta"><a href="<?= base_url('refer') ?>" class="nav-link"><span>Make a Referral</span></a></li>
-              <!-- <li class="nav-item"><a href="blog.php" class="nav-link">Blog</a></li>
-              <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li> -->
+
+
         <?php
         $id = session()->get('user_id');
 
         if ($id != '') 
         {
           ?>
+              <li class="nav-item cta"><a href="<?= base_url('refer') ?>" class="nav-link"><span>Make a Referral</span></a></li>
+              <!-- <li class="nav-item"><a href="blog.php" class="nav-link">Blog</a></li>
+              <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li> -->
+        <?php
+            } else 
+            {
+              ?>
+              <li class="nav-item cta"><a href="<?= base_url('dentist_login') ?>" class="nav-link"><span>Make a Referral</span></a></li>
+              <?php
+            }
+            ?>
+
+
+          <?php
+        $id = session()->get('user_id');
+
+        if ($id == '') 
+        {
+          ?>
+             
+              <li class="nav-item"><a href="dentist_login" class="nav-link">Login</a></li>
+        <?php
+        }
+        ?>
           <li class="nav-item dropdown pe-3">
+            
 
                   <a class="nav-link nav-profile d-flex align-items-center pe-0" href="" data-bs-toggle="dropdown" aria-expanded="true"> <i class="fa fa-user-circle-o profile-icon"></i></a> 
+                  
+                  <?php
+        $id = session()->get('user_id');
 
+        if ($id != '') 
+        {
+          ?>
                   <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile" data-popper-placement="bottom-end" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(-16.6667px, 37.7778px);">
                  
-
+                 
                         <li>
                           <a class="dropdown-item d-flex align-items-center" href="<?= base_url('profile') ?>">
                             <i class="bi bi-person"></i>
@@ -48,6 +99,7 @@
                           <hr class="dropdown-divider">
                         </li>
 
+                        
 
                         <li>
                           <a class="dropdown-item d-flex align-items-center" href="<?= base_url('logout') ?>">
@@ -55,15 +107,15 @@
                             <span>Sign Out</span>
                           </a>
                         </li>
-
                   </ul><!-- End Profile Dropdown Items -->
-              </li>
-          <?php
           
-        }
-        ?>
+              <?php
+        } 
+        ?> 
 
 
+
+</li>
 
 
               

@@ -184,7 +184,18 @@ form .page .btns button.next {
 .progress-bar .step .check.active {
   color: #fff;
 }
+
+.mm{
+    padding-left: 2.25rem;
+}
+
+
 </style>
+
+<div id="loader" class="loader-overlay" style="display: none;">
+    <div class="loader"></div>
+</div>
+
 
 <section class="my-refer-sec ftco-section d-portal-bg d-flex flex-column justify-content-center">
   <div class="container">
@@ -261,7 +272,7 @@ form .page .btns button.next {
 
                         <div class="field m-0">
     <div class="label text-white">Date of Birth</div>
-    <input type="date" name="dob" class="form-control" id="dobInput">
+    <input type="date" name="dob" class="form-control " id="dobInput" style="border-radius: 45px;">
 </div>
 <div id="dobError" class="error-message text-justify text-danger"></div>
 
@@ -331,7 +342,8 @@ form .page .btns button.next {
       Male
     </label>
   </div>
-  <div class="form-check">
+  
+  <div class="form-check mm">
     <input class="form-check-input rd-btn" type="radio" name="gender" id="genderFemale" value="Female">
     <label class="form-check-label text-white" for="genderFemale">
       Female
@@ -392,7 +404,7 @@ form .page .btns button.next {
                           
                     <<div class="field m-0">
   <div class="label text-white">Appointment Date and Time</div>
-  <input type="datetime-local" class="form-control" name="app_date">
+  <input type="datetime-local" class="form-control" name="app_date" style="border-radius: 45px;">
 </div>
 <div id="appDateError" class="error-message text-danger"></div>
 <br><br>
@@ -406,7 +418,7 @@ form .page .btns button.next {
 
                         <div class="field m-0">
                           <div class="label text-white">Upload Patient Image</div>
-                          <input class="form-control" type="file" name="images[]" multiple>
+                          <input class="form-control" type="file" name="images[]"  style="border-radius: 45px;" multiple >
                         </div>
                         <div id="uploadedImagesError" class="error-message text-danger"></div>
                         <br><br>
@@ -536,6 +548,7 @@ nextBtnThird.addEventListener("click", function (event) {
 
 submitBtn.addEventListener("click", function (event) {
     event.preventDefault();
+    $('#loader').show();
     if (validateForm() && validateForm_two() && validateForm_three()) {
         $.ajax({
             url: "<?= base_url('add_enquiry')?>",
@@ -543,6 +556,7 @@ submitBtn.addEventListener("click", function (event) {
             data: $("form").serialize(),
             success: function (response) {
                 console.log("Data inserted successfully:", response);
+                $('#loader').hide();
                 $("#message").html('<h4 class="text-success">Registration Successful.<i class="bi bi-check-circle"></i></h4>');
                 bullet[current - 1].classList.add("active");
                 current += 1;
