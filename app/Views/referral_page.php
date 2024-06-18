@@ -20,7 +20,7 @@ Co-Dent - Referral
 <section class="ftco-section pb-0">
   <div class="container">
     <div class="row justify-content-center"> <!-- Center the form within the row -->
-      <div class="col-lg-8"> <!-- Adjust the width as needed -->
+      <div class="col-lg-11"> <!-- Adjust the width as needed -->
         <div class="card" id="referaal-list2">
           <div class="card-body p-4">
             <form action="<?= base_url('search_enquiry') ?>" method="get">
@@ -57,9 +57,12 @@ Co-Dent - Referral
     <?php $count = 0; ?>
     <?php foreach ($user as $users): ?>
       <?php if ($count % 3 === 0): ?>
-        </div><div class="row">
+        </div>
+        <!-- <div class="col flex-row justify-content-between"> -->
+        <div class="row ref-center">
       <?php endif; ?>
-      <div class="col-lg-3 col-md-3 list23" style="margin-left: 6.2%;">
+      
+      <div class="col-lg-3 col-md-3 list23">
         <div class="card" id="referaal-list2">
           <div class="card-title refeal-title">
             <h4 class="ml-3 text-white pt-2"></h4>
@@ -126,6 +129,7 @@ Co-Dent - Referral
                 </div>
     </div>
   </div>
+  </div>
 <?php endif; ?>
 <br>
 
@@ -136,6 +140,9 @@ Co-Dent - Referral
   padding-left: 0;
   list-style: none;
   border-radius: 0.25rem;
+}
+.ref-center {
+    justify-content: center;
 }
 
 /* Pagination links */

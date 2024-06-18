@@ -3,8 +3,8 @@ const nextBtnFirst = document.querySelector(".firstNext");
 const prevBtnSec = document.querySelector(".prev-1");
 const nextBtnSec = document.querySelector(".next-1");
 const prevBtnThird = document.querySelector(".prev-2");
-const nextBtnThird = document.querySelector(".next-2");
-const prevBtnFourth = document.querySelector(".prev-3");
+// const nextBtnThird = document.querySelector(".next-2");
+// const prevBtnFourth = document.querySelector(".prev-3");
 const submitBtn = document.querySelector(".submit");
 const progressText = document.querySelectorAll(".step p");
 const progressCheck = document.querySelectorAll(".step .check");
@@ -29,18 +29,20 @@ nextBtnSec.addEventListener("click", function(event){
     }
 });
 
-nextBtnThird.addEventListener("click", function(event){
-    event.preventDefault();
-    if (validateForm_three()) {
-        slidePage.style.marginLeft = "-75%";
-        bullet[current - 1].classList.add("active");
-        current += 1;
-    }
-});
+// nextBtnThird.addEventListener("click", function(event){
+//     event.preventDefault();
+//     if (validateForm_three()) {
+//         // slidePage.style.marginLeft = "-100%";
+//         bullet[current - 1].classList.add("active");
+//         current += 1;
+//     }
+// });
 
 submitBtn.addEventListener("click", function(event){
     event.preventDefault();
-    if (validateForm_submit()) {
+    if (validateForm_submit()) 
+        {
+        slidePage.style.marginLeft = "-100%";
         bullet[current - 1].classList.add("active");
         current += 1;
         submitBtn.disabled = true;
@@ -69,8 +71,14 @@ prevBtnFourth.addEventListener("click", function(event){
     current -= 1;
 });
 
+function isValidEmail(email) {
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
 function validateForm() {
     var fullname = $("input[name='fullname']").val().trim();
+    var email = $("input[name='email']").val().trim();
     var password = $("input[name='password']").val().trim();
     var isValid = true;
 
@@ -80,6 +88,17 @@ function validateForm() {
         isValid = false;
     } else {
         fullnameError.text("");
+    }
+
+    var emailError = $("#emailError");
+    if (email === "") {
+        emailError.text("Please enter your email.");
+        isValid = false;
+    } else if (!isValidEmail(email)) {
+        emailError.text("Please enter a valid email address.");
+        isValid = false;
+    } else {
+        emailError.text("");
     }
 
     var passwordError = $("#passwordError");
@@ -94,20 +113,10 @@ function validateForm() {
 }
 
 function validateForm_two() {
-    var email = $("input[name='email']").val().trim();
     var phone = $("input[name='phone']").val().trim();
-    var isValid = true;
+    var address = $("textarea[name='address']").val().trim();
 
-    var emailError = $("#emailError");
-    if (email === "") {
-        emailError.text("Please enter your email.");
-        isValid = false;
-    } else if (!isValidEmail(email)) {
-        emailError.text("Please enter a valid email address.");
-        isValid = false;
-    } else {
-        emailError.text("");
-    }
+    var isValid = true;
 
     var phoneError = $("#phoneError");
     if (phone === "") {
@@ -120,12 +129,20 @@ function validateForm_two() {
         phoneError.text("");
     }
 
+    var addressError = $("#addressError");
+    if (address === "") {
+        addressError.text("Please enter your address.");
+        isValid = false;
+    } else {
+        addressError.text("");
+    }
+
     return isValid;
+
 }
 
 function validateForm_three() {
     var dob = $("input[name='dob']").val().trim();
-    var address = $("textarea[name='address']").val().trim();
     var isValid = true;
 
     var dobError = $("#dobError");
@@ -136,15 +153,7 @@ function validateForm_three() {
         dobError.text("");
     }
 
-    var addressError = $("#addressError");
-    if (address === "") {
-        addressError.text("Please enter your address.");
-        isValid = false;
-    } else {
-        addressError.text("");
-    }
-
-    return isValid;
+    
 }
 
 function validateForm_submit() {
@@ -161,6 +170,7 @@ function validateForm_submit() {
 
     return isValid;
 }
+
 
 function isValidEmail(email) {
     var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
