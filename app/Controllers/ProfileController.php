@@ -23,7 +23,9 @@ class ProfileController extends BaseController
         }
         else 
         {
-            return view('login_page');
+            // return view('login_page');
+            return redirect()->to('dentist_login'); // Redirect to the 'login_page' route
+
 
         }
     }
