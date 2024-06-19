@@ -88,6 +88,20 @@ class ReferralController extends BaseController
 }
 
 
+
+public function user_view_fun($id) 
+{
+    $enquiryModel = new EnquiryModel();
+
+    $users = $enquiryModel->where('id',$id)->findAll();
+
+    
+
+    return view('user_profile_view', ['users' => $users]);
+    
+    
+    
+}
        
     
 }

@@ -7,7 +7,6 @@ Co-Dent - Referral
     
 <style>
 
-
 ::selection{
     color: #fff;
     background: #d43f8d;
@@ -194,10 +193,8 @@ div#register-pt .field.btns {
 }
 </style>
 
-<div class="loader-overlay" id="loader">
+<div class="loader-overlay" id="loader" style="display: none;">
     <div class="loader"></div>
-       
-    
 </div>
 
 <section class="my-refer-sec ftco-section d-portal-bg d-flex flex-column justify-content-center">

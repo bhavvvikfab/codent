@@ -35,6 +35,7 @@ $routes->get('dentist_portal', 'LoginController::dentist_portal_view');
 
 $routes->get('referral', 'ReferralController::index');
 $routes->get('search_enquiry', 'ReferralController::searchEnquiry_fun');
+$routes->get('user_view_details/(:num)', 'ReferralController::user_view_fun/$1');
 
 
 
@@ -57,6 +58,8 @@ $routes->post('update_password', 'ProfileController::change_password');
 
 $routes->get('contact', 'ContactController::index');
 $routes->post('contact', 'ContactController::contact_fun');
+
+
 
 
 

@@ -38,7 +38,9 @@
         }
         ?>
 
-<li class="nav-item"><a href="<?= base_url('contact') ?>" class="nav-link">Contact Us</a></li>
+        
+
+             <li class="nav-item"><a href="<?= base_url('contact') ?>" class="nav-link">Contact Us</a></li>
 
 
              <!-- <li class="nav-item"><a href="<?= base_url('lead') ?>" class="nav-link">Lead</a></li> -->
@@ -70,15 +72,15 @@
         if ($id == '') 
         {
           ?>
-             
-              <li class="nav-item"><a href="dentist_login" class="nav-link">Login</a></li>
+              <li class="nav-item"><a href="dentist_login" class="nav-link" style="margin-right: -33px;">Login</a></li>
         <?php
         }
         ?>
+        
           <li class="nav-item dropdown pe-3">
             
 
-                  <a class="nav-link nav-profile d-flex align-items-center pe-0" href="" data-bs-toggle="dropdown" aria-expanded="true"> <i class="fa fa-user-circle-o profile-icon"></i></a> 
+                  <a class="nav-link nav-profile d-flex align-items-center pe-0" href="<?= base_url('dentist_login') ?>" data-bs-toggle="dropdown" aria-expanded="true"> <i class="fa fa-user-circle-o profile-icon"></i></a> 
                   
                   <?php
         $id = session()->get('user_id');

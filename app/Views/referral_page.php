@@ -10,7 +10,7 @@ Co-Dent - Referral
     <div class="container">
       <div class="row">
         <div class="col-md-12 col-sm-12 ftco-animate">
-          <h1 class="h1hedaing text-center">Dentist Portal Referral List</h1>
+          <h1 class="h1hedaing text-center"> Referral List</h1>
         </div>
       </div>
     </div>
@@ -73,10 +73,9 @@ Co-Dent - Referral
                 <div class="row">
                   <div class="col-lg-6">
                   <p>
-    <i class="fa fa-calendar text-dark"></i>
-    <?= esc(isset($users['appointment_date']) ? date('Y-m-d h:i A', strtotime($users['appointment_date'])) : 'N/A') ?>
-</p>
-
+                   <i class="fa fa-calendar text-dark"></i>
+                    <?= esc(isset($users['appointment_date']) ? date('Y-m-d h:i A', strtotime($users['appointment_date'])) : 'N/A') ?>
+                  </p>
                   </div>
                   <div class="col-lg-6">
                     <p><i class="fa fa-user-md text-dark"></i> <b class="text-dark">From:</b><?= esc(isset($users['referral_doctor']) ? $users['referral_doctor'] : 'N/A') ?></p>
@@ -97,6 +96,8 @@ Co-Dent - Referral
                 <div class="row">
                   <div class="col-lg-12 d-flex justify-content-center">
                     <button class="btn btn-success myref-btn-status"><?= esc(isset($users['status']) ? $users['status'] : 'N/A') ?></button>
+                    <a href="<?= base_url('user_view_details/' .$users['id'])?>" class="btn btn-primary" style="margin-left: 20px;">View Details</a>
+
                   </div>
                 </div>
               </div>

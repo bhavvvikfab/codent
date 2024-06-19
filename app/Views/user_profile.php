@@ -10,7 +10,7 @@ Co-Dent - Profile
         <div class="container">
           <div class="row">
             <div class="col-md-12 col-sm-12 ftco-animate  ">
-              <h1 class="h1hedaing text-center">Dentist Portal Profile</h1>
+              <h1 class="h1hedaing text-center"> Profile</h1>
                
             </div>
           </div>
@@ -33,11 +33,7 @@ Co-Dent - Profile
     style="max-width: 100px;">
                         <h3 class="font-weight-bold"> <?= esc($user['fullname']) ?> </h3>
                         <h6> Hospital </h6>
-                        <div>
-                            <a href="<?= base_url('logout') ?>" class="btn btn-primary py-2 px-5 w-70">Logout</a>
-                       </div>
                       </div>
-                      
                     </div>
               </div>
               <div class="col-md-8 profile-detail"> 
