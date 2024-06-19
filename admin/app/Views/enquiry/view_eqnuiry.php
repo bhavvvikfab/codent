@@ -52,18 +52,15 @@ Enquiries
                   <i class="bi bi-image-fill" aria-hidden="true"></i>
                   <label class="form-label" for="inputNanme4"> <h5><b> Patient Image: </b></h5>
                   </label><br> 
-        <img src="<?= base_url() ?>public/images/<?= session('profile') && !empty(session('profile')) ? session('profile') : 'user-profile.jpg' ?>" alt="Profile" class="rounded-circle img-thumbnail" width="100" height="100">
 
-                  <!-- <img  src="<?= base_url('public/images/' ) ?>" alt="Profile Image" class="rounded-circle img-thumbnail" style="max-width: 100px;"> -->
+        <img 
+        class="rounded-circle img-thumbnail"
+        style="max-width: 150px;" 
+            src="<?= base_url() ?>public/images/<?= session('profile') && !empty(session('profile')) ? session('profile') : 'default.jpg' ?>" 
+            onerror="this.onerror=null; this.src='<?= base_url() ?>public/images/<?= 'default.jpg' ?>';" 
+            alt="Profile Image">
 
-                  <!-- 
-                  <label class="form-label" for="inputNanme4"> <b> User Image: </b>
-                  </label> 
-                  <img src="assets/img/josh-d-avatar.jpg">
-                     <div class="user-view-thumbnail">
-                          <img src="assets/img/josh-d-avatar.jpg">
-                    </div>               -->
-
+       
                 </div>
 
                 <div class="col-lg-8 d-lg-flex flex-lg-column justify-content-lg-center">
@@ -72,12 +69,12 @@ Enquiries
 
                     <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
                       <i class="bi bi-person-circle" aria-hidden="true"></i>
-                      <label class="form-label" for="inputNanme05"> <b> Patient Name:</b> <?= $enquiry['patient_name'] ?></label> 
+                      <label class="form-label" for="inputNanme05"> <b> Patient Name :</b>  <?= isset($enquiry['patient_name']) ? $enquiry['patient_name'] : 'N/A'; ?></label> 
                      </div>
                        
-                    <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0"><i class="bi bi-calendar-week-fill" aria-hidden="true"></i>
-                      <label class="form-label" for="inputdate"> <b> Birth Date:</b> <?= $enquiry['date_of_birth'] ?>
-                    </label> 
+                    <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0"><i class="bi bi-calendar-week-fill" aria-hidden="true">
+                    </i>
+                      <label class="form-label" for="inputdate"> <b> Birth Date :</b>  <?= isset($enquiry['date_of_birth']) ? $enquiry['date_of_birth'] : 'N/A'; ?></label> 
                      </div>
                   </div>
               <hr>
@@ -85,12 +82,13 @@ Enquiries
                                             
               <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
                         <i class="bi bi-envelope-fill" aria-hidden="true"></i> <label class="form-label" for=""> <b>
-                            Email: </b></label> <?= isset($enquiry['email']) ? $enquiry['email'] : 'N/A'; ?>
+                            Email : </b></label> <?= isset($enquiry['email']) ? $enquiry['email'] : 'N/A'; ?>
                       </div>
                   
 
                     <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0"><i class="bi bi-telephone-fill" aria-hidden="true"></i>
-                        <label class="form-label" for=""> <b> Phone Number: </b> <?= $enquiry['phone'] ?>
+                        <label class="form-label" for=""> <b> Phone Number : </b> 
+                        <?= isset($enquiry['phone']) ? $enquiry['phone'] : 'N/A'; ?>
                         </label>
                      </div>
                  
@@ -102,18 +100,17 @@ Enquiries
                       <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
                         <i class="bi bi-person-fill" aria-hidden="true"></i>
                         <label class="form-label" for="">
-                          <b> Age: </b>
+                          <b> Age : </b>
                         </label>
-                        <?= $enquiry['phone'] ?>
-                        <?= isset($enquiry['age']) ? $enquiry['age'] : 'N/A'; ?> Years
+                         <?= isset($enquiry['age']) ? $enquiry['age'] : 'N/A'; ?> Years
                       </div>
 
                       <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
                         <i class="bi bi-gender-ambiguous" aria-hidden="true"></i>
                         <label class="form-label" for="">
-                          <b> Gender: </b>
+                          <b> Gender : </b>
                         </label>
-                        <?= isset($enquiry['gender']) ? $enquiry['gender'] : 'N/A'; ?>
+                         <?= isset($enquiry['gender']) ? $enquiry['gender'] : 'N/A'; ?>
                       </div>
                     </div>
 
@@ -122,12 +119,12 @@ Enquiries
               <div class="row">
                               
               <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
-                    <i class="bi bi-file-medical-fill" aria-hidden="true"></i> <label class="form-label" for=""> <b>Specialty required: </b></label> <?= $enquiry['required_specialist'] ?>  
+                    <i class="bi bi-file-medical-fill" aria-hidden="true"></i> <label class="form-label" for=""> <b>Specialty required : </b></label>   <?= isset($enquiry['required_specialist']) ? $enquiry['required_specialist'] : 'N/A'; ?>
                    </div>
 
                    <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0"><i class="bi bi-calendar-check-fill"></i>
-                        <label class="form-label" for="inputNanme4"> <b> Appointment Date: </b>
-                        </label> <?= isset($enquiry['appointment_date']) ? $enquiry['appointment_date'] : 'N/A'; ?>
+                        <label class="form-label" for="inputNanme4"> <b> Appointment Date : </b>
+                        </label>  <?= isset($enquiry['appointment_date']) ? $enquiry['appointment_date'] : 'N/A'; ?>
                       </div>
                   
 
@@ -140,12 +137,12 @@ Enquiries
               <div class="row">
     <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
         <i class="bi bi-geo-alt-fill"></i> 
-        <label class="form-label" for=""><b>Address:</b></label>
-        <?= isset($enquiry['address']) ? $enquiry['address'] : 'N/A'; ?>
+        <label class="form-label" for=""><b>Address :</b></label>
+          <?= isset($enquiry['address']) ? $enquiry['address'] : 'N/A'; ?>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
         <i class="bi bi-chat-left-text-fill"></i> 
-        <label class="form-label" for=""><b>Note:</b></label>
+        <label class="form-label" for=""><b>Note : </b></label>
         <?= isset($enquiry['note']) ? $enquiry['note'] : 'N/A'; ?>
     </div>
     </div>
@@ -198,14 +195,30 @@ Enquiries
     <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
         <i class="bi bi-chat-left-text-fill"></i> 
         <label class="form-label" for=""><b>Enquiry Status :</b></label>
-        <?= isset($enquiry['status']) ? $enquiry['status'] : 'N/A'; ?>
+        
+
+        <?php
+                            $status = isset($enquiry['status']) ? $enquiry['status'] : ' ';
+                            $textColor = '';
+                            
+                            if ($status === 'lead') {
+                                $textColor = 'text-success';
+                            } elseif ($status === 'appointment') {
+                                $textColor = 'text-warning';
+                            } elseif ($status === 'cancel') {
+                                $textColor = 'text-danger';
+                            }
+                            ?>
+                            <span class="<?= $textColor ?> fw-bold"><?= isset($enquiry['status']) ? $enquiry['status'] : ' '; ?></span>
+
+
     </div>
 </div>
 
 
     <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
         <i class="bi bi-calendar-check-fill"></i>
-        <label class="form-label"><b>Date and Time: </b>
+        <label class="form-label"><b>Date and Time : </b>
             <?= isset($leadInstructions['date_time']) ? 
                 DateTime::createFromFormat('Y-m-d\TH:i', $leadInstructions['date_time'])
                 ->format('F j, Y \a\t h:i A') 
@@ -215,7 +228,7 @@ Enquiries
     </div>
     <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
         <i class="bi bi-chat-left-text-fill"></i>
-        <label class="form-label" for=""><b> Response: </b></label>
+        <label class="form-label" for=""><b> Response : </b></label>
         <?= isset($leadInstructions['response']) ? $leadInstructions['response'] : 'N/A'; ?>
     </div>
 </div>
@@ -223,48 +236,44 @@ Enquiries
 <div class="row">
     <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
     <i class="bi bi-envelope-fill"></i> 
-        <label class="form-label"><b>Contacted Via: </b></label>
+        <label class="form-label"><b>Contacted Via : </b></label>
         <?= isset($leadInstructions['contacted_via']) ? $leadInstructions['contacted_via'] : 'N/A'; ?>
 
     </div>
     <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
         <i class="bi bi-chat-left-text-fill"></i>
-        <label class="form-label" for=""><b> Note: </b></label>
+        <label class="form-label" for=""><b> Note : </b></label>
         <?= isset($leadInstructions['note_for_team']) ? $leadInstructions['note_for_team'] : 'N/A'; ?>
     </div>
 </div>
 <div class="row">
     <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
     <i class="bi bi-alarm-fill"></i>
-        <label class="form-label"><b>Remind Me: </b></label>
+        <label class="form-label"><b>Remind Me : </b></label>
         <?= isset($leadInstructions['remind_me']) ? $leadInstructions['remind_me'] : 'N/A'; ?>
 
     </div>
     <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
     <i class="bi bi-calendar-check-fill"></i>
-        <label class="form-label" for=""><b> Appointment With: </b></label>
+        <label class="form-label" for=""><b> Appointment With : </b></label>
         <?= isset($leadInstructions['appointment_with']) ? $leadInstructions['appointment_with'] : 'N/A'; ?>
     </div>
 </div>
 <div class="row">
     <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
     <i class="bi bi-wrench"></i> 
-        <label class="form-label"><b>Method: </b></label>
+        <label class="form-label"><b>Method : </b></label>
         <?= isset($leadInstructions['method']) ? $leadInstructions['method'] : 'N/A'; ?>
 
     </div>
     <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
     <i class="bi bi-person-plus-fill"></i>
     <!-- <i class="bi bi-person-plus-circle"></i> -->
-        <label class="form-label" for=""><b> Assign Next Task To: </b></label>
+        <label class="form-label" for=""><b> Assign Next Task To : </b></label>
         <?= isset($leadInstructions['assigne_next_task']) ? $leadInstructions['assigne_next_task'] : 'N/A'; ?>
     </div>
 </div>
-
-             
-
-
-              <hr>
+         
 
               
    
