@@ -39,7 +39,12 @@ View_Hospitals
 
                     <div class="card-body view-supplier-table table-responsive">
                         <!-- Table with stripped rows -->
-                        <table id="myTable" class="table table-borderless supplier-table example">
+                        <table id="myTable" class="table table-borderless supplier-table example" style="width: 99%">
+
+                        <!-- <select id="hospital-filter" class="form-control custom-select">
+                          <option value="" class="text-center">Select Hospital</option>
+                          </select> -->
+                          
                             <thead>
                                 <tr>
                                     <th>Sr. No.</th>
@@ -53,21 +58,7 @@ View_Hospitals
                                     <th class="text-center">Action</th>
                                 </tr>                               
                         </thead>
-                        <thead> <!-- Use tthead for the second row -->
-                        <tr class="bg-white"> <!-- Apply background color style here -->
-                            <th class="bg-white"></th>
-                            <th class="bg-white"></th>
-                            <th class="bg-white"></th>
-                            <th class="bg-white"></th>
-
-                          <th class="bg-white">
-                          <select id="hospital-filter" class="form-control custom-select">
-                          <option value="" class="text-center">Select Hospital</option>
-                          </select>
-                          </th>
-                          <th class="bg-white"></th>
-                        </tr>
-                    </thead>
+                        
 
                             <tbody>                             
                                 <?php if (!empty($doctors) && is_array($doctors)): ?>
@@ -143,15 +134,33 @@ View_Hospitals
 
 <script>
    $(document).ready(function () {
-
-
-   
     var table = $('.example').DataTable({
         initComplete: function () {
             var tableApi = this.api(); // Get the DataTable API for easier access
 
             // Add custom search field HTML
-            var searchAndEntries = $('<div class="datatable-controls d-flex justify-content-between align-items-center"><div class="datatable-entries text-start"><label for="datatable-selector">Show entries:</label><select id="datatable-selector" class="datatable-selector"><option value="5">5</option><option value="10" selected>10</option><option value="15">15</option><option value="-1">All</option></select></div><div class="datatable-search text-end"><input class="datatable-input" placeholder="Search..." type="search" title="Search within table"></div></div>');
+            var searchAndEntries = $('<div class="datatable-controls d-flex justify-content-between align-items-center">' +
+                '<div class="datatable-entries text-start">' +
+                '<label for="datatable-selector">Show entries:</label>' +
+                '<select id="datatable-selector" class="datatable-selector">' +
+                '<option value="5">5</option>' +
+                '<option value="10" selected>10</option>' +
+                '<option value="15">15</option>' +
+                '<option value="-1">All</option>' +
+                '</select>' +
+                '</div>' +
+                '<div class="d-flex">' +
+                '<div class="datatable-filter ml-3 mr-3" style="margin-right:20px;">' +
+                '<select id="hospital-filter" class="form-control custom-select">' +
+                '<option value="">Select Hospital</option>' +
+                '</select>' +
+                '</div>' +
+                '<div class="datatable-search text-end">' +
+                '<input class="datatable-input" placeholder="Search..." type="search" title="Search within table">' +
+                '</div>' +
+                '</div>' +
+                '</div>');
+
             $('.dataTables_wrapper').prepend(searchAndEntries);
 
             // Ensure that the search field is functional
@@ -165,7 +174,7 @@ View_Hospitals
             });
 
             // Hospital filter functionality
-            var column = tableApi.column(4); // Target the 'Hospital' column (index 5)
+            var column = tableApi.column(4); // Target the 'Hospital' column (index 4)
             var select = $('#hospital-filter').on('change', function () {
                 var val = $.fn.dataTable.util.escapeRegex($(this).val());
                 column.search(val ? '^' + val + '$' : '', true, false).draw();
@@ -243,7 +252,16 @@ View_Hospitals
     });
 
     // Initial event handlers
+    function reattachEventHandlers() {
+        $('.datatable-pagination-list-item-link').on('click', function () {
+            var page = $(this).data('page') - 1; // DataTables uses 0-based indexing
+            table.page(page).draw(false);
+        });
+    }
+
     reattachEventHandlers();
+
+
 
     function reattachEventHandlers() {
         // Delete button click event

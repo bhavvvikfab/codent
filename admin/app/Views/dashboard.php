@@ -371,7 +371,7 @@ Dashboard
                             $status_text = 'Confirmed';
                             break;
                         case 'Pending':
-                            $badge_class = 'bg-primary';
+                            $badge_class = 'bg-warning';
                             $status_text = 'Pending';
                             break;
                         case 'Cancelled':

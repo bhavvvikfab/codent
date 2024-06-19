@@ -73,7 +73,7 @@ Co-Dent - Profile
                               <div class="col-lg-4 col-md-4 label "><i class="fa fa-envelope"></i> Email Address</div>
                               <div class="col-lg-6 col-md-8 dtl"><?= esc($user['email']) ?></div>
                           </div>
-                           
+                         
                           </div>
                           <div class="col">
     <div class="row">

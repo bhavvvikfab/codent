@@ -329,44 +329,50 @@ div#register-pt .field.btns {
 
     <script>
     $(document).ready(function () {
-        function registerData() {
-            var formData = new FormData($("#register")[0]);
+    function registerData() {
+        var formData = new FormData($("#register")[0]);
 
-            var loader = $('#loader');
-            loader.show(); // Show the loader
+        var loader = $('#loader');
+        loader.show(); // Show the loader
 
-            $.ajax({
-                url: $("#register").attr("action"),
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (data) {
-                    loader.hide();
-                    if (data.status == 1) {
-                        $("#message").html('<h4 class="text-success">Registration Successful.<i class="bi bi-check-circle"></i></h4>');
-                        $("#message").show();
-                        setTimeout(function() {
-                            location.reload();
-                        }, 2000);
-                    } else if (data.status == 2) {
-                        $("#message").html('<div class="text-danger">Email already registered.</div>');
-                        $("#message").show();
-                    } else {
-                        console.log('Registration failed.');
-                    }
-                },
-                error: function (error) {
-                    loader.hide();
-                    console.log(error);
+        $.ajax({
+            url: $("#register").attr("action"),
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                loader.hide(); // Hide the loader
+
+                if (data.status == 1) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Registration Successful.'
+                    });
+
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);
+                } else if (data.status == 2) {
+                    $("#message").html('<div class="text-danger">Email already registered.</div>');
+                    $("#message").show();
+                } else {
+                    console.log('Registration failed.');
                 }
-            });
-        }
+            },
+            error: function (error) {
+                loader.hide(); // Hide the loader in case of error
+                console.log(error);
+            }
+        });
+    }
 
-        $('#register_hospital').on('click', function (e) {
-            e.preventDefault();
-            registerData();
-        })
+    $('#register_hospital').on('click', function (e) {
+        e.preventDefault();
+        registerData();
     });
+});
+
     </script>
 <?= $this->endSection() ?>

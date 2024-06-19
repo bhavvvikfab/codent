@@ -52,6 +52,10 @@ Edit_Hospitals
                       <label for="email" class="form-label"><i class="bi bi-envelope-fill" style="font-size: 18px;"></i> Email</label>
                       <input type="email" class="form-control" id="email" name="email"  value="<?= esc($doctors['email']) ?>" >
                       <div id="emailError" class="text-danger"></div> 
+
+
+                     
+
                     
  
                 </div>

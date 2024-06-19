@@ -557,7 +557,16 @@ submitBtn.addEventListener("click", function (event) {
             success: function (response) {
                 console.log("Data inserted successfully:", response);
                 $('#loader').hide();
-                $("#message").html('<h4 class="text-success">Registration Successful.<i class="bi bi-check-circle"></i></h4>');
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Registration Successful.',
+                    timer: 2000, // Set a timer for the success message
+                    timerProgressBar: true,
+                    showConfirmButton: false
+                });
+
                 bullet[current - 1].classList.add("active");
                 current += 1;
                 submitBtn.disabled = true;
@@ -566,11 +575,17 @@ submitBtn.addEventListener("click", function (event) {
                 }, 2000);
             },
             error: function (xhr, status, error) {
-                $("#message").html('<h4 class="text-danger">Something went wrong. Please try again later.</h4>');
+                $('#loader').hide();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Something went wrong. Please try again later.'
+                });
             }
         });
     }
 });
+
     
     prevBtnSec.addEventListener("click", function(event){
     event.preventDefault();

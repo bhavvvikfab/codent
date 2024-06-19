@@ -31,7 +31,7 @@ Profile
     src="<?php echo base_url() . 'public/images/' . (isset($user['profile']) && !empty($user['profile']) ? $user['profile'] : '1717391425.jpeg'); ?>"
     onerror="this.onerror=null; this.src='<?php echo base_url(); ?>public/images/1717391425.jpeg';"
     class="rounded-circle img-thumbnail"
-    style="max-width: 100px;">
+    style="max-width: 150px;">
 
 
             <h2><?= isset($user['fullname']) ? $user['fullname'] : 'User Name'; ?></h2>
