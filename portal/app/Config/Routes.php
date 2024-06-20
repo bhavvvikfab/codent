@@ -15,8 +15,9 @@ $routes->post('login', 'LoginController::login');
 $routes->get('logout', 'LoginController::logout');
 $routes->get('register', 'LoginController::register',$authRedirectFilter);
 $routes->post('registerdata', 'LoginController::register_data');
+$routes->get('checkEmail', 'LoginController::checkEmail');
 $routes->post('subscription_payment', 'LoginController::subscription_payment');
-
+$routes->post('confirm_payment_intent', 'LoginController::confirm_payment_intent');
 
 //forgot password end
 $routes->get('forgot_password', 'LoginController::forgot_password');
@@ -82,6 +83,13 @@ $routes->group('hospital', ['filter' => $authFilter], function ($routes) {
     $routes->post('cancel_appointment', 'appointment\AppointmentController::cancel_appointment');
    
     $routes->get('get_doctor_dropdown','patient\PatientController::get_doctor_dropdown');
+
+
+    //chat routes
+    $routes->get('chats','ChatController::chats');
+    $routes->get('view_chat/(:num)','ChatController::view_chat/$1');
+    $routes->Post('send_message','ChatController::sent_message');
+    $routes->post('get_live_message', 'ChatController::get_live_message');
     
 });
 

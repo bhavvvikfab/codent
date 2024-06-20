@@ -66,10 +66,10 @@
                     <p class="text-center small">Enter your email & password to login</p>
                   </div>
 
-                  <form class="row g-3 needs-validation" action="<?= base_url('/login') ?>" method="post" novalidate>
-                    <?php if (session()->getFlashdata('error')): ?>
-                      <small class="text-danger text-center"><?= session()->getFlashdata('error') ?></small>
-                    <?php endif; ?>
+                  <form class="row g-3 needs-validation"  id="login_form" method="post" novalidate>
+                  
+                      <small class="text-danger error text-center"></small>
+  
                     <div class="col-12">
                       <label for="yourUsername" class="form-label">Email</label>
                       <div class="input-group has-validation">
@@ -127,6 +127,8 @@
                       title: 'Success',
                       text: message,
                       showConfirmButton: true,
+                      confirmButtonColor: 'black', 
+                      confirmButtonText: 'Okay',
                       timer: null
                   });
               }
@@ -135,8 +137,9 @@
       </section>
       <?php if (session('have_package')): ?>
         <script>
-          showToast("<?= session('have_package') ?> ");  
+          showToast("<?= session('have_package') ?>");  
         </script>
+        <?php session()->remove('have_package');?>
       <?php endif; ?>
 
       <?php if (session('password_changed')): ?>
@@ -144,17 +147,13 @@
           showToast("<?= session('password_changed') ?> ");  
         </script>
       <?php endif; ?>
+     
     </div>
   </main><!-- End #main -->
 
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
       class="bi bi-arrow-up-short"></i></a>
-
-
-
-
-
 
   <!-- vendor1 JS Files -->
   <script src="<?= base_url() ?>public/vendor1/apexcharts/apexcharts.min.js"></script>
@@ -168,7 +167,36 @@
 
   <!-- Template Main JS File -->
   <script src="<?= base_url() ?>public/js/main.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('#login_form').submit(function(e) {
+      e.preventDefault();
+      var formData = $(this).serialize();
 
+      $.ajax({
+        type: 'POST',
+        url: '<?= base_url('/login') ?>',
+        data: formData,
+        success: function(response) {
+          if(response.error == true ){
+            $('.error').html(response.msg); 
+          }else{
+            window.location.reload();
+          }
+
+        },
+        error: function(xhr, status, error) {
+          console.error(error);
+        }
+      });
+    });
+
+    });
+
+
+
+  </script>
 
 </body>
 

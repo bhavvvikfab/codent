@@ -60,54 +60,65 @@ All-Doctors
                 <?php
                 $adminurl = config('App')->baseURL2;
                 $index = 1;
-                foreach ($doctors as $doctor):
-                  if ($doctor !== null): // Check if $doctor is not null
-                    ?>
-                    <tr>
-                      <td><?= $index ?></td>
-                      <td>
-                        <img
-                          src="<?= $adminurl ?>/public/images/<?= !empty($doctor['user']['profile']) ? $doctor['user']['profile'] : 'user-profile.jpg' ?>"
-                          height="50" width="50"
-                          onerror="this.onerror=null; this.src='<?= config('App')->baseURL2 ?>/public/images/default.jpg';"> 
-                      </td>
-                      <td>Dr. <?= esc($doctor['user']['fullname']) ?></td>
-                      <td><?= esc($doctor['user']['phone']) ?></td>
-                      <td><?= esc($doctor['doctor']['specialist_of']) ?></td>
-                      <td>
-                      <button
-                          class="statusToggleBtn btn btn-sm <?php echo ($doctor['user']['status'] == 'active') ? 'btn-success' : 'btn-danger'; ?>"
-                          data-id="<?= $doctor['user']['id'] ?>">
-                          <?php echo ($doctor['user']['status'] == 'active') ? 'Active' : 'Inactive'; ?>
-                        </button>
-                      </td>
-                      <td>
-                        <div class="d-flex justify-content-between align-items-center">
-                          <div class="editen p-1">
-                            <a href="<?= base_url() . session('prefix') . '/doctor_details/' . esc($doctor['doctor']['id']) ?>">
-                              <button type="button" class="btn btn-secondary  btn-sm"><i class="bi bi-eye"></i></button>
-                            </a>
-                          </div>
-                          <div class="viewsenq p-1">
-                            <a href="<?= base_url() . session('prefix') . '/doctor_edit/' . esc($doctor['doctor']['id']) ?>">
-                              <button type="button" class="btn btn-sm"><i class="bi bi-pencil-square"></i></button>
-                            </a>
-                          </div>
 
-                          <div class="deleten p-1">
-                          <a href="<?= base_url() . session('prefix') . '/doctor_delete/' . esc($doctor['doctor']['id']) ?>" class="delete_btn" >
-                              <button type="button" class="btn btn-sm "><i class="bi bi-trash"></i></button>
-                            </a>
+                if (isset($doctors) && !empty($doctors)):
+                  foreach ($doctors as $doctor):
+                    if ($doctor !== null): // Check if $doctor is not null
+                      ?>
+                      <tr>
+                        <td><?= $index ?></td>
+                        <td>
+                          <img
+                            src="<?= $adminurl ?>/public/images/<?= !empty($doctor['user']['profile']) ? $doctor['user']['profile'] : 'user-profile.jpg' ?>"
+                            height="50" width="50"
+                            onerror="this.onerror=null; this.src='<?= config('App')->baseURL2 ?>/public/images/default.jpg';">
+                        </td>
+                        <td>Dr. <?= esc($doctor['user']['fullname'] ?? 'N/A') ?></td>
+                        <td><?= esc($doctor['user']['phone'] ?? 'N/A') ?></td>
+                        <td><?= esc($doctor['doctor']['specialist_of'] ?? 'N/A') ?></td>
+                        <td>
+                          <button
+                            class="statusToggleBtn btn btn-sm <?php echo ($doctor['user']['status'] == 'active') ? 'btn-success' : 'btn-danger'; ?>"
+                            data-id="<?= $doctor['user']['id'] ?? 'N/A' ?>">
+                            <?php echo ($doctor['user']['status'] == 'active') ? 'Active' : 'Inactive'; ?>
+                          </button>
+                        </td>
+                        <td>
+                          <div class="d-flex justify-content-between align-items-center">
+                            <div class="editen p-1">
+                              <a
+                                href="<?= base_url() . session('prefix') . '/doctor_details/' . esc($doctor['doctor']['id'] ?? 'N/A') ?>">
+                                <button type="button" class="btn btn-secondary btn-sm"><i class="bi bi-eye"></i></button>
+                              </a>
+                            </div>
+                            <div class="viewsenq p-1">
+                              <a
+                                href="<?= base_url() . session('prefix') . '/doctor_edit/' . esc($doctor['doctor']['id'] ?? 'N/A') ?>">
+                                <button type="button" class="btn btn-sm"><i class="bi bi-pencil-square"></i></button>
+                              </a>
+                            </div>
+                            <div class="deleten p-1">
+                              <a href="<?= base_url() . session('prefix') . '/doctor_delete/' . esc($doctor['doctor']['id'] ?? 'N/A') ?>"
+                                class="delete_btn">
+                                <button type="button" class="btn btn-sm"><i class="bi bi-trash"></i></button>
+                              </a>
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <?php
-                    $index++;
-                  endif;
-                endforeach; ?>
-
+                        </td>
+                      </tr>
+                      <?php
+                      $index++;
+                    endif;
+                  endforeach;?>
+              <?php else: ?>
+                  <tr>
+                    <td colspan="7" class="text-center">No doctors available.</td>
+                  </tr>
+                  <?php
+                endif;
+                ?>
               </tbody>
+
             </table>
             <!-- End Table with stripped rows -->
 
@@ -134,7 +145,7 @@ All-Doctors
   <?php endif; ?>
   <script>
     $(document).ready(function () {
-      
+
       $('.delete_btn').on('click', function (e) {
         e.preventDefault();
         var url = $(this).attr('href');
@@ -155,50 +166,50 @@ All-Doctors
 
 
       $('.statusToggleBtn').on('click', function () {
-            var $this = $(this);
-            var id = $this.data('id');
-            
-            if ($this.hasClass('btn-success')) {
-                $this.removeClass('btn-success').addClass('btn-danger');
-                $this.text('Inactive');
-                $.ajax({
-                    url: "<?= base_url() . '' . session('prefix') . '/' . 'doctor_status' ?>",
-                    method: 'get',
-                    data: {id: id},
-                    success: function (data) {
-                      
-                      if(data.status=='success'){
-                        showToast(data.msg);
-                      }else{
-                        console.log(data.msg);
-                      }
-                       
-                    },
-                    error: function (err) {
-                        console.log(err);
-                    }
-                });
-            } else {
-                $this.removeClass('btn-danger').addClass('btn-success');
-                $this.text('Active');
-                $.ajax({
-                    url: "<?= base_url() . '' . session('prefix') . '/' . 'doctor_status' ?>",
-                    method: 'get',
-                    data: {id: id},
-                    success: function (data) {
-                      
-                      if(data.status=='success'){
-                        showToast(data.msg);
-                      }else{
-                        console.log(data.msg);
-                      }
-                    },
-                    error: function (err) {
-                        console.log(err);
-                    }
-                });
+        var $this = $(this);
+        var id = $this.data('id');
+
+        if ($this.hasClass('btn-success')) {
+          $this.removeClass('btn-success').addClass('btn-danger');
+          $this.text('Inactive');
+          $.ajax({
+            url: "<?= base_url() . '' . session('prefix') . '/' . 'doctor_status' ?>",
+            method: 'get',
+            data: { id: id },
+            success: function (data) {
+
+              if (data.status == 'success') {
+                showToast(data.msg);
+              } else {
+                console.log(data.msg);
+              }
+
+            },
+            error: function (err) {
+              console.log(err);
             }
-        });
+          });
+        } else {
+          $this.removeClass('btn-danger').addClass('btn-success');
+          $this.text('Active');
+          $.ajax({
+            url: "<?= base_url() . '' . session('prefix') . '/' . 'doctor_status' ?>",
+            method: 'get',
+            data: { id: id },
+            success: function (data) {
+
+              if (data.status == 'success') {
+                showToast(data.msg);
+              } else {
+                console.log(data.msg);
+              }
+            },
+            error: function (err) {
+              console.log(err);
+            }
+          });
+        }
+      });
 
     });
   </script>

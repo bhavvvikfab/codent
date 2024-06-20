@@ -4,15 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class DoctorScheduleModel extends Model
+class ActivePlanHospital extends Model
 {
-    protected $table            = 'doctor_schedule';
+    protected $table            = 'active_hospital_packages';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday','created_at','doctor_id','user_id'];
+    protected $allowedFields    = ['hospital_id','starting_date','ending_date','package_id'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -43,5 +43,4 @@ class DoctorScheduleModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-
 }

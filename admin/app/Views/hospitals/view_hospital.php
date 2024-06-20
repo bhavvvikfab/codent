@@ -111,7 +111,7 @@ View_Hospitals
               <div class="row">
                                                     
                   <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">
-                    <i class="bi bi-alarm" aria-hidden="true"></i> <label class="form-label" for=""> <b>Plan duration: </b></label> <?= $package[0]['duration']?> 
+                    <i class="bi bi-alarm" aria-hidden="true"></i> <label class="form-label" for=""> <b>Plan duration: </b></label> <?= $package[0]['duration']?> Days
                    </div>
                    
                     <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">

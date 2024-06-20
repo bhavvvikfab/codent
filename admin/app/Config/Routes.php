@@ -175,6 +175,15 @@ $routes->group('',$authFilter, function ($routes) {
  // ==============contactUs routes  end===========
 
 
+ 
+
+// ============== Chat routes  end===========
+ $routes->get('chats','ChatController::chats');
+ $routes->get('view_chat/(:num)','ChatController::view_chat/$1');
+ $routes->Post('send_message','ChatController::sent_message');
+ $routes->post('get_live_message', 'ChatController::get_live_message');
+// ============== Chat routes  end===========
+
 });
 
 
@@ -202,39 +211,44 @@ $routes->group('',$authFilter, function ($routes) {
 
 
 
- // ==============API routes end===========
+// ==============API routes end===========
 
- $routes->group("api", ['namespace' => 'App\Controllers\Api'], function($routes) {
+$routes->group("api", ['namespace' => 'App\Controllers\Api'], function($routes) {
 
-  $routes->post("user_register", "ApiController::userRegister");
-  
-//   $routes->get("all_users", "ApiController::allUsers", ['filter' => 'apiAuth']);
-//   $routes->get("hospitals", "ApiController::hospitals", ['filter' => 'apiAuth']);
-//   $routes->get("receptinists", "ApiController::receptinists", ['filter' => 'apiAuth']);
 
-  $routes->post("get_doctor_details", "ApiController::get_doctor_details",['filter' => 'apiAuth']);
-  
+  $routes->get("user_details", "ApiController::user_details", ['filter' => 'apiAuth']); //useing token
   
   $routes->post("login", "ApiController::login");
-  $routes->post("edit_profile", "ApiController::edit_profile", ['filter' => 'apiAuth']);
+  
   $routes->post("change_password", "ApiController::change_password", ['filter' => 'apiAuth']);
   
-  $routes->post("patient_details", "ApiController::patient_details", ['filter' => 'apiAuth']);
-  $routes->get("user_details", "ApiController::user_details", ['filter' => 'apiAuth']);
-  $routes->post("dr_wise_appointment", "ApiController::dr_wise_appointment", ['filter' => 'apiAuth']);
-  $routes->post("get_enquiryById", "ApiController::get_enquiryById", ['filter' => 'apiAuth']);
-  $routes->post("get_today_appointment", "ApiController::get_today_appointment", ['filter' => 'apiAuth']);
-
+  $routes->post("get_doctor_details", "ApiController::get_doctor_details", ['filter' => 'apiAuth']);
+  $routes->post("edit_profile", "ApiController::edit_profile", ['filter' => 'apiAuth']);
   
+  $routes->post("dr_wise_patients", "ApiController::dr_wise_patients", ['filter' => 'apiAuth']);
+  $routes->post("dr_wise_appointment", "ApiController::dr_wise_appointment", ['filter' => 'apiAuth']);
+  $routes->post("get_enquiryById", "ApiController::get_enquiryById",['filter' => 'apiAuth']);
+  $routes->post("view_appointment", "ApiController::view_appointment" ,['filter' => 'apiAuth']);
+  
+  $routes->post("get_today_appointment", "ApiController::get_today_appointment" ,['filter' => 'apiAuth']);
+  $routes->post("appointment_status", "ApiController::appointment_status",['filter' => 'apiAuth']);
+  $routes->post("get_allAppointmentBy_EnquiryId", "ApiController::get_allAppointmentBy_EnquiryId",['filter' => 'apiAuth']);
+  
+  $routes->post("edit_schedule", "ApiController::edit_schedule",['filter' => 'apiAuth']);
+  
+
+  //chat routes
+  $routes->post("send_message", "ApiController::send_message",['filter' => 'apiAuth']);
+  $routes->post("get_message", "ApiController::get_message",['filter' => 'apiAuth']);
+  $routes->post("get_live_message", "ApiController::get_live_message",['filter' => 'apiAuth']);
   
   //forgot password end
   $routes->post('forgotPassword', 'ApiController::forgotPassword');
   $routes->get('confirmforgotPassword/(:num)/(:any)', 'ApiController::confirmforgotPassword/$1/$2');
-  $routes->post('reset_Password', 'ApiController::resetPassword');
   //forgot password end
 
 });
-
+  $routes->post("resetPassword", "Api\ApiController::resetPassword");
 
  // ==============API routes end===========
 

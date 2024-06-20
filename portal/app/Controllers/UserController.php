@@ -3,9 +3,12 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\ActivePlanHospital;
 use App\Models\AppointmentModel;
 use App\Models\DoctorModel;
 use App\Models\EnquiryModel;
+use App\Models\NotificationModel;
+use App\Models\PackagesModel;
 use App\Models\UserModel;
 use CodeIgniter\Config\Services;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -15,14 +18,19 @@ class UserController extends BaseController
     public function index()
     {
         $userModel = new UserModel();
+        $packageHospitalModel=new ActivePlanHospital();
+        $packageModel=new PackagesModel();
         $email = session()->get('email');
 
         $userData = $userModel->where('email', $email)->first();
-
-        if (!$userData) {
-            return 'User not found';
+        if(session('user_role') == 2 ){
+            $id=$userData['id'];
+        }else{
+            $id=$userData['hospital_id'];
         }
-        return view('user_profile.php', ['user' => $userData]);
+        $Activepackage = $packageHospitalModel->where('hospital_id',$id)->first();
+        $Activepackage['package'] = $packageModel->where('id',$Activepackage['package_id'])->first();
+        return view('user_profile.php', ['user' => $userData,'package' => $Activepackage]);
     }
 
 
@@ -183,6 +191,33 @@ class UserController extends BaseController
         }
     }
 
+    public function  notification(){
+
+        $notificationModel= new NotificationModel();
+        $appointmentModel = new AppointmentModel();
+        $userModel = new UserModel();
+        $recentNotifications = $notificationModel->orderBy('created_at', 'DESC')->limit(4)->findAll();
+        
+        foreach ($recentNotifications as &$notification) {
+            $notificationData = json_decode($notification['notification'], true);
+        
+            if ($notificationData && isset($notificationData['appointment_id'])) {
+                $appointmentId = $notificationData['appointment_id'];
+                
+                $senderId = $notification['sender_id'];
+                $senderDetails = $userModel->find($senderId);
+        
+                $appointmentDetails = $appointmentModel->find($appointmentId);
+        
+               
+                $notification['sender_details'] = $senderDetails;
+                $notification['appointment_details'] = $appointmentDetails;
+                
+            }
+        }
+        return response()->setJSON(['notification'=> $notification]);
+    }
+
     public function dashboard() 
 
         {
@@ -236,16 +271,16 @@ class UserController extends BaseController
             $countAppointments = $appointmentModel->where('hospital_id', $hospital_id)
                                                  ->countAllResults();
 
-            $countEnquiries = $enquiryModel->where('hospital_id', $hospital_id)
+            $enquiries = $enquiryModel->where('hospital_id', $hospital_id)
                                             ->where('status', null)
-                                            ->countAllResults();
+                                            ->findAll();
 
             $leadsCount = $enquiryModel->where('hospital_id', $hospital_id)
                                         ->where('status', 'lead')
                                         ->countAllResults();
 
-            $countUsers = $userModel ->where('hospital_id', $hospital_id)
-                                     ->countAllResults();
+            $countUsers = $userModel->where('hospital_id', $hospital_id)
+                                    ->countAllResults();
             
 
             $appointments = $appointmentModel
@@ -273,10 +308,11 @@ class UserController extends BaseController
             return view('dashboard', [
                 'data' => $data,
                 'countApp' => $countAppointments,
-                'countEn' => $countEnquiries,
+                'enquiries' => $enquiries,
                 'countUsers' => $countUsers,
                 'appointments' => $appointments,
-                'leadsCount'=>$leadsCount
+                'leadsCount'=>$leadsCount,
+                'notification'=>$notification 
             ]);
         
         // $appointmentModel = new AppointmentModel();

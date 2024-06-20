@@ -20,6 +20,12 @@ Profile
       </div>
     </div>
   </div>
+  <pre>
+    <?php
+    // print_r($package);
+    // die;
+    ?>
+  </pre>
   <section class="section profile" id="profile_section">
     <div class="row">
       <div class="col-xl-4">
@@ -41,6 +47,23 @@ Profile
                 <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
                 <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
               </div> -->
+          </div>
+          <div class="card-body pb-3 d-flex flex-column align-items-center">
+
+            <?php
+            if(isset($package)):
+            $starting_date = new DateTime($package['starting_date']);
+            $ending_date = new DateTime($package['ending_date']);
+            $interval = $starting_date->diff($ending_date);
+            $days_left = $interval->days;
+            ?>
+            <span class="">Active Package :
+              <?= isset($package['package']['plan_name']) ? $package['package']['plan_name'] : 'Package Name'; ?></span>
+            <small class="">Validity :
+              <?= isset($package['package']['duration']) ? $package['package']['duration'] : 'Validity'; ?> Days</small>
+            <small class="">Day left : <?= isset($days_left) ? $days_left : 'Remaning day'; ?> Days</small>
+            <button class="btn btn-sm btn-primary mt-4" >Update Package</button>
+             <?php endif; ?>
           </div>
         </div>
 
@@ -363,12 +386,14 @@ Profile
           contentType: false,
           success: function (data) {
             if (data.status === "success") {
-              $('#profile_section').load('<?= base_url(session('prefix') . '/users_profile') ?> #profile_section', function() {
+              $('#profile_section').load('<?= base_url(session('prefix') . '/users_profile') ?> #profile_section', function () {
                 // Reattach event handler after the section is reloaded
                 Swal.fire({
                   icon: 'success',
                   title: 'Success',
-                  text: 'Profile updated successfully.'
+                  text: 'Profile updated successfully.',
+                  confirmButtonColor: 'black', 
+                  confirmButtonText: 'Okay',
                 });
                 $('#alert').empty();
               });
@@ -403,7 +428,9 @@ Profile
               Swal.fire({
                 icon: 'success',
                 title: 'Success',
-                text: 'Password Chanaged successfully.'
+                text: 'Password Chanaged successfully.',
+                confirmButtonColor: 'black', 
+                confirmButtonText: 'Okay',
               });
               $('#password_alert').empty();
             } else {

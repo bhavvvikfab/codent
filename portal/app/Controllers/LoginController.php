@@ -3,6 +3,9 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\ActivePlanHospital;
+use App\Models\ChatModel;
+use App\Models\DoctorModel;
 use App\Models\HospitalModel;
 use App\Models\PackagesModel;
 use App\Models\TransactionModel;
@@ -13,6 +16,7 @@ use Stripe\Charge;
 use Stripe\Customer;
 use Stripe\PaymentIntent;
 use Stripe\PaymentMethod;
+use Stripe\Plan;
 use Stripe\SetupIntent;
 use Stripe\Stripe;
 use Stripe\Subscription;
@@ -26,23 +30,31 @@ class LoginController extends BaseController
         return view('loginpage');
     }
 
+    public function checkEmail(){
+        $email = $this->request->getVar('email');
+        $userModel= new UserModel();
+        $user = $userModel->where('email',$email)->first();
+        if($user){
+            return response()->setJSON(['status'=>1]);
+        }else{
+            return response()->setJSON(['status'=>0]);
+        }
+    }
     public function login()
     {
-
         $email = $this->request->getPost('email');
         $password = $this->request->getPost('password');
-
         // Authenticate user
         if ($this->authenticate($email, $password)) {
-
             $user = $this->getUserDetailsFromDatabase($email);
-
+           
+            // Proceed with login if active plan is valid
             if ($user['status'] == 'active') {
 
                 if (!empty($user['role'])) {
 
                     if ($user['role'] == 1) {
-                        return redirect()->to('/')->with('error', 'Invalid username or password.');
+                        return $this->response->setJSON(['error' =>true,'msg'=> 'Invalid username or password.']);
                     } else {
                         session()->set([
                             'user_id' => $user['id'],
@@ -51,49 +63,37 @@ class LoginController extends BaseController
                             'fullname' => $user['fullname'],
                             'profile' => $user['profile'],
                             'logged_in' => true,
-                            'hospital_id'=>$user['hospital_id']
+                            'hospital_id' => $user['hospital_id']
                         ]);
                         switch ($user['role']) {
                             case '2':
-                                session()->set([
-                                    'prefix' => 'hospital'
-                                ]);
+                                session()->set(['prefix' => 'hospital']);
                                 return redirect()->to('/hospital/dashboard');
                             case '3':
-                                session()->set([
-                                    'prefix' => 'practices'
-                                ]);
+                                session()->set(['prefix' => 'practices']);
                                 return redirect()->to('/practices/dashboard');
                             case '4':
-                                session()->set([
-                                    'prefix' => 'specialist'
-                                ]);
+                                session()->set(['prefix' => 'specialist']);
                                 return redirect()->to('/specialist/dashboard');
                             case '5':
-                                session()->set([
-                                    'prefix' => 'receptionist'
-                                ]);
+                                session()->set(['prefix' => 'receptionist']);
                                 return redirect()->to('/receptionist/dashboard');
-                            case '6':
-                                session()->set([
-                                    'prefix' => 'patient'
-                                ]);
-                                return redirect()->to('/patient/dashboard');
                             default:
                                 return redirect()->to('/');
                         }
                     }
                 } else {
-                    return redirect()->to('/')->with('error', 'User details not found.');
+                    return $this->response->setJSON(['error'=>true,'msg'=> 'User details not found.']);
                 }
             } else {
-                return redirect()->to('/')->with('error', 'Your account is deactivated');
+                return $this->response->setJSON(['error'=>true,'msg'=> 'Your account is deactivated']);
             }
         } else {
-            return redirect()->to('/')->with('error', 'Invalid username or password.');
-
+            return $this->response->setJSON(['error' =>true,'msg'=> 'Invalid username or password.']);
         }
     }
+    
+    
 
     private function authenticate($email, $password)
     {
@@ -109,7 +109,7 @@ class LoginController extends BaseController
     }
 
 
-    private function getUserDetailsFromDatabase($email)
+    public function getUserDetailsFromDatabase($email)
     {
         $userModel = new UserModel();
         $user = $userModel->where('email', $email)->first();
@@ -122,7 +122,7 @@ class LoginController extends BaseController
                 'fullname' => $user['fullname'],
                 'profile' => $user['profile'],
                 'status' => $user['status'],
-                'hospital_id'=>$user['hospital_id']
+                'hospital_id' => $user['hospital_id']
             ];
         } else {
             return null; // User not found
@@ -150,7 +150,6 @@ class LoginController extends BaseController
     public function register_data()
     {
         $usermodel = new UserModel();
-        $hospitalmodel = new HospitalModel();
 
         // Retrieve POST data
         $fullname = $this->request->getPost('fullname');
@@ -188,21 +187,11 @@ class LoginController extends BaseController
             $userid = $usermodel->insertUser($userdata);
 
             if ($userid) {
-                $hospitaldata = [
-                    'hospital_id' => $userid,
-                    'name' => $fullname
-                ];
-
-                $result = $hospitalmodel->insertHospital($hospitaldata); //this function return insert id
-
-                if ($result) {
-                    return $this->response->setJSON(['status' => 1, 'hospital_id' => $result]);
-                } else {
-                    return $this->response->setJSON(['status' => 3]);
-                }
+                return $this->response->setJSON(['status' => 1, 'hospital_id' => $userid]);
             } else {
                 return $this->response->setJSON(['status' => 3]);
             }
+
         }
     }
 
@@ -214,106 +203,139 @@ class LoginController extends BaseController
         $package_id = $this->request->getPost('package_id');
         $hospital_id = $this->request->getPost('hospital_id');
 
-
-        if ($package_id && $hospital_id) {
-            $package_model = new PackagesModel();
-            $package = $package_model->where('id', $package_id)->first();
-
-
-            $hospitalModel = new HospitalModel();
-            $hospital = $hospitalModel->where('id', $hospital_id)->first();
-            $userid = $hospital['hospital_id'];
-
-            $userModel = new UserModel();
-            $user = $userModel->where('id', $userid)->first();
-
-            if (!$package) {
-                return $this->response->setJSON(['status' => 'error', 'message' => 'Package not found']);
-            }
-
-            $plan_id = $package['package_id'];
-            $amount = $package['price'];
-
-            // Initialize Stripe
-            Stripe::setApiKey($stripeSecretKey);
-
-            try {
-                $customer = Customer::create([
-                    'email' => $user['email'],
-                    'phone' => $user['phone'],
-                    'description' => 'Customer address : ' . $user['address']
-
-                ]);
-                $paymentMethod = PaymentMethod::create([
-                    'type' => 'card',
-                    'card' => [
-                        'token' => $token,
-                    ],
-                ]);
-
-                // Create a Payment Intent
-                $paymentIntent = PaymentIntent::create([
-                    'amount' => $amount * 100,
-                    'currency' => 'inr',
-                    'payment_method' => $paymentMethod->id,
-                    'customer' => $customer->id,
-                    'description' => "Payment for package ID: $package_id by hospital ID: $hospital_id",
-                    'metadata' => [
-                        'package_id' => $package_id,
-                        'hospital_id' => $hospital_id,
-                    ],
-                ]);
-
-                // $paymentIntent = SetupIntent::create([
-
-                //         'payment_method_types'=>['card'],
-                //         'payment_method' => $paymentMethod->id,
-                //         'customer' => $customer->id,
-                //         'confirm' => true,
-                //         'usage' => "off_session"
-                //     ]);
-
-                //  $subscription = Subscription::create([
-                //             'customer' =>  $customer->id,
-                //             'default_payment_method' => $paymentMethod->id,
-                //             'items' => ['price' => $amount ],
-                //  ]);
-
-                $status = 'failed';
-                if ($paymentIntent->status == 'succeed') {
-                    $status = 'success';
-                }
-                $transactionModel = new TransactionModel;
-                $data = [
-                    'hospital_id' => $hospital_id,
-                    'amount' => $amount,
-                    'status' => $status,
-                    'transaction_id' => $paymentIntent->id
-                ];
-                $result = $transactionModel->insert($data);
-
-                if ($result) {
-                    return redirect('/')->with('have_package', 'Your Package is activated. Now you can login...Thank You! ');
-                }
-
-                // return $this->response->setJSON(['status' => 'error', 'message' => 'Invalid package or hospital ID']);
-
-            } catch (\Stripe\Exception\ApiErrorException $e) {
-                return $this->response->setJSON([
-                    'status' => 'error',
-                    'message' => $e->getMessage(),
-                ]);
-            }
-        } else {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Invalid package or hospital ID']);
+        if (!$package_id || !$hospital_id || !$token) {
+            session()->setFlashdata('error', 'Invalid package, hospital ID, or token');
+            return redirect()->back();
         }
+        
+        $package_model = new PackagesModel();
+        $package = $package_model->where('id', $package_id)->first();
+        
+        if (!$package) {
+            session()->setFlashdata('error', 'Package not found');
+            return redirect()->back();
+        }
+        
+        $userModel = new UserModel();
+        $user = $userModel->where('id', $hospital_id)->first();
+        
+        if (!$user) {
+            session()->setFlashdata('error', 'User not found');
+            return redirect()->back();
+        }
+
+        $amount = $package['price'];
+
+        // Initialize Stripe
+        Stripe::setApiKey($stripeSecretKey);
+
+        try {
+            $customer = Customer::create([
+                'email' => $user['email'],
+                'phone' => $user['phone'],
+                'name' => $user['fullname'],
+                'address' => [
+                    'line1' => $user['address'],
+                    'country' => 'IN',
+                ],
+            ]);
+
+            $paymentMethod = PaymentMethod::create([
+                'type' => 'card',
+                'card' => [
+                    'token' => $token,
+                ],
+            ]);
+
+            // Create a Payment Intent
+            $paymentIntent = PaymentIntent::create([
+                'amount' => $amount * 100,
+                'currency' => 'usd',
+                'customer' => $customer->id,
+                'payment_method' => $paymentMethod->id,
+                'off_session' => true,
+                'confirm' => true,
+                'description' => "Payment for package: {$package['plan_name']} by hospital: {$user['fullname']}",
+            ]);
+
+
+            // Check the status of the PaymentIntent
+            $status = 'failed';
+            if ($paymentIntent->status == 'succeeded') {
+                $status = 'success';
+            }
+
+            // Insert the transaction into the database
+            $transactionModel = new TransactionModel();
+            $activePlanModel = new ActivePlanHospital();
+
+            $starting_date = date('Y-m-d');
+            $duration = !empty($package['duration']) ? intval($package['duration']) : 0;
+            $endDate = date('Y-m-d', strtotime($starting_date . ' + ' . $duration . ' days'));
+
+            $plan = [
+                'hospital_id' => $hospital_id,
+                'package_id' => $package_id,
+                'starting_date' => $starting_date,
+                'ending_date' => $endDate,
+            ];
+
+            $active_plan = $activePlanModel->insert($plan);
+
+            $data = [
+                'hospital_id' => $hospital_id,
+                'amount' => $amount,
+                'status' => $status,
+                'transaction_id' => $paymentIntent->id
+            ];
+            $result = $transactionModel->insert($data);
+
+            $set_plan = $userModel->where('id', $hospital_id)
+                                   ->set('package_status','active')
+                                   ->update();        
+
+            if ($result && $status == 'success' && $active_plan && $set_plan) {
+                session()->set('have_package', 'Your Package is activated. Thank you!');
+                return redirect('/');
+            }
+
+        } catch (\Stripe\Exception\ApiErrorException $e) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ]);
+        }
+
+        return $this->response->setJSON(['status' => 'error', 'message' => 'An unexpected error occurred']);
     }
 
-    public function forgot_password(){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // Forgot Password - Send Email
+    public function forgot_password()
+    {
         return view('password_recovery.php');
     }
 
-    // Forgot Password - Send Email
     public function forgotPassword()
     {
         $userEmail = $this->request->getPost('email');
@@ -398,18 +420,18 @@ class LoginController extends BaseController
             $email_dt->setMessage($message);
 
             if ($email_dt->send()) {
-                return redirect('forgot_password')->with('email','We have sent email for password recovery.');
+                return redirect('forgot_password')->with('email', 'We have sent email for password recovery.');
             } else {
 
-                  return redirect('forgot_password')->with('email','Something went wrong..!!');
+                return redirect('forgot_password')->with('email', 'Something went wrong..!!');
             }
 
 
         } else {
-            return redirect('forgot_password')->with('email','User not found..!!');
+            return redirect('forgot_password')->with('email', 'User not found..!!');
         }
 
-         return redirect('forgot_password')->with('email','Something went wrong..!!');
+        return redirect('forgot_password')->with('email', 'Something went wrong..!!');
     }
 
     public function confirmforgotPassword($userID, $key)
@@ -443,7 +465,7 @@ class LoginController extends BaseController
 
     }
     // END Forgot Password - 
- 
+
 
 
 

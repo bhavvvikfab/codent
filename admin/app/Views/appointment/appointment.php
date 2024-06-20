@@ -86,6 +86,10 @@ Appointments
                         $badge_class = 'bg-danger';
                         $status_text = 'Cancelled';
                         break;
+                    case 'Completed':
+                      $badge_class = 'bg-info';
+                      $status_text = 'Completed';
+                      break;
                     default:
                         $badge_class = 'bg-secondary';
                         $status_text = 'Unknown';

@@ -80,7 +80,7 @@ Hospitals
                                             </td>
                                             <td class="text-center">
                                                 
-                                                 <a href="<?= base_url('view_hospital' . $hospital['id']) ?>" class="btn btn-secondary btn-sm" >
+                                                 <a href="<?= base_url('view_hospital/' . $hospital['id']) ?>" class="btn btn-secondary btn-sm" >
                                                     <i class="ri-eye-line"></i>
                                                 </a>
                                                 
@@ -122,7 +122,7 @@ Hospitals
     <?php endif; ?>
     <?php if (session()->has('view_error') && session('view_error') == 'error'): ?>
         <script>
-            showToast('Something went wrong...!');  
+            showToastError('Something went wrong...!');  
         </script>
     <?php endif; ?>
 
@@ -134,7 +134,7 @@ Hospitals
 
 <?php if (session()->has('hospital_delete') && session('hospital_delete') == 'error'): ?>
       <script>
-            showToast('Something Is Wrong ..... Please Try Again Later');  
+            showToastError('Something Is Wrong ..... Please Try Again Later');  
         </script>
 <?php endif; ?>
    <script>

@@ -42,7 +42,7 @@ class ApiFilter implements FilterInterface
         if(is_null($token) || empty($token)) {
             $response = service('response');
             $response->setStatusCode(401)
-                     ->setJSON(['message' => 'Access denied'])
+                     ->setJSON(['status'=>401,'message' => 'Unauthorized'])
                      ->send();
             return $response;
         }

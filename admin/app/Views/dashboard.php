@@ -261,9 +261,9 @@ Dashboard
                     </tr>
                 </thead>
                 <tbody>
-                <?php if (!empty($appointments) && is_array($appointments)) : ?>
+                <?php if (!empty($enquiries) && is_array($enquiries)) : ?>
                     <!-- <?php $serial = 1; ?> -->
-                    <?php foreach ($appointments as $index => $enquiry) : ?>
+                    <?php foreach ($enquiries as $index => $enquiry) : ?>
                         <?php if ($index >= 2) break; // Limit to first 3 entries ?>
                         <tr style="font-size: small;">
                             <!-- <td ><?= $serial++ ?></td> -->
@@ -273,27 +273,8 @@ Dashboard
                             <td class="text-center">
                         <?php
                         $enquiry_status = $enquiry['status'];
-                        $badge_class = '';
-                        $status_text = '';
-
-                        switch ($enquiry_status) {
-                          case 'lead':
-                              $badge_class = 'bg-success';
-                              $status_text = 'Lead';
-                              break;
-                          case 'appointment':
-                              $badge_class = 'bg-primary';
-                              $status_text = 'Appointment';
-                              break;
-                          case 'cancel':
-                              $badge_class = 'bg-danger';
-                              $status_text = 'Cancelled';
-                              break;
-                          default:
-                              $badge_class = 'bg-secondary';
+                        $badge_class = 'bg-success';
                               $status_text = 'Enquiry';
-                              break;
-                      }
                       ?>
                       <span class="badge <?= $badge_class; ?>" style="font-size: -1rem; padding: 0.4rem 1rem;"><?= $status_text; ?></span>
                     </td>
@@ -377,6 +358,10 @@ Dashboard
                         case 'Cancelled':
                             $badge_class = 'bg-danger';
                             $status_text = 'Cancelled';
+                            break;
+                        case 'Completed':
+                            $badge_class = 'bg-info';
+                            $status_text = 'Completed';
                             break;
                         default:
                             $badge_class = 'bg-secondary';

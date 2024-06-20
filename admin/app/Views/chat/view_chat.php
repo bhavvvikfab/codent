@@ -51,7 +51,7 @@ View-Chat
                 // print_r($messages)
                 ?>
               </pre>
-            <div class="card-body">
+              <div class="card-body">
               <?php if (isset($messages) && !empty($messages)): ?>
                 <?php foreach ($messages as $message): ?>
                   <?php if ($message['receiver_id'] == $receiverID || $message['sender_id'] == $receiverID): ?>
@@ -59,16 +59,38 @@ View-Chat
                       class="d-flex flex-row <?= $message['sender_id'] == session('id') ? 'justify-content-end' : 'justify-content-start' ?> mb-4">
                       <div class="cust-chat" style="max-width:50%;">
                         <?php if (!empty($message['files'])): ?>
-                          <div class="message-images mb-2">
+                          <div class="message-files mb-2">
                             <?php
                             $files = json_decode($message['files']);
                             foreach ($files as $file):
-                              ?>
-                              <a href="<?= base_url() ?>/public/chat_images/<?= $file ?>"
-                                data-lightbox="image-<?= $message['id'] ?>">
-                                <img src="<?= base_url() ?>/public/chat_images/<?= $file ?>" class="img-thumbnail m-1"
-                                  style="width: 50px; height: 50px;">
-                              </a>
+                              if (pathinfo($file, PATHINFO_EXTENSION) == 'jpg' || pathinfo($file, PATHINFO_EXTENSION) == 'jpeg' || pathinfo($file, PATHINFO_EXTENSION) == 'png' || pathinfo($file, PATHINFO_EXTENSION) == 'gif') {
+                                // Handle images
+                                ?>
+                                <a href="<?= base_url() ?>/public/chat_files/<?= $file ?>"
+                                  data-lightbox="image-<?= $message['id'] ?>">
+                                  <img src="<?= base_url() ?>/public/chat_files/<?= $file ?>"
+                                    class="img-thumbnail m-1" style="width: 50px; height: 50px;">
+                                </a>
+
+                              <?php } elseif (pathinfo($file, PATHINFO_EXTENSION) == 'pdf') {
+                                // Handle PDFs
+                                ?>
+                                <br>
+                                <a href="<?= base_url() ?>/public/chat_files/<?= $file ?>" target="_blank"
+                                  class="m-1 text-light">
+                                  PDF File (<?= $file ?>)
+                                </a>
+                                
+                              <?php } elseif (pathinfo($file, PATHINFO_EXTENSION) == 'mp4' || pathinfo($file, PATHINFO_EXTENSION) == 'avi' || pathinfo($file, PATHINFO_EXTENSION) == 'mov') {
+                                // Handle videos
+                                ?>
+                                <video controls class="m-1 rounded" style="max-width: 100%; min-width: 100%;">
+                                  <source src="<?= base_url() ?>/public/chat_files/<?= $file ?>"
+                                    type="video/mp4">
+                                  Your browser does not support the video tag.
+                                </video>
+                                <br>
+                              <?php } ?>
                             <?php endforeach; ?>
                           </div>
                         
@@ -126,24 +148,56 @@ View-Chat
 <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
 <script>
 
-document.getElementById('fileInput').addEventListener('change', function() {
+document.getElementById('fileInput').addEventListener('change', function () {
     const files = this.files;
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif']; 
+    const allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    const allowedVideoTypes = ['video/mp4', 'video/avi', 'video/mov'];
+    const allowedPdfTypes = ['application/pdf'];
     const maxFileSize = 10 * 1024 * 1024; // 10MB
 
     let validFiles = true;
+    let fileType = '';
+
     for (let i = 0; i < files.length; i++) {
         const file = files[i];
 
-        if (!allowedTypes.includes(file.type)) {
-            showToastError('Only Image files allow...!');
-            this.value = ''; 
+        if (allowedImageTypes.includes(file.type)) {
+            if (fileType === '' || fileType === 'image') {
+                fileType = 'image';
+            } else {
+                showToastError('Select only one type of files.');
+                this.value = '';
+                validFiles = false;
+                break;
+            }
+        } else if (allowedVideoTypes.includes(file.type)) {
+            if (fileType === '' || fileType === 'video') {
+                fileType = 'video';
+            } else {
+                showToastError('Select only one type of files.');
+                this.value = '';
+                validFiles = false;
+                break;
+            }
+        } else if (allowedPdfTypes.includes(file.type)) {
+            if (fileType === '' || fileType === 'pdf') {
+                fileType = 'pdf';
+            } else {
+                showToastError('Select only one type of files.');
+                this.value = '';
+                validFiles = false;
+                break;
+            }
+        } else {
+            showToastError('Only Image, Video, and PDF files are allowed.');
+            this.value = '';
             validFiles = false;
             break;
         }
+
         if (file.size > maxFileSize) {
             showToastError('File size exceeds the limit of 10MB.');
-            this.value = ''; 
+            this.value = '';
             validFiles = false;
             break;
         }
@@ -152,7 +206,7 @@ document.getElementById('fileInput').addEventListener('change', function() {
     if (validFiles) {
         document.getElementById('file-count').textContent = `${files.length}`;
     } else {
-        // document.getElementById('file-count').textContent = 'Invalid Image selection';
+        // document.getElementById('file-count').textContent = 'Invalid file selection';
     }
 });
 
@@ -190,7 +244,7 @@ document.getElementById('fileInput').addEventListener('change', function() {
       const chatBody = $('.card-body');
       chatBody.animate({ scrollTop: chatBody[0].scrollHeight }, 1000);
     }
-
+    
     function sendMessage(receiverID, senderID) {
       let msg = $('#msgtext').val();
       let fileInput = document.getElementById('fileInput');
@@ -211,7 +265,7 @@ document.getElementById('fileInput').addEventListener('change', function() {
       }
 
       $.ajax({
-        url: '<?= base_url("send_message") ?>',
+        url: '<?= base_url("send_message")?>',
         type: 'POST',
         data: formData,
         processData: false,
@@ -219,27 +273,51 @@ document.getElementById('fileInput').addEventListener('change', function() {
         success: function (response) {
           if (response.status === 200) {
             let newMessage = response.data;
-            let imgHtml = '';
+            let mediaHtml = '';
+
             if (newMessage.files) {
               let filesArray = JSON.parse(newMessage.files);
               filesArray.forEach(file => {
-                imgHtml += `
-                            <a href="<?= base_url() ?>/public/chat_images/${file}" data-lightbox="image-${newMessage.id}">
-                                <img src="<?= base_url() ?>/public/chat_images//${file}" class="img-thumbnail m-1" style="width: 50px; height: 50px;">
-                            </a>
-                        `;
+                if (file.endsWith('.jpg') || file.endsWith('.jpeg') || file.endsWith('.png') || file.endsWith('.gif')) {
+                  // Handle images
+                  mediaHtml += `
+                                <a href="<?= base_url() ?>/public/chat_files/${file}" data-lightbox="image-${newMessage.id}">
+                                    <img src="<?= base_url() ?>/public/chat_files/${file}" class="img-thumbnail m-1" style="width: 50px; height: 50px;">
+                                </a>
+                              
+                            `;
+                } else if (file.endsWith('.pdf')) {
+                  // Handle PDFs
+                  mediaHtml += `<br>
+                                <a href="<?= base_url() ?>/public/chat_files/${file}" target="_blank" class="m-1 text-light">
+                                    PDF File (${file})
+                                </a>
+                                <br>
+                                
+                            `;
+                } else if (file.endsWith('.mp4') || file.endsWith('.avi') || file.endsWith('.mov')) {
+                  // Handle videos
+                  mediaHtml += `
+                                <video controls class="m-1 rounded" style="max-width: 100%; min-width: 100%;">
+                                    <source src="<?= base_url() ?>/public/chat_files/${file}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                                <br>
+                            `;
+                }
               });
             }
 
             $('#msgtext').val('');
+            document.getElementById('file-count').textContent = '';
             fileInput.value = '';
             $('.card-body').append(`
                     <div class="d-flex flex-row justify-content-end p-1">
                         <div class="cust-chat" style="max-width:50%;">
-                           ${imgHtml ? ` <p>${imgHtml}</p>` : ''}
-                            <p class="mb-0 " >${newMessage.messages}</p>
+                            ${mediaHtml ? `<p>${mediaHtml}</p>` : ''}
+                            <p class="mb-0">${newMessage.messages}</p>
                             <small class="m-0 p-0 float-end" style="color:darkgray; font-size:10px;">
-                             ${formatDate(newMessage.created_at)}
+                                ${formatDate(newMessage.created_at)}
                             </small>
                         </div>
                     </div>
@@ -252,7 +330,7 @@ document.getElementById('fileInput').addEventListener('change', function() {
         }
       });
     }
-
+    
     // checkNewMessages(receiverID)
     function checkNewMessages(receiverID) {
       $.ajax({
@@ -260,7 +338,6 @@ document.getElementById('fileInput').addEventListener('change', function() {
         type: 'POST',
         data: { receiver_id: receiverID },
         success: function (response) {
-          // console.log(response);
           if (response.status === 200) {
             let newMessages = response.data;
             newMessages.forEach(message => {
@@ -268,26 +345,47 @@ document.getElementById('fileInput').addEventListener('change', function() {
               if (message.files) {
                 let filesArray = JSON.parse(message.files);
                 filesArray.forEach(file => {
-                  imgHtml += `
-                                <a href="<?= base_url() ?>/public/chat_images/${file}" data-lightbox="image-${message.id}">
-                                    <img src="<?= base_url() ?>/public/chat_images//${file}" class="img-thumbnail m-1" style="width: 50px; height: 50px;">
-                        </a>
-                          
-                            `;
+                  if (file.endsWith('.jpg') || file.endsWith('.jpeg') || file.endsWith('.png') || file.endsWith('.gif')) {
+                    // Handle images
+                    imgHtml += `
+                                    <a href="<?= base_url() ?>/public/chat_files/images/${file}" data-lightbox="image-${message.id}">
+                                        <img src="<?= base_url() ?>/public/chat_files/images/${file}" class="img-thumbnail m-1" style="width: 50px; height: 50px;">
+                                    </a>
+                                  
+                                `;
+                  } else if (file.endsWith('.pdf')) {
+                    // Handle PDFs
+                    imgHtml += `<br>
+                                    <a href="<?= base_url() ?>/public/chat_files/pdfs/${file}" target="_blank" class="m-1 text-light">
+                                        PDF File (${file})
+                                    </a>
+                                    
+                                `;
+                  } else if (file.endsWith('.mp4') || file.endsWith('.avi') || file.endsWith('.mov')) {
+                    // Handle videos
+                    imgHtml += `
+                                    <video controls class="m-1 rounded" style="max-width: 100%; min-width: 100%;">
+                                        <source src="<?= base_url() ?>/public/chat_files/videos/${file}" type="video/mp4">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                    <br>
+                                `;
+                  }
                 });
               }
-                
+
               $('.card-body').append(`
                         <div class="d-flex flex-row justify-content-start p-1">
                             <div class="cust-chat" style="max-width:50%;">
                                 ${imgHtml ? `<p>${imgHtml}</p>` : ''}
+                                
                                 <p class="mb-0 ">${message.messages}</p>
                                 <small class="m-0 p-0 float-start" style="color:darkgray; font-size:10px;">
-                                   ${formatDate(message.created_at)}
+                                    ${formatDate(message.created_at)}
                                 </small>
-                      </div>
-                    </div>
-                  `);
+                            </div>
+                        </div>
+                    `);
               scrollToBottom();
             });
           }

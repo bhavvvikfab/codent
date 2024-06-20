@@ -79,9 +79,11 @@ All-Appointment
                               $badgeColor = 'success';
                           } elseif ($status === 'Cancelled') {
                               $badgeColor = 'danger';
+                          }elseif ($status === 'Completed') {
+                            $badgeColor = 'info';
                           } else {
-                              $badgeColor = 'secondary';
-                          }
+                                $badgeColor = 'secondary';
+                            }
                           ?>
                           <span class="badge bg-<?= $badgeColor; ?> badge-sm" >
                               <?= $status; ?>

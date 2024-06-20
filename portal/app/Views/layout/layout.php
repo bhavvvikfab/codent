@@ -87,21 +87,6 @@
   <script>
 
     function showToast(message, position) {
-      // Swal.fire({
-      //   text: message,
-      //   icon: 'success',
-      //   toast: true,
-      //   position: position || 'center',
-      //   showConfirmButton: false,
-      //   timer: 1500,
-      //   customClass: {
-      //     container: 'custom-swal-container', 
-      //   },
-      //   customContainerClass: 'custom-swal-toast', 
-      //   background: 'rgba(0, 0, 0, 0.9)',
-      //   padding: '3rem', 
-      //   grow: 'row' 
-      // });
       Swal.fire({
         icon: 'success',
         title: 'Success',
@@ -115,7 +100,7 @@
       icon: 'error',
       title: 'Error',
       text: message,
-      timer: 1000,
+      timer: 1500,
       showConfirmButton: false
     });
     }

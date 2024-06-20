@@ -53,11 +53,13 @@ class ChatController extends BaseController
         $senderID = session('id');
 
         $chatModel = new ChatModel();
-        $messages = $chatModel->where(['sender_id' => $senderID, 'receiver_id' => $receiverID])
-            ->orWhere(['sender_id' => $receiverID, 'receiver_id' => $senderID])
-            ->where('status',1)
-            ->orderBy('created_at', 'asc')
-            ->findAll();
+        $messages = $chatModel
+                    ->where('sender_id', $senderID)
+                    ->where('receiver_id', $receiverID)
+                    ->orWhere('sender_id', $receiverID)
+                    ->where('receiver_id', $senderID)
+                    ->orderBy('created_at', 'asc')
+                    ->findAll();
 
         $chatModel->where(['sender_id' => $receiverID, 'receiver_id' => $senderID, 'status' => 0])
         ->set(['status' => 1])
@@ -71,7 +73,7 @@ class ChatController extends BaseController
             'messages' => $messages
         ]);
     }
-
+   
     public function sent_message()
     {
         $message = $this->request->getPost('message');
@@ -80,28 +82,59 @@ class ChatController extends BaseController
         $files = $this->request->getFiles();
         
         $chatModel = new ChatModel();
-
+    
         $fileData = [];
+        $fileType = null;
+    
         if ($files) {
-
             foreach ($files['files'] as $file) {
                 if ($file->isValid() && !$file->hasMoved()) {
                     $newName = time() . '_' . uniqid() . '.' . $file->getExtension();
-                    $destinationPath = ROOTPATH . '../admin/public/chat_images';
-                    $file->move($destinationPath, $newName);
+                    $destinationPath = ROOTPATH . '../admin/public/chat_files';
+                    
+                    // Move file to appropriate directory based on file type
+                    if (in_array($file->getExtension(), ['jpg', 'jpeg', 'png', 'gif'])) {
+                        $file->move($destinationPath ,$newName);
+                        $fileType = 'image';
+                    } elseif (in_array($file->getExtension(), ['mp4', 'avi', 'mov'])) {
+                        $file->move($destinationPath ,$newName);
+                        $fileType = 'video';
+                    } elseif (in_array($file->getExtension(), ['pdf'])) {
+                        $file->move($destinationPath , $newName);
+                        $fileType = 'pdf';
+                    } else {
+                        continue; 
+                    }
+                    
                     $fileData[] = $newName;
                 }
             }
         }
-
+    
+        // Determine the type of message being sent
         if (!empty($message) && !empty($fileData)) {
-            $type = 3; // Both message and image
+            if ($fileType == 'image') {
+                $type = 3; // Both message and image
+            } elseif ($fileType == 'video') {
+                $type = 6; // Both message and video
+            } elseif ($fileType == 'pdf') {
+                $type = 7; // Both message and PDF
+            }
         } elseif (!empty($message)) {
             $type = 1; // Message only
         } elseif (!empty($fileData)) {
-            $type = 2; // Image only
+            if ($fileType == 'image') {
+                $type = 2; // Image only
+            } elseif ($fileType == 'video') {
+                $type = 4; // Video only
+            } elseif ($fileType == 'pdf') {
+                $type = 5; // PDF only
+            }
+        } else {
+            $type = 0; // No content, handle as needed
         }
-
+    
+        // Prepare data for insertion
         $data = [
             'sender_id' => $sender_id,
             'receiver_id' => $receiver_id,
@@ -109,13 +142,9 @@ class ChatController extends BaseController
             'type' => $type,
             'files' => !empty($fileData) ? json_encode($fileData) : json_encode([]),
         ];
-
-        if (!empty($fileData)) {
-            $data['files'] = json_encode($fileData);
-        }
-
+    
         $insertID = $chatModel->insert($data);
-
+    
         if ($insertID) {
             $newMessage = $chatModel->find($insertID);
             return $this->response->setJSON(['status' => 200, 'message' => 'Message sent successfully.', 'data' => $newMessage]);

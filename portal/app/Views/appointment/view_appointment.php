@@ -216,6 +216,8 @@ Appointment-Details
                                 $textColor = 'text-warning';
                             } elseif ($status === 'Cancelled') {
                                 $textColor = 'text-danger';
+                            }elseif ($status === 'Completed') {
+                              $textColor = 'text-info';
                             }
                             ?>
                             <span class="<?= $textColor ?> fw-bold"><?= isset($data['appointment']['appointment_status']) ? $data['appointment']['appointment_status'] : 'N/A'; ?></span>

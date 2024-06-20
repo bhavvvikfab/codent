@@ -78,7 +78,7 @@ Add-Receptionist
                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                   <label for="dob" class="form-label"> <i class="bi bi-calendar-fill" style="font-size: 18px;"></i> Date
                     of Birth</label>
-                  <input type="date" class="form-control" name="dob" id="dob" >
+                  <input type="date" class="form-control" name="dob" id="dob" max="2021-12-31">
                   <?php if (session('errors.dob')): ?>
                     <small class="text-danger"><?= esc(session('errors.dob')) ?><i
                         class="bi bi-exclamation-circle"></i></small>
@@ -92,7 +92,7 @@ Add-Receptionist
                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                   <label for="address" class="form-label"><i class="bi bi-image-fill" style="font-size: 18px;"></i>
                     Profile</label>
-                  <input type="file" class="form-control" name="image" id="image" >
+                  <input type="file" class="form-control fileInput" name="image" id="image" >
                   <?php if (session('errors.image')): ?>
                     <small class="text-danger"><?= esc(session('errors.image')) ?><i
                         class="bi bi-exclamation-circle"></i></small>
@@ -161,6 +161,33 @@ Add-Receptionist
   <?php endif; ?>
 </main>
 <script>
+      document.querySelectorAll('.fileInput').forEach(inputElement => {
+        inputElement.addEventListener('change', function() {
+            const files = this.files;
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/gif']; 
+            const maxFileSize = 10 * 1024 * 1024; // 10MB
+            
+            this.nextElementSibling?.remove();
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+
+                if (!allowedTypes.includes(file.type)) {
+                    this.insertAdjacentHTML('afterend', '<small class="text-danger">Please select a valid image.</small>');
+                    this.value = ''; 
+                    return;
+                }
+
+                if (file.size > maxFileSize) {
+                    this.insertAdjacentHTML('afterend', '<small class="text-danger">Max file size is 10MB.</small>');
+                    this.value = ''; 
+                    return;
+                }
+            }
+        });
+    });
+
+
     $(document).ready(function() {
         $('form').submit(function(event) {
             event.preventDefault(); // Prevent the default form submission

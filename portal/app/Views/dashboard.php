@@ -16,13 +16,15 @@ Hospital-Dashboard
                 </nav>
             </div>
         </div>
-    </div><!-- End Page Title -->
-    <!-- <pre> -->
+    </div>
+    <!-- End Page Title -->
+     
+    <pre>
     <?php
-    // print_r($appointments);
-    // die;
+    print_r($notification);
+    die;
     ?>
-<!-- </pre> -->
+
 
     <section class="section dashboard" id="dash896">
         <div class="row">
@@ -80,7 +82,7 @@ Hospital-Dashboard
                                 <!-- <i class="bi bi-person"></i> -->
                             </div>
                             <div class="ps-3">
-                                <h6><?= $countEn ?? '0' ?></h6>
+                                <h6><?= count($enquiries) ?? '0' ?></h6>
                                 <!-- <span class="text-primary small pt-1 fw-bold">12%</span> -->
                                 <!-- <span class="text-muted small pt-2 ps-1">increase</span> -->
                             </div>
@@ -296,9 +298,9 @@ Hospital-Dashboard
                     </tr>
                 </thead>
                 <tbody>
-                <?php if (!empty($appointments) && is_array($appointments)) : ?>
+                <?php if (!empty($enquiries) && is_array($enquiries)) : ?>
                     <!-- <?php $serial = 1; ?> -->
-                    <?php foreach ($appointments as $index => $enquiry) : ?>
+                    <?php foreach ($enquiries as $index => $enquiry) : ?>
                         <?php if ($index >= 2) break; // Limit to first 3 entries ?>
                         <tr style="font-size: small;">
                             <!-- <td ><?= $serial++ ?></td> -->
@@ -308,27 +310,8 @@ Hospital-Dashboard
                             <td class="text-center">
                         <?php
                         $enquiry_status = $enquiry['status'];
-                        $badge_class = '';
-                        $status_text = '';
-
-                        switch ($enquiry_status) {
-                          case 'lead':
-                              $badge_class = 'bg-success';
-                              $status_text = 'Lead';
-                              break;
-                          case 'appointment':
-                              $badge_class = 'bg-primary';
-                              $status_text = 'Appointment';
-                              break;
-                          case 'cancel':
-                              $badge_class = 'bg-danger';
-                              $status_text = 'Cancelled';
-                              break;
-                          default:
-                              $badge_class = 'bg-secondary';
-                              $status_text = 'Enquiry';
-                              break;
-                      }
+                        $badge_class = 'bg-success';
+                        $status_text = 'Enquiry';
                       ?>
                       <span class="badge <?= $badge_class; ?>" style="font-size: -1rem; padding: 0.4rem 1rem;"><?= $status_text; ?></span>
                     </td>
@@ -404,6 +387,8 @@ Hospital-Dashboard
                                                         $badgeClass = 'success';
                                                     } elseif ($status === 'Cancelled') {
                                                         $badgeClass = 'danger';
+                                                    } elseif ($status === 'Completed') {
+                                                        $badgeClass = 'info';
                                                     } else {
                                                         $badgeClass = 'secondary';
                                                     }
@@ -432,20 +417,19 @@ Hospital-Dashboard
         </div>
         </div>
     </section>
+    <?php if (session('have_package')): ?>
+        <script>
+              Swal.fire({
+                      icon: 'success',
+                      title: 'Success',
+                      text: '<?= session('have_package')?>',
+                      showConfirmButton: true,
+                      confirmButtonColor: 'black', 
+                      confirmButtonText: 'Okay',
+                      timer: null
+                  });
+        </script>
+      <?php endif; ?>
+      <?php session()->remove('have_package');?>
 </main><!-- End #main -->
-
-<!-- <script>
-    $(document).ready(function () {
-        $.ajax({
-            type: "get",
-            url: "<?= base_url() . '' . session('prefix') . '/' . 'dashboard' ?>",
-            success: function (response) {
-                console.log(response);
-            },
-            error:function(error){
-                console.log(error);
-            }
-        });
-    });
-</script> -->
 <?= $this->endSection() ?>

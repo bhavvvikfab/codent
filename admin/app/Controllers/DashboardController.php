@@ -71,7 +71,7 @@ class DashboardController extends BaseController
     // print_r($appointments);
     // echo "</pre>";
     // die;
-
+    $enquiries=$enquiryModel->where('status',null)->findAll();
 
     // Prepare data to return
     $data = [
@@ -91,7 +91,8 @@ class DashboardController extends BaseController
         'countApp' => $countAppointments,
         'countEn' => $countEnquiries,
         'countUsers' => $countUsers,
-        'appointments' => $appointments
+        'appointments' => $appointments,
+        'enquiries'=>$enquiries
     ]);
 }
 
