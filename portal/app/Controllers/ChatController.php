@@ -171,8 +171,6 @@ class ChatController extends BaseController
         }
     }
     
-
-
     public function get_live_message()
     {
         $receiver_id = $this->request->getPost('receiver_id');

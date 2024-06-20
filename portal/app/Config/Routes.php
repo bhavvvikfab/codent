@@ -90,6 +90,11 @@ $routes->group('hospital', ['filter' => $authFilter], function ($routes) {
     $routes->get('view_chat/(:num)','ChatController::view_chat/$1');
     $routes->Post('send_message','ChatController::sent_message');
     $routes->post('get_live_message', 'ChatController::get_live_message');
+
+
+    //notification
+    $routes->get('notification','UserController::notification');
+    $routes->post('notification_status','UserController::notification_status');
     
 });
 
