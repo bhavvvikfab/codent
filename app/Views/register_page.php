@@ -213,6 +213,7 @@ div#register-pt .field.btns {
 <section class="ftco-section">
     <div class="container">
         <div class="row flex-row justify-content-center">
+            
             <div class="col-lg-7 col-12">
                 <div class="row">
                     <div class="col-lg-12 pl-md-0">
@@ -300,16 +301,15 @@ div#register-pt .field.btns {
 
                                             <div class="page">
                                                 <div class="title" style="color: #fff;">Personal Details:</div>
-
                                                 <div class="input-group mb-3 field">
-                                                    <span class="input-group-text dobError p" id="basic-addon1"><i class="fa fa-calendar"></i></span>
-                                                    <input type="date" class="form-control pp" name="dob" placeholder="Date Of Birth" aria-label="Date-Of-Birth" aria-describedby="basic-addon1">
-                                                </div>
+      <label for="dob" class="input-group-text dobError p" id="basic-addon1"> <i class="fa fa-calendar"> </i>   Date of Birth</label>
+      <input type="date" id="dob" class="form-control pp" name="dob" placeholder="Date Of Birth" aria-describedby="basic-addon1">
+    </div>
 
-                                                <div class="input-group mb-3 field">
-                                                    <span class="input-group-text" id="basic-addon1"><i class="fa fa-image"></i></span>
-                                                    <input type="file" name="image" class="form-control" aria-label="image" aria-describedby="basic-addon1">
-                                                </div>
+    <div class="input-group mb-3 field">
+      <label for="image" class="input-group-text" id="basic-addon1"> <i class="fa fa-image"> </i>   Profile Image</label>
+      <input type="file" id="image" name="image" class="form-control" aria-describedby="basic-addon1">
+    </div>
 
                                                 <div class="field btns">
                                                     <button class="prev-2 prev">Previous</button>
@@ -330,6 +330,9 @@ div#register-pt .field.btns {
     <script>
     $(document).ready(function () {
     function registerData() {
+
+        const baseUrl = '<?= base_url() ?>';
+
         var formData = new FormData($("#register")[0]);
 
         var loader = $('#loader');
@@ -349,21 +352,33 @@ div#register-pt .field.btns {
                         icon: 'success',
                         title: 'Success',
                         text: 'Registration Successful.'
-                    });
-
-                    setTimeout(function () {
-                        location.reload();
-                    }, 2000);
-                } else if (data.status == 2) {
-                    $("#message").html('<div class="text-danger">Email already registered.</div>');
-                    $("#message").show();
-                } else {
-                    console.log('Registration failed.');
+                    }).then(() => {
+                    window.location.href = baseUrl + 'dentist_login';
+                     });
+                } else if (data.status == 2) 
+                {
+                    Swal.fire({
+                     icon: 'error',
+                     title: 'Error',
+                     text: 'Email already registered.'
+            });
+                } 
+                else 
+                {
+              Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Registration failed. Please try again.'
+            });
                 }
             },
             error: function (error) {
                 loader.hide(); // Hide the loader in case of error
-                console.log(error);
+            Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'An error occurred. Please try again later.'
+          });
             }
         });
     }

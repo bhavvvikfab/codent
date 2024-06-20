@@ -33,6 +33,7 @@ $routes->group('',$authFilter, function ($routes) {
   $routes->get('edit_hospital(:num)', 'HospitalController::edit_hospital/$1');
   $routes->post('edit_hospital', 'HospitalController::edit_hospital_data');
   $routes->get('view_hospital(:num)', 'HospitalController::view_hospital/$1');
+  // $routes->get('view_hospital(:num)', 'HospitalController::view_hospital/$1');
  
   
   

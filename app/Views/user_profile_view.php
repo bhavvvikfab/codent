@@ -9,7 +9,11 @@ Co-Dent - Profile
     margin-inline-end: auto;
 }
 .spce{
-  margin-right: 20px;
+  margin-right: -22px;
+}
+.profile-detail .row
+{
+  margin-bottom: 21px;
 }
 </style>
 
@@ -32,7 +36,7 @@ Co-Dent - Profile
           <div class="row flex-row justify-content-between profile-page">
               <div class="col-md-4 ">
                     <div class="card">
-                      <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                      <div class="card-body profile-card pt-3 d-flex flex-column align-items-center">
                       <?php if (!empty($users)): ?>
                         <?php foreach ($users as $user): ?>
                           <img
@@ -40,7 +44,7 @@ Co-Dent - Profile
     onerror="this.onerror=null; this.src='<?php echo base_url(); ?>public/images/1718184797.jpeg';"
     class="rounded-circle img-thumbnail"
     style="max-width: 100px;">
-                        <h3 class="font-weight-bold"> <?= esc($user['patient_name']) ?> </h3><br>
+                        <h3 class="font-weight-bold"> <?= esc($user['patient_name']) ?> </h3>
                         <div class="spce">
                         <div class="text-start"> <i class="fa fa-file-text"></i> <b>Date Of Birth</b> : <?= esc($user['date_of_birth']) ?> </div>
                         <div class="text-start"> <i class="fa fa-phone"></i> <b>Phone Number</b> : <?= esc($user['phone']) ?> </div>
@@ -62,8 +66,11 @@ Co-Dent - Profile
                       <div class="card-body">
                       <div class="row">
                       <div class="col-lg-8">
-                      <h4 class="mb-lg-5" style="color: #4154f1; font-weight: 550;"> Patient Details </h4>
+                      <h4 class="mb-lg-6" style="color: #4154f1; font-weight: 550;"> Patient Details </h4>
                       </div>
+                      <div class="col-lg-4 text-end">
+    <a href="<?= base_url('referral') ?>" class="btn btn-primary py-2 px-5 w-70">Back</a>
+</div>
                       
 
                       </div>
