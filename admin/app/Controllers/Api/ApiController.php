@@ -479,13 +479,14 @@ class ApiController extends BaseController
            $patientName = $this->request->getPost('patient_name');
            $appointmentDate = $this->request->getPost('appointment_date');
            $status = $this->request->getPost('status');
-            //  $today = new \DateTime(); 
+             $today = new \DateTime(); 
            
            if (!empty($dr_id)) {
                // Prepare base query to fetch appointments for the given doctor
               $query = $appointmentModel->select('enquiries.*, appointments.*')
                 ->where('appointments.assigne_to', $dr_id)
-                ->join('enquiries', 'enquiries.id = appointments.inquiry_id');
+                ->join('enquiries', 'enquiries.id = appointments.inquiry_id')
+                ->orderBy('appointments.created_at', 'ASC');
                 // ->where('STR_TO_DATE(appointments.schedule, "%d/%m/%Y %h:%i %p") >=', $today->format('Y-m-d H:i:s'));
                 
                // If patient name is provided, add search condition
@@ -582,9 +583,6 @@ class ApiController extends BaseController
 
 
     //dr_wise_patients
-   
-
-  
     public function dr_wise_patients()
     {
         try {
@@ -691,11 +689,6 @@ class ApiController extends BaseController
         }
     }
     
-
-    
-
-    
-
 
     //get enquiry by id
     public function get_enquiryById()
@@ -956,11 +949,13 @@ class ApiController extends BaseController
         }
     }
     
+    
+    
     //get appointment all by enquiry id 
     public function get_allAppointmentBy_EnquiryId()
     {
     $appointmentModel = new Appointments();
-    $perPage = 7;
+    $perPage = 4;
     try {
         $enquiryId = $this->request->getPost('enquiry_id');
 
@@ -992,6 +987,101 @@ class ApiController extends BaseController
         return $this->failServerError('An error occurred while fetching appointments: ' . $e->getMessage());
     }
 }
+
+
+    // upcoming appointment
+    public function upcoming_appointment()
+   {
+       try {
+           $appointmentModel = new Appointments();
+           $dr_id = $this->request->getPost('id');
+           $today = new \DateTime(); 
+           
+           if (!empty($dr_id)) {
+               // Prepare base query to fetch appointments for the given doctor
+            $query = $appointmentModel->select('enquiries.*, appointments.*')
+                                        ->where('appointments.assigne_to', $dr_id)
+                                        ->where('appointments.appointment_status', 'confirmed')
+                                        ->join('enquiries', 'enquiries.id = appointments.inquiry_id')
+                                        ->where('STR_TO_DATE(appointments.schedule, "%d/%m/%Y %h:%i %p") >=', $today->format('Y-m-d H:i:s'));
+                
+   
+               // Retrieve the appointments
+               $appointments = $query->findAll();
+   
+               if (!empty($appointments)) {
+                   // Fetch inquiry details for each appointment
+                   foreach ($appointments as &$appointment) {
+                       $inquiryId = $appointment['inquiry_id'];
+                       $inquiryModel = new EnquiryModel();
+                       $inquiry = $inquiryModel->find($inquiryId);
+   
+                       if (!empty($inquiry)) {
+                           // Process images
+                           $images = !empty($inquiry['image']) ? json_decode($inquiry['image'], true) : [];
+   
+                           if (is_array($images)) {
+                               foreach ($images as &$image) {
+                                   $image = $this->imagePath . $image;
+                               }
+                               $inquiry['image'] = $images;
+                           } else {
+                               $inquiry['image'] = [];
+                           }
+   
+                           // Process profile image
+                           if (!empty($inquiry['profile'])) {
+                               $inquiry['profile'] = $this->imagePath . $inquiry['profile'];
+                           }
+   
+                           // Attach inquiry details to the appointment
+                           $appointment['enquiry_details'] = $inquiry;
+   
+                           // Fetch user details for this inquiry
+                           $userId = $inquiry['user_id'];
+                           $userModel = new UserModel();
+                           $user = $userModel->find($userId);
+   
+                           if (!empty($user)) {
+                               $user['profile'] = $this->imagePath . $user['profile'];
+                               $appointment['user_details'] = $user;
+                           }
+                   
+                           // Remove enquiry details from main appointment array
+                           unset($appointment['user_id'], $appointment['date_of_birth'], $appointment['phone'], $appointment['email'], $appointment['patient_name'], $appointment['gender'], $appointment['age'], $appointment['profile'], $appointment['required_specialist'], $appointment['address'], $appointment['lead_instruction'], $appointment['lead_comment'], $appointment['image'], $appointment['status'], $appointment['assign_to(user_id)'], $appointment['referral_doctor'], $appointment['appointment_date']);
+                       }
+                   }
+   
+                   // Prepare response
+                   $response = [
+                       'status' => 200,
+                       'messages' => 'Appointments',
+                       'appointments' => $appointments
+                   ];
+                   return $this->respond($response, 200);
+               } else {
+                   // No appointments found
+                   $response = [
+                       'status' => 404,
+                       'messages' => 'Appointments not found',
+                       'appointments' => []
+                   ];
+                   return $this->respond($response, 404);
+               }
+           } else {
+               // Doctor ID is empty
+               $response = [
+                   'status' => 409,
+                   'messages' => 'Doctor ID is empty',
+                   'appointments' => []
+               ];
+               return $this->respond($response, 409);
+           }
+       } catch (\Exception $e) {
+           // Handle any exceptions
+           return json_encode(['status' => 409, 'message' => 'An error occurred: ' . $e->getMessage()]);
+       }
+   }
 
 
     //edit doctor schedule
