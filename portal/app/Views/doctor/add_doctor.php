@@ -90,7 +90,7 @@ Add-Doctor
                                 <div class="col-lg-6 mb-3">
                                     <label for="dob" class="form-label"><i class="bi bi-calendar-fill"
                                             style="font-size: 18px;"></i> Date of Birth</label>
-                                    <input type="date" class="form-control" id="dob" name="dob">
+                                    <input type="date" class="form-control" id="dob" name="dob" max="2021-12-31">
                                     <?php if (session('errors.dob')): ?>
                                         <small class="text-danger"><?= esc(session('errors.dob')) ?><i
                                                 class="bi bi-exclamation-circle"></i></small>
@@ -140,7 +140,7 @@ Add-Doctor
                                 <div class="col-lg-6 mb-3">
                                     <label for="image" class="form-label"><i class="bi bi-image-fill"
                                             style="font-size: 18px;"></i> Doctor Image</label>
-                                    <input type="file" class="form-control" id="image" name="image">
+                                    <input type="file" class="form-control fileInput" id="image" name="image">
                                     <?php if (session('errors.image')): ?>
                                         <small class="text-danger"><?= esc(session('errors.image')) ?><i
                                                 class="bi bi-exclamation-circle"></i></small>
@@ -252,19 +252,16 @@ Add-Doctor
                                         });
 
                                         function initializeDateTimePicker(day) {
-
                                             $('#' + day + '-time-range').daterangepicker({
                                                 timePicker: true,
-                                                timePicker24Hour: true,
+                                                timePicker24Hour: false,
                                                 timePickerIncrement: 1,
                                                 locale: {
-                                                    format: 'HH:mm',
+                                                    format: 'hh:mm A', // Use 'hh:mm A' for 12-hour format with AM/PM
                                                     placeholder: '00:00 - 00:00'
                                                 }
                                             });
-
                                         }
-
                                         $('form').submit(function () {
                                             $('input[type="checkbox"]').each(function () {
                                                 if (!$(this).is(':checked')) {
@@ -306,6 +303,33 @@ Add-Doctor
     <?php endif; ?>
 </main>
 <script>
+     document.querySelectorAll('.fileInput').forEach(inputElement => {
+        inputElement.addEventListener('change', function() {
+            const files = this.files;
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/gif']; 
+            const maxFileSize = 10 * 1024 * 1024; // 10MB
+            
+            this.nextElementSibling?.remove();
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+
+                if (!allowedTypes.includes(file.type)) {
+                    this.insertAdjacentHTML('afterend', '<small class="text-danger">Please select a valid image.</small>');
+                    this.value = ''; 
+                    return;
+                }
+
+                if (file.size > maxFileSize) {
+                    this.insertAdjacentHTML('afterend', '<small class="text-danger">Max file size is 10MB.</small>');
+                    this.value = ''; 
+                    return;
+                }
+            }
+        });
+    });
+
+
     $(document).ready(function () {
         function isValidEmail(email) {
             var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

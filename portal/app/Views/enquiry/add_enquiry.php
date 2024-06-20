@@ -89,7 +89,7 @@ Add-Enquiry
                   Date</label>
                 <div class="input-group">
                   <span class="input-group-text rounded-2 btn-cal"><i class="bi bi-calendar3"></i></span>
-                  <input type="date" class="form-control rounded-2" name="dob">
+                  <input type="date" class="form-control rounded-2" name="dob" max="2021-12-31">
 
                   <!-- <div class="input-group-prepend">
                   </div> -->
@@ -190,7 +190,7 @@ Add-Enquiry
                 <label class="col-form-label">
                     <i class="bi bi-person-fill" style="font-size: 18px;"></i> Profile
                 </label>
-                <input type="file" class="form-control" name="profile">
+                <input type="file" class="form-control fileInput" name="profile">
             </div>
 
             <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
@@ -231,7 +231,7 @@ Add-Enquiry
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                 <label class="col-form-label"><i class="bi bi-image-fill" style="font-size: 18px;"></i>
                   Documents</label>
-                <input type="file" class="form-control" name="images[]" multiple>
+                <input type="file" class="form-control fileInput" id="fileInput"  name="images[]" multiple>
               </div>
 
 
@@ -279,6 +279,36 @@ Add-Enquiry
   </script>
 
   <script>
+  document.querySelectorAll('.fileInput').forEach(inputElement => {
+    inputElement.addEventListener('change', function() {
+        const files = this.files;
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/gif']; 
+        const maxFileSize = 10 * 1024 * 1024; // 10MB
+        
+        // Remove any previous error messages
+        this.nextElementSibling?.remove();
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+
+            if (!allowedTypes.includes(file.type)) {
+                // Show error message
+                this.insertAdjacentHTML('afterend', '<small class="text-danger">Please select a valid image.</small>');
+                this.value = ''; 
+                return;
+            }
+
+            if (file.size > maxFileSize) {
+                // Show error message
+                this.insertAdjacentHTML('afterend', '<small class="text-danger">Max file size is 10MB.</small>');
+                this.value = ''; 
+                return;
+            }
+        }
+    });
+});
+
+
     $('#add_enquiry').submit(function (event) {
       event.preventDefault(); // Prevent form submission
 

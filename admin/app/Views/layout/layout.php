@@ -67,6 +67,16 @@
         showConfirmButton: false
       });
       }
+
+      function showToastError(message, position) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: message,
+      timer: 1500,
+      showConfirmButton: false
+    });
+    }
   </script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />

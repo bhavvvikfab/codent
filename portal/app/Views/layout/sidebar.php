@@ -160,9 +160,14 @@ $image = session()->get('profile');
 
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="chatadmin.php">
+      <a class="nav-link collapsed" href="<?= base_url() . '' . session('prefix') . '/' . 'chats' ?>">
         <i class="bi bi-chat-dots"></i>
-        <span>Communication</span>
+        <span>Communication &nbsp;</span>
+        <?php 
+        if(session('unread_chat')){
+          echo '<span style="" ><i class="bi bi-exclamation-diamond-fill"></i></span>';
+        }
+        ?>
       </a>
     </li>
 
@@ -210,12 +215,12 @@ $image = session()->get('profile');
     <!--==========  End Order----------------->
 
 
-    <li class="nav-item">
+    <!-- <li class="nav-item">
       <a class="nav-link collapsed" href="document.php">
         <i class="bi bi-receipt"></i>
         <span>Document</span>
       </a>
-    </li>
+    </li> -->
 
     <!-- End Feedback Nav-->
 

@@ -317,7 +317,7 @@
                                                 <div class="bullet">
                                                     <span>1</span>
                                                 </div>
-                                                <p>Personal<br>Details</p>
+                                                <p>Account info</p>
                                                 <div class="check fas fa-check"></div>
                                             </div>
                                             <div class="step">
@@ -338,6 +338,7 @@
                                         </div>
 
 
+                                        <div class="pb-3 message text-danger"></div>
                                         <div id="message" class="pb-3" style="display: none;"></div>
 
 
@@ -377,16 +378,17 @@
 
 
                                                     <div class="field mb-0">
-                                                        <button class="firstNext next">Next</button>
+                                                        <button class="firstNext next emailCheck" >Next</button>
                                                     </div>
                                                 </div>
 
                                                 <div class="page">
-                                                    <div class="title "><i class="bi bi-caret-right-fill"></i> Contact
+                                                    <div class="title "><i class="bi bi-caret-right-fill"></i> Account
                                                         Info</div>
                                                     <div class="field mb-0">
                                                         <div class="label ">Date Of Birth :</div>
-                                                        <input type="date" name="dob" id="dob" class="form-control">
+                                                        <input type="date" name="dob" id="dob" class="form-control"
+                                                            max="2021-12-31">
                                                     </div>
                                                     <div id="dobError" class="text-danger text-start"></div>
 
@@ -397,17 +399,15 @@
                                                     </div>
                                                     <div id="addressError" class="text-danger text-start"></div>
 
-
                                                     <div class="field mb-0">
                                                         <div class="label">Image :</div>
                                                         <input type="file" class="form-control" name="image" id="image">
                                                     </div>
                                                     <div id="imageError" class="text-danger text-start"></div>
 
-
                                                     <div class="field mb-0 ">
                                                         <div class="label">Phone Number :</div>
-                                                        <input type="Number" name="phone" id="phone">
+                                                        <input type="phone" name="phone" id="phone">
                                                     </div>
                                                     <div id="phoneError" class="text-danger text-start"></div>
 
@@ -418,47 +418,19 @@
                                                     </div>
                                                 </div>
 
-                                                <!-- <div class="page" id="hospital_extra_page"> -->
 
-                                                <!-- <div class="title "><i class="bi bi-caret-right-fill"></i> Submit Here</div>
-                                                    <div class="field mb-0">
-                                                        <div class="label">Select Hospital</div>
-                                                     <?php if (!empty($data['hospitals'])): ?>
-                                                        <select name="hospital" id="hospital" class="form-select">
-                                                            <option>Select Hospital</option>
-                                                            <?php foreach ($data['hospitals'] as $hospital): ?>
-                                                                 <?php if ($hospital['status'] == 'active'): ?>
-                                                                    <option value="<?= $hospital['id'] ?>">
-                                                                        <?= $hospital['fullname'] ?>
-                                                                    </option>
-                                                                 <?php endif; ?>
-                                                            <?php endforeach; ?>
-                                                        </select>
-                                                    <?php else: ?>
-                                                        <select name="hospital" id="hospital" class="form-select">
-                                                            <option>No hospitals available</option>
-                                                        </select>
-                                                    <?php endif; ?>
-                                                    </div>
-                                                    <div id="hospitalError" class="text-danger text-start"></div>
-
-                                                    <div class="field btns">
-                                                        <button class="prev-2 prev">Previous</button>
-                                                        <button class="submit">Create Account</button>
-                                                    </div> -->
-                                                <!-- </div> -->
 
                                                 <div class="page" id="hospital_packages">
                                                     <div class="title"><i class="bi bi-caret-right-fill"></i> Select
-                                                        Subscription</div>
-                                                    <div class="row mt-3">
+                                                        Subscription Plan</div>
+                                                    <div class="row mt-3 justify-content-center">
                                                         <?php if (!empty($data['packages'])): ?>
                                                             <?php foreach ($data['packages'] as $package): ?>
 
                                                                 <div class="col-md-12 col-lg-6 col-sm-12">
                                                                     <div class="card"
                                                                         style="width: 15rem; border:1px solid rgb(2, 48, 80);">
-                                                                        <input type="hidden" name="package_id"
+                                                                        <input type="hidden"
                                                                             value=" <?= !empty($package['id']) ? $package['id'] : 'N/A' ?>"
                                                                             class="package_id">
                                                                         <div class="card-header"
@@ -526,12 +498,12 @@
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header" style="background-color: rgb(2, 48, 80); color: rgb(255, 255, 255);">
                         <h5 class="modal-title" id="exampleModalLabel">Payment your subscription</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
                     </div>
                     <form id="payment-form" method="POST" action="<?= base_url("subscription_payment") ?>">
-                        <input type="hidden" name="package_id" id="package_id">
+                        <input type="hidden" name="package_id" class="plan_id">
                         <input type="hidden" name="hospital_id" id="hospital_id">
                         <div class="modal-body">
                             <div id="card-element">
@@ -540,8 +512,9 @@
                             <div id="card-errors" role="alert"></div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary paynow" id="pay-btn">Pay
+                            <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-sm paynow"
+                                style="background-color: rgb(2, 48, 80); color: rgb(255, 255, 255);" id="pay-btn">Pay
                                 Now</button>
                         </div>
                     </form>
@@ -549,7 +522,6 @@
             </div>
         </div>
         <!-- card modal end=================== -->
-
     </main>
     <!-- End #main -->
 
@@ -580,6 +552,44 @@
     <script>
         $(document).ready(function () {
 
+            function CheckEmail() {
+                let email = $('#email').val();
+                let emailExists = false;
+
+                if (email.trim() !== '') {
+                    $.ajax({
+                        url: '<?php echo base_url('checkEmail'); ?>',
+                        method: 'GET',
+                        data: { email: email },
+                        dataType: 'json',
+                        success: function (response) {
+                            if (response.status == 1) {
+                              
+                                emailExists = true;
+                            } else {
+                                emailExists = false; 
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(xhr.responseText);
+                        },
+                        async: false
+                    });
+                }
+
+                return emailExists; 
+            }
+
+            $('#email').on('change',function(){
+                if(CheckEmail()){
+                    $('.message').text('Email is already registered');
+                    $('.emailCheck').prop('disabled', true);
+                }else{
+                    $('.message').text('');
+                    $('.emailCheck').prop('disabled', false);
+                }
+            })
+        
             function registerData() {
                 var formData = new FormData($("#register")[0]);
                 $.ajax({
@@ -617,33 +627,16 @@
                 registerData();
             })
 
-            // $("#role").on('change', function () {
 
-            // // let selectedRole = $("#role").val();
-            // // if (selectedRole == "hospital") {
-
-            // //     $('#hospital_extra_page').hide();
-            // //     $('#hospital_packages').show();
-
-
-            // // }else if(selectedRole == "patient") {
-            // //     $('#hospital_extra_page').show();
-            // //     $('#hospital_packages').hide();
-            // // }
-
-            // // });
-
-            //stripe code start
-
-            $('.btn_subscribe').on('click', function (e) {
+            $(document).on('click', '.btn_subscribe', function (e) {
                 e.preventDefault();
-                let package_id = $('.package_id').val();
-                $('#package_id').val(package_id);
+                let package_id = $(this).closest('.card').find('.package_id').val();
+                $('.plan_id').val(package_id);
             });
 
 
         });
-
+        //stripe code start
         var stripe = Stripe('<?= config('App')->stripe_public ?>');
 
         var elements = stripe.elements();
@@ -667,11 +660,11 @@
 
             stripe.createToken(card).then(function (result) {
                 if (result.error) {
-                    
+
                     var errorElement = document.getElementById('card-errors');
                     errorElement.textContent = result.error.message;
                 } else {
-                
+
                     stripeTokenHandler(result.token);
                 }
             });
@@ -679,7 +672,7 @@
 
         // Submit the token to your server
         function stripeTokenHandler(token) {
-          
+
             var form = document.getElementById('payment-form');
             var hiddenInput = document.createElement('input');
             hiddenInput.setAttribute('type', 'hidden');

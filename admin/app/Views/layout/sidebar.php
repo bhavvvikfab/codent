@@ -218,6 +218,17 @@
 
 
 
+<li class="nav-item">
+      <a class="nav-link collapsed" href="<?= base_url('/chats') ?>">
+      <i class="bi bi-chat-dots"></i>
+        <span>Communication &nbsp;</span>
+        <?php 
+        if(session('unread_chat')){
+          echo '<span style="" ><i class="bi bi-exclamation-diamond-fill"></i></span>';
+        }
+        ?>
+      </a>
+    </li><!-- End Login Page Nav -->
 
   
 

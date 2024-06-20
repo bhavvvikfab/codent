@@ -74,7 +74,7 @@ Edit-Receptionist
                                 <div class="col-lg-6 mb-3">
                                     <label for="image" class="form-label"><i class="bi bi-image-fill"
                                             style="font-size: 18px;"></i>Image</label>
-                                    <input type="file" class="form-control" id="image" name="image">
+                                    <input type="file" class="form-control fileInput" id="image" name="image">
                                     <?php if (session('errors.image')): ?>
                                         <small class="text-danger"><?= esc(session('errors.image')) ?><i
                                                 class="bi bi-exclamation-circle"></i></small>
@@ -97,8 +97,9 @@ Edit-Receptionist
                                 <div class="col-lg-6 mb-3">
                                     <label for="dob" class="form-label"><i class="bi bi-calendar-fill"
                                             style="font-size: 18px;"></i> Date of Birth</label>
-                                    <input type="date" class="form-control" id="dob" name="dob"
-                                        value="<?= isset($rep['date_of_birth']) ? $rep['date_of_birth'] : 'N/A'; ?>">
+                                            <input type="date" class="form-control" id="dob" name="dob" max="2021-12-31"
+                                                     value="<?= isset($rep['date_of_birth']) ? $rep['date_of_birth'] : ''; ?>">
+
                                     <?php if (session('errors.dob')): ?>
                                         <small class="text-danger"><?= esc(session('errors.dob')) ?><i
                                                 class="bi bi-exclamation-circle"></i></small>
@@ -146,6 +147,32 @@ Edit-Receptionist
 </main>
 
 <script>
+     document.querySelectorAll('.fileInput').forEach(inputElement => {
+        inputElement.addEventListener('change', function() {
+            const files = this.files;
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/gif']; 
+            const maxFileSize = 10 * 1024 * 1024; // 10MB
+            
+            this.nextElementSibling?.remove();
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+
+                if (!allowedTypes.includes(file.type)) {
+                    this.insertAdjacentHTML('afterend', '<small class="text-danger">Please select a valid image.</small>');
+                    this.value = ''; 
+                    return;
+                }
+
+                if (file.size > maxFileSize) {
+                    this.insertAdjacentHTML('afterend', '<small class="text-danger">Max file size is 10MB.</small>');
+                    this.value = ''; 
+                    return;
+                }
+            }
+        });
+    });
+
     $(document).ready(function () {
         $('form').submit(function (event) {
             event.preventDefault(); // Prevent the default form submission
