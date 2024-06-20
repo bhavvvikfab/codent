@@ -80,7 +80,7 @@ Hospitals
                                             </td>
                                             <td class="text-center">
                                                 
-                                                 <a href="<?= base_url('view_hospital/' . $hospital['id']) ?>" class="btn btn-secondary btn-sm" >
+                                            <a href="<?= base_url('view_hospital' . $hospital['id']) ?>" class="btn btn-secondary btn-sm" >
                                                     <i class="ri-eye-line"></i>
                                                 </a>
                                                 

@@ -47,13 +47,13 @@ Co-Dent - Login
         <div class="container">
           <div class="row flex-row justify-content-between">
 
-            <div class="col-lg-6 col-12 pr-0 side-img-bg" style="height: 500px; overflow: auto;">
+            <div class="col-lg-6 col-10 pr-1 side-img-bg" style="overflow: auto;">
               <div class="myoverlay"></div>
               <h2 class = "pr-2 text-center">Well Experienced Doctors and team of experts find here.</h2>
                
             </div>
 
-            <div class="col-lg-6 col-12 login-form bg-dt-portal" style="height: 500px; overflow: auto;">
+            <div class="col-lg-6 col-12 login-form bg-dt-portal" style="overflow: auto;">
               <div class="row  py-3 px-4">
                 <div class="col-lg-12 px-5">
                   <h3 class="mb-3 text-center text-white">Dentist Login</h3>

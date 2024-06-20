@@ -67,36 +67,36 @@ Co-Dent - Referral
           <div class="card-title refeal-title">
             <h4 class="ml-3 text-white pt-2"></h4>
           </div>
-          <div class="card-body">
+          <div class="card-body" style="margin-left: 20px;">
             <div class="row">
               <div class="col-lg-12">
                 <div class="row">
-                  <div class="col-lg-6">
-                  <p>
-                   <i class="fa fa-calendar text-dark"></i>
+                  <div class="col-lg-12">
+                  <p style="margin-right: 12px;">
+                   <i class="fa fa-calendar text-dark"></i> <b class="text-dark">Date :</b>
                     <?= esc(isset($users['appointment_date']) ? date('Y-m-d h:i A', strtotime($users['appointment_date'])) : 'N/A') ?>
                   </p>
                   </div>
-                  <div class="col-lg-6">
-                    <p><i class="fa fa-user-md text-dark"></i> <b class="text-dark">From:</b><?= esc(isset($users['referral_doctor']) ? $users['referral_doctor'] : 'N/A') ?></p>
+                  <div class="col-lg-10">
+                    <p><i class="fa fa-user-md text-dark"></i> <b class="text-dark">From :</b> <?= esc(isset($users['referral_doctor']) ? $users['referral_doctor'] : 'N/A') ?></p>
                   </div>
                 </div>
               </div>
               <div class="col-lg-12">
                 <div class="row">
-                  <div class="col-lg-6">
-                    <p><i class="fa fa-user-circle-o text-dark"></i> <b class="text-dark">To:</b><?= esc(isset($users['patient_name']) ? $users['patient_name'] : 'N/A') ?></p>
+                  <div class="col-lg-10">
+                    <p><i class="fa fa-user-circle-o text-dark"></i> <b class="text-dark">To :</b> <?= esc(isset($users['patient_name']) ? $users['patient_name'] : 'N/A') ?></p>
                   </div>
-                  <div class="col-lg-6">
-                    <p><i class="fa fa-file-text-o text-dark"></i> <b class="text-dark">Referral For:</b><?= esc(isset($users['referral_for']) ? $users['referral_for'] : 'N/A') ?></p>
+                  <div class="col-lg-10">
+                    <p><i class="fa fa-file-text-o text-dark"></i> <b class="text-dark">Referral For :</b> <?= esc(isset($users['referral_for']) ? $users['referral_for'] : 'N/A') ?></p>
                   </div>
                 </div>
               </div>
               <div class="col-lg-12">
                 <div class="row">
                   <div class="col-lg-12 d-flex justify-content-center">
-                    <button class="btn btn-success myref-btn-status"><?= esc(isset($users['status']) ? $users['status'] : 'N/A') ?></button>
-                    <a href="<?= base_url('user_view_details/' .$users['id'])?>" class="btn btn-primary" style="margin-left: 20px;">View Details</a>
+                    <button class="btn btn-success myref-btn-status"><?= esc(isset($users['status']) ? $users['status'] : 'Pending') ?></button>
+                    <a href="<?= base_url('user_view_details/' .$users['id'])?>" class="btn btn-primary" style="margin-left: 10px;">View Details</a>
 
                   </div>
                 </div>

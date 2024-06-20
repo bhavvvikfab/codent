@@ -182,7 +182,7 @@ Co-Dent - Contact
 
 <section id="contact" class="contact section">
   <div class="container section-title aos-init aos-animate" data-aos="fade-up">
-    <h2>Get in Touch</h2>
+    <br>
     <p>We'd love to hear from you! Whether you have a question or need assistance, feel free to contact us.</p>
   </div>
 
@@ -264,23 +264,23 @@ Co-Dent - Contact
   </div>
 </section>
 
-<div id="toast" class="toast">Your message has been sent successfully!</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-  function showToast(message) {
-    var toast = document.getElementById('toast');
-    toast.innerHTML = message;
-    toast.classList.add('show');
-    setTimeout(function() {
-      toast.classList.remove('show');
-    }, 3000);
+  function showSwal(message, icon) {
+    Swal.fire({
+      icon: icon,
+      title: icon.charAt(0).toUpperCase() + icon.slice(1),
+      text: message,
+    });
   }
 
   <?php if (session()->has('status') && session('status') == 'success'): ?>
-    showToast('Your message has been sent successfully!');
+    showSwal('Your message has been sent successfully!', 'success');
   <?php endif; ?>
   <?php if (session()->has('status') && session('status') == 'error'): ?>
-    showToast('Something is Wrong....Please Try Again Later');
+    showSwal('Something is Wrong....Please Try Again Later', 'error');
   <?php endif; ?>
 
   document.getElementById('contactForm').addEventListener('submit', function(event) {
