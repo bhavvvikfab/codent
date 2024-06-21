@@ -157,7 +157,7 @@ Dashboard
         </div>
         <div class="row">
     <!-- Reports and Table Side by Side -->
-    <div class="col-lg-6">
+    <div class="col-lg-5">
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Reports </h5>
@@ -243,11 +243,13 @@ Dashboard
     </div>
     
     <!-- Table -->
-<div class="col-lg-6">
+<div class="col-lg-7">
     <div class="card">
         <div class="datatable-bottom d-flex justify-content-between align-items-center">
-            <h5 class="card-title">Enquiries</h5>
-            <a href="<?= base_url('enquiries') ?>" style="margin-left:360px;" class = "btn btn-dark btn-sm">View All</a>
+            
+           <div class="col-9 offset-1"> <h5 class="card-title">Enquiries</h5></div>
+                            <div class="col-2"> <a href="<?= base_url('enquiries') ?>" class="btn btn-dark btn-sm text-s">View
+                            All</a></div>
             </div>
         <div class="card-body">
             <table class="table table-sm table-borderless datatable dash-order-table">
@@ -291,7 +293,6 @@ Dashboard
         </div>
     </div>
 </div>
-
 
 
 

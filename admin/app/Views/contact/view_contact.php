@@ -49,7 +49,7 @@ Contact Us
                             </div>
                             <div class="col-md-6">
                                 <h6>Contact Date :</h6>
-                                <p><?= esc($contactItem['date']) ?></p>
+                                <p><?= esc($contactItem['created_at']) ?></p>
                             </div>
                         </div>
                         <div class="row mb-3">

@@ -281,7 +281,10 @@ this.submit();
                       timePicker24Hour: false,
                       minDate: moment(),
                       locale: {
-                        format: 'DD/MM/YYYY hh:mm A'
+                        format: 'DD/MM/YYYY hh:mm A',
+                        meridiem: function (hour, minute, isAM) {
+                            return hour < 12 ? 'AM' : 'PM';
+                        }
                       }
                     });
                   });

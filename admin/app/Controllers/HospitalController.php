@@ -28,10 +28,17 @@ class HospitalController extends BaseController
     public function add_hospital()
     {
 
-       $image= $this->request->getFile('profile');
-        // Load validation service
-        // $validation = Services::validation();
-        // // Get the request data
+        $user = new UserModel;
+        $image = $this->request->getFile('profile');
+        $email = $this->request->getPost('email');
+        
+        // Check if email already exists
+        $existingUser = $user->where('email', $email)->first();
+        
+        if ($existingUser) {
+            session()->setFlashdata('emailError', 'Email already exists.');
+            return redirect()->back()->withInput();
+        }
         $field = [
             'hospital_name' => $this->request->getPost('hospital_name'),
             'phone' => $this->request->getPost('phone'),
@@ -199,9 +206,19 @@ class HospitalController extends BaseController
         
         public function edit_hospital_data()
     {
-
+ 
+       $user = new UserModel;
        $image= $this->request->getFile('profile');
        $id= $this->request->getPost('id');
+       $email = $this->request->getPost('email');
+       
+       // Check if email already exists
+       $existingUser = $user->where('email', $email)->first();
+       
+       if ($existingUser) {
+           session()->setFlashdata('emailError', 'Email already exists.');
+           return redirect()->back()->withInput();
+       }
        
         // Load validation service
         // $validation = Services::validation();
@@ -288,21 +305,38 @@ class HospitalController extends BaseController
         
     }
     
-    public function view_hospital($id){
+    public function view($id){
+        $model = new UserModel;
+        $data = $model->findUserById($id);
+
+       
+        
+        $packagesModel = new PackagesModel;
+        $packages = $packagesModel->findAll();
+        
+        
+        $hospitalModel = new HospitalsModel;
+        $hospitalData = $hospitalModel->findAll($id);
+        
+        
+            return view('hospitals/view_hospital', [
+                'hospital' => $data,
+                'package' => $packages,
+                'hospital_data' => $hospitalData
+            ]);
+        
+    }
     
-        $model=new UserModel;
-        $data=$model->findUserById($id);
-        
-        $packages = new PackagesModel;
-        $packages = $packages->getAllPackages();
-        
-        $hospital= new HospitalsModel;
-        $hospital= $hospital->getDataByHospitalId($id);
-        if (!empty($hospital) && !empty($data) ) {
-        return view('hospitals/view_hospital.php',['hospital'=>$data,'package'=>$packages,'hospital_data'=>$hospital]);
-           
+
+    public function validateEmail()
+    {
+        $email = $this->request->getPost('email');
+        $hospitalModel = new UserModel();
+
+        if ($hospitalModel->where('email', $email)->first()) {
+            return $this->response->setJSON("Email already exists.");
         } else {
-            return redirect()->to('hospitals/hospitals.php')->with('view_error', 'error');
+            return $this->response->setJSON("Email is available.");
         }
     }
     

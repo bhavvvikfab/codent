@@ -31,7 +31,7 @@ class Database extends Config
         // 'password'     => '4TLx+8}Co8bf',
         'username'     => 'root',
         'password'     => '',
-        'database'     => 'dummyin2_codent',
+        'database'     => 'codentdb',
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
         'pConnect'     => false,

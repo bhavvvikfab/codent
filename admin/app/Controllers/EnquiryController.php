@@ -36,16 +36,13 @@ class EnquiryController extends BaseController
     $users = $userModel->where('role', 2)->findAll();
 
     // Collect user IDs
-    $userIds = array_column($users, 'id');
+    // $userIds = array_column($users, 'id');
 
     // Fetch all hospitals where user_id is in the list of user IDs
-    $hospitals = [];
-    if (!empty($userIds)) {
-        $hospitals = $hospitalModel->whereIn('hospital_id', $userIds)->findAll();
-    }
+    
 
     // Pass the data to the view
-    $data['hospitals'] = $hospitals;
+    $data['hospitals'] = $users;
 
     return view('enquiry/add_eqnuiry_view', $data);
 }
@@ -189,7 +186,7 @@ public function editEnquiry_fun()
 
 
     $data['enquiries'] = $enquiryModel->where('id', $id)->findAll();
-    $data['hospitals'] = $hospitalModel->findAllHospitals(); // Fetch all hospitals
+    $data['hospitals'] = $userModel->where('role',2)->findAll(); // Fetch all hospitals
     // echo "<pre>";
     // print_r($data['enquiries']);
     // echo "</pre>";
