@@ -70,7 +70,7 @@ All-Doctors
                         <td>
                           <img
                             src="<?= $adminurl ?>/public/images/<?= !empty($doctor['user']['profile']) ? $doctor['user']['profile'] : 'user-profile.jpg' ?>"
-                            height="50" width="50"
+                            height="50" width="50" class="rounded-circle"
                             onerror="this.onerror=null; this.src='<?= config('App')->baseURL2 ?>/public/images/default.jpg';">
                         </td>
                         <td>Dr. <?= esc($doctor['user']['fullname'] ?? 'N/A') ?></td>

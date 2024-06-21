@@ -31,23 +31,17 @@ Chat-list
               <div class="col-lg-9">
                 <h5 class="card-title text-start">Chat Messages</h5>
               </div>
+             
               <div class="col-lg-3 text-end">
-                <a href="<?= base_url(session('prefix') . '/view_chat/' . 1) ?>"
-                  class="text-dark fw-bold h-3 btn btn-info">
+              <a href="<?= base_url(session('prefix') . '/view_chat/' . 1) ?>" class="text-dark fw-bold h-3 btn btn-info position-relative">
                   Contact Admin
-                </a>
-                <style>
-                  .badge-sm {
-                      font-size: 0.70rem;
-                      padding: 0.25em 0.5em;
-                  }
-                </style>
-                <?php if ($adminUnreadMessagesCount > 0): ?>
-                  <span class="badge bg-primary ms-2 badge-sm">
-                    <?php echo $adminUnreadMessagesCount; ?> New
-                    Message<?php echo $adminUnreadMessagesCount > 1 ? 's' : ''; ?>
+                    <!-- <i class="bi bi-bell-fill"></i> -->
+                    <?php if ($adminUnreadMessagesCount > 0): ?>
+                      <span class="badge bg-dark badge-number">
+                    <?php echo $adminUnreadMessagesCount; ?>
                   </span>
-                <?php endif; ?>
+                <?php endif; ?>               
+              </a>
               </div>
             </div>
           </div>

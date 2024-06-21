@@ -308,9 +308,129 @@ class LoginController extends BaseController
 
         return $this->response->setJSON(['status' => 'error', 'message' => 'An unexpected error occurred']);
     }
+    
+    
+
+    public function update_subscription() {
+
+        $stripeSecretKey = config('App')->stripe_secret;
+        $token = $this->request->getPost('stripeToken');
+        $package_id = $this->request->getPost('package_id');
+
+        if(session('user_role') == 2 ){
+            $hospital_id= session('user_id');
+        }else{
+            $hospital_id= session('hospital_id');
+        }
+
+        if (!$package_id || !$hospital_id || !$token) {
+            session()->setFlashdata('error', 'Invalid package, hospital ID, or token');
+            return redirect()->back();
+        }
+        
+        $package_model = new PackagesModel();
+        $package = $package_model->where('id', $package_id)->first();
+        
+        if (!$package) {
+            session()->setFlashdata('error', 'Package not found');
+            return redirect()->back();
+        }
+        
+        $userModel = new UserModel();
+        $user = $userModel->where('id', $hospital_id)->first();
+        
+        if (!$user) {
+            session()->setFlashdata('error', 'User not found');
+            return redirect()->back();
+        }
+        $activePlanModel = new ActivePlanHospital();
+        $old_plan = $activePlanModel->where('hospital_id', $hospital_id)->first();
+        $activePlanModel->delete($old_plan);
+
+        $amount = $package['price'];
+
+        // Initialize Stripe
+        Stripe::setApiKey($stripeSecretKey);
+
+        try {
+            $customer = Customer::create([
+                'email' => $user['email'],
+                'phone' => $user['phone'],
+                'name' => $user['fullname'],
+                'address' => [
+                    'line1' => $user['address'],
+                    'country' => 'IN',
+                ],
+            ]);
+
+            $paymentMethod = PaymentMethod::create([
+                'type' => 'card',
+                'card' => [
+                    'token' => $token,
+                ],
+            ]);
+
+            // Create a Payment Intent
+            $paymentIntent = PaymentIntent::create([
+                'amount' => $amount * 100,
+                'currency' => 'usd',
+                'customer' => $customer->id,
+                'payment_method' => $paymentMethod->id,
+                'off_session' => true,
+                'confirm' => true,
+                'description' => "Payment for package: {$package['plan_name']} by hospital: {$user['fullname']}",
+            ]);
 
 
+            // Check the status of the PaymentIntent
+            $status = 'failed';
+            if ($paymentIntent->status == 'succeeded') {
+                $status = 'success';
+            }
 
+            // Insert the transaction into the database
+            $transactionModel = new TransactionModel();
+            $activePlanModel = new ActivePlanHospital();
+
+            $starting_date = date('Y-m-d');
+            $duration = !empty($package['duration']) ? intval($package['duration']) : 0;
+            $endDate = date('Y-m-d', strtotime($starting_date . ' + ' . $duration . ' days'));
+
+            $plan = [
+                'hospital_id' => $hospital_id,
+                'package_id' => $package_id,
+                'starting_date' => $starting_date,
+                'ending_date' => $endDate,
+            ];
+
+            $active_plan = $activePlanModel->insert($plan);
+
+            $data = [
+                'hospital_id' => $hospital_id,
+                'amount' => $amount,
+                'status' => $status,
+                'transaction_id' => $paymentIntent->id,
+                'package_id'=>$package_id
+            ];
+            $result = $transactionModel->insert($data);
+
+            $set_plan = $userModel->where('id', $hospital_id)
+                                   ->set('package_status','active')
+                                   ->update();        
+
+            if ($result && $status == 'success' && $active_plan && $set_plan) {
+                session()->setFlashdata('success', 'Your Package is Updated. Thank you!');
+                return redirect()->back();
+            }
+
+        } catch (\Stripe\Exception\ApiErrorException $e) {
+            session()->setFlashdata('error', 'Something went wrong..!');
+            return redirect()->back();
+        }
+
+        session()->setFlashdata('error', 'Something went wrong..!');
+        return redirect()->back();
+    }
 
 
 

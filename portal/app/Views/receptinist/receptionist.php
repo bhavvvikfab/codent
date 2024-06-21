@@ -63,7 +63,7 @@ All-Receptionist
                       <td>
                         <img
                           src="<?= config('App')->baseURL2 ?>/public/images/<?= !empty($rep['profile']) ? $rep['profile'] : 'default.jpg' ?>"
-                          height="50" width="50"
+                          height="50" width="50" class="rounded-circle"
                           onerror="this.onerror=null; this.src='<?= config('App')->baseURL2 ?>/public/images/default.jpg';">
                       </td>
 

@@ -17,7 +17,7 @@ $routes->get('register', 'LoginController::register',$authRedirectFilter);
 $routes->post('registerdata', 'LoginController::register_data');
 $routes->get('checkEmail', 'LoginController::checkEmail');
 $routes->post('subscription_payment', 'LoginController::subscription_payment');
-$routes->post('confirm_payment_intent', 'LoginController::confirm_payment_intent');
+$routes->post('update_subscription', 'LoginController::update_subscription');
 
 //forgot password end
 $routes->get('forgot_password', 'LoginController::forgot_password');
@@ -34,7 +34,9 @@ $routes->group('hospital', ['filter' => $authFilter], function ($routes) {
     $routes->get('profile', 'UserController::showProfile');
     $routes->post('profile_update', 'UserController::update_profile');
     $routes->post('update_password', 'UserController::change_password');
-    
+    $routes->post('update_subscription', 'LoginController::update_subscription');
+
+
     $routes->get('doctor', 'doctor\DoctorController::index');
     $routes->get('add_doctor', 'doctor\DoctorController::addDoctor');
     $routes->post('doctor_register', 'doctor\DoctorController::doctor_register');
@@ -160,30 +162,3 @@ $routes->group('receptionist', ['filter' => $authFilter], function ($routes) {
 
 
 
-
-
-
-
-
-
-
-
-// $routes->group('user', $authFilter, function ($routes) {
-//     $routes->get('dashboard', 'user\DashboardController::index');
-// });
-
-// $routes->group('receptinist', $authFilter, function ($routes) {
-//     $routes->get('dashboard', 'receptinist\DashboardController::index');
-// });
-
-// $routes->group('specialist', $authFilter, function ($routes) {
-//     $routes->get('dashboard', 'specialist\DashboardController::index');
-// });
-
-// $routes->group('practices', $authFilter, function ($routes) {
-//     $routes->get('dashboard', 'practices\DashboardController::index');
-// });
-
-// $routes->group('user', $authFilter, function ($routes) {
-//     $routes->get('dashboard', 'user\DashboardController::index');
-// });

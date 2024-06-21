@@ -87,9 +87,9 @@
                                                                             Days
                                                                         </h6>
                                                                         <h5 class="card-text fw-bold"
-                                                                            style="color: rgb(2, 48, 80);"><span>Price :
+                                                                            style="color: rgb(2, 48, 80);"><span>Price : 
                                                                             </span>
-                                                                            <?= !empty($package['price']) ? $package['price'] : 'N/A' ?>
+                                                                            <?= !empty($package['price']) ? $package['price'] : 'N/A' ?> $
                                                                         </h5>
                                                                     </li>
                                                                     <li class="list-group-item">

@@ -51,22 +51,15 @@ class DoctorController extends BaseController
         $scheduleModel = new DoctorScheduleModel;
 
         $validationRules = [
-            // 'name' => 'required|min_length[3]|max_length[255]',
             'email' => 'required|valid_email|is_unique[users.email]',
-            // 'password' => 'required|min_length[5]|max_length[255]',
-            // 'address' => 'required|min_length[4]|max_length[255]',
-            // 'dob' => 'required|valid_date',
-            // 'phone' => 'required|min_length[10]|max_length[15]',
-            // 'specialist' => 'required|min_length[3]|max_length[255]',
-            // 'qualification' => 'required|min_length[3]|max_length[255]',
-            // 'schedule' => 'required|min_length[3]|max_length[255]',
-            // 'about' => 'required|min_length[3]|max_length[255]',
-            // 'specialistOrPractice' => 'required|integer',
         ];
 
         if (!$this->validate($validationRules)) {
             $validation = Services::validation();
-            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+            return $this->response->setJSON([
+                'status' => 'emailerror',
+                'message' => $validation->getErrors()
+            ]);
         }
         $monday_time = $this->request->getPost("monday_time");
         $tuesday_time = $this->request->getPost("tuesday_time");
@@ -141,9 +134,16 @@ class DoctorController extends BaseController
         $result = $scheduleModel->insert($schedule);
 
         if ($result) {
-            return redirect()->to(base_url() . '' . session('prefix') . '/' . 'doctor')->with('added_dr', 'Doctor Register Successfully');
+            session()->setFlashdata('added_dr', 'Doctor registered successfully!');
+            return $this->response->setJSON([
+                'status' => 'success',
+                'message' => 'Doctor Register Successfully'
+            ]);
         } else {
-            return redirect()->back()->with('error', 'Something is wrong....Try again next time');
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'something went wrong..!'
+            ]);   
         }
     }
 
@@ -176,7 +176,6 @@ class DoctorController extends BaseController
     public function doctor_edit()
     {
         $validationRules = [
-            // 'name' => 'required|min_length[3]|max_length[255]',
             'email' => [
                 'label' => 'Email',
                 'rules' => 'required|valid_email|is_unique[users.email,id,{user_id}]',
@@ -184,21 +183,17 @@ class DoctorController extends BaseController
                     'is_unique' => 'This email address is already in use.'
                 ]
             ],
-            // 'address' => 'required|min_length[4]|max_length[255]',
-            // 'dob' => 'required|valid_date',
-            // 'phone' => 'required|min_length[10]|max_length[15]',
-            // 'specialist' => 'required|min_length[3]|max_length[255]',
-            // 'qualification' => 'required|min_length[3]|max_length[255]',
-            // 'schedule' => 'required|min_length[3]|max_length[255]',
-            // 'about' => 'required|min_length[3]|max_length[255]',
-            // 'specialistOrPractice' => 'required|integer',
             'user_id' => 'required|integer',
             'dr_id' => 'required|integer',
         ];
 
         if (!$this->validate($validationRules)) {
             $validation = Services::validation();
-            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+            return $this->response->setJSON([
+                'status' => 'emailerror',
+                'message' => $validation->getErrors()
+            ]);
+            // return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
 
         $dr_id = $this->request->getPost("dr_id");
@@ -275,9 +270,18 @@ class DoctorController extends BaseController
         $userUpdateResult = $userModel->update($user_id, $userData);
 
         if ($doctorUpdateResult && $userUpdateResult && $scheduleUpdate ) {
-            return redirect()->to(base_url() . session('prefix') . '/doctor')->with('edit_dr', 'Doctor Info Updated Successfully');
+            session()->setFlashdata('edit_dr', 'Doctor Info Updated Successfully');
+            return $this->response->setJSON([
+                'status' => 'success',
+                'message' => 'Doctor Info Updated Successfully'
+            ]);
+            // return redirect()->to(base_url() . session('prefix') . '/doctor')->with('edit_dr', 'Doctor Info Updated Successfully');
         } else {
-            return redirect()->back()->with('error', 'Something went wrong. Please try again.');
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'something went wrong..!'
+            ]); 
+            // return redirect()->back()->with('error', 'Something went wrong. Please try again.');
         }
     }
 

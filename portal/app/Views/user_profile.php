@@ -22,7 +22,8 @@ Profile
   </div>
   <pre>
     <?php
-    // print_r($package);
+     
+    // print_r($allPackages);
     // die;
     ?>
   </pre>
@@ -51,19 +52,20 @@ Profile
           <div class="card-body pb-3 d-flex flex-column align-items-center">
 
             <?php
-            if(isset($package)):
-            $starting_date = new DateTime($package['starting_date']);
-            $ending_date = new DateTime($package['ending_date']);
-            $interval = $starting_date->diff($ending_date);
-            $days_left = $interval->days;
-            ?>
-            <span class="">Active Package :
-              <?= isset($package['package']['plan_name']) ? $package['package']['plan_name'] : 'Package Name'; ?></span>
-            <small class="">Validity :
-              <?= isset($package['package']['duration']) ? $package['package']['duration'] : 'Validity'; ?> Days</small>
-            <small class="">Day left : <?= isset($days_left) ? $days_left : 'Remaning day'; ?> Days</small>
-            <button class="btn btn-sm btn-primary mt-4" >Update Package</button>
-             <?php endif; ?>
+            if (isset($package)):
+              $starting_date = new DateTime($package['starting_date']);
+              $ending_date = new DateTime($package['ending_date']);
+              $interval = $starting_date->diff($ending_date);
+              $days_left = $interval->days;
+              ?>
+              <span class="">Active Package :
+                <?= isset($package['package']['plan_name']) ? $package['package']['plan_name'] : 'Package Name'; ?></span>
+              <small class="">Validity :
+                <?= isset($package['package']['duration']) ? $package['package']['duration'] : 'Validity'; ?> Days</small>
+              <small class="">Day left : <?= isset($days_left) ? $days_left : 'Remaning day'; ?> Days</small>
+              <button class="btn btn-sm btn-primary mt-4" data-bs-toggle="modal" data-bs-target="#package_model">Update
+                Package</button>
+            <?php endif; ?>
           </div>
         </div>
 
@@ -254,45 +256,7 @@ Profile
 
               </div>
 
-              <!--<div class="tab-pane fade pt-3" id="profile-settings">-->
-
-              <!-- Settings Form -->
-              <!--  <form>-->
-
-              <!--    <div class="row mb-3">-->
-              <!--      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Email Notifications</label>-->
-              <!--      <div class="col-md-8 col-lg-9">-->
-              <!--        <div class="form-check">-->
-              <!--          <input class="form-check-input" type="checkbox" id="changesMade" checked>-->
-              <!--          <label class="form-check-label" for="changesMade">-->
-              <!--            Changes made to your account-->
-              <!--          </label>-->
-              <!--        </div>-->
-              <!--        <div class="form-check">-->
-              <!--          <input class="form-check-input" type="checkbox" id="newProducts" checked>-->
-              <!--          <label class="form-check-label" for="newProducts">-->
-              <!--            Information on new products and services-->
-              <!--          </label>-->
-              <!--        </div>-->
-              <!--        <div class="form-check">-->
-              <!--          <input class="form-check-input" type="checkbox" id="proOffers">-->
-              <!--          <label class="form-check-label" for="proOffers">-->
-              <!--            Marketing and promo offers-->
-              <!--          </label>-->
-              <!--        </div>-->
-              <!--        <div class="form-check">-->
-              <!--          <input class="form-check-input" type="checkbox" id="securityNotify" checked disabled>-->
-              <!--          <label class="form-check-label" for="securityNotify">-->
-              <!--            Security alerts-->
-              <!--          </label>-->
-              <!--        </div>-->
-              <!--      </div>-->
-              <!--    </div>-->
-
-              <!--    <div class="text-center">-->
-              <!--      <button type="submit" class="user-btn btn">Save Changes</button>-->
-              <!--    </div>-->
-              <!--  </form> End settings Form -->
+             
 
               <!--</div>-->
 
@@ -350,9 +314,114 @@ Profile
         </div>
 
       </div>
+
     </div>
   </section>
-  <script>
+
+  <!-- ========================package modal star======================= -->
+  <div class="modal fade" id="package_model" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: rgb(2, 48, 80); color: rgb(255, 255, 255);">
+          <h5 class="modal-title" id="exampleModalLabel">Available Packages </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body d-flex text-center align-items-center flex-wrap">
+          <?php if ($allPackages): ?>
+            <?php foreach ($allPackages as $package): ?>
+              <div class="col-md-12 col-lg-6 col-sm-12">
+                <div class="card m-1" style="border:1px solid rgb(2, 48, 80);">
+                  <input type="hidden" value="<?= !empty($package['id']) ? $package['id'] : 'N/A' ?>" class="package_id">
+                  <div class="card-header" style="background-color: rgb(2, 48, 80); color: rgb(255, 255, 255);">
+                    <h4 class="mt-3 fw-bold text-light"><?= !empty($package['plan_name']) ? $package['plan_name'] : 'N/A' ?>
+                    </h4>
+                  </div>
+                  <ul class="list-group list-group-flush d-flex justify-content-between">
+                    <li class="list-group-item" style="display: inline-block;">
+                      <label class="fw-bold" style="color: rgb(2, 48, 80);">Description:</label><br>
+                      <?= !empty($package['details']) ? $package['details'] : 'N/A' ?>
+                    </li>
+                    <li class="list-group-item" style="display: inline-block;">
+                      <h6 class="card-text"><span>Validity:</span>
+                        <?= !empty($package['duration']) ? $package['duration'] : 'N/A' ?> Days
+                      </h6>
+                    </li>
+                    <li class="list-group-item" style="display: inline-block;">
+                      <h5 class="card-text fw-bold" style="color: rgb(2, 48, 80);"><span>Price:</span>
+                        <?= !empty($package['price']) ? $package['price'] : 'N/A' ?> $
+                      </h5>
+                    </li>
+                    <li class="list-group-item" style="display: inline-block;">
+                      <a href="" class="btn btn_subscribe"
+                        style="background-color: rgb(2, 48, 80); color: rgb(255, 255, 255);" data-bs-toggle="modal"
+                        data-bs-target="#buyModel">Subscribe</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            <?php endforeach; ?>
+          <?php else: ?>
+            <p class="text-center">No packages available.</p>
+          <?php endif; ?>
+          
+        </div>
+        <div class="fw-bold m-1">Note:
+            <small class="text-danger">If you buy a new package, the old package will discontinue.</small>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =================================package modal star=============== -->
+
+  <!-- ============================card modal=================== -->
+  <div class="modal fade" id="buyModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header text-light fw-bold"
+          style="background-color: rgb(2, 48, 80); color: rgb(255, 255, 255);">
+          <h5 class="modal-title" id="exampleModalLabel">Payment your subscription</h5>
+          <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+        </div>
+        <form id="payment-form" method="POST" action="<?= base_url(session('prefix') . '/update_subscription')?>" >
+          <input type="hidden" name="package_id" class="plan_id">
+          <div class="modal-body">
+            <div id="card-element">
+              <!-- A Stripe Element will be inserted here. -->
+            </div>
+            <div id="card-errors" role="alert"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-sm paynow"
+              style="background-color: rgb(2, 48, 80); color: rgb(255, 255, 255);" id="pay-btn">Pay
+              Now</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!--================================ card modal end=================== -->
+  <?php if (session('success')): ?>
+      <script>
+          showToast('<?= session('success') ?>')
+      </script>
+ <?php endif; ?>
+ <?php if (session('error')): ?>
+      <script>
+          showToastError('<?= session('error') ?>')
+      </script>
+ <?php endif; ?>
+
+
+</main>
+<!-- End #main -->
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+
     $(document).ready(function () {
 
       $('#showpass').on('click', function () {
@@ -376,7 +445,6 @@ Profile
 
       $(document).on('click', '#edit_profile', function (e) {
         e.preventDefault();
-        // Get form data
         var formData = new FormData($('#editprofile_form')[0]);
         $.ajax({
           url: "<?= base_url(session('prefix') . '/profile_update') ?>",
@@ -392,7 +460,7 @@ Profile
                   icon: 'success',
                   title: 'Success',
                   text: 'Profile updated successfully.',
-                  confirmButtonColor: 'black', 
+                  confirmButtonColor: 'black',
                   confirmButtonText: 'Okay',
                 });
                 $('#alert').empty();
@@ -429,7 +497,7 @@ Profile
                 icon: 'success',
                 title: 'Success',
                 text: 'Password Chanaged successfully.',
-                confirmButtonColor: 'black', 
+                confirmButtonColor: 'black',
                 confirmButtonText: 'Okay',
               });
               $('#password_alert').empty();
@@ -450,8 +518,59 @@ Profile
 
     });
 
-  </script>
-</main>
-<!-- End #main -->
+    $(document).on('click', '.btn_subscribe', function (e) {
+      e.preventDefault();
+      let package_id = $(this).closest('.card').find('.package_id').val();
+      $('.plan_id').val(package_id);
+    });
 
+    //==========================stripe code start============================
+    var stripe = Stripe('<?= config('App')->stripe_public ?>');
+
+    var elements = stripe.elements();
+
+    var card = elements.create('card');
+
+    card.mount('#card-element');
+
+    card.on('change', function (event) {
+      var displayError = document.getElementById('card-errors');
+      if (event.error) {
+        displayError.textContent = event.error.message;
+      } else {
+        displayError.textContent = '';
+      }
+    });
+
+    var form = document.getElementById('payment-form');
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      stripe.createToken(card).then(function (result) {
+        if (result.error) {
+
+          var errorElement = document.getElementById('card-errors');
+          errorElement.textContent = result.error.message;
+        } else {
+
+          stripeTokenHandler(result.token);
+        }
+      });
+    });
+
+    // Submit the token to your server
+    function stripeTokenHandler(token) {
+
+      var form = document.getElementById('payment-form');
+      var hiddenInput = document.createElement('input');
+      hiddenInput.setAttribute('type', 'hidden');
+      hiddenInput.setAttribute('name', 'stripeToken');
+      hiddenInput.setAttribute('value', token.id);
+      form.appendChild(hiddenInput);
+
+      // Submit the form
+      form.submit();
+    }
+ //==========================stripe code end============================
+  </script>
 <?= $this->endSection() ?>

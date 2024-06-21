@@ -42,7 +42,7 @@ Add-Receptionist
 
 
             <!-- General Form Elements -->
-            <form action="<?= base_url() . '' . session('prefix') . '/' . 'reception_register' ?>" method="post"
+            <form action="" method="post"
               enctype="multipart/form-data">
               <div class="row ">
                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
@@ -231,10 +231,6 @@ Add-Receptionist
                 return false; 
             }
 
-            // if (image === '') {
-            //     $('#image').after('<small class="error-msg text-danger">Please upload a profile image.</small>');
-            //     return false; 
-            // }
 
             if (phone === '') {
                 $('#phone').after('<small class="error-msg text-danger">Please enter a phone number.</small>');
@@ -250,8 +246,26 @@ Add-Receptionist
                 return false;
             }
 
-         
-            this.submit();
+            // this.submit();
+            var formData = new FormData(this);
+            $.ajax({
+                type: "POST",
+                url: "<?= base_url() . '' . session('prefix') . '/' . 'reception_register' ?>",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if(response.status=='success'){
+                        window.location.href = "<?= (base_url() . '' . session('prefix') . '/' . 'reception')?>";   
+                    }else if(response.status=='emailerror'){
+                        $('#email').after('<small class="error-msg text-danger">This email address is already in use.</small>');
+                    }else{
+                        showToastError('Something went wrong..!!');
+                    }
+                }
+            });
+
+
         });
 
         // Function to validate email format
