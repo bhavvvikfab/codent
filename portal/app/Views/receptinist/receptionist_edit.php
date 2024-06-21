@@ -42,7 +42,7 @@ Edit-Receptionist
 
                         <!-- General Form Elements -->
                         <form id="doctor_form" enctype="multipart/form-data"
-                            action="<?= base_url() . '' . session('prefix') . '/' . 'receptionist_edit' ?>"
+                            action=""
                             method="post">
 
 
@@ -53,20 +53,14 @@ Edit-Receptionist
                                             style="font-size: 18px;"></i> Full Name</label>
                                     <input type="text" class="form-control" id="name" name="name"
                                         value="<?= isset($rep['fullname']) ? $rep['fullname'] : 'N/A'; ?>">
-                                    <?php if (session('errors.name')): ?>
-                                        <small class="text-danger"><?= esc(session('errors.name')) ?><i
-                                                class="bi bi-exclamation-circle"></i></small>
-                                    <?php endif; ?>
+                                   
                                 </div>
                                 <div class="col-lg-6 mb-3">
                                     <label for="email" class="form-label"><i class="bi bi-envelope-fill"
                                             style="font-size: 18px;"></i> Email</label>
                                     <input type="email" class="form-control" id="email" name="email"
                                         value="<?= isset($rep['email']) ? $rep['email'] : 'N/A'; ?>">
-                                    <?php if (session('errors.email')): ?>
-                                        <small class="text-danger"><?= esc(session('errors.email')) ?><i
-                                                class="bi bi-exclamation-circle"></i></small>
-                                    <?php endif; ?>
+                                  
                                 </div>
 
                             </div>
@@ -75,10 +69,7 @@ Edit-Receptionist
                                     <label for="image" class="form-label"><i class="bi bi-image-fill"
                                             style="font-size: 18px;"></i>Image</label>
                                     <input type="file" class="form-control fileInput" id="image" name="image">
-                                    <?php if (session('errors.image')): ?>
-                                        <small class="text-danger"><?= esc(session('errors.image')) ?><i
-                                                class="bi bi-exclamation-circle"></i></small>
-                                    <?php endif; ?>
+                                  
                                 </div>
 
                                 <div class="col-lg-6 mb-3">
@@ -86,10 +77,7 @@ Edit-Receptionist
                                             style="font-size: 18px;"></i> Address</label>
                                     <textarea class="form-control" id="address" name="address"
                                         rows="1"><?= isset($rep['address']) ? $rep['address'] : 'N/A'; ?></textarea>
-                                    <?php if (session('errors.address')): ?>
-                                        <small class="text-danger"><?= esc(session('errors.address')) ?><i
-                                                class="bi bi-exclamation-circle"></i></small>
-                                    <?php endif; ?>
+                                   
                                 </div>
 
                             </div>
@@ -100,10 +88,7 @@ Edit-Receptionist
                                             <input type="date" class="form-control" id="dob" name="dob" max="2021-12-31"
                                                      value="<?= isset($rep['date_of_birth']) ? $rep['date_of_birth'] : ''; ?>">
 
-                                    <?php if (session('errors.dob')): ?>
-                                        <small class="text-danger"><?= esc(session('errors.dob')) ?><i
-                                                class="bi bi-exclamation-circle"></i></small>
-                                    <?php endif; ?>
+                              
                                 </div>
 
                                 <div class="col-lg-6 mb-3">
@@ -111,10 +96,7 @@ Edit-Receptionist
                                             style="font-size: 18px;"></i> Phone Number</label>
                                     <input type="phone" class="form-control" id="phone" name="phone"
                                         value="<?= isset($rep['phone']) ? $rep['phone'] : 'N/A'; ?>">
-                                    <?php if (session('errors.phone')): ?>
-                                        <small class="text-danger"><?= esc(session('errors.phone')) ?><i
-                                                class="bi bi-exclamation-circle"></i></small>
-                                    <?php endif; ?>
+                                  
                                 </div>
 
 
@@ -214,10 +196,6 @@ Edit-Receptionist
                 return false;
             }
 
-            // if (image === '') {
-            //     $('#image').after('<small class="error-msg text-danger">Please upload a profile image.</small>');
-            //     return false; 
-            // }
 
             if (phone === '') {
                 $('#phone').after('<small class="error-msg text-danger">Please enter a phone number.</small>');
@@ -233,7 +211,24 @@ Edit-Receptionist
             }
 
 
-            this.submit();
+            // this.submit();
+            var formData = new FormData(this);
+            $.ajax({
+                type: "POST",
+                url: "<?= base_url() . '' . session('prefix') . '/' . 'receptionist_edit' ?>",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if(response.status=='success'){
+                        window.location.href = "<?= (base_url() . '' . session('prefix') . '/' . 'reception')?>";   
+                    }else if(response.status=='emailerror'){
+                        $('#email').after('<small class="error-msg text-danger">This email address is already in use.</small>');
+                    }else{
+                        showToastError('Something went wrong..!!');
+                    }
+                }
+            });
         });
 
         // Function to validate email format

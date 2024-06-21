@@ -55,7 +55,7 @@ View_Hospitals
                                         <div style="display: flex; justify-content: center;">
 
                                             <img src="<?= config('App')->baseURL2 ?>/public/images/<?= !empty($doctor['user']['profile']) ? $doctor['user']['profile'] : 'user-profile.jpg' ?>"
-                                                height="250" width="250"
+                                                height="250" width="250" class="rounded-circle"
                                                 onerror="this.onerror=null; this.src='<?= config('App')->baseURL2 ?>/public/images/default.jpg';">
                                         </div>
 

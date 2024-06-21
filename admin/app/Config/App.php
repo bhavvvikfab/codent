@@ -17,7 +17,7 @@ class App extends BaseConfig
      * E.g., http://example.com/
      */
     public string $baseURL = 'http://localhost/codent/admin';
-    // public string $baseURL = 'http://codent.fableadtechnolabs.com/admin';
+    // public string $baseURL = 'https://codent.londontechequity.co.uk/admin';
 
     public string $baseURLEmail = 'http://localhost/codent';
 

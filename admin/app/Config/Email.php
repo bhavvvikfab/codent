@@ -9,6 +9,30 @@ class Email extends BaseConfig
     public string $fromEmail  = '';
     public string $fromName   = '';
     public string $recipients = '';
+    
+    // public $SMTP = [
+    //     'protocol' => 'smtp',
+    //     'SMTPHost' => 'mail.fableadtechnolabs.com', // Replace with your SMTP host (e.g., smtp.example.com)
+    //     'SMTPPort' => 465, // Replace with your SMTP port (usually 465 for SSL, 587 for TLS)
+    //     'SMTPUser' => 'smtp@fableadtechnolabs.com', // Replace with your SMTP username
+    //     'SMTPPass' => '#w8(_4@wdc0M', // Replace with your SMTP password
+    //     'SMTPCrypto' => 'ssl', // Options: ssl, tls
+    //     'mailType' => 'html',
+    //     'charset' => 'utf-8',
+    //     'newline' => "\r\n",
+    // ];
+    
+    public $SMTP = [
+        'protocol' => 'smtp',
+        'SMTPHost' => 'mail.londontechequity.co.uk', // Replace with your SMTP host (e.g., smtp.example.com)
+        'SMTPPort' => 465, // Replace with your SMTP port (usually 465 for SSL, 587 for TLS)
+        'SMTPUser' => 'mailsmtp@londontechequity.co.uk', // Replace with your SMTP username
+        'SMTPPass' => ']47zcvHACV8p', // Replace with your SMTP password
+        'SMTPCrypto' => 'ssl', // Options: ssl, tls
+        'mailType' => 'html',
+        'charset' => 'utf-8',
+        'newline' => "\r\n",
+    ];
 
     /**
      * The "user agent"
@@ -18,7 +42,7 @@ class Email extends BaseConfig
     /**
      * The mail sending protocol: mail, sendmail, smtp
      */
-    public string $protocol = 'smtp';
+    public string $protocol = 'mail';
 
     /**
      * The server path to Sendmail.
@@ -28,22 +52,22 @@ class Email extends BaseConfig
     /**
      * SMTP Server Address
      */
-    public string $SMTPHost = 'fableadtechnolabs.com';
+    public string $SMTPHost = '';
 
     /**
      * SMTP Username
      */
-    public string $SMTPUser = 'smtp@fableadtechnolabs.com';
+    public string $SMTPUser = '';
 
     /**
      * SMTP Password
      */
-    public string $SMTPPass = '#w8(_4@wdc0M';
+    public string $SMTPPass = '';
 
     /**
      * SMTP Port
      */
-    public int $SMTPPort = 465;
+    public int $SMTPPort = 25;
 
     /**
      * SMTP Timeout (in seconds)
@@ -58,7 +82,7 @@ class Email extends BaseConfig
     /**
      * SMTP Encryption. Either tls or ssl
      */
-    public string $SMTPCrypto = 'ssl';
+    public string $SMTPCrypto = 'tls';
 
     /**
      * Enable word-wrap
@@ -73,7 +97,7 @@ class Email extends BaseConfig
     /**
      * Type of mail, either 'text' or 'html'
      */
-    public string $mailType = 'html';
+    public string $mailType = 'text';
 
     /**
      * Character set (utf-8, iso-8859-1, etc.)

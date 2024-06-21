@@ -36,8 +36,8 @@
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
           <li class="dropdown-header">
             You have <span class="total_noti">0</span> new notifications
-            <a href="#" id="viewAllNotifications"><span class="badge rounded-pill bg-primary p-2 ms-2">View
-                all</span></a>
+            <!-- <a href="#" id="viewAllNotifications"><span class="badge rounded-pill bg-primary p-2 ms-2">View
+                all</span></a> -->
           </li>
           <li>
             <hr class="dropdown-divider">
@@ -45,9 +45,9 @@
           <div id="notificationListContainer" style="max-height: 400px; overflow-y: auto; min-width:400px;">
             <!-- Notification items will be appended here by jQuery -->
           </div>
-          <li class="dropdown-footer" style="display: none;">
+          <!-- <li class="dropdown-footer" style="display: none;">
             <a href="" class="text-primary" id="showLessNotifications">Show less</a>
-          </li>
+          </li> -->
         </ul>
 
         <!-- End Notification Dropdown Items -->
@@ -191,25 +191,22 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-  $(document).ready(function () {
+ $(document).ready(function () {
     $.ajax({
       url: "<?= base_url() . '' . session('prefix') . '/' . 'notification' ?>",
       type: "GET",
       success: function (data) {
-       
+        // console.log(data);
         const notifications = data.notifications;
         const notificationListContainer = $('#notificationListContainer');
         const totalNoti = $('.total_noti');
-        const viewAllBtn = $('#viewAllNotifications');
-        const showLessBtn = $('#showLessNotifications');
         const base_url = '<?= base_url() ?>';
         const sessionPrefix = '<?= session("prefix") ?>';
-        
 
         // Clear existing notifications
         notificationListContainer.empty();
         if (notifications.length == 0) {
-          $('.total_noti').hide()
+          totalNoti.hide();
         } else {
           totalNoti.text(notifications.length);
         }
@@ -235,44 +232,22 @@
           }
 
           const notificationItem = `
-                            <a class='appointment' data-id=${notification.id} href='${base_url}/${sessionPrefix}/view_appointment/${notification.appointment_details.id}'>
-                                  <li class="notification-item" ${index >= 3 ? 'style="display: none;"' : ''}>
-                                          <i class="${iconClass} ${iconColor}"></i>
-                                          <div>
-                                              <h4>Dr.${notification.dr_name}</h4>
-                                              <p>Appointment with ${notification.patient_name} - ${noti.status}</p>
-                                              <p>${formatTimeAgo(notification.created_at)}</p>
-                                          </div>
-                                          </li>
-                                          </a>
-                                  <li ${index >= 3 ? 'style="display: none;"' : ''}>
-                                      <hr class="dropdown-divider">
-                                  </li>
-                              `;
-
-
+            <a class='appointment' data-id=${notification.id} href='${base_url}/${sessionPrefix}/view_appointment/${notification.appointment_details.id}'>
+              <li class="notification-item">
+                <i class="${iconClass} ${iconColor}"></i>
+                <div>
+                  <h4>Dr.${notification.dr_name}</h4>
+                  <p>Appointment with ${notification.patient_name} - ${noti.status}</p>
+                  <p>${formatTimeAgo(notification.created_at)}</p>
+                </div>
+              </li>
+            </a>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+          `;
 
           notificationListContainer.append(notificationItem);
-        });
-
-        // Show all notifications when "View all" is clicked
-        viewAllBtn.click(function (e) {
-          e.preventDefault();
-          notificationListContainer.children('li').show();
-          viewAllBtn.parent().hide();
-          showLessBtn.parent().show();
-        });
-
-        // Show less notifications when "Show less" is clicked
-        showLessBtn.click(function (e) {
-          e.preventDefault();
-          notificationListContainer.children('li').each(function (index) {
-            if (index >= 6) { // 3 notifications and 3 dividers
-              $(this).hide();
-            }
-          });
-          showLessBtn.parent().hide();
-          viewAllBtn.parent().show();
         });
       },
       error: function (error) {

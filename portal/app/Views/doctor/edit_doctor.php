@@ -410,28 +410,29 @@ Edit-Doctor
                 return false; 
             }
 
-            // if (schedule === '') {
-            //     $('#schedule').after('<small class="error-msg text-danger">Please enter a schedule.</small>');
-            //     return false; 
-            // }
-
-            // if (about === '') {
-            //     $('#about').after('<small class="error-msg text-danger">Please enter about information.</small>');
-            //     return false;
-            // }
-
-            // if (image === '') {
-            //     $('#image').after('<small class="error-msg text-danger">Please select an image.</small>');
-            //     return false; 
-            // }
 
             if (specialistOrPractice === '') {
                 $('#specialistOrPractice').after('<small class="error-msg text-danger">Please select a preference.</small>');
                 return false; 
             }
 
-            // If all validations pass, submit the form
-            this.submit();
+            var formData = new FormData(this);
+            $.ajax({
+                type: "POST",
+                url: "<?= base_url() . '' . session('prefix') . '/' . 'doctor_edit' ?>",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if(response.status=='success'){
+                        window.location.href = "<?= (base_url() . '' . session('prefix') . '/' . 'doctor')?>";   
+                    }else if(response.status=='emailerror'){
+                        $('#email').after('<small class="error-msg text-danger">This email address is already in use.</small>');
+                    }else{
+                        showToastError('Something went wrong..!!');  
+                    }
+                }
+            });
         });
     });
 </script>

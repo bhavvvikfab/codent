@@ -21,7 +21,7 @@ class UserController extends BaseController
         $packageHospitalModel=new ActivePlanHospital();
         $packageModel=new PackagesModel();
         $email = session()->get('email');
-
+        $allPackage=$packageModel->findAll();
         $userData = $userModel->where('email', $email)->first();
         if(session('user_role') == 2 ){
             $id=$userData['id'];
@@ -30,7 +30,7 @@ class UserController extends BaseController
         }
         $Activepackage = $packageHospitalModel->where('hospital_id',$id)->first();
         $Activepackage['package'] = $packageModel->where('id',$Activepackage['package_id'])->first();
-        return view('user_profile.php', ['user' => $userData,'package' => $Activepackage]);
+        return view('user_profile.php', ['user' => $userData,'package' => $Activepackage,'allPackages'=>$allPackage]);
     }
 
 
@@ -261,8 +261,6 @@ class UserController extends BaseController
     }
 
     
-    
-
     public function dashboard() 
 
         {
@@ -294,7 +292,7 @@ class UserController extends BaseController
             for ($month = 1; $month <= 12; $month++) {
                 $monthEnquiries = $enquiryModel
                     ->where('hospital_id', $hospital_id)
-                    // ->where('status', null)
+                    ->where('status', null)
                     ->where('MONTH(created_at)', $month)
                     ->where('YEAR(created_at)', $currentYear)
                     ->findAll();
