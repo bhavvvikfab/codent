@@ -56,7 +56,7 @@ Contact Us
                 <td class="text-center"><?= esc($contactItem['id']) ?></td>
                 <td><?= esc($contactItem['name']) ?></td>
                 <td><?= esc($contactItem['email']) ?></td>
-                <td class="text-center"><?= esc($contactItem['date']) ?></td>
+                <td class="text-center"><?= esc($contactItem['created_at']) ?></td>
                 <td class="text-center">
                         <div class="viewpai">
                           <a href="<?=base_url('viewContactus/'.$contactItem['id'])?>">

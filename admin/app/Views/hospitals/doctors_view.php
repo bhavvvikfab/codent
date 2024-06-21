@@ -53,7 +53,7 @@ View_Hospitals
                                     <th>Name</th>
                                     <th>Qualification</th>
                                     <th>Specialist</th>
-                                    <th class="text-center">Hospital</th>
+                                    <th class="text-center">Dental practice</th>
                                     <th class="text-center">Status</th>
                                     <th class="text-center">Action</th>
                                 </tr>                               
@@ -152,7 +152,7 @@ View_Hospitals
                 '<div class="d-flex">' +
                 '<div class="datatable-filter ml-3 mr-3" style="margin-right:20px;">' +
                 '<select id="hospital-filter" class="form-control custom-select">' +
-                '<option value="">Select Hospital</option>' +
+                '<option value="">Select Dental practice</option>' +
                 '</select>' +
                 '</div>' +
                 '<div class="datatable-search text-end">' +

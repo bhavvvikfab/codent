@@ -58,12 +58,12 @@ Enquiries
 
 
             <div class="col-md-6">
-    <label class="col-form-label"><i class="bi bi-building-fill" style="font-size: 18px;"></i> Hospital</label>
+    <label class="col-form-label"><i class="bi bi-building-fill" style="font-size: 18px;"></i> Dental practice</label>
     <select class="form-select single" aria-label="Default select example" name="hospital_id" id="hospital_id">
         <option value="">Select Hospital</option>
         <?php foreach ($hospitals as $hospital): ?>
             <option value="<?= esc($hospital['id']) ?>" <?= isset($enquiries[0]['hospital_id']) && $enquiries[0]['hospital_id'] == $hospital['id'] ? 'selected' : '' ?>>
-                <?= esc($hospital['name']) ?>
+                <?= esc($hospital['fullname']) ?>
             </option>
         <?php endforeach; ?>
     </select>

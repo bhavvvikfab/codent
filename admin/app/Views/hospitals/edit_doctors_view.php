@@ -50,7 +50,7 @@ Edit_Hospitals
                     </div>
                     <div class="col-lg-6 mb-3">
                       <label for="email" class="form-label"><i class="bi bi-envelope-fill" style="font-size: 18px;"></i> Email</label>
-                      <input type="email" class="form-control" id="email" name="email"  value="<?= esc($doctors['email']) ?>" >
+                      <input type="email" class="form-control" id="email" name="email"  value="<?= esc($doctors['email']) ?>" readonly>
                       <div id="emailError" class="text-danger"></div> 
 
 
@@ -106,7 +106,6 @@ Edit_Hospitals
                   
                 </div>
                             <div class="row">
-                            
 
                                 <div class="col-lg-6 mb-3">
                                     <label for="about" class="form-label"><i class="bi bi-image-fill" style="font-size: 18px;"></i> About</label>
@@ -114,11 +113,11 @@ Edit_Hospitals
                                     <div id="aboutError" class="text-danger" ></div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                    <label for="hospital_id" class="form-label"><i class="bi bi-hospital" style="font-size: 18px;"></i> Hospital</label>
+                    <label for="hospital_id" class="form-label"><i class="bi bi-hospital" style="font-size: 18px;"></i> Dental practice</label>
                     <select class="form-control" id="hospital_id" name="hospital_id">
-                        <option value="">Select Hospital</option>
+                        <option value="">Select Dental practice</option>
                         <?php foreach($hospitals as $hospital): ?>
-                            <option value="<?= esc($hospital['id']) ?>" <?= $doctors['hospital_id'] == $hospital['id'] ? 'selected' : '' ?>><?= esc($hospital['name']) ?></option>
+                            <option value="<?= esc($hospital['id']) ?>" <?= $doctors['hospital_id'] == $hospital['id'] ? 'selected' : '' ?>><?= esc($hospital['fullname']) ?></option>
                         <?php endforeach; ?>
                     </select>
                     <div id="hospital_idError" class="text-danger"></div>

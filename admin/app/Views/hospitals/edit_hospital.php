@@ -1,17 +1,17 @@
 <?= $this->extend('layout/layout') ?>
 <?= $this->section('title') ?>
-Edit_Hospitals
+Edit Dental practice
 <?= $this->endSection() ?>
 <?= $this->section('content') ?>
 <main id="main" class="main">
     <div class="pagetitle">
       <div class="row">
       <div class="col-xxl-12 col-lg-12 col-md-12 col-sm-12">
-        <h1>Edit User</h1>
+        <h1>Edit Dental practice</h1>
         <nav>
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href='<?= site_url('/dashboard') ?>'>Dashboard</a></li>
-            <li class="breadcrumb-item active">Edit Hospital</li>
+            <li class="breadcrumb-item active">Edit Dental practice</li>
           </ol>
         </nav>
       </div>
@@ -26,7 +26,7 @@ Edit_Hospitals
           	<div class="card-header">
                <div class="row">
                   <div class="col-lg-8">
-                      <h5 class="card-title text-start">Edit Hospital</h5>
+                      <h5 class="card-title text-start">Edit Dental practice</h5>
                   </div>
                    <div class="col-lg-4">
                       <h5 class="card-title text-end addsup">
@@ -43,7 +43,7 @@ Edit_Hospitals
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
             <label for="inputNanme4" class="form-label"><i class="bi bi-person-circle"
-                    style="font-size: 18px;"></i> Hospital Name</label>
+                    style="font-size: 18px;"></i> Dental practice Name</label>
             <input type="text" class="form-control" id="hospital_name" name="hospital_name" value="<?= isset($hospital['fullname']) ? $hospital['fullname'] : '' ?>">
             <?php if (session('errors.hospital_name')): ?>
                 <small class="text-danger"><?= esc(session('errors.hospital_name')) ?><i class="bi bi-exclamation-circle"></i></small>
@@ -52,7 +52,7 @@ Edit_Hospitals
         <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
             <label for="inputNumber" class="form-label"> <i class="bi bi-telephone-fill"
                     style="font-size: 18px;"></i> Phone Number</label>
-            <input type="phone" class="form-control" id="phone" name="phone" value="<?= isset($hospital['phone']) ? $hospital['phone'] : '' ?>" >
+            <input type="phone" class="form-control" id="phone" name="phone" value="<?= isset($hospital['phone']) ? $hospital['phone'] : '' ?>" readonly>
             <?php if (session('errors.phone')): ?>
                 <small class="text-danger"><?= esc(session('errors.phone')) ?><i class="bi bi-exclamation-circle"></i></small>
             <?php endif; ?>
@@ -63,9 +63,11 @@ Edit_Hospitals
             <label for="inputEmail" class="form-label"><i class="bi bi-envelope-fill"
                     style="font-size: 18px;"></i> Email</label>
             <input type="email" class="form-control" id="email" name="email" value="<?= isset($hospital['email']) ? $hospital['email'] : '' ?>">
-            <?php if (session('errors.email')): ?>
-                <small class="text-danger"><?= esc(session('errors.email')) ?><i class="bi bi-exclamation-circle"></i></small>
-            <?php endif; ?>
+            <?php if (session()->getFlashdata('emailError')): ?>
+    <div style='color: red; '>
+        <?= session()->getFlashdata('emailError') ?>
+    </div>
+<?php endif; ?>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
             <label for="inputPassword" class="form-label"><i class="bi bi-eye-slash-fill"
@@ -76,31 +78,7 @@ Edit_Hospitals
             <?php endif; ?>
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-            <label for="packageSelect" class="form-label">
-                <i class="bi bi-credit-card-fill" style="font-size: 18px;"></i> Select Plan
-            </label>
-            <select class="form-control" id="packageSelect plan_name" name="plan_name" value="">
-                <option value="">--Select--Plan--</option>
-                <?php if (!empty($data)): ?>
-                    <?php foreach ($data as $plan): ?>
-                        <option value="<?php echo $plan['id']; ?>"><?php echo $plan['plan_name']; ?></option>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <option value="">No plan available</option>
-                <?php endif; ?>
-            </select>
-            <?php if (session('errors.plan_name')): ?>
-                <small class="text-danger"><?= esc(session('errors.plan_name')) ?><i class="bi bi-exclamation-circle"></i></small>
-            <?php endif; ?>
-        </div>
-        <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-            <label for="profile" class="form-label"><i class="bi bi-image-fill"
-                    style="font-size: 18px;"></i> User Image</label>
-            <input class="form-control" type="file" name="profile" value="<?= isset($hospital['profile']) ? $hospital['profile'] : '' ?>">
-        </div>
-    </div>
+    
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
             <label for="inputPassword" class="form-label"> <i class="bi bi-geo-alt-fill"
@@ -117,6 +95,31 @@ Edit_Hospitals
             <?php if (session('errors.about')): ?>
                 <small class="text-danger"><?= esc(session('errors.about'))?><i class="bi bi-exclamation-circle"></i></small>
             <?php endif; ?>
+        </div>
+    </div>
+    <div class="row">
+        <!-- <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+            <label for="packageSelect" class="form-label">
+                <i class="bi bi-credit-card-fill" style="font-size: 18px;"></i> Select Plan
+            </label>
+            <select class="form-control" id="packageSelect plan_name" name="plan_name" value="">
+                <option value="">--Select--Plan--</option>
+                <?php if (!empty($data)): ?>
+                    <?php foreach ($data as $plan): ?>
+                        <option value="<?php echo $plan['id']; ?>"><?php echo $plan['plan_name']; ?></option>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <option value="">No plan available</option>
+                <?php endif; ?>
+            </select>
+            <?php if (session('errors.plan_name')): ?>
+                <small class="text-danger"><?= esc(session('errors.plan_name')) ?><i class="bi bi-exclamation-circle"></i></small>
+            <?php endif; ?>
+        </div> -->
+        <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+            <label for="profile" class="form-label"><i class="bi bi-image-fill"
+                    style="font-size: 18px;"></i> Profile Image</label>
+            <input class="form-control" type="file" name="profile" value="<?= isset($hospital['profile']) ? $hospital['profile'] : '' ?>">
         </div>
     </div>
     <div class="row mb-3">

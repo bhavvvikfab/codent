@@ -32,7 +32,10 @@ $routes->group('',$authFilter, function ($routes) {
   $routes->get('delete_hospital/(:num)', 'HospitalController::hospital_delete/$1');
   $routes->get('edit_hospital(:num)', 'HospitalController::edit_hospital/$1');
   $routes->post('edit_hospital', 'HospitalController::edit_hospital_data');
-  $routes->get('view_hospital(:num)', 'HospitalController::view_hospital/$1');
+  // $routes->get('view_hospital(:num)', 'HospitalController::view_hospital/$1');
+  $routes->post('validate-email', 'HospitalController::validateEmail');
+  $routes->get('view/(:num)', 'HospitalController::view/$1');
+
   // $routes->get('view_hospital(:num)', 'HospitalController::view_hospital/$1');
  
   
@@ -87,7 +90,7 @@ $routes->group('',$authFilter, function ($routes) {
    $routes->get('viewDoctor', 'DoctorController::viewDoctor_fun');
    $routes->post('deleteDoctor', 'DoctorController::deleteDoctor_fun');
    $routes->get('doctor_status', 'DoctorController::doctor_status_fun');
-  
+   $routes->post('check_email', 'DoctorController::check_email');
 
    
    
@@ -157,6 +160,23 @@ $routes->group('',$authFilter, function ($routes) {
  
  
  // ==============Enquiry routes  end===========
+
+
+
+ // ============== payment routes  start ===========
+
+
+ $routes->get('payment', 'PaymentController::index');
+
+
+
+
+
+
+ 
+
+ // ============== payment routes  end ===========
+
 
 
  // ==============contactUs routes  start===========

@@ -77,7 +77,16 @@ Add Hospitals
                                 </div>
                                 <div class="col-lg-6 mb-3">
                                     <label for="specialist" class="form-label"><i class="bi bi-file-medical-fill" style="font-size: 18px;"></i> Specialist Of</label>
-                                    <input type="text" class="form-control" id="specialist" name="specialist">
+                                    <select class="form-select" id="specialist" name="specialist">
+                                   <option value="" selected>--Select--Specialist--</option>
+                                   <option value="Orthodontics">Orthodontics</option>
+                                    <option value="Endodontics">Endodontics</option>
+                                    <option value="Periodontics">Periodontics</option>
+                                     <option value="Prosthodontics">Prosthodontics</option>
+                                    <option value="Implantology">Implantology</option>
+                                    <option value="Radiology">Radiology</option>
+                                    <option value="Sedation">Sedation</option>
+                                   </select>
                                     <div id="specialistError" class="text-danger"></div>
                                 </div>
                                 <div class="col-lg-6 mb-3">
@@ -108,7 +117,7 @@ Add Hospitals
                                     <select class="form-select" id="hospital_id" name="hospital_id">
                                         <option value="">Select Hospital</option>
                                         <?php foreach ($hospitals as $hospital): ?>
-                                            <option value="<?= $hospital['id'] ?>"><?= $hospital['name'] ?></option>
+                                            <option value="<?= $hospital['id'] ?>"><?= $hospital['fullname'] ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                     <div id="hospital_idError" class="text-danger"></div>
@@ -226,28 +235,48 @@ Add Hospitals
             if (isValid)
 
             if (isValid) {
-                var formData = new FormData(this);
-                $.ajax({
-                    url: '<?=base_url("doctor_register")?>',
-                    method: "post",
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(response) {
-                   console.log(response);
-                   showToast(response); // Assuming showToast is a function to display a toast notification
-                   $('#doctor_form')[0].reset();
-                    window.location.href = "<?= base_url('doctors') ?>";
-                  },
-
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.error('Error:', textStatus, errorThrown);
+            // Check if the email already exists
+            $.ajax({
+                url: '<?=base_url("check_email")?>',
+                method: "post",
+                data: { email: email },
+                success: function(response) {
+                    if (response.exists) {
+                        $('#emailError').text('Email already exists.');
+                        isValid = false; // Marking the form as invalid
+                    } else {
+                        // Proceed with form submission
+                        submitForm();
                     }
-                });
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error('Error:', textStatus, errorThrown);
+                }
+            });
+        }
+        });
+        function submitForm() {
+        var formData = new FormData($("#doctor_form")[0]);
+        $.ajax({
+            url: '<?=base_url("doctor_register")?>',
+            method: "post",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                console.log(response);
+                showToast(response); // Assuming showToast is a function to display a toast notification
+                $('#doctor_form')[0].reset();
+                window.location.href = "<?= base_url('doctors') ?>";
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('Error:', textStatus, errorThrown);
             }
         });
+    }
     });
 </script>
+
 
 
 <?= $this->endSection() ?>

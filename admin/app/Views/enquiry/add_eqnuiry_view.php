@@ -47,11 +47,11 @@ Enquiries
             <form id="add_enquiry" class="row g-3" action="<?=base_url("add_Enquery")?>" method="post" enctype="multipart/form-data">
 
     <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-        <label for="hospital"><i class="bi bi-file-medical-fill" style="font-size: 18px;"></i> Select Hospital</label>
+        <label for="hospital"><i class="bi bi-file-medical-fill" style="font-size: 18px;"></i> Select Dental practice</label>
         <select class="form-control single" id="hospital" name="hospital">
             <option value="">Select Hospital</option>
             <?php foreach ($hospitals as $hospital): ?>
-                <option value="<?= $hospital['id'] ?>"><?= $hospital['name'] ?></option>
+                <option value="<?= $hospital['id'] ?>"><?= $hospital['fullname'] ?></option>
             <?php endforeach; ?>
         </select>
         <div id="error_hopi"></div>

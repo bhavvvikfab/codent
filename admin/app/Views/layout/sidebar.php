@@ -12,17 +12,17 @@
     <!--  hospitals Nav -->
     <li class="nav-item">
       <a class="nav-link collapsed"  data-bs-target="#hospital-nav" data-bs-toggle="collapse"  href="123">
-      <i class="bi bi-building-fill-add"></i><span>Hospitals</span><i class="bi bi-chevron-down ms-auto"></i>
+      <i class="bi bi-people"></i><span>Dental practice</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="hospital-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
         <li>
           <a href="<?= base_url('/hospitals') ?>" class="nav-link collapsed">
-            <i class="bi bi-circle"></i><span>All Hospitals</span>
+            <i class="bi bi-circle"></i><span>All Dental practices</span>
           </a>
         </li>
         <li>
           <a href="<?= base_url('/add_hospital') ?>" class="nav-link collapsed">
-            <i class="bi bi-circle"></i><span>Add New Hospitals</span>
+            <i class="bi bi-circle"></i><span>Add New Dental practice</span>
           </a>
         </li>
       </ul>
@@ -105,7 +105,19 @@
     </li><!-- End appointment Nav -->
 
 
+
+
+    
     <li class="nav-item">
+        <a class="nav-link collapsed" href="<?= base_url('payment') ?>">
+           <i class="bi bi-coin"></i><span>Payment</span>
+        </a>
+    </li>
+
+
+
+
+    <!-- <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#pay-nav" data-bs-toggle="collapse" href="123">
         <i class="bi bi-coin"></i><span>Payment</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
@@ -122,7 +134,7 @@
           </a>
         </li>
       </ul>
-    </li>
+    </li> -->
 
 
     <!-- <li class="nav-item">

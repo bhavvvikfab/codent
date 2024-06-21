@@ -61,9 +61,14 @@ Add_Hospitals
                                     <label for="inputEmail" class="form-label"><i class="bi bi-envelope-fill"
                                             style="font-size: 18px;"></i> Email</label>
                                     <input type="email" class="form-control" id="email" name="email">
-                                    <?php if (session('errors.email')): ?>
-                                        <small class="text-danger"><?= esc(session('errors.email')) ?><i class="bi bi-exclamation-circle"></i></small>
-                                    <?php endif; ?>
+                                    <?php if (session()->getFlashdata('emailError')): ?>
+    <div style='color: red; '>
+        <?= session()->getFlashdata('emailError') ?>
+    </div>
+    <?php endif; ?>
+
+   
+
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                                     <label for="inputPassword" class="form-label"><i class="bi bi-eye-slash-fill"
@@ -74,33 +79,7 @@ Add_Hospitals
                                     <?php endif; ?>
                                 </div>
                             </div>
-                            <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-    <label for="packageSelect" class="form-label">
-        <i class="bi bi-credit-card-fill" style="font-size: 18px;"></i> Select Plan
-    </label>
-    <select class="form-control" id="plan_name" name="plan_name">
-        <option value="">--Select--Plan--</option>
-        <?php if (!empty($data)): ?>
-            <?php foreach ($data as $plan): ?>
-                <option value="<?php echo $plan['id']; ?>"><?php echo $plan['plan_name']; ?></option>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <option value="">No plan available</option>
-        <?php endif; ?>
-    </select>
-    <div id="plan_name_error"></div>
-    <?php if (session('errors.plan_name')): ?>
-        <small class="text-danger"><?= esc(session('errors.plan_name')) ?><i class="bi bi-exclamation-circle"></i></small>
-    <?php endif; ?>
-</div>
-
-                                <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                                    <label for="profile" class="form-label"><i class="bi bi-image-fill"
-                                            style="font-size: 18px;"></i> User Image</label>
-                                    <input class="form-control" type="file" name="profile" onerror="this.onerror=null; this.src='<?= base_url()?>';">
-                                </div>
-                            </div>
+                           
 
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
@@ -118,6 +97,33 @@ Add_Hospitals
                                     <?php if (session('errors.about')): ?>
                                         <small class="text-danger"><?= esc(session('errors.about'))?><i class="bi bi-exclamation-circle"></i></small>
                                     <?php endif; ?>
+                                </div>
+                            </div>
+                            <div class="row">
+                            <!-- <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+    <label for="packageSelect" class="form-label">
+        <i class="bi bi-credit-card-fill" style="font-size: 18px;"></i> Select Plan
+    </label>
+    <select class="form-control" id="plan_name" name="plan_name">
+        <option value="">--Select--Plan--</option>
+        <?php if (!empty($data)): ?>
+            <?php foreach ($data as $plan): ?>
+                <option value="<?php echo $plan['id']; ?>"><?php echo $plan['plan_name']; ?></option>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <option value="">No plan available</option>
+        <?php endif; ?>
+    </select>
+    <div id="plan_name_error"></div>
+    <?php if (session('errors.plan_name')): ?>
+        <small class="text-danger"><?= esc(session('errors.plan_name')) ?><i class="bi bi-exclamation-circle"></i></small>
+    <?php endif; ?>
+</div> -->
+
+                                <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+                                    <label for="profile" class="form-label"><i class="bi bi-image-fill"
+                                            style="font-size: 18px;"></i> Profile Image</label>
+                                    <input class="form-control" type="file" name="profile" onerror="this.onerror=null; this.src='<?= base_url()?>';">
                                 </div>
                             </div>
 

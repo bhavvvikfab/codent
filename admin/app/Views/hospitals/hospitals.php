@@ -1,6 +1,6 @@
 <?= $this->extend('layout/layout') ?>
 <?= $this->section('title') ?>
-Hospitals
+Dental practices
 <?= $this->endSection() ?>
 <?= $this->section('content') ?>
 <main id="main" class="main">
@@ -8,11 +8,11 @@ Hospitals
     <div class="pagetitle">
         <div class="row">
             <div class="col-xxl-12 col-lg-12 col-md-12 col-sm-12">
-                <h1>All Hospitals</h1>
+                <h1>All Dental practices</h1>
                 <nav>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="<?= site_url('/dashboard') ?>">Dashboard</a></li>
-                        <li class="breadcrumb-item active">All Hospitals</li>
+                        <li class="breadcrumb-item active">All Dental practices</li>
                     </ol>
                 </nav>
             </div>
@@ -28,11 +28,11 @@ Hospitals
                     <div class="card-header">
                         <div class="row">
                             <div class="col-lg-8">
-                                <h5 class="card-title text-start">Hospitals</h5>
+                                <h5 class="card-title text-start">Dental practices</h5>
                             </div>
                             <div class="col-lg-4">
                                 <h5 class="card-title text-end addsup">
-                                    <a href="<?= base_url('add_hospital') ?>"> Add New Hospitals</a>
+                                    <a href="<?= base_url('add_hospital') ?>"> Add New Dental </a>
                                 </h5>
                             </div>
                         </div>
@@ -46,7 +46,7 @@ Hospitals
                                 <tr>
                                     <th> Sr. No. </th>
                                     <th>Profile</th>
-                                    <th>Hospital Name</th>
+                                    <th>Dental Name</th>
                                     <th>Email</th>
                                     <th>Status</th>
                                     <th class="text-center">Action</th>
@@ -80,7 +80,7 @@ Hospitals
                                             </td>
                                             <td class="text-center">
                                                 
-                                            <a href="<?= base_url('view_hospital' . $hospital['id']) ?>" class="btn btn-secondary btn-sm" >
+                                               <a href="<?= base_url('view/'. $hospital['id']) ?>" class="btn btn-secondary btn-sm" >
                                                     <i class="ri-eye-line"></i>
                                                 </a>
                                                 

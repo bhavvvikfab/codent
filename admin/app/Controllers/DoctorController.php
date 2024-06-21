@@ -28,13 +28,13 @@ class DoctorController extends BaseController
         }
 
         // Fetch all hospitals
-        $hospitals = $hospitalModel->findAll();
+        $hospitals = $userModel->findAll();
 
         
         // Add the hospital name to the doctor if it exists
         if (isset($doctor['hospital_id'])) {
-            $hospital = $hospitalModel->where('id', $doctor['hospital_id'])->first();
-            $doctor['hospital_name'] = $hospital ? $hospital['name'] : 'Unknown Hospital';
+            $hospital = $userModel->where('id', $doctor['hospital_id'])->first();
+            $doctor['hospital_name'] = $hospital ? $hospital['fullname'] : 'Unknown Hospital';
         } else {
             $doctor['hospital_name'] = 'Unknown Hospital';
         }
@@ -122,13 +122,23 @@ class DoctorController extends BaseController
     
     public function add_doctor_fun()
     {
-        $model = new HospitalsModel();
+        $model = new UserModel();
 
-      
-       $data['hospitals'] = $model->findAll();
+        $data['hospitals'] = $model->where('role',2)->findAll();
+    //    $data['hospitals'] = $model->findAll();
 
         return view('hospitals/add_doctors_view',$data);
     }
+    
+    public function check_email()
+{
+    $email = $this->request->getPost('email');
+    $userModel = new UserModel();
+    
+    $emailExists = $userModel->where('email', $email)->first();
+
+    return $this->response->setJSON(['exists' => $emailExists ? true : false]);
+}
     
      public function doctor_register_form()
 {
