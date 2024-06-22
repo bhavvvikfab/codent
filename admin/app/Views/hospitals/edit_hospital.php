@@ -52,7 +52,7 @@ Edit Dental practice
         <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
             <label for="inputNumber" class="form-label"> <i class="bi bi-telephone-fill"
                     style="font-size: 18px;"></i> Phone Number</label>
-            <input type="phone" class="form-control" id="phone" name="phone" value="<?= isset($hospital['phone']) ? $hospital['phone'] : '' ?>" readonly>
+            <input type="phone" class="form-control" id="phone" name="phone" value="<?= isset($hospital['phone']) ? $hospital['phone'] : '' ?>" >
             <?php if (session('errors.phone')): ?>
                 <small class="text-danger"><?= esc(session('errors.phone')) ?><i class="bi bi-exclamation-circle"></i></small>
             <?php endif; ?>
@@ -62,7 +62,7 @@ Edit Dental practice
         <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
             <label for="inputEmail" class="form-label"><i class="bi bi-envelope-fill"
                     style="font-size: 18px;"></i> Email</label>
-            <input type="email" class="form-control" id="email" name="email" value="<?= isset($hospital['email']) ? $hospital['email'] : '' ?>">
+            <input type="email" class="form-control" id="email" name="email" value="<?= isset($hospital['email']) ? $hospital['email'] : '' ?>" readonly>
             <?php if (session()->getFlashdata('emailError')): ?>
     <div style='color: red; '>
         <?= session()->getFlashdata('emailError') ?>
@@ -181,8 +181,8 @@ Edit Dental practice
         if (phone === '') {
             $('#phone').after('<small class="error-msg text-danger">Please enter a phone number.</small>');
             isValid = false;
-        } else if (!(/^\d{10}$/.test(phone))) {
-            $('#phone').after('<small class="error-msg text-danger">Please enter a 10-digit phone number.</small>');
+        } else if (!(/^\d{10,15}$/.test(phone))) {
+            $('#phone').after('<small class="error-msg text-danger">Please enter a phone number between 10 and 15 digits.</small>');
             isValid = false;
         }
 

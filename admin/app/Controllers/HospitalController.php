@@ -213,12 +213,12 @@ class HospitalController extends BaseController
        $email = $this->request->getPost('email');
        
        // Check if email already exists
-       $existingUser = $user->where('email', $email)->first();
+    //    $existingUser = $user->where('email', $email)->first();
        
-       if ($existingUser) {
-           session()->setFlashdata('emailError', 'Email already exists.');
-           return redirect()->back()->withInput();
-       }
+    //    if ($existingUser) {
+    //        session()->setFlashdata('emailError', 'Email already exists.');
+    //        return redirect()->back()->withInput();
+    //    }
        
         // Load validation service
         // $validation = Services::validation();

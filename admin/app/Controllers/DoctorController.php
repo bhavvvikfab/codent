@@ -88,8 +88,8 @@ class DoctorController extends BaseController
     foreach ($doctors as &$doctor) {
         // Append hospital name
         if (isset($doctor['hospital_id'])) {
-            $hospital = $hospitalModel->where('id', $doctor['hospital_id'])->first();
-            $doctor['hospital_name'] = $hospital ? $hospital['name'] : 'Unknown Hospital';
+            $hospital = $userModel->where('id', $doctor['hospital_id'])->first();
+            $doctor['hospital_name'] = $hospital ? $hospital['fullname'] : 'Unknown Hospital';
         } else {
             $doctor['hospital_name'] = 'Unknown Hospital';
         }

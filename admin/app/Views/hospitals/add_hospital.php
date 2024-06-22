@@ -187,8 +187,8 @@ Add_Hospitals
         if (phone === '') {
             $('#phone').after('<small class="error-msg text-danger">Please enter  phone number.</small>');
             isValid = false; 
-        } else if (!(/^\d{10}$/.test(phone))) {
-            $('#phone').after('<small class="error-msg text-danger">Please enter a 10-digit phone number.</small>');
+        } else if (!(/^\d{10,15}$/.test(phone))) {
+            $('#phone').after('<small class="error-msg text-danger">Please enter a phone number between 10 and 15 digits.</small>');
             isValid = false;
         }
 

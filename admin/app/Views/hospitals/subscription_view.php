@@ -8,11 +8,11 @@ View_Hospitals
   <div class="pagetitle">
     <div class="row">
       <div class="col-xxl-12 col-lg-12 col-md-12 col-sm-12">
-        <h1>All Subscription</h1>
+        <h1>All Subscriptions</h1>
         <nav>
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-            <li class="breadcrumb-item active">All Subscription</li>
+            <li class="breadcrumb-item active">All Subscriptions</li>
           </ol>
         </nav>
       </div>
@@ -28,11 +28,11 @@ View_Hospitals
           <div class="card-header">
             <div class="row">
               <div class="col-lg-8">
-                <h5 class="card-title text-start">Subscription</h5>
+                <h5 class="card-title text-start">Subscriptions</h5>
               </div>
               <div class="col-lg-4">
                 <h5 class="card-title text-end addsup">
-                  <a href="#" id="addSubscriptionBtn"> Add New Subscription </a></h5>
+                  <a href=" " id="addSubscriptionBtn"> Add New Subscription </a></h5>
               </div>
             </div>
           </div>
@@ -42,24 +42,27 @@ View_Hospitals
             <table class="table table-borderless datatable subscription-detail">
               <thead>
                 <tr>
-                  <th> Sr.No. </th>
+                  <th class="text-center"> Sr.No. </th>
                   <th>Plan Name </th>
-                  <th>Duration (Days)</th>
-                  <th>Price </th>
-                   <th>Status</th>
+                  <th class="text-center">Duration (Days)</th>
+                  <th class="text-center">Price </th>
+                   <th class="text-center">Status</th>
                   
-                  <th>Action</th>
+                  <th class="text-center">Action</th>
                 </tr>
-              </thead>
+              </thead>  
               <tbody>
-    <?php foreach ($packages as $package): ?>
+              <?php if (!empty($packages) && is_array($packages)): ?>
+                <?php $serial = 1;?>      
+             <?php foreach ($packages as $package): ?>
+        
         <tr>
-            <td><?= $package['id'] ?></td>
+        <td class="text-center"><?= $serial++ ?></td>
             <td><?= $package['plan_name'] ?></td>
             
-            <td><?= $package['duration'] ?></td>
-            <td>$<?= $package['price'] ?></td>
-           <td>
+            <td class="text-center"><?= $package['duration'] ?> Days</td>
+            <td class="text-center">$<?= $package['price'] ?></td>
+           <td class="text-center">
               <button class="statusToggleBtn btn btn-sm <?php echo ($package['status'] == 'active') ? 'btn-success' : 'btn-danger'; ?>" data-id="<?=$package['id']?>" >
                          <?php echo ($package['status'] == 'active') ? 'Active' : 'Inactive'; ?>
               </button>
@@ -83,13 +86,17 @@ View_Hospitals
                      
                     <div class="deletsubscr ">
                         <button type="button" class="btn btn-danger btn-sm deleteSubscriptionbtn"   data-id="<?= $package['id'] ?>"><i class="ri-delete-bin-line"></i></button>
-                       
-                       
+                      
                     </div>
                 </div>
             </td>
         </tr>
-    <?php endforeach; ?>
+        <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr>
+                                        <td colspan="6" class="text-center">No doctors found.</td>
+                                    </tr>
+                                <?php endif; ?>
 </tbody>
             </table>
             <!-- End Table with stripped rows -->
@@ -341,7 +348,9 @@ View_Hospitals
 <script>
   $(document).ready(function() {
     // When the button is clicked, open the modal
-    $('#addSubscriptionBtn').click(function() {
+    $('#addSubscriptionBtn').click(function(e) 
+    {
+        e.preventDefault();
       $('#subscriptionModal').modal('show');
     });
    $("#add_subcription_form").submit(function(e) {
@@ -634,29 +643,57 @@ $(document).on('click', '.viewSubscriptionbtn', function() {
     });
 });
 
-$(document).on('click', '.deleteSubscriptionbtn', function() 
-{
-    // Get the subscription ID from the button's data attribute
-     console.log("hello");
-    var id = $(this).data('id');
-    console.log(id);
-   
 
-    $.ajax({
-        url: '<?= base_url("delete_Subscription") ?>', // URL of the script to fetch data
-        type: 'GET',
-        data: { id: id },
-        dataType: 'json', // Specify that the expected response is JSON
-        success: function(response) 
-        {
-          console.log(response);
-          if(response) 
-          {
-           location.reload(); // This should reload the page
-         } 
+   $(document).on('click', '.deleteSubscriptionbtn', function() {
+    // Get the subscription ID from the button's data attribute
+    var id = $(this).data('id');
+
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "black",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Proceed with the AJAX request if the user confirms
+            $.ajax({
+                url: '<?= base_url("delete_Subscription") ?>', // Ensure the correct URL
+                type: 'GET',
+                data: { id: id },
+                dataType: 'json', // Specify that the expected response is JSON
+                success: function(response) {
+                    console.log(response);
+                    if (response.success) {
+                        showToast("Subscription deleted successfully."); // Display success toast
+                        setTimeout(function() {
+                            location.reload(); // Reload the page after a short delay
+                        }, 1000);
+                    } else {
+                        Swal.fire({
+                            title: "Error!",
+                            text: response.message || "Failed to delete subscription.",
+                            icon: "error",
+                            confirmButtonColor: "black"
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Handle any errors that occurred during the request
+                    Swal.fire({
+                        title: "Error!",
+                        text: "An error occurred while trying to delete the subscription.",
+                        icon: "error",
+                        confirmButtonColor: "black"
+                    });
+                }
+            });
         }
     });
 });
+
 
 
 
