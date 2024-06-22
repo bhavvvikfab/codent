@@ -108,24 +108,11 @@ public function register_fun()
     }
 
     $hospital_id = $enquiry['hospital_id'];
-    $defaultDateTime = date('Y-m-d H:i:s');
+    
 
     // print_r($defaultDateTime);die;
     $doctor_id = $this->request->getPost('doctor_name');
     $appointment_slot = $this->request->getPost('appointment_slot') ?? '';
-    if ($appointment_slot) {
-        $dateTime = \DateTime::createFromFormat('d/m/Y h:i A', $appointment_slot);
-
-        if ($dateTime) {
-            $appointment_slot = $dateTime->format('Y-m-d H:i:s');
-        } else {
-            $appointment_slot = $defaultDateTime;
-        }
-    } else {
-        $appointment_slot = $defaultDateTime;
-    }
-
-
     $note = $this->request->getPost('note');
     $method = $this->request->getPost('method');
     $instruction_for_lead = $this->request->getPost('instruction_for_lead');

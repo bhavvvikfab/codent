@@ -32,7 +32,7 @@ Dental practices
                             </div>
                             <div class="col-lg-4">
                                 <h5 class="card-title text-end addsup">
-                                    <a href="<?= base_url('add_hospital') ?>"> Add New Dental </a>
+                                    <a href="<?= base_url('add_hospital') ?>"> Add New Dental practice </a>
                                 </h5>
                             </div>
                         </div>
@@ -46,7 +46,7 @@ Dental practices
                                 <tr>
                                     <th> Sr. No. </th>
                                     <th>Profile</th>
-                                    <th>Dental Name</th>
+                                    <th>Dental practice  Name</th>
                                     <th>Email</th>
                                     <th>Status</th>
                                     <th class="text-center">Action</th>
@@ -225,7 +225,7 @@ Dental practices
           text: "You won't be able to revert this!",
           icon: "warning",
           showCancelButton: true,
-          confirmButtonColor: "#3085d6",
+          confirmButtonColor: "black",
           cancelButtonColor: "#d33",
           confirmButtonText: "Yes, delete it!"
         }).then((result) => {

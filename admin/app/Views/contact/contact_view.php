@@ -12,7 +12,7 @@ Contact Us
         <nav>
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-            <li class="breadcrumb-item active">Contact Us</li>
+            <li class="breadcrumb-item active">Contact Details</li>
           </ol>
         </nav>
       </div>
@@ -28,7 +28,7 @@ Contact Us
              <div class="card-header">
                <div class="row">
                   <div class="col-lg-8">
-                      <h5 class="card-title text-start">Contact</h5>
+                      <h5 class="card-title text-start">Contacts</h5>
                   </div>
                  
                 </div>
@@ -42,7 +42,7 @@ Contact Us
                     <th class="text-center">Sr.No.</th>
                     <th>Name</th>
                     <th>Email</th>
-                    <th class="text-center">Date</th>
+                    <th class="text-center">Date & Time</th>
                     <!-- <th>Status</th> -->
 
                     <!-- <th data-type="date" data-format="YYYY/DD/MM">Start Date</th> -->
@@ -56,7 +56,13 @@ Contact Us
                 <td class="text-center"><?= esc($contactItem['id']) ?></td>
                 <td><?= esc($contactItem['name']) ?></td>
                 <td><?= esc($contactItem['email']) ?></td>
-                <td class="text-center"><?= esc($contactItem['created_at']) ?></td>
+                <td class="text-center">
+            <?php
+                $date = new DateTime($contactItem['created_at']);
+                $formattedDate = $date->format('F j, Y, g:i A');
+            ?>
+            <?= esc($formattedDate) ?>
+        </td>
                 <td class="text-center">
                         <div class="viewpai">
                           <a href="<?=base_url('viewContactus/'.$contactItem['id'])?>">

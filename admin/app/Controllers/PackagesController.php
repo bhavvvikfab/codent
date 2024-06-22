@@ -206,31 +206,55 @@ public function update()
     }
 }
 
+// public function delete_Subscription()
+// {
+//     // Load the PackagesModel
+//     $model = new PackagesModel();
+
+//     // Get the subscription ID from the GET data
+//     $subscription_id = $this->request->getGet("id");
+
+//     // Check if the ID is valid (optional, but recommended)
+//     if (!empty($subscription_id)) {
+//         // Use the model to delete the subscription
+//         $deleted = $model->delete($subscription_id);
+
+//         if ($deleted) 
+//         {
+//             // Subscription successfully deleted
+//             return 'Subscription deleted successfully';
+//         } else {
+//             // Failed to delete subscription
+//             return 'Failed to delete subscription';
+//         }
+//     } else 
+//     {
+//         // Invalid or missing ID
+//         return 'Invalid or missing subscription ID';
+//     }
+// }
+
 public function delete_Subscription()
 {
-    // Load the PackagesModel
-    $model = new PackagesModel();
+    $id = $this->request->getGet('id');
 
-    // Get the subscription ID from the GET data
-    $subscription_id = $this->request->getGet("id");
+    if ($id) {
+        $subscriptionModel = new PackagesModel();
 
-    // Check if the ID is valid (optional, but recommended)
-    if (!empty($subscription_id)) {
-        // Use the model to delete the subscription
-        $deleted = $model->delete($subscription_id);
-
-        if ($deleted) 
-        {
-            // Subscription successfully deleted
-            return 'Subscription deleted successfully';
+        // Check if the subscription exists
+        $subscription = $subscriptionModel->find($id);
+        if ($subscription) {
+            // Delete the subscription
+            if ($subscriptionModel->delete($id)) {
+                return $this->response->setJSON(['success' => true]);
+            } else {
+                return $this->response->setJSON(['success' => false, 'message' => 'Failed to delete subscription']);
+            }
         } else {
-            // Failed to delete subscription
-            return 'Failed to delete subscription';
+            return $this->response->setJSON(['success' => false, 'message' => 'Subscription not found']);
         }
-    } else 
-    {
-        // Invalid or missing ID
-        return 'Invalid or missing subscription ID';
+    } else {
+        return $this->response->setJSON(['success' => false, 'message' => 'Invalid ID']);
     }
 }
 

@@ -44,21 +44,25 @@ Contact Us
                         <!-- Contact Information Content -->
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <h6>Name :</h6>
+                                <h6><b>Name :</b></h6>
                                 <p><?= esc($contactItem['name']) ?></p>
                             </div>
                             <div class="col-md-6">
-                                <h6>Contact Date :</h6>
-                                <p><?= esc($contactItem['created_at']) ?></p>
+                                <h6><b>Contact Date & Time :</b></h6>
+                                <?php
+                                $date  = new DateTime($contactItem['created_at']);
+                                $formate = $date->format('F j, Y,g:i A');
+                                ?>
+                                <p><?= esc($formate) ?></p>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <h6>Email :</h6>
+                                <h6><b>Email :</b></h6>
                                 <p><?= esc($contactItem['email']) ?></p>
                             </div>
                             <div class="col-md-6">
-                                <h6>Additional Information:</h6>
+                                <h6><b>Additional Information :</b></h6>
                                 <p><?= esc($contactItem['email']) ?>.</p>
                             </div>
                             

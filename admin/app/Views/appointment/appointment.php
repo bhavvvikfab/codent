@@ -8,11 +8,11 @@ Appointments
     <div class="pagetitle">
       <div class="row">
       <div class="col-xxl-12 col-lg-12 col-md-12 col-sm-12">
-        <h1>All Appointment</h1>
+        <h1>All Appointments</h1>
         <nav>
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-            <li class="breadcrumb-item active">All Appointment</li>
+            <li class="breadcrumb-item active">All Appointments</li>
           </ol>
         </nav>
       </div>
@@ -28,7 +28,7 @@ Appointments
              <div class="card-header">
                <div class="row">
                   <div class="col-lg-8">
-                      <h5 class="card-title text-start">Appointment</h5>
+                      <h5 class="card-title text-start">Appointments</h5>
                   </div>
                   <div class="col-lg-4">
                       <h5 class="card-title text-end addsup">
@@ -45,7 +45,7 @@ Appointments
                   <tr>
                     <th> Sr. No. </th>
                     <th>Patient Name</th>
-                    <th class="text-center">Dr. Name</th>
+                    <th >Dr. Name</th>
                     <!-- <th>Phone No.</th> -->
                     <th data-type="date" data-format="DD/MM/YYYY" class="text-center">Date and Time</th>
                     <!-- <th>Slot</th> -->
@@ -171,7 +171,7 @@ Appointments
           text: "You won't be able to revert this!",
           icon: "warning",
           showCancelButton: true,
-          confirmButtonColor: "#3085d6",
+          confirmButtonColor: "black",
           cancelButtonColor: "#d33",
           confirmButtonText: "Yes, delete it!"
         }).then((result) => {

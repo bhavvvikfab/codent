@@ -12,7 +12,7 @@
     <!--  hospitals Nav -->
     <li class="nav-item">
       <a class="nav-link collapsed"  data-bs-target="#hospital-nav" data-bs-toggle="collapse"  href="123">
-      <i class="bi bi-people"></i><span>Dental practice</span><i class="bi bi-chevron-down ms-auto"></i>
+      <i class="bi bi-people"></i><span>Dental Practices</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="hospital-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
         <li>
@@ -68,7 +68,7 @@
 
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#user-nav" data-bs-toggle="collapse" href="123">
-        <i class="bi bi-question-circle"></i><span>Enquiry</span>
+        <i class="bi bi-question-circle"></i><span>Enquiries</span>
 
         <i class="bi bi-chevron-down ms-auto"></i>
       </a>
@@ -88,7 +88,7 @@
 
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#Supl-nav" data-bs-toggle="collapse" href="123">
-        <i class="bi bi-calendar-week"></i><span>Appointment</span><i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-calendar-week"></i><span>Appointments</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="Supl-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>

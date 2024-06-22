@@ -203,8 +203,8 @@ Add Hospitals
             if (phone === '') {
             $('#phoneError').text('Please enter a phone number.');
             isValid = false;
-        } else if (!(/^\d{10}$/.test(phone))) {
-            $('#phoneError').text('Please enter a 10-digit phone number.');
+        } else if (!(/^\d{10,15}$/.test(phone))) {
+            $('#phoneError').text('Please enter a phone number between 10 and 15 digits.');
             isValid = false;
         }
             if (specialist === '') {

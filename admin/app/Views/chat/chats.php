@@ -42,20 +42,20 @@ Chat-list
             <table class="table datatable chat-table-admin chat-admin-table">
               <thead>
                 <tr>
-                  <th>Sr.No.</th>
-                  <th>Profile</th>
-                  <th>Hospital Name</th>
-                  <th>Phone</th>
-                  <th>Status</th>
-                  <th>Action</th>
+                  <th class="text-center">Sr.No.</th>
+                  <th class="text-center">Profile</th>
+                  <th>Dental practice Name</th>
+                  <th class="text-center">Phone</th>
+                  <th class="text-center">Status</th>
+                  <th class="text-center">Action</th>
                 </tr>
               </thead>
               <tbody>
                 <?php if (!empty($hospitals)): ?>
                   <?php foreach ($hospitals as $index => $hospital): ?>
                     <tr>
-                      <td><?php echo $index + 1; ?></td>
-                      <td>
+                      <td class="text-center"><?php echo $index + 1; ?></td>
+                      <td class="text-center">
                         <img
                           src="<?= base_url() ?>/public/images/<?= !empty($hospital['profile']) ? $hospital['profile'] : 'user-profile.jpg' ?>"
                           height="50" width="50" class="rounded rounded-circle"
@@ -68,14 +68,14 @@ Chat-list
                           <?php endif; ?>
                       </td>
                       <td><?php echo $hospital['phone']; ?></td>
-                      <td>
+                      <td class="text-center">
                           <?php
                           $status = $hospital['status'];
                           $badgeClass = $status == 'active' ? 'badge bg-success' : 'badge bg-danger';
                           ?>
                           <span class="<?php echo $badgeClass; ?>"><?php echo ucfirst($status); ?></span>
                       </td>
-                      <td>
+                      <td class="text-center">
                           <a href="<?= base_url('view_chat/' . $hospital['id']) ?>" class="btn btn-chat btn-sm">
                               <i class="bi bi-chat-dots-fill"></i> Chat
                           </a>

@@ -8,11 +8,11 @@ Payment
     <div class="pagetitle">
       <div class="row">
       <div class="col-xxl-12 col-lg-12 col-md-12 col-sm-12">
-        <h1>All Payment</h1>
+        <h1>All Payments</h1>
         <nav>
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-            <li class="breadcrumb-item active">All Payment</li>
+            <li class="breadcrumb-item active">All Payments</li>
           </ol>
         </nav>
       </div>
@@ -28,7 +28,7 @@ Payment
              <div class="card-header">
                <div class="row">
                   <div class="col-lg-8">
-                      <h5 class="card-title text-start">Payment</h5>
+                      <h5 class="card-title text-start">Payments</h5>
                   </div>
                   <div class="col-lg-4">
                       <!-- <h5 class="card-title text-end addsup">
@@ -42,11 +42,11 @@ Payment
 
                 <thead>
                   <tr>
-                    <th>Hospital Name</th>
+                    <th>Dental practice Name</th>
                     <th>Plan Name</th>
                     <th>Amount</th>
                     <th>Transaction Id</th>
-                    <th>Date</th>
+                    <th>Date & Time</th>
 
                     <th>Status</th>
 

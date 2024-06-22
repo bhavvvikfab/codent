@@ -246,7 +246,12 @@ if (name === '') {
             if (phone === '') {
                 $('#phoneError').text('Please enter a Phone Number.');
                 isValid = false;
-            }
+            } else if (!(/^\d{10,15}$/.test(phone))) {
+            $('#phoneError').text('Please enter a phone number between 10 and 15 digits.');
+            isValid = false;
+        }
+
+            
             if (specialist === '') {
                 $('#specialistError').text('Please enter a Specialist.');
                 isValid = false;
