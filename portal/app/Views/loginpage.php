@@ -139,9 +139,7 @@
         <script>
           showToast("<?= session('have_package') ?>");  
         </script>
-        <?php session()->remove('have_package');?>
       <?php endif; ?>
-
       <?php if (session('password_changed')): ?>
         <script>
           showToast("<?= session('password_changed') ?> ");  
@@ -184,7 +182,6 @@
           }else{
             window.location.reload();
           }
-
         },
         error: function(xhr, status, error) {
           console.error(error);

@@ -61,44 +61,48 @@ All-Doctors
                 $adminurl = config('App')->baseURL2;
                 $index = 1;
 
-                if (isset($doctors) && !empty($doctors)):
+                if (isset($doctors) && is_array($doctors) && count($doctors) > 0):
                   foreach ($doctors as $doctor):
                     if ($doctor !== null): // Check if $doctor is not null
+                      $userId = $doctor['user']['id'] ?? 'N/A';
+                      $doctorId = $doctor['doctor']['id'] ?? 'N/A';
+                      $profileImage = !empty($doctor['user']['profile']) ? $doctor['user']['profile'] : 'user-profile.jpg';
+                      $status = isset($doctor['user']['status']) ? $doctor['user']['status'] : 'N/A';
+                      $fullname = isset($doctor['user']['fullname']) ? 'Dr. ' . esc($doctor['user']['fullname']) : 'N/A';
+                      $phone = isset($doctor['user']['phone']) ? esc($doctor['user']['phone']) : 'N/A';
+                      $specialist = isset($doctor['doctor']['specialist_of']) ? esc($doctor['doctor']['specialist_of']) : 'N/A';
                       ?>
                       <tr>
                         <td><?= $index ?></td>
                         <td>
-                          <img
-                            src="<?= $adminurl ?>/public/images/<?= !empty($doctor['user']['profile']) ? $doctor['user']['profile'] : 'user-profile.jpg' ?>"
-                            height="50" width="50" class="rounded-circle"
+                          <img src="<?= $adminurl ?>/public/images/<?= $profileImage ?>" height="50" width="50"
+                            class="rounded-circle"
                             onerror="this.onerror=null; this.src='<?= config('App')->baseURL2 ?>/public/images/default.jpg';">
                         </td>
-                        <td>Dr. <?= esc($doctor['user']['fullname'] ?? 'N/A') ?></td>
-                        <td><?= esc($doctor['user']['phone'] ?? 'N/A') ?></td>
-                        <td><?= esc($doctor['doctor']['specialist_of'] ?? 'N/A') ?></td>
+                        <td><?= $fullname ?></td>
+                        <td><?= $phone ?></td>
+                        <td><?= $specialist ?></td>
                         <td>
                           <button
-                            class="statusToggleBtn btn btn-sm <?php echo ($doctor['user']['status'] == 'active') ? 'btn-success' : 'btn-danger'; ?>"
-                            data-id="<?= $doctor['user']['id'] ?? 'N/A' ?>">
-                            <?php echo ($doctor['user']['status'] == 'active') ? 'Active' : 'Inactive'; ?>
+                            class="statusToggleBtn btn btn-sm <?= ($status == 'active') ? 'btn-success' : 'btn-danger'; ?>"
+                            data-id="<?= $userId ?>">
+                            <?= ($status == 'active') ? 'Active' : 'Inactive'; ?>
                           </button>
                         </td>
                         <td>
                           <div class="d-flex justify-content-between align-items-center">
                             <div class="editen p-1">
-                              <a
-                                href="<?= base_url() . session('prefix') . '/doctor_details/' . esc($doctor['doctor']['id'] ?? 'N/A') ?>">
+                              <a href="<?= base_url() . session('prefix') . '/doctor_details/' . $doctorId ?>">
                                 <button type="button" class="btn btn-secondary btn-sm"><i class="bi bi-eye"></i></button>
                               </a>
                             </div>
                             <div class="viewsenq p-1">
-                              <a
-                                href="<?= base_url() . session('prefix') . '/doctor_edit/' . esc($doctor['doctor']['id'] ?? 'N/A') ?>">
+                              <a href="<?= base_url() . session('prefix') . '/doctor_edit/' . $doctorId ?>">
                                 <button type="button" class="btn btn-sm"><i class="bi bi-pencil-square"></i></button>
                               </a>
                             </div>
                             <div class="deleten p-1">
-                              <a href="<?= base_url() . session('prefix') . '/doctor_delete/' . esc($doctor['doctor']['id'] ?? 'N/A') ?>"
+                              <a href="<?= base_url() . session('prefix') . '/doctor_delete/' . $doctorId ?>"
                                 class="delete_btn">
                                 <button type="button" class="btn btn-sm"><i class="bi bi-trash"></i></button>
                               </a>
@@ -109,8 +113,9 @@ All-Doctors
                       <?php
                       $index++;
                     endif;
-                  endforeach;?>
-              <?php else: ?>
+                  endforeach;
+                else:
+                  ?>
                   <tr>
                     <td colspan="7" class="text-center">No doctors available.</td>
                   </tr>
@@ -118,6 +123,7 @@ All-Doctors
                 endif;
                 ?>
               </tbody>
+
 
             </table>
             <!-- End Table with stripped rows -->
@@ -154,7 +160,7 @@ All-Doctors
           text: "You won't be able to revert this!",
           icon: "warning",
           showCancelButton: true,
-          confirmButtonColor: "#3085d6",
+          confirmButtonColor: "black",
           cancelButtonColor: "#d33",
           confirmButtonText: "Yes, delete it!"
         }).then((result) => {

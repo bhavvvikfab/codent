@@ -430,6 +430,5 @@ Hospital-Dashboard
                   });
         </script>
       <?php endif; ?>
-      <?php session()->remove('have_package');?>
 </main><!-- End #main -->
 <?= $this->endSection() ?>
