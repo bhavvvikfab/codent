@@ -63,7 +63,7 @@ All-Receptionist
                       <td>
                         <img
                           src="<?= config('App')->baseURL2 ?>/public/images/<?= !empty($rep['profile']) ? $rep['profile'] : 'default.jpg' ?>"
-                          height="50" width="50"
+                          height="50" width="50" class="rounded-circle"
                           onerror="this.onerror=null; this.src='<?= config('App')->baseURL2 ?>/public/images/default.jpg';">
                       </td>
 
@@ -149,7 +149,7 @@ All-Receptionist
           text: "You won't be able to revert this!",
           icon: "warning",
           showCancelButton: true,
-          confirmButtonColor: "#3085d6",
+          confirmButtonColor: "black",
           cancelButtonColor: "#d33",
           confirmButtonText: "Yes, delete it!"
         }).then((result) => {

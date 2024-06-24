@@ -21,7 +21,7 @@ class UserController extends BaseController
         $packageHospitalModel=new ActivePlanHospital();
         $packageModel=new PackagesModel();
         $email = session()->get('email');
-
+        $allPackage=$packageModel->findAll();
         $userData = $userModel->where('email', $email)->first();
         if(session('user_role') == 2 ){
             $id=$userData['id'];
@@ -30,7 +30,7 @@ class UserController extends BaseController
         }
         $Activepackage = $packageHospitalModel->where('hospital_id',$id)->first();
         $Activepackage['package'] = $packageModel->where('id',$Activepackage['package_id'])->first();
-        return view('user_profile.php', ['user' => $userData,'package' => $Activepackage]);
+        return view('user_profile.php', ['user' => $userData,'package' => $Activepackage,'allPackages'=>$allPackage]);
     }
 
 
@@ -191,33 +191,76 @@ class UserController extends BaseController
         }
     }
 
-    public function  notification(){
-
-        $notificationModel= new NotificationModel();
+    public function notification()
+    {
+        $notificationModel = new NotificationModel();
         $appointmentModel = new AppointmentModel();
+        $enquiryModel = new EnquiryModel();
         $userModel = new UserModel();
-        $recentNotifications = $notificationModel->orderBy('created_at', 'DESC')->limit(4)->findAll();
-        
+    
+        // Determine the user ID based on their role
+        if (session('user_role') == 2) {
+            $id = session('user_id');
+        } else {
+            $id = session('hospital_id');
+        }
+    
+        // Fetch recent notifications for the user/hospital
+        $recentNotifications = $notificationModel->where('receiver_id', $id)
+                                                 ->where('status','0')
+                                                 ->orderBy('created_at', 'DESC')
+                                                 ->findAll();
+    
+        // Process each notification to include sender and appointment details
         foreach ($recentNotifications as &$notification) {
             $notificationData = json_decode($notification['notification'], true);
-        
+    
             if ($notificationData && isset($notificationData['appointment_id'])) {
                 $appointmentId = $notificationData['appointment_id'];
-                
                 $senderId = $notification['sender_id'];
+    
+                // Fetch sender details
                 $senderDetails = $userModel->find($senderId);
-        
+                if ($senderDetails) {
+                    $notification['dr_name'] = $senderDetails['fullname'];
+                } else {
+                    $notification['dr_name'] = 'Unknown';
+                }
+    
+                // Fetch appointment details
                 $appointmentDetails = $appointmentModel->find($appointmentId);
-        
-               
-                $notification['sender_details'] = $senderDetails;
-                $notification['appointment_details'] = $appointmentDetails;
-                
+                if ($appointmentDetails) {
+                    $notification['appointment_details'] = $appointmentDetails;
+    
+                    // Fetch enquiry details using inquiry_id from appointment details
+                    $enquiryDetails = $enquiryModel->find($appointmentDetails['inquiry_id']);
+                    if ($enquiryDetails) {
+                        $notification['patient_name'] = $enquiryDetails['patient_name'];
+                    } else {
+                        $notification['patient_name'] = 'Unknown';
+                    }
+                } else {
+                    $notification['appointment_details'] = 'Unknown';
+                    $notification['patient_name'] = 'Unknown';
+                }
             }
         }
-        return response()->setJSON(['notification'=> $notification]);
+    
+        // Return the response with the notifications
+        return $this->response->setJSON(['notifications' => $recentNotifications]);
     }
 
+    public function notification_status(){
+        $notificationId = $this->request->getPost('noti_id');
+        $notificationModel = new NotificationModel();
+        $data = ['status' => '1'];
+        $updated = $notificationModel->update($notificationId, $data);
+        if($updated){
+            return $this->response->setJSON(['status' => 'seen']);
+        }
+    }
+
+    
     public function dashboard() 
 
         {
@@ -249,7 +292,7 @@ class UserController extends BaseController
             for ($month = 1; $month <= 12; $month++) {
                 $monthEnquiries = $enquiryModel
                     ->where('hospital_id', $hospital_id)
-                    // ->where('status', null)
+                    ->where('status', null)
                     ->where('MONTH(created_at)', $month)
                     ->where('YEAR(created_at)', $currentYear)
                     ->findAll();
@@ -312,7 +355,6 @@ class UserController extends BaseController
                 'countUsers' => $countUsers,
                 'appointments' => $appointments,
                 'leadsCount'=>$leadsCount,
-                'notification'=>$notification 
             ]);
         
         // $appointmentModel = new AppointmentModel();

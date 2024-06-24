@@ -47,25 +47,16 @@ class ReceptionController extends BaseController
         $userModel = new UserModel();
     
         $validationRules = [
-            // 'name' => 'required|min_length[3]|max_length[255]',
-            'email' => 'required|valid_email|is_unique[users.email]',
-            // 'password' => 'required|min_length[5]|max_length[255]',
-            // 'address' => 'required|min_length[4]|max_length[255]',
-            // 'dob' => 'required|valid_date',
-            // 'phone' => 'required|min_length[10]|max_length[15]',
-            // 'image' => [
-            //     'rules' => 'uploaded[image]|max_size[image,1024]|is_image[image]',
-            //     'errors' => [
-            //         'uploaded' => 'Please upload a valid profile image.',
-            //         'max_size' => 'The profile image file size should not exceed 1MB.',
-            //         'is_image' => 'The profile image must be in PNG, JPG, or JPEG format.',
-            //     ],
-            // ],
+            'email' => 'required|valid_email|is_unique[users.email]', 
         ];
     
         if (!$this->validate($validationRules)) {
             $validation = Services::validation();
-            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+            return $this->response->setJSON([
+                'status' => 'emailerror',
+                'message' => $validation->getErrors()
+            ]);
+            // return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
     
         $name = $this->request->getPost("name");
@@ -98,15 +89,23 @@ class ReceptionController extends BaseController
         $result = $userModel->insertUser($data);
     
         if ($result) {
-            return redirect()->to( base_url().''.session('prefix').'/'.'reception')->with('added_reception', 'Reception Register Successfully');
+            session()->setFlashdata('added_reception', 'Reception Register Successfully');
+            return $this->response->setJSON([
+                'status' => 'success',
+                'message' => 'Reception Register Successfully'
+            ]);
+            // return redirect()->to( base_url().''.session('prefix').'/'.'reception')->with('added_reception', 'Reception Register Successfully');
         } else {
-            return redirect()->back()->with('error', 'Something went wrong');
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'something went wrong..!'
+            ]); 
+            // return redirect()->back()->with('error', 'Something went wrong');
         }
     }
 
     public function receptionist_edit(){
         $validationRules = [
-            // 'name' => 'required|min_length[3]|max_length[255]',
             'email' => [
                 'label' => 'Email',
                 'rules' => 'required|valid_email|is_unique[users.email,id,{user_id}]',
@@ -114,23 +113,17 @@ class ReceptionController extends BaseController
                     'is_unique' => 'This email address is already in use.'
                 ]
             ],
-            // 'address' => 'required|min_length[4]|max_length[255]',
-            // 'dob' => 'required|valid_date',
-            // 'phone' => 'required|min_length[10]|max_length[15]',
             'user_id' => 'required|integer',
-            // 'image' => [
-            //     'rules' => 'uploaded[image]|max_size[image,1024]|is_image[image]',
-            //     'errors' => [
-            //         'uploaded' => 'Please upload a valid profile image.',
-            //         'max_size' => 'The profile image file size should not exceed 1MB.',
-            //         'is_image' => 'The profile image must be in PNG, JPG, or JPEG format.',
-            //     ],
-            // ],
+           
         ];
     
         if (!$this->validate($validationRules)) {
             $validation = Services::validation();
-            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+            return $this->response->setJSON([
+                'status' => 'emailerror',
+                'message' => $validation->getErrors()
+            ]);
+            // return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
 
         $user_id = $this->request->getPost("user_id");
@@ -164,9 +157,18 @@ class ReceptionController extends BaseController
 
         $result= $userModel->update($user_id, $userData);
         if ($result) {
-            return redirect()->to(base_url() . session('prefix') . '/reception')->with('edit_receptioninst', 'Doctor Info Updated Successfully');
+            session()->setFlashdata('edit_receptioninst', 'Receptionist Info Updated Successfully');
+            return $this->response->setJSON([
+                'status' => 'success',
+                'message' => 'Receptionist Info Updated Successfully'
+            ]);
+            // return redirect()->to(base_url() . session('prefix') . '/reception')->with('edit_receptioninst', 'Doctor Info Updated Successfully');
         } else {
-            return redirect()->back()->with('error', 'Something went wrong. Please try again.');
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'something went wrong..!'
+            ]); 
+            // return redirect()->back()->with('error', 'Something went wrong. Please try again.');
         }
 
     }

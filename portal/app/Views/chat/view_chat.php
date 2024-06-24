@@ -360,7 +360,7 @@ document.getElementById('fileInput').addEventListener('change', function () {
                   } else if (file.endsWith('.pdf')) {
                     // Handle PDFs
                     imgHtml += ` <br>
-                                    <a href="<?= config('App')->baseURL2 ?>/public/chat_files/${file}" target="_blank" class="m-1">
+                                    <a href="<?= config('App')->baseURL2 ?>/public/chat_files/${file}" target="_blank" class="m-1 text-light">
                                         PDF File (${file})
                                     </a>
                                    

@@ -17,9 +17,9 @@ class App extends BaseConfig
      * E.g., http://example.com/
      */
     public string $baseURL = 'http://localhost/codent/portal';
-     // public string $baseURL = 'http://codent.fableadtechnolabs.com/portal';
+     // public string $baseURL = 'https://codent.londontechequity.co.uk/portal';
     public $baseURL2 = 'http://localhost/codent/admin';
-    // public $baseURL2 = 'http://codent.fableadtechnolabs.com/admin';
+    // public $baseURL2 = 'https://codent.londontechequity.co.uk/admin';
 
 
   public   $stripe_public = 'pk_test_51OySjsSEY69OOmNI2UVr1GSzW9bGaNbfZ7zDuUdQwdIihbV8e8BggPpsxKMc1hLK8HNdJ8qQMlrgzSc6X48MSBR00025yAZ0zE';

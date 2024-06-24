@@ -41,34 +41,6 @@ class LoginController extends BaseController
                         'profile' => $user['profile'],
                         'logged_in' => true,
                     ]);
-                // ==================for getting msg notification====================
-                    $userid = session('id');
-                    $userModel = new UserModel();
-                    $chatModel = new ChatModel();
-                
-                    $hospitals = $userModel->where('role', 2)->findAll();
-                    $hasUnreadMessages = false; 
-                    
-                    foreach ($hospitals as &$hospital) {
-                        $hospitalId = $hospital['id']; 
-                        $unreadMessagesCount = $chatModel->where(['sender_id' => $hospitalId, 'receiver_id' => $userid])
-                                                         ->where('status', 0)
-                                                         ->countAllResults();
-                        if ($unreadMessagesCount > 0) {
-                            $hasUnreadMessages = true;
-                        }
-                    }
-                    // Set session for unread chat
-                    if ($hasUnreadMessages) {
-                        session()->set('unread_chat', true);
-                    } else {
-                        session()->remove('unread_chat');
-                    }
-
-                // ==================for getting msg notification====================
-
-
-
                     // Redirect to admin dashboard
                     return redirect()->to('dashboard');
                 } else {

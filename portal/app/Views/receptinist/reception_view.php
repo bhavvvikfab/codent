@@ -50,17 +50,13 @@ Receptionist-Profile
                                             <i class="bi bi-image-fill" aria-hidden="true"></i>
                                             <h5 class="mb-0 mx-2"><b>Receptionist Image:</b></h5>
                                         </div>
-
-
                                         <div style="display: flex; justify-content: center;">
-
                                             <img src="<?= config('App')->baseURL2 ?>/public/images/<?= !empty($rep['profile']) ? $rep['profile'] : 'default.jpg' ?>"
-                                                height="250" width="250"
+                                                height="250" width="250" class="rounded-circle"
                                                 onerror="this.onerror=null; this.src='<?= config('App')->baseURL2 ?>/public/images/default.jpg';">
                                         </div>
-
+                                        
                                     </div>
-
                                     <div class="col-lg-8 d-lg-flex flex-lg-column justify-content-lg-center">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-12 pb-2 pb-lg-0">

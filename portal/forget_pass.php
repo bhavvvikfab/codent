@@ -22,7 +22,7 @@ if (empty($_GET['url']) || empty($_GET['userID']) || empty($_GET['key'])) {
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Dashboard - CoDent Bootstrap</title>
+    <title>Reset-Password</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -198,7 +198,7 @@ if (empty($_GET['url']) || empty($_GET['userID']) || empty($_GET['key'])) {
                         if (data == 1) {
                             showToast('Password Reset Successfully.')
                             setTimeout(function () {
-                                location.href = 'http://codent.fableadtechnolabs.com/portal/';
+                                location.href = 'https://codent.londontechequity.co.uk/portal/';
                             }, 2000);
 
                         } else if (data == 2) {

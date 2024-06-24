@@ -254,6 +254,7 @@ $routes->group("api", ['namespace' => 'App\Controllers\Api'], function($routes) 
   $routes->post("get_today_appointment", "ApiController::get_today_appointment" ,['filter' => 'apiAuth']);
   $routes->post("appointment_status", "ApiController::appointment_status",['filter' => 'apiAuth']);
   $routes->post("get_allAppointmentBy_EnquiryId", "ApiController::get_allAppointmentBy_EnquiryId",['filter' => 'apiAuth']);
+  $routes->post("upcoming_appointment", "ApiController::upcoming_appointment",['filter' => 'apiAuth']);
   
   $routes->post("edit_schedule", "ApiController::edit_schedule",['filter' => 'apiAuth']);
   

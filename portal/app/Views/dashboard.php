@@ -10,7 +10,7 @@ Hospital-Dashboard
                 <h1>Dashboard</h1>
                 <nav>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+                        <li class="breadcrumb-item"><a href="<?= base_url() . '' . session('prefix') . '/' . 'dashboard' ?>">Home</a></li>
                         <li class="breadcrumb-item active">Dashboard</li>
                     </ol>
                 </nav>
@@ -19,10 +19,10 @@ Hospital-Dashboard
     </div>
     <!-- End Page Title -->
      
-    <pre>
+    <!-- <pre> -->
     <?php
-    print_r($notification);
-    die;
+    // print_r($notification);
+    // die;
     ?>
 
 
@@ -430,6 +430,5 @@ Hospital-Dashboard
                   });
         </script>
       <?php endif; ?>
-      <?php session()->remove('have_package');?>
 </main><!-- End #main -->
 <?= $this->endSection() ?>
