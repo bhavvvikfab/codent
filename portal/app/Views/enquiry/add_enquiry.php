@@ -48,40 +48,13 @@ Add-Enquiry
             <!-- No Labels Form -->
             <form class="row g-3" method="post" id="add_enquiry" enctype="multipart/form-data"
               action="<?= base_url() . '' . session('prefix') . '/' . 'store_enquiry' ?>">
-              <?php if (session('user_role') == 6): ?>
-                <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                  <label class="col-form-label">
-                    <i class="bi bi-hospital-fill" style="font-size: 18px;"></i>
-                    Select Hospital
-                  </label>
-                  <select class="form-control hospitals" name="hospital">
-                    <option value="">--Select--Hospital--</option>
-                    <?php if (!empty($hospitals)): ?>
-                      <?php foreach ($hospitals as $hospital): ?>
-                        <option value="<?= $hospital['id'] ?>">
-                          <?= $hospital['fullname'] ?>
-                        </option>
-                      <?php endforeach; ?>
-                      <option value="0">No Hospitals Available</option>
-                    <?php endif; ?>
-                  </select>
-                  <?php if (session('errors.hospital')): ?>
-                    <small class="text-danger"><?= esc(session('errors.hospital')) ?><i
-                        class="bi bi-exclamation-circle"></i></small>
-                  <?php endif; ?>
-                </div>
-
-
-              <?php endif; ?>
+           
 
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                 <label class="col-form-label"><i class="bi bi-person-circle" style="font-size: 18px;"></i> Patient
                   Name</label>
                 <input type="text" class="form-control" name="patient_name">
-                <?php if (session('errors.patient_name')): ?>
-                  <small class="text-danger"><?= esc(session('errors.patient_name')) ?><i
-                      class="bi bi-exclamation-circle"></i></small>
-                <?php endif; ?>
+                
               </div>
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
 
@@ -94,10 +67,7 @@ Add-Enquiry
                   <!-- <div class="input-group-prepend">
                   </div> -->
                 </div>
-                <?php if (session('errors.dob')): ?>
-                  <small class="text-danger"><?= esc(session('errors.dob')) ?><i
-                      class="bi bi-exclamation-circle"></i></small>
-                <?php endif; ?>
+                
 
               </div>
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
@@ -107,10 +77,7 @@ Add-Enquiry
                   <span class="input-group-text rounded-2 btn-cal" id="bdate34"><i class="bi bi-calendar3"></i></span>
                   <input type="text" class="form-control rounded-2" name="app_date">
                 </div>
-                <?php if (session('errors.app_date')): ?>
-                  <small class="text-danger"><?= esc(session('errors.app_date')) ?><i
-                      class="bi bi-exclamation-circle"></i></small>
-                <?php endif; ?>
+                
 
                 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
                 <script type="text/javascript"
@@ -135,10 +102,7 @@ Add-Enquiry
                 <label class="col-form-label"><i class="bi bi-telephone-fill" style="font-size: 18px;"></i> Phone
                   Number</label>
                 <input type="phone" class="form-control" name="phone">
-                <?php if (session('errors.phone')): ?>
-                  <small class="text-danger"><?= esc(session('errors.phone')) ?><i
-                      class="bi bi-exclamation-circle"></i></small>
-                <?php endif; ?>
+             
               </div>
               <div class="col-md-6">
                 <label class="col-form-label"><i class="bi bi-file-medical-fill" style="font-size: 18px;"></i>
@@ -154,10 +118,7 @@ Add-Enquiry
                   <option value="radiology">Radiology</option>
                   <option value="sedation">Sedation</option>
                 </select>
-                <?php if (session('errors.required_specialist')): ?>
-                  <small class="text-danger"><?= esc(session('errors.required_specialist')) ?><i
-                      class="bi bi-exclamation-circle"></i></small>
-                <?php endif; ?>
+            
               </div>
 
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
@@ -200,26 +161,7 @@ Add-Enquiry
                 <textarea type="text" class="form-control" name="address"  rows="1" ></textarea>
             </div>
 
-              <!-- <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
-                <label class="col-form-label"><i class="bi bi-file-earmark-medical-fill" style="font-size: 18px;"></i>
-                  Referral</label>
-                <select class="form-control doctors" name="referral_doctor">
-                  <option value="">--Select--Doctor--</option>
-                  <?php if (Session('user_role') == 2): ?>
-                    <?php if (!empty($doctors)): ?>
-                      <?php foreach ($doctors as $doc): ?>
-                        <option value="<?= $doc['id'] ?>">
-                          <?= $doc['fullname'] ?>
-                        </option>
-                      <?php endforeach;?>
-                    <?php endif; ?>
-                  <?php endif; ?>
-                </select>
-              </div>
-              <?php if (Session('user_role') == 6): ?>
-                <input type="hidden" name="user_id" value="<?= session('user_id') ?>">
-              <?php endif; ?> -->
-
+           
               <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
                 <label class="col-form-label"><i class="bi bi-file-earmark-medical-fill" style="font-size: 18px;"></i>
                   Note</label>
@@ -350,10 +292,10 @@ Add-Enquiry
         $('.app_date').after('<small class="text-danger">Please enter the appointment date.</small>');
       }
 
-      if (phone === '') {
-        isValid = false;
-        $('input[name="phone"]').next('.text-danger').remove();
-        $('input[name="phone"]').after('<small class="text-danger">Please enter a phone number.</small>');
+      if (phone === '' || phone.length < 8 || phone.length > 15) {
+          isValid = false;
+          $('input[name="phone"]').next('.text-danger').remove();
+          $('input[name="phone"]').after('<small class="text-danger">Please enter a valid phone number.</small>');
       }
 
       if (specialty === 'n/a') {

@@ -131,10 +131,31 @@
             class="d-none d-md-block dropdown-toggle ps-2"><?= session('fullname') ? session('fullname') : 'User Name' ?></span>
 
         </a><!-- End Profile Iamge Icon -->
-        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile ">
           <li class="dropdown-header">
+          <!-- <img
+            src="<?= config('App')->baseURL2 ?>/public/images/<?= session('profile') && !empty(session('profile')) ? session('profile') : 'default.jpg' ?>"
+            alt="Profile" class="rounded-circle" width="40" height="40"
+            onerror="this.onerror=null; this.src='<?= config('App')->baseURL2 ?>/public/images/default.jpg';">
             <h6><?= session('fullname') ? session('fullname') : 'User Name' ?></h6>
-            <span><?= ucfirst(session('prefix')) ?></span>
+            <span><?= ucfirst(session('prefix')) ?></span> -->
+
+            <a class=" d-flex align-items-center justify-content-center pe-0" data-bs-toggle="dropdown">
+          <img
+            src="<?= config('App')->baseURL2 ?>/public/images/<?= session('profile') && !empty(session('profile')) ? session('profile') : 'default.jpg' ?>"
+            alt="Profile" class="rounded-circle" width="40" height="40"
+            onerror="this.onerror=null; this.src='<?= config('App')->baseURL2 ?>/public/images/default.jpg';">
+          <span
+            class="d-none d-md-block  ps-2"><?= session('fullname') ? session('fullname') : 'User Name' ?><br>
+            <?= ucfirst(session('prefix')) ?>
+          </span>
+           
+          </a>
+
+
+
+
+
           </li>
           <li>
             <hr class="dropdown-divider">

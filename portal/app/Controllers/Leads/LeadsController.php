@@ -20,6 +20,7 @@ class LeadsController extends BaseController
         }
         $leads = $enquiryModel->where('status', 'lead')
                                 ->where('hospital_id', $hospitalId)
+                                ->orderBy('created_at', 'DESC')
                                 ->findAll();
        
         return view('leads/leads.php',['enquiries'=> $leads]);

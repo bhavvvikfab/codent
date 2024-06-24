@@ -21,9 +21,9 @@ class AppointmentController extends BaseController
             $hospitalId = session('hospital_id');
         }
         
-                                
         $appointments = $appointmentModel
                         ->where('hospital_id', $hospitalId)
+                        ->orderBy('created_at', 'DESC')
                         ->findAll();
         
         $combinedData = [];

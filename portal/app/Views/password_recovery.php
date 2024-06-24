@@ -68,7 +68,8 @@
                                         <p class="text-center small">Enter your mail recover password</p>
                                     </div>
 
-                                    <form class="row g-3 needs-validation" novalidate action="<?= base_url('forgotPassword') ?>" method="post" >
+                                    <form class="row g-3 needs-validation" novalidate
+                                        action="<?= base_url('forgotPassword') ?>" method="post">
 
                                         <div class="col-12">
                                             <label for="yourPassword" class="form-label">Email</label>
@@ -96,7 +97,7 @@
                                 </div>
                             </div>
 
-                           
+
                         </div>
                     </div>
                 </div>
@@ -104,33 +105,36 @@
             </section>
 
         </div>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-          <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script> 
-          <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-         <script>
-            function showToast(message, position) {
-            Swal.fire({
-                  icon: 'success',
-                  title: 'Success',
-                  text: message,
-                  timer: 3000,
-                  showConfirmButton: false
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <?php if (session('email')): ?>
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: '<?= session('email') ?>',
+                    timer: 3000,
+                    showConfirmButton: false
                 });
-            }
-          </script>
-        
-           <?php if (session('email')): ?>
-        <script>
-          showToast("<?= session('email') ?> ");  
-        </script>
-      <?php endif; ?>
-        
+            </script>
+        <?php endif; ?>
+        <?php if (session('error')):?>
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: '<?= session('error') ?>',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            </script>
+        <?php endif; ?>
+
     </main><!-- End #main -->
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>
 
-    
+
 
     <!-- vendor1 JS Files -->
     <script src="<?= base_url() ?>public/vendor1/apexcharts/apexcharts.min.js"></script>

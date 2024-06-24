@@ -12,7 +12,7 @@ class ActivePlanHospital extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['hospital_id','starting_date','ending_date','package_id'];
+    protected $allowedFields    = ['hospital_id','starting_date','ending_date','package_id','customer_id','subscription_id'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

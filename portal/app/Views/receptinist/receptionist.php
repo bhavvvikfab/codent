@@ -81,20 +81,20 @@ All-Receptionist
                       </td>
 
                       <td>
-                        <div class="d-flex ">
-                          <div class="editen m-1 ">
+                        <div class="d-flex justify-content-center">
+                          <div class="editen p-2">
                             <a href="<?= base_url() . session('prefix') . '/reception_details/' . esc($rep['id']) ?>">
                               <button type="button" class="btn btn-secondary  btn-sm"><i class="bi bi-eye"></i></button>
                             </a>
                           </div>
-                          <div class="viewsenq m-1">
+                          <div class="viewsenq p-2">
                             <a href="<?= base_url() . session('prefix') . '/reception_edit_view/' . esc($rep['id']) ?>">
                               <button type="button" class="btn btn-sm"><i class="bi bi-pencil-square"></i><i
                                   class="ri-pen-line"></i></button>
                             </a>
                           </div>
 
-                          <div class="deleten m-1">
+                          <div class="deleten p-2">
                             <a href="<?= base_url() . session('prefix') . '/reception_delete/' . esc($rep['id']) ?>"
                               class="delete_btn">
                               <button type="button" class="btn btn-sm"><i class="bi bi-trash"></i></button>

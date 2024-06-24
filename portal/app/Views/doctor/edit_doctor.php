@@ -395,9 +395,9 @@ Edit-Doctor
                 return false; 
             }
 
-            if (phone === '') {
-                $('#phone').after('<small class="error-msg text-danger">Please enter a phone number.</small>');
-                return false; 
+            if (phone === '' || phone.length < 8 || phone.length > 15) {
+                $('#phone').after('<small class="error-msg text-danger">Please enter a valid phone number.</small>');
+                return false;
             }
 
             if (specialist === 'n/a') {

@@ -283,8 +283,6 @@ class LoginController extends BaseController
             // header('Content-Disposition: attachment; filename="' . $fileName . '"');
             // echo $file;
 
-
-
             $status = 'failed';
             if ($subscription->status == 'active') {
                 $status = 'success';
@@ -303,6 +301,8 @@ class LoginController extends BaseController
                 'package_id' => $package_id,
                 'starting_date' => $starting_date,
                 'ending_date' => $endDate,
+                'customer_id' => $customer->id,
+                'subscription_id' => $subscription->id,
             ];
 
             $active_plan = $activePlanModel->insert($plan);
@@ -342,18 +342,18 @@ class LoginController extends BaseController
     
     
 
-    public function update_subscription() {
-
+    public function update_subscription()
+    {
         $stripeSecretKey = config('App')->stripe_secret;
         $token = $this->request->getPost('stripeToken');
         $package_id = $this->request->getPost('package_id');
-
-        if(session('user_role') == 2 ){
-            $hospital_id= session('user_id');
-        }else{
-            $hospital_id= session('hospital_id');
+    
+        if (session('user_role') == 2) {
+            $hospital_id = session('user_id');
+        } else {
+            $hospital_id = session('hospital_id');
         }
-
+    
         if (!$package_id || !$hospital_id || !$token) {
             session()->setFlashdata('error', 'Invalid package, hospital ID, or token');
             return redirect()->back();
@@ -374,45 +374,58 @@ class LoginController extends BaseController
             session()->setFlashdata('error', 'User not found');
             return redirect()->back();
         }
+    
         $activePlanModel = new ActivePlanHospital();
         $old_plan = $activePlanModel->where('hospital_id', $hospital_id)->first();
-
+        $customer_id = $old_plan['customer_id'];
         $amount = $package['price'];
-
+    
         // Stripe
         Stripe::setApiKey($stripeSecretKey);
         try {
-        
+            // Cancel the old subscription
+            if ($old_plan) {
+                $subscription = Subscription::retrieve($old_plan['subscription_id']);
+                $subscription->cancel();
+            }
+    
+            // Create a Payment Method
             $paymentMethod = PaymentMethod::create([
                 'type' => 'card',
                 'card' => [
                     'token' => $token,
                 ],
             ]);
-
-            // Create a Payment Intent
-            $customer = Customer::create([
-                'email' => $user['email'],
-                'phone' => $user['phone'],
-                'name' => $user['fullname'],
-                'address' => [
-                    'line1' => $user['address'],
-                    'country' => 'US',
-                ],
-                'payment_method' => $paymentMethod->id,
-                'invoice_settings' => [
-                    'default_payment_method' => $paymentMethod->id,
-                ],
-            ]);
-          
+    
+            // Create a new Customer if needed
+            if (!$customer_id) {
+                $customer = Customer::create([
+                    'email' => $user['email'],
+                    'phone' => $user['phone'],
+                    'name' => $user['fullname'],
+                    'address' => [
+                        'line1' => $user['address'],
+                        'country' => 'US',
+                    ],
+                    'payment_method' => $paymentMethod->id,
+                    'invoice_settings' => [
+                        'default_payment_method' => $paymentMethod->id,
+                    ],
+                ]);
+                $customer_id = $customer->id;
+            } else {
+                $customer = Customer::retrieve($customer_id);
+            }
+    
+            // Create a new Subscription
             $subscription = Subscription::create([
-                'customer' => $customer->id,
+                'customer' => $customer_id,
                 'items' => [
                     [
                         'price_data' => [
                             'currency' => 'usd',
-                            'product' => $package['package_id'], 
-                            'unit_amount' => $amount * 100, 
+                            'product' => $package['package_id'],
+                            'unit_amount' => $amount * 100,
                             'recurring' => [
                                 'interval' => 'day',
                                 'interval_count' => $package['duration'],
@@ -421,60 +434,62 @@ class LoginController extends BaseController
                     ],
                 ],
                 'expand' => ['latest_invoice.payment_intent'],
-                'off_session'=>true
+                'off_session' => true,
             ]);
+    
             $payment_intent = $subscription->latest_invoice->payment_intent;
-            // echo $subscription->status; die;
             
-
             $status = 'failed';
             if ($subscription->status == 'active') {
                 $status = 'success';
                 $activePlanModel->delete($old_plan);
             }
+    
             // Insert the transaction into the database
             $transactionModel = new TransactionModel();
             $activePlanModel = new ActivePlanHospital();
-
+    
             $starting_date = date('Y-m-d');
             $duration = !empty($package['duration']) ? intval($package['duration']) : 0;
             $endDate = date('Y-m-d', strtotime($starting_date . ' + ' . $duration . ' days'));
-
+    
             $plan = [
                 'hospital_id' => $hospital_id,
                 'package_id' => $package_id,
                 'starting_date' => $starting_date,
                 'ending_date' => $endDate,
+                'customer_id' => $customer_id,
+                'subscription_id' => $subscription->id,
             ];
-
+    
             $active_plan = $activePlanModel->insert($plan);
-
+    
             $data = [
                 'hospital_id' => $hospital_id,
                 'amount' => $amount,
                 'status' => $status,
                 'transaction_id' => $payment_intent->id,
-                'package_id'=>$package_id
+                'package_id' => $package_id,
             ];
             $result = $transactionModel->insert($data);
-
+    
             $set_plan = $userModel->where('id', $hospital_id)
-                                   ->set('package_status','active')
-                                   ->update();        
-
+                                   ->set('package_status', 'active')
+                                   ->update();
+    
             if ($result && $status == 'success' && $active_plan && $set_plan) {
                 session()->setFlashdata('success', 'Your Package is Updated. Thank you!');
                 return redirect()->back();
             }
-
         } catch (\Stripe\Exception\ApiErrorException $e) {
             session()->setFlashdata('error', 'Something went wrong..!');
             return redirect()->back();
         }
-
+    
         session()->setFlashdata('error', 'Something went wrong..!');
         return redirect()->back();
     }
+    
 
 
 
@@ -576,9 +591,7 @@ class LoginController extends BaseController
             $email_dt = Services::email();
 
             $email_dt->setTo($userEmail);
-            $email_dt->setfrom('smtp@fableadtechnolabs.com', 'fableadtechnolabs-com');
-
-
+            $email_dt->setfrom('mailsmtp@londontechequity.co.uk', 'CoDent');
 
             $email_dt->setSubject($subject);
             $email_dt->setMessage($message);
@@ -586,16 +599,13 @@ class LoginController extends BaseController
             if ($email_dt->send()) {
                 return redirect('forgot_password')->with('email', 'We have sent email for password recovery.');
             } else {
-
-                return redirect('forgot_password')->with('email', 'Something went wrong..!!');
+                return redirect('forgot_password')->with('error', 'Something went wrong..!!');
             }
 
-
         } else {
-            return redirect('forgot_password')->with('email', 'User not found..!!');
+            return redirect('forgot_password')->with('error', 'User not found..!!');
         }
 
-        return redirect('forgot_password')->with('email', 'Something went wrong..!!');
     }
 
     public function confirmforgotPassword($userID, $key)

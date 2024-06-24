@@ -21,7 +21,7 @@ class DoctorController extends BaseController
         }else{
             $hospitalId = session('hospital_id');
         }
-        $doctors = $doctorModel->where('hospital_id', $hospitalId)->findAll();
+        $doctors = $doctorModel->where('hospital_id', $hospitalId)->orderBy('created_at', 'DESC')->findAll();
 
         $combinedData = [];
 

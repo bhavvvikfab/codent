@@ -87,9 +87,6 @@ Edit-Enquiry
                 <div class="input-group">
                   <span class="input-group-text rounded-2 btn-cal"><i class="bi bi-calendar3"></i></span>
                      <input type="date" class="form-control rounded-2"  max="2021-12-31" name="dob" value="<?= !empty($enquiry['date_of_birth']) ? date('Y-m-d', strtotime($enquiry['date_of_birth'])) : '' ?>">
-
-                  <!-- <div class="input-group-prepend">
-                  </div> -->
                 </div>
                
 
@@ -285,10 +282,10 @@ Edit-Enquiry
         $('.app_date').after('<small class="text-danger">Please enter the appointment date.</small>');
       }
 
-      if (phone === '') {
-        isValid = false;
-        $('input[name="phone"]').next('.text-danger').remove();
-        $('input[name="phone"]').after('<small class="text-danger">Please enter a phone number.</small>');
+      if (phone === '' || phone.length < 8 || phone.length > 15) {
+          isValid = false;
+          $('input[name="phone"]').next('.text-danger').remove();
+          $('input[name="phone"]').after('<small class="text-danger">Please enter a valid phone number.</small>');
       }
 
       if (specialty === 'n/a') {

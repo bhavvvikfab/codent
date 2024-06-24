@@ -101,6 +101,7 @@ class UserModel extends Model
     {
         return $this->where('role', $role)
                     ->where('hospital_id', $hospitalId)
+                    ->orderBy('created_at', 'DESC')
                     ->findAll();
     }
 

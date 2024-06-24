@@ -103,7 +103,26 @@ Chat-list
 
 </main><!-- End #main -->
 <script>
-  
+$(document).ready(function() {
+  get_top();
+ 
+  function get_top(){
+
+    var rows = $('table.chat-table-admin tbody tr').get();
+
+    rows.sort(function(a, b) {
+        var unreadA = parseInt($(a).find('.badge.bg-primary').text()) || 0;
+        var unreadB = parseInt($(b).find('.badge.bg-primary').text()) || 0;
+
+        return unreadB - unreadA;
+    });
+
+    $.each(rows, function(index, row) {
+        $('table.chat-table-admin').children('tbody').append(row);
+    });
+  }
+});
+
 </script>
 
 
