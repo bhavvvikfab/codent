@@ -22,6 +22,7 @@ class EnquiryController extends BaseController
         }
         $enquiries = $enquiryModel->where('status', null)
                          ->where('hospital_id', $hospitalId)
+                         ->orderBy('created_at', 'DESC')
                          ->findAll();
         return view('enquiry/enquiry.php', ['enquiries' => $enquiries]);
 
@@ -92,20 +93,20 @@ class EnquiryController extends BaseController
     {
         $enquiryModel = new EnquiryModel();
 
-        $validationRules = [
-            'patient_name' => 'required|min_length[3]|max_length[255]',
-            'dob' => 'required|valid_date',
-            // 'app_date' => 'required|valid_date',
-            'phone' => 'required|min_length[10]|max_length[15]',
-        ];
-        if (session('user_role') == 6) {
-            $validationRules['hospital'] = 'required|min_length[1]|max_length[255]';
-        }
+        // $validationRules = [
+        //     // 'patient_name' => 'required|min_length[3]|max_length[255]',
+        //     // 'dob' => 'required|valid_date',
+        //     // 'app_date' => 'required|valid_date',
+        //     // 'phone' => 'required|min_length[10]|max_length[15]',
+        // ];
+        // if (session('user_role') == 6) {
+        //     $validationRules['hospital'] = 'required|min_length[1]|max_length[255]';
+        // }
 
-        if (!$this->validate($validationRules)) {
-            $validation = Services::validation();
-            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
-        }
+        // if (!$this->validate($validationRules)) {
+        //     $validation = Services::validation();
+        //     return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+        // }
 
         $patient_name = $this->request->getPost("patient_name");
         $dob = $this->request->getPost("dob");

@@ -12,7 +12,7 @@ All-Doctors
         <nav>
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="index.php">Users</a></li>
-            <li class="breadcrumb-item active">All Doctor</li>
+            <li class="breadcrumb-item active">All Doctors</li>
           </ol>
         </nav>
       </div>
@@ -28,7 +28,7 @@ All-Doctors
           <div class="card-header">
             <div class="row">
               <div class="col-lg-8">
-                <h5 class="card-title text-start">Doctor</h5>
+                <h5 class="card-title text-start">Doctors</h5>
               </div>
               <div class="col-lg-4">
                 <h5 class="card-title text-end addsup">

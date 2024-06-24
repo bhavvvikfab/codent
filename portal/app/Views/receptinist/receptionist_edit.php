@@ -200,7 +200,7 @@ Edit-Receptionist
             if (phone === '') {
                 $('#phone').after('<small class="error-msg text-danger">Please enter a phone number.</small>');
                 return false;
-            } else if (phone.length < 10 || phone.length > 15) {
+            } else if (phone.length < 8 || phone.length > 15) {
                 $('#phone').after('<small class="error-msg text-danger">Phone number must be between 10 and 15 characters.</small>');
                 return false;
             }

@@ -240,6 +240,8 @@ document.getElementById('fileInput').addEventListener('change', function () {
 
     $(document).on('click', '#msg_send', function (e) {
       e.preventDefault();
+      var $button = $(this);
+      $button.prop('disabled', true);
       sendMessage(receiverID, senderID);
     });
 
@@ -277,7 +279,7 @@ document.getElementById('fileInput').addEventListener('change', function () {
           if (response.status === 200) {
             let newMessage = response.data;
             let mediaHtml = '';
-
+            $('#msg_send').prop('disabled', false);
             if (newMessage.files) {
               let filesArray = JSON.parse(newMessage.files);
               filesArray.forEach(file => {
@@ -327,9 +329,11 @@ document.getElementById('fileInput').addEventListener('change', function () {
                 `);
             scrollToBottom();
           }
+          $('#msg_send').prop('disabled', false);
         },
         error: function (jqXHR, textStatus, errorThrown) {
           console.error('Error sending message:', textStatus, errorThrown);
+          $('#msg_send').prop('disabled', false);
         }
       });
     }
