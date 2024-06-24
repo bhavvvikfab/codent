@@ -44,7 +44,7 @@ $routes->get('user_view_details/(:num)', 'ReferralController::user_view_fun/$1')
 
 $routes->get('refer', 'ReferController::index');
 $routes->post('add_enquiry', 'ReferController::add_enquiry_fun');
-
+$routes->post('check_email_exist', 'ReferController::checkEmailExist');
 
 
 
