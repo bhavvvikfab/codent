@@ -115,5 +115,21 @@ class ReferController extends BaseController
             // return redirect()->back()->with('error', 'Something is wrong....Try again next time');
         }
 
+
+
     }
+
+    public function checkEmailExist()
+{
+    $email = $this->request->getPost('email');
+    $userModel = new EnquiryModel();
+    
+    $emailExists = $userModel->where('email', $email)->first();
+
+    return $this->response->setJSON(['exists' => $emailExists ? true : false]);
+}
+
+
+
+
 }

@@ -213,11 +213,12 @@ div#register-pt .field.btns {
 <section class="ftco-section">
     <div class="container">
         <div class="row flex-row justify-content-center">
-            
+        
             <div class="col-lg-7 col-12">
                 <div class="row">
                     <div class="col-lg-12 pl-md-0">
                         <div class="card mb-3 col-lg-12" id="register-pt">
+                        
                             <div class="card-body">
                                 <div class="pt-4 pb-2">
                                     <h4 class="card-title text-center pb-0" style="color: #fff;">Create An Account</h4>

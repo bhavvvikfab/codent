@@ -356,20 +356,24 @@ form .page .btns button.next {
                           <button class="next-1 next">Next</button>
                         </div>
                       </div>
-
-                      <div class="page">
-
                       
+                      
+                      <div class="page">
                         <div class="field">
                           <div class="label text-white">Types of Referral</div>
                           <select name="referral_type" class="form-select" aria-label="Default select example">
-                            <option selected>Orthodontics</option>
-                            <option value="1">Oral Surgery</option>
-                            <option value="2">Periodontics</option>
-                            <option value="3">Restorative</option>
+                            <option value="" selected>--Select--Referral--</option>
+                            <option value="Orthodontics">Orthodontics</option>
+                            <option value="Endodontics">Endodontics</option>
+                            <option value="Periodontics">Periodontics</option>
+                            <option value="Prosthodontics">Prosthodontics</option>
+                            <option value="Implantology">Implantology</option>
+                            <option value="Radiology">Radiology</option>
+                            <option value="Sedation">Sedation</option>
                           </select>
                           <div id="referralTypeError" class="error-message text-justify text-danger"></div>
                         </div>
+                        
 
                         <div class="field m-0">
                           <div class="label text-white">Referring Dentist Name</div>
@@ -402,7 +406,7 @@ form .page .btns button.next {
                       <div class="page">
 
                           
-                    <<div class="field m-0">
+                    <div class="field m-0">
   <div class="label text-white">Appointment Date and Time</div>
   <input type="datetime-local" class="form-control" name="app_date" style="border-radius: 45px;">
 </div>
@@ -647,47 +651,70 @@ prevBtnFourth.addEventListener("click", function(event){
     }
 
     function validateForm_two() {
-        var email = $("#email").val();
-        var phone = $("#number").val();
-        // var address = $("#address").val();
+    var email = $("#email").val();
+    var phone = $("#number").val();
+    // var address = $("#address").val();
 
-        var isValid = true;
+    var isValid = true;
 
-        var emailError = $("#emailError");
-        var phoneError = $("#phoneError");
-        // var addressError = $("#addressError");
+    var emailError = $("#emailError");
+    var phoneError = $("#phoneError");
+    // var addressError = $("#addressError");
 
-        // Reset error messages
-        emailError.text("");
-        phoneError.text("");
-        // addressError.text("");
+    // Reset error messages
+    emailError.text("");
+    phoneError.text("");
+    // addressError.text("");
 
-        // Validate email
-        if (email === "") {
-            emailError.text("Please enter the patient's email address.");
-            isValid = false;
-        } else if (!isValidEmail(email)) {
-            emailError.text("Please enter a valid email address.");
-            isValid = false;
-        }
+    // Validate email
+    if (email === "") {
+        emailError.html("Please enter the patient's email address.");
+        isValid = false;
+    } else if (!isValidEmail(email)) {
+        emailError.html("Please enter a valid email address.");
+        isValid = false;
+    }
 
-        // Validate phone number
-        if (phone === "") {
-            phoneError.text("Please enter the patient's phone number.");
-            isValid = false;
-        } else if (!isValidPhoneNumber(phone)) {
-            phoneError.text("Please enter a valid phone number.");
-            isValid = false;
-        }
+    // Proceed with AJAX request only if the email is not empty, valid, and email does not already exist
+    if (email !== "" && isValid) {
+        $.ajax({
+            url: '<?= site_url('check_email_exist') ?>', // CI4 site_url helper
+            type: 'POST',
+            data: { email: email },
+            dataType: 'json',
+            async: false, // Ensure synchronous execution to validate email existence before form submission
+            success: function(response) {
+                if (response.exists) {
+                    emailError.html('Email already exists.');
+                    isValid = false; // Prevent form submission if email exists
+                } else {
+                    emailError.empty(); // Clear the email error message if email doesn't exist
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
 
-        // Validate address
-    //     if (address === "") {
+    // Validate phone number
+    if (phone === "") {
+        phoneError.text("Please enter the patient's phone number.");
+        isValid = false;
+    } else if (!isValidPhoneNumber(phone)) {
+        phoneError.text("Please enter a valid phone number.");
+        isValid = false;
+    }
+
+    // Validate address
+    // if (address === "") {
     //     $("#addressError").after("<div class='error-message text-danger'>Please enter the patient's home address.</div>");
     //     isValid = false;
     // }
 
-        return isValid;
-    }
+    return isValid;
+}
+
 
     function validateForm_three() 
     {
@@ -752,6 +779,8 @@ prevBtnFourth.addEventListener("click", function(event){
         return phoneRegex.test(phone);
     }
 });
+
+
 
 
 // function validateForm_submit() {

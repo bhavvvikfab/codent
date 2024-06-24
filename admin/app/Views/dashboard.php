@@ -136,7 +136,7 @@ Dashboard
                         </ul>
                     </div> -->
                     <div class="card-body">
-                        <h5 class="card-title">All User</h5>
+                        <h5 class="card-title">All Users</h5>
                         <div class="d-flex align-items-center">
                             <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                 <i class="bi bi-people"></i>
